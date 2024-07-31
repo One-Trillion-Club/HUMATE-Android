@@ -13,4 +13,22 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="BottomNavigationViewTheme" parent="Widget.Design.BottomNavigationView">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="itemTextAppearanceActive">@style/ActiveNavItem</item>
+        <item name="itemTextAppearanceInactive">@style/InactiveNavItem</item>
+    </style>
+
+    <style name="ActiveNavItem" parent="@android:style/TextAppearance">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/nav_item_text_color_unselected</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="InactiveNavItem" parent="@android:style/TextAppearance">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/nav_item_text_color_selected</item>
+        <item name="android:textStyle">normal</item>
+    </style>
 </resources>
