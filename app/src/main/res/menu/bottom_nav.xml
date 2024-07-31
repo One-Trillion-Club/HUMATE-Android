@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mateFragment"
+        android:icon="@drawable/ic_mate_selector"
+        android:title="메이트" />
+
+    <item
+        android:id="@+id/chatFragment"
+        android:icon="@drawable/ic_chat_selector"
+        android:title="채팅" />
+
+    <item
+        android:id="@+id/activityFragment"
+        android:icon="@drawable/ic_activity_selector"
+        android:title="활동" />
+
+    <item
+        android:id="@+id/myPageFragment"
+        android:icon="@drawable/ic_mypage_selector"
+        android:title="마이페이지" />
+</menu>
