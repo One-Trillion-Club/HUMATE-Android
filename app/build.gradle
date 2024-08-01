@@ -30,6 +30,8 @@ android {
     buildTypes {
         debug {
             buildConfigField("String", "WEBSOCKET_URL", "" + localProperties['WEBSOCKET_URL'] + "")
+            buildConfigField("String", "TEST_MEMBER_1", "" + localProperties['TEST_MEMBER_1'] + "")
+            buildConfigField("String", "TEST_MEMBER_2", "" + localProperties['TEST_MEMBER_2'] + "")
         }
         release {
             minifyEnabled false
@@ -70,5 +72,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     // okhttp - websocket
-    implementation 'com.squareup.okhttp3:okhttp:3.12.12'
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
+    implementation 'org.java-websocket:Java-WebSocket:1.5.2'
 }
