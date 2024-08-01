@@ -6,6 +6,9 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
 }
 
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
 android {
     namespace 'com.otclub.humate'
     compileSdk 31
@@ -25,6 +28,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "WEBSOCKET_URL", "" + localProperties['WEBSOCKET_URL'] + "")
+            buildConfigField("String", "TEST_MEMBER_1", "" + localProperties['TEST_MEMBER_1'] + "")
+            buildConfigField("String", "TEST_MEMBER_2", "" + localProperties['TEST_MEMBER_2'] + "")
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -62,4 +70,8 @@ dependencies {
     // image glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    // okhttp - websocket
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
+    implementation 'org.java-websocket:Java-WebSocket:1.5.2'
 }
