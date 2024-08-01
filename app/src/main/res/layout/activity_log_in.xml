@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LogInActivity">
+    tools:context=".auth.activity.LogInActivity">
 
     <TextView
         android:id="@+id/titleSignUp"
@@ -65,7 +65,7 @@
         app:layout_constraintTop_toBottomOf="@+id/inputLoginId" />
 
     <android.widget.Button
-        android:id="@+id/SignInButton"
+        android:id="@+id/signInButton"
 
         android:layout_width="300dp"
         android:layout_height="50dp"
@@ -93,6 +93,6 @@
         android:textColor="@color/dark_gray"
         android:textSize="14sp"
 
-        app:layout_constraintEnd_toEndOf="@+id/SignInButton"
-        app:layout_constraintTop_toBottomOf="@+id/SignInButton" />
+        app:layout_constraintEnd_toEndOf="@+id/signInButton"
+        app:layout_constraintTop_toBottomOf="@+id/signInButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>
