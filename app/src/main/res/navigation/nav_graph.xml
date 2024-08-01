@@ -16,9 +16,9 @@
     </fragment>
     <fragment
             android:id="@+id/mateFragment"
-            android:name="com.otclub.humate.MateFragment"
+            android:name="com.otclub.humate.PostDetailFragment"
             android:label="fragment_mate"
-            tools:layout="@layout/fragment_mate"/>
+            tools:layout="@layout/fragment_post_detail"/>
     <fragment
             android:id="@+id/chatFragment"
             android:name="com.otclub.humate.ChatFragment"
