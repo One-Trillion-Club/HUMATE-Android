@@ -31,4 +31,11 @@
         <item name="android:textColor">@color/nav_item_text_color_selected</item>
         <item name="android:textStyle">normal</item>
     </style>
+
+    <style name="TagButtonUnselected" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">wrap_content</item> <!-- 너비 설정 -->
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>
