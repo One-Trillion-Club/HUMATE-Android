@@ -12,8 +12,8 @@
         android:title="채팅" />
 
     <item
-        android:id="@+id/activityFragment"
-        android:icon="@drawable/ic_activity_selector"
+        android:id="@+id/missionFragment"
+        android:icon="@drawable/ic_mission_selector"
         android:title="활동" />
 
     <item
