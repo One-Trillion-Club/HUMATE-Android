@@ -6,10 +6,10 @@
             app:startDestination="@id/mateFragment">
 
     <fragment
-            android:id="@+id/activityFragment"
-            android:name="com.otclub.humate.ActivityFragment"
-            android:label="Activity"
-            tools:layout="@layout/fragment_activity" />
+            android:id="@+id/missionFragment"
+            android:name="com.otclub.humate.MissionFragment"
+            android:label="fragment_mission"
+            tools:layout="@layout/fragment_mission" />
     <fragment
             android:id="@+id/mateFragment"
             android:name="com.otclub.humate.MateFragment"

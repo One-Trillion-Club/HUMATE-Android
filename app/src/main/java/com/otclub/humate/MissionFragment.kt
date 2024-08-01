@@ -7,18 +7,18 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
-import com.otclub.humate.databinding.FragmentActivityBinding
+import com.otclub.humate.databinding.FragmentMissionBinding
 
-class ActivityFragment : Fragment() {
+class MissionFragment : Fragment() {
 
-    private var mBinding : FragmentActivityBinding? = null
+    private var mBinding : FragmentMissionBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
-        val binding = FragmentActivityBinding.inflate(inflater, container, false)
+        val binding = FragmentMissionBinding.inflate(inflater, container, false)
 
         mBinding = binding
 
