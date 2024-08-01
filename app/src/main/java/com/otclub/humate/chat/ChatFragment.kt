@@ -1,6 +1,8 @@
 package com.otclub.humate.chat
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +15,27 @@ import com.otclub.humate.BuildConfig.WEBSOCKET_URL
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentChatBinding
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.WebSocket
 import java.net.URI
+import java.util.concurrent.TimeUnit
 
 class ChatFragment : Fragment() {
 
     private var mBinding : FragmentChatBinding? = null
-    private lateinit var webSocketClient: ChatWebSocketClient
+    private lateinit var webSocketListener: ChatWebSocketListener
+    private lateinit var client: OkHttpClient
+    private var webSocket : WebSocket ?= null
+    private val handler = Handler(Looper.getMainLooper())
+    private val reconnectRunnable = object : Runnable {
+        override fun run() {
+            Log.d("WebSocket", "웹소켓 재연결 요청")
+            closeWebSocket()
+            startWebSocket()
+            handler.postDelayed(this, 10000) // Reconnect every 5 seconds
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,6 +47,18 @@ class ChatFragment : Fragment() {
         mBinding = binding
 
         return mBinding?.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        startWebSocket()
+        handler.post(reconnectRunnable) // Start periodic reconnection
+    }
+
+    override fun onPause() {
+        super.onPause()
+        handler.removeCallbacks(reconnectRunnable)
+        closeWebSocket()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,17 +88,37 @@ class ChatFragment : Fragment() {
             "authorization" to TEST_MEMBER_2
         )
 
-        webSocketClient = ChatWebSocketClient(serverUri, headers)
-        webSocketClient.connect()
 
-        mBinding?.sendButton?.setOnClickListener {
-            val message = mBinding?.messageInput?.text.toString()
-            if (message.isNotEmpty()) {
-                webSocketClient.send(message)
-                mBinding?.chatDisplay?.append("\nMe: $message")
-                mBinding?.messageInput?.text?.clear()
-            }
-        }
+//        webSocketClient = ChatWebSocketClient(serverUri, headers)
+//        webSocketClient.connect()
+//
+//        mBinding?.sendButton?.setOnClickListener {
+//            val message = mBinding?.messageInput?.text.toString()
+//            if (message.isNotEmpty()) {
+//                webSocketClient.send(message)
+//                mBinding?.chatDisplay?.append("\nMe: $message")
+//                mBinding?.messageInput?.text?.clear()
+//            }
+//        }
+    }
+    private fun startWebSocket(){
+
+        client = OkHttpClient.Builder()
+            .readTimeout(0, TimeUnit.MILLISECONDS)
+            .build()
+
+        val request = Request.Builder()
+            .url(WEBSOCKET_URL)
+            .header("authorization", "K_1")
+            .build()
+
+        webSocketListener = ChatWebSocketListener()
+        webSocket = client.newWebSocket(request, webSocketListener)
+    }
+
+    private fun closeWebSocket() {
+        webSocket?.close(1000, "[closeWebSocket] - Fragment is pausing")
+        webSocket = null
     }
 
     override fun onDestroyView() {
