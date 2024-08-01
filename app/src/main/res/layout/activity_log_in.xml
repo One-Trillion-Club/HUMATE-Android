@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LogInActivity">
+
+    <TextView
+        android:id="@+id/titleSignUp"
+
+        android:layout_width="309dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="50dp"
+
+        android:gravity="center"
+        android:text="Sign up/Sign in"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/inputLoginId"
+
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="9dp"
+        android:paddingStart="17dp"
+
+        android:gravity="left|center_vertical"
+        android:inputType="text"
+        android:hint="ID"
+        android:textColorHint="@color/light_gray"
+        android:textSize="14sp"
+
+        android:background="@drawable/light_gray_border"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleSignUp" />
+
+    <EditText
+        android:id="@+id/inputPassword"
+
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="9dp"
+        android:paddingStart="17dp"
+
+        android:gravity="left|center_vertical"
+        android:inputType="textPassword"
+        android:hint="PASSWORD"
+        android:textColorHint="@color/light_gray"
+        android:textSize="14sp"
+
+        android:background="@drawable/light_gray_border"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputLoginId" />
+
+    <android.widget.Button
+        android:id="@+id/SignInButton"
+
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+
+        android:layout_marginTop="28dp"
+
+        android:background="@drawable/main_large_button"
+        android:gravity="center"
+        android:text="Sign in"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textAllCaps="false"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputPassword" />
+
+    <TextView
+        android:id="@+id/signUpText"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+
+        android:gravity="center"
+        android:text="Sign up"
+        android:textColor="@color/dark_gray"
+        android:textSize="14sp"
+
+        app:layout_constraintEnd_toEndOf="@+id/SignInButton"
+        app:layout_constraintTop_toBottomOf="@+id/SignInButton" />
+</androidx.constraintlayout.widget.ConstraintLayout>
