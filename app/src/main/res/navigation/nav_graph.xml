@@ -7,9 +7,13 @@
 
     <fragment
             android:id="@+id/missionFragment"
-            android:name="com.otclub.humate.MissionFragment"
+            android:name="com.otclub.humate.mission.fragment.ClearedMissionFragment"
             android:label="fragment_mission"
-            tools:layout="@layout/fragment_mission" />
+            tools:layout="@layout/fragment_cleared_mission" >
+        <action
+            android:id="@+id/action_missionFragment_to_newMissionFragment"
+            app:destination="@id/newMissionFragment" />
+    </fragment>
     <fragment
             android:id="@+id/mateFragment"
             android:name="com.otclub.humate.MateFragment"
@@ -25,5 +29,14 @@
             android:name="com.otclub.humate.MyPageFragment"
             android:label="fragment_my_page"
             tools:layout="@layout/fragment_my_page"/>
+    <fragment
+        android:id="@+id/newMissionFragment"
+        android:name="com.otclub.humate.mission.fragment.NewMissionFragment"
+        android:label="fragment_new_mission"
+        tools:layout="@layout/fragment_new_mission" >
+        <action
+            android:id="@+id/action_newMissionFragment_to_missionFragment"
+            app:destination="@id/missionFragment" />
+    </fragment>
 
 </navigation>
