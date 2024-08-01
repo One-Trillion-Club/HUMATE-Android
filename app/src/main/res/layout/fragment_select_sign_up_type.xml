@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/titleSelectSignUpType"
+
+        android:layout_width="310dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="80dp"
+
+        android:gravity="center"
+        android:text="어떤 유형으로 가입하시겠어요?\n\nWhat type would you like\nto sign up for?"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/selectKoreanFrame"
+
+        android:orientation="vertical"
+
+        android:layout_width="310dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="40dp"
+        android:paddingStart="24dp"
+
+        android:background="@drawable/member_light_purple_background"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleSelectSignUpType">
+
+        <TextView
+            android:id="@+id/textViewKorean1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="한국인 Korean"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+
+            android:gravity="center"
+            android:layout_marginTop="34dp" />
+
+        <TextView
+            android:id="@+id/textViewKorean2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="외국인 메이트를 찾고 있어요."
+            android:textColor="@color/black"
+            android:textSize="14sp"
+
+            android:gravity="center"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/textViewKorean3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Looking for foreigner mate."
+            android:textColor="@color/black"
+            android:textSize="14sp"
+
+            android:gravity="center"
+            android:layout_marginTop="5dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/selectForeignerFrame"
+
+        android:orientation="vertical"
+
+        android:layout_width="310dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:paddingStart="24dp"
+
+        android:background="@drawable/member_light_green_background"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectKoreanFrame">
+
+        <TextView
+            android:id="@+id/textViewForeigner1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="외국인 Non-Korean"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+
+            android:gravity="center"
+            android:layout_marginTop="34dp" />
+
+        <TextView
+            android:id="@+id/textViewForeigner2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="한국인 메이트를 찾고 있어요."
+            android:textColor="@color/black"
+            android:textSize="14sp"
+
+            android:gravity="center"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/textViewForeigner3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Looking for Korean mate."
+            android:textColor="@color/black"
+            android:textSize="14sp"
+
+            android:gravity="center"
+            android:layout_marginTop="5dp" />
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
