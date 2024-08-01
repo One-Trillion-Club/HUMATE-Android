@@ -1,5 +1,6 @@
 package com.otclub.humate.mission.fragment
 
+import NewMissionAdapter
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -12,11 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentNewMissionBinding
-import com.otclub.humate.mission.adapter.ClearedMissionAdapter
-import com.otclub.humate.mission.adapter.NewMissionAdapter
 import com.otclub.humate.mission.viewModel.MissionViewModel
 
 class NewMissionFragment : Fragment() {
@@ -40,18 +38,28 @@ class NewMissionFragment : Fragment() {
         // RecyclerView 설정
         mBinding?.newMissionRecyclerView?.apply {
             layoutManager = GridLayoutManager(context, 2)
-            adapter = NewMissionAdapter(emptyList())
+            adapter = NewMissionAdapter(emptyList()) { mission ->
+                // 아이템 클릭 시 DetailFragment로 이동
+                findNavController().navigate(
+                    R.id.action_newMissionFragment_to_newMissionDetailsFragment,
+                    Bundle().apply { putInt("activityId", mission.activityId) }
+                )
+            }
         }
 
         // ViewModel에서 데이터 관찰
         missionViewModel.missionResponseDTO.observe(viewLifecycleOwner) { response ->
             response?.let {
-                val adapter = NewMissionAdapter(it.newMissionList)
+                val adapter = NewMissionAdapter(it.newMissionList) { mission ->
+                    val bundle = Bundle().apply {
+                        putInt("activityId", mission.activityId)
+                    }
+                    findNavController().navigate(R.id.action_newMissionFragment_to_newMissionDetailsFragment, bundle)
+                }
                 Log.i("adapter : ", adapter.toString())
                 mBinding?.newMissionRecyclerView?.adapter = adapter
             }
         }
-
         // 버튼 클릭 리스너 설정
         mBinding?.completedMissionButton?.setOnClickListener {
             selectButton(mBinding?.completedMissionButton)
