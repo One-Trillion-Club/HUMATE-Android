@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 선택된 상태일 때의 스타일 -->
+    <item android:state_selected="true">
+        <!-- 선택된 상태의 배경색과 글자색 설정 -->
+        <shape android:shape="rectangle">
+            <solid android:color="#7060FE"/> <!-- 배경색 설정 -->
+            <corners android:radius="9dp"/> <!-- 선택적으로 모서리 둥글게 하기 -->
+        </shape>
+        <!-- 글자색을 흰색으로 설정 -->
+        <item android:textColor="@android:color/white"/>
+    </item>
+    <!-- 기본 상태일 때의 스타일 -->
+    <item>
+        <!-- 기본 상태의 배경색과 글자색 설정 -->
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/white"/> <!-- 배경색 설정 -->
+            <stroke android:width="1dp" android:color="@android:color/transparent"/> <!-- 투명 테두리 -->
+            <corners android:radius="9dp"/> <!-- 선택적으로 모서리 둥글게 하기 -->
+        </shape>
+        <!-- 기본 상태에서 글자색은 검정색 -->
+        <item android:textColor="@android:color/black"/>
+    </item>
+</selector>
