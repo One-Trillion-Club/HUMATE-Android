@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/newMissionDetailsFragment"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/missionImage"
+        android:layout_width="match_parent"
+        android:layout_height="273dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/mission_image_border"
+        android:clipToOutline="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/missionTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="start" />
+
+        <TextView
+            android:id="@+id/missionPoint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:gravity="end" />
+    </LinearLayout>
+
+    <!-- 경계선 추가 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/super_light_gray"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/missionContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginTop="8dp"
+        android:padding="10dp"
+        android:textSize="17sp" />
+
+    <!-- 스페이서 (빈 공간) -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- 기록하기 버튼 -->
+    <android.widget.Button
+        android:id="@+id/recordButton"
+        android:layout_width="298dp"
+        android:layout_height="38dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="기록하기"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/humate_main"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/main_large_button" />
+
+</LinearLayout>

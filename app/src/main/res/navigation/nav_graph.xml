@@ -37,6 +37,19 @@
         <action
             android:id="@+id/action_newMissionFragment_to_missionFragment"
             app:destination="@id/missionFragment" />
+        <action
+            android:id="@+id/action_newMissionFragment_to_newMissionDetailsFragment"
+            app:destination="@id/newMissionDetailsFragment">
+        </action>
+
+    </fragment>
+    <fragment
+        android:id="@+id/newMissionDetailsFragment"
+        android:name="NewMissionDetailsFragment"
+        android:label="NewMissionDetailsFragment" >
+        <argument
+            android:name="activityId"
+            app:argType="integer" />
     </fragment>
 
 </navigation>
