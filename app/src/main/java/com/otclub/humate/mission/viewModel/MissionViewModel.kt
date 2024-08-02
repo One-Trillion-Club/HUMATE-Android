@@ -13,8 +13,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MissionViewModel : ViewModel() {
     val missionResponseDTO = MutableLiveData<MissionResponseDTO>()
+    private var lastCompanionId: Int? = null
 
-    fun fetchMission(companionId: String) {
+    fun fetchMission(companionId: Int) {
+        if (companionId == 0) return
+        lastCompanionId = companionId
+        Log.i("lastCompanionId : ", lastCompanionId.toString())
+
         val retrofit = Retrofit.Builder()
             .baseUrl("http://10.0.2.2:8080/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -36,6 +41,5 @@ class MissionViewModel : ViewModel() {
             }
         })
     }
-
 
 }

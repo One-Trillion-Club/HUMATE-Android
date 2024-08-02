@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_missionFragment_to_clearedMissionDetailsFragment"
             app:destination="@id/clearedMissionDetailsFragment" />
+        <argument
+                android:name="companionId"
+                app:argType="integer"/>
     </fragment>
     <fragment
             android:id="@+id/mateFragment"

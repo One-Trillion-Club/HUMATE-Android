@@ -9,10 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentNewMissionBinding
 import com.otclub.humate.mission.viewModel.MissionViewModel
@@ -34,6 +36,25 @@ class NewMissionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val activity = activity as? MainActivity
+        activity?.let {
+            val toolbar = it.getToolbar() // MainActivity의 Toolbar를 가져옴
+            val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
+            val rightButton: Button = toolbar.findViewById(R.id.right_button)
+            it.setToolbarTitle("새로운 활동 목록")
+
+            // 버튼의 가시성 설정
+            val showLeftButton = true
+            val showRightButton = false
+            leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
+            rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
+            // leftButton 클릭 시 이전 화면으로 돌아가기
+            leftButton.setOnClickListener {
+                findNavController().navigateUp()
+            }
+
+        }
 
         // RecyclerView 설정
         mBinding?.newMissionRecyclerView?.apply {
