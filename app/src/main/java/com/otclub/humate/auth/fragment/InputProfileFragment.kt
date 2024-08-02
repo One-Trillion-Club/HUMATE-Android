@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.otclub.humate.R
 import com.otclub.humate.auth.viewmodel.AuthViewModel
-import com.otclub.humate.databinding.FragmentSelectSignUpTypeBinding
+import com.otclub.humate.databinding.AuthFragmentInputProfileBinding
+import com.otclub.humate.databinding.FragmentInputIdPasswordBinding
 
-class SelectSignUpTypeFragment : Fragment() {
+class InputProfileFragment : Fragment() {
     private val viewModel: AuthViewModel by activityViewModels()
-    private var mBinding : FragmentSelectSignUpTypeBinding? = null
+    private var mBinding : AuthFragmentInputProfileBinding? = null
     private val binding get() = mBinding!!
 
     override fun onCreateView(
@@ -20,7 +20,7 @@ class SelectSignUpTypeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentSelectSignUpTypeBinding.inflate(inflater, container, false)
+        val binding = AuthFragmentInputProfileBinding.inflate(inflater, container, false)
         mBinding = binding
         return mBinding?.root
     }
@@ -28,12 +28,14 @@ class SelectSignUpTypeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.selectKoreanFrame.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.authFragment, VerifyPhoneFragment())
-                .addToBackStack(null)
-                .commit()
-        }
+//        binding.checkIdButton.setOnClickListener {
+//            // todo: 서버 로직 추가
+//            handleCheckIdButtonClick()
+//        }
+//
+//        binding.nextButton.setOnClickListener {
+//            handleNextButtonClick()
+//        }
     }
 
     override fun onDestroyView() {

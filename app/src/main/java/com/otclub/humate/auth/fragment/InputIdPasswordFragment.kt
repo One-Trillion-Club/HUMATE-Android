@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.otclub.humate.R
 import com.otclub.humate.auth.viewmodel.AuthViewModel
-import com.otclub.humate.databinding.FragmentSelectSignUpTypeBinding
+import com.otclub.humate.databinding.FragmentInputIdPasswordBinding
 
-class SelectSignUpTypeFragment : Fragment() {
+class InputIdPasswordFragment : Fragment() {
     private val viewModel: AuthViewModel by activityViewModels()
-    private var mBinding : FragmentSelectSignUpTypeBinding? = null
+    private var mBinding : FragmentInputIdPasswordBinding? = null
     private val binding get() = mBinding!!
 
     override fun onCreateView(
@@ -20,7 +20,7 @@ class SelectSignUpTypeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentSelectSignUpTypeBinding.inflate(inflater, container, false)
+        val binding = FragmentInputIdPasswordBinding.inflate(inflater, container, false)
         mBinding = binding
         return mBinding?.root
     }
@@ -28,16 +28,30 @@ class SelectSignUpTypeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.selectKoreanFrame.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.authFragment, VerifyPhoneFragment())
-                .addToBackStack(null)
-                .commit()
+        binding.checkIdButton.setOnClickListener {
+            // todo: 서버 로직 추가
+            handleCheckIdButtonClick()
+        }
+
+        binding.nextButton.setOnClickListener {
+            handleNextButtonClick()
         }
     }
 
     override fun onDestroyView() {
         mBinding = null
         super.onDestroyView()
+    }
+
+    private fun handleCheckIdButtonClick() {
+        binding.guideCheckId.setText("사용 가능한 아이디입니다.")
+    }
+
+    private fun handleNextButtonClick() {
+        // todo: 값 다 들어왔는지
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.authFragment, InputUserInfoFragment())
+            .addToBackStack(null)
+            .commit()
     }
 }
