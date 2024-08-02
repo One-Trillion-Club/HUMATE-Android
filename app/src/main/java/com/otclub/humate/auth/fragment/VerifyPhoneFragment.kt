@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.otclub.humate.R
+import com.otclub.humate.auth.data.GeneratePhoneCodeRequestDTO
+import com.otclub.humate.auth.data.SendPhoneCodeRequestDTO
 import com.otclub.humate.auth.viewmodel.AuthViewModel
 import com.otclub.humate.databinding.AuthFragmentVerifyPhoneBinding
 
@@ -31,8 +34,7 @@ class VerifyPhoneFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.sendAuthCode.setOnClickListener {
-            // todo: 서버 로직 추가
-            addAuthCodeInputField()
+            this.handleSendAuthCodeClick()
         }
     }
 
@@ -41,7 +43,26 @@ class VerifyPhoneFragment : Fragment() {
         super.onDestroyView()
     }
 
-    private fun addAuthCodeInputField() {
+    private fun handleSendAuthCodeClick() {
+        val phone: String = binding.inputPhone.text.toString()
+        if (phone.length < 11) {
+            Toast.makeText(requireContext(), "올바른 휴대폰 번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        viewModel.fetchGeneratePhoneCode(
+            GeneratePhoneCodeRequestDTO(phone),
+            onSuccess = {response ->
+                addAuthCodeInputField(phone)
+            },
+            onError = {error ->
+                Log.i("폰 인증 페이지", error)
+                Toast.makeText(requireContext(), "이미 가입된 번호입니다.", Toast.LENGTH_SHORT).show()
+            })
+
+    }
+
+    private fun addAuthCodeInputField(phone: String) {
         val authCodeInput: EditText = binding.inputCode
 
         authCodeInput.visibility = View.VISIBLE
@@ -50,21 +71,32 @@ class VerifyPhoneFragment : Fragment() {
 
         binding.sendAuthCode.text = "인증 완료"
         binding.sendAuthCode.setOnClickListener {
-            sendAuthCode(authCodeInput.text.toString())
+            sendPhoneVerifyCode(phone)
         }
     }
 
-    private fun sendAuthCode(code: String) {
-
-        if (code.isEmpty()) {
-            Log.i("sendAuthCode", "비어있음")
+    private fun sendPhoneVerifyCode(phone: String) {
+        val code = binding.inputCode.text.toString()
+        if (code.length < 6) {
+            Toast.makeText(requireContext(), "6자리 코드를 인증번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        parentFragmentManager.beginTransaction()
-                .replace(R.id.authFragment, InputIdPasswordFragment())
-                .addToBackStack(null)
-                .commit()
+        viewModel.fetchSendPhoneCode(
+            SendPhoneCodeRequestDTO(phone, code),
+            onSuccess = {response ->
+                Toast.makeText(requireContext(), "인증에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.authFragment, InputIdPasswordFragment())
+                    .addToBackStack(null)
+                    .commit()
+            },
+            onError = {error ->
+                Log.i("폰 인증 페이지", error)
+                Toast.makeText(requireContext(), "인증번호가 올바르지 않습니다.", Toast.LENGTH_SHORT).show()
+            })
+
+
     }
 
 }
