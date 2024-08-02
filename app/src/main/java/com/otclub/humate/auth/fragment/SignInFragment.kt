@@ -11,11 +11,11 @@ import androidx.fragment.app.activityViewModels
 import com.otclub.humate.R
 import com.otclub.humate.auth.data.LogInRequestDTO
 import com.otclub.humate.auth.viewmodel.AuthViewModel
-import com.otclub.humate.databinding.FragmentSignInBinding
+import com.otclub.humate.databinding.AuthFragmentSignInBinding
 
 class SignInFragment : Fragment() {
     private val viewModel: AuthViewModel by activityViewModels()
-    private var mBinding : FragmentSignInBinding? = null
+    private var mBinding : AuthFragmentSignInBinding? = null
     private val binding get() = mBinding!!
 
     override fun onCreateView(
@@ -23,7 +23,7 @@ class SignInFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentSignInBinding.inflate(inflater, container, false)
+        val binding = AuthFragmentSignInBinding.inflate(inflater, container, false)
         mBinding = binding
         return mBinding?.root
     }

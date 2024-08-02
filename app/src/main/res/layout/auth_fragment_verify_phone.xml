@@ -48,7 +48,7 @@
 
         android:gravity="left|center_vertical"
         android:hint="- 를 제외한 휴대폰 번호"
-        android:inputType="text"
+        android:inputType="number"
         android:paddingStart="17dp"
         android:textColorHint="@color/light_gray"
         android:maxLength="11"
@@ -58,6 +58,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideVerifyPhone" />
+
+    <EditText
+        android:id="@+id/inputCode"
+        android:layout_width="300dp"
+        android:layout_height="0.001dp"
+        android:layout_marginTop="16dp"
+        android:paddingStart="17dp"
+        android:visibility="invisible"
+
+        android:background="@drawable/auth_light_gray_border"
+        android:gravity="left|center_vertical"
+        android:hint="인증번호 6자리"
+        android:inputType="number"
+        android:textColorHint="@color/light_gray"
+        android:textSize="14sp"
+        android:maxLength="6"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputPhone"
+        app:layout_constraintHeight_default="wrap" />
 
     <android.widget.Button
         android:id="@+id/sendAuthCode"
@@ -76,6 +97,6 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputPhone" />
+        app:layout_constraintTop_toBottomOf="@+id/inputCode" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

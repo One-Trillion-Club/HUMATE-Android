@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.otclub.humate.R
 import com.otclub.humate.auth.viewmodel.AuthViewModel
-import com.otclub.humate.databinding.FragmentSelectSignUpTypeBinding
+import com.otclub.humate.databinding.AuthFragmentSelectSignUpTypeBinding
 
 class SelectSignUpTypeFragment : Fragment() {
     private val viewModel: AuthViewModel by activityViewModels()
-    private var mBinding : FragmentSelectSignUpTypeBinding? = null
+    private var mBinding : AuthFragmentSelectSignUpTypeBinding? = null
     private val binding get() = mBinding!!
 
     override fun onCreateView(
@@ -20,7 +20,7 @@ class SelectSignUpTypeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentSelectSignUpTypeBinding.inflate(inflater, container, false)
+        val binding = AuthFragmentSelectSignUpTypeBinding.inflate(inflater, container, false)
         mBinding = binding
         return mBinding?.root
     }
