@@ -1,25 +1,61 @@
-package com.otclub.humate
+package com.otclub.humate.mate.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.otclub.humate.databinding.FragmentPostDetailBinding
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.otclub.humate.MainActivity
+import com.otclub.humate.R
+import com.otclub.humate.databinding.FragmentPostListBinding
+import com.otclub.humate.mate.adapter.PostListAdapter
+import com.otclub.humate.mate.viewmodel.PostViewModel
 
 
-class PostDetailFragment : Fragment() {
+class PostListFragment : Fragment() {
 
-    private var mBinding : FragmentPostDetailBinding? = null
+    private var mBinding : FragmentPostListBinding? = null
+    private val binding get() = mBinding!!
     private val selectedButtons = mutableSetOf<Button>() // 현재 선택된 버튼들을 추적
+
+    private lateinit var postViewModel: PostViewModel
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var postListAdapter: PostListAdapter
+
+    private var tagName: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
-        val binding = FragmentPostDetailBinding.inflate(inflater, container, false)
+        val binding = FragmentPostListBinding.inflate(inflater, container, false)
+        recyclerView = binding.postList
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        // ViewModel 초기화
+        postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
+
+        // 필터 설정 (초기)
+        val filters = mapOf(
+            "gender" to "m",
+            "memberId" to "K_1"
+        )
+
+        // 데이터 가져오기 및 Adapter 설정
+        postViewModel.getPostList(filters, onSuccess = { postList ->
+            postListAdapter = PostListAdapter(postList)
+            recyclerView.adapter = postListAdapter
+        }, onError = { errorMessage ->
+            // 에러 처리
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+        })
 
         mBinding = binding
 
@@ -46,7 +82,8 @@ class PostDetailFragment : Fragment() {
         }
 
         // buttonContainer 레이아웃을 가져오기
-        val buttonContainer = view.findViewById<LinearLayout>(R.id.button_container)
+        val buttonContainer = binding.buttonContainer
+        // view.findViewById<LinearLayout>(R.id.button_container)
 
         // 동적으로 버튼 추가
         val buttonsData = listOf("의류", "뷰티", "악세서리", "신발류", "한식", "일식", "양식", "중식", "분식", "팝업스토어", "전시", "공연") // 서버나 데이터베이스에서 가져온 데이터
@@ -56,7 +93,7 @@ class PostDetailFragment : Fragment() {
             val button = Button(ContextThemeWrapper(requireContext(), R.style.TagButtonUnselected), null, R.style.TagButtonUnselected)
             button.text = buttonText
             val params = LinearLayout.LayoutParams(
-                170,
+                180,
                 70
             )
             // 버튼 간의 간격을 설정 (예: 8dp)
@@ -74,7 +111,6 @@ class PostDetailFragment : Fragment() {
 
             buttonContainer.addView(button)
         }
-
     }
 
     private fun handleButtonClick(clickedButton: Button) {
@@ -89,6 +125,29 @@ class PostDetailFragment : Fragment() {
             clickedButton.setTextColor(resources.getColor(R.color.white, null)) // 선택된 버튼의 글자색을 흰색으로 변경
             selectedButtons.add(clickedButton)
         }
+
+        updatePostList()
+    }
+
+    private fun updatePostList() {
+        tagName = selectedButtons.joinToString(", ") { it.text.toString() }
+        Log.d("tag", "Data updated: $tagName")
+
+        // 필터 설정
+        val filters = mapOf(
+            "gender" to "m",
+            "memberId" to "K_1",
+            "tagName" to tagName // 태그 이름 필터 추가
+        )
+
+        // 데이터 가져오기 및 Adapter 설정
+        postViewModel.getPostList(filters, onSuccess = { postList ->
+            postListAdapter = PostListAdapter(postList)
+            recyclerView.adapter = postListAdapter
+        }, onError = { errorMessage ->
+            // 에러 처리
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+        })
     }
 
     override fun onDestroyView() {
