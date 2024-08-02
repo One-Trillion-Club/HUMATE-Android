@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.*
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -149,6 +150,17 @@ class PostListFragment : Fragment() {
             button.setPadding(16, 8, 16, 8)
             button.setBackgroundResource(R.drawable.tag_button_unselected)
             button.setTextColor(resources.getColor(R.color.dark_gray, null))
+
+            // 버튼 추가 후 초기 상태 설정
+            // 선택된 버튼 상태로 설정
+            filters["tagName"]?.let { tagName ->
+                val selectedTags = tagName.split(", ")
+                if (selectedTags.contains(buttonText)) {
+                    button.setBackgroundResource(R.drawable.tag_button_selected)
+                    button.setTextColor(resources.getColor(R.color.white, null))
+                    selectedButtons.add(button)
+                }
+            }
 
             // 버튼 클릭 이벤트 설정
             button.setOnClickListener {
