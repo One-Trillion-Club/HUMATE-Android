@@ -3,10 +3,7 @@ package com.otclub.humate.mate.fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +26,16 @@ class PostListFragment : Fragment() {
     private lateinit var postListAdapter: PostListAdapter
 
     private var tagName: String = ""
+    private var keyword: String? = ""
+
+    private lateinit var searchInput: EditText
+    private lateinit var searchButton: ImageButton
+
+    private var filters = mutableMapOf(
+        "gender" to "m",
+        "memberId" to "K_1"
+        // 초기 필터 값 설정
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,12 +49,6 @@ class PostListFragment : Fragment() {
         // ViewModel 초기화
         postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
 
-        // 필터 설정 (초기)
-        val filters = mapOf(
-            "gender" to "m",
-            "memberId" to "K_1"
-        )
-
         // 데이터 가져오기 및 Adapter 설정
         postViewModel.getPostList(filters, onSuccess = { postList ->
             postListAdapter = PostListAdapter(postList)
@@ -58,6 +59,10 @@ class PostListFragment : Fragment() {
         })
 
         mBinding = binding
+
+        // searchInput과 searchButton 초기화
+        searchInput = binding.searchInput
+        searchButton = binding.searchButton
 
         return mBinding?.root
     }
@@ -88,7 +93,6 @@ class PostListFragment : Fragment() {
         // 동적으로 버튼 추가
         val buttonsData = listOf("의류", "뷰티", "악세서리", "신발류", "한식", "일식", "양식", "중식", "분식", "팝업스토어", "전시", "공연") // 서버나 데이터베이스에서 가져온 데이터
 
-
         for (buttonText in buttonsData) {
             val button = Button(ContextThemeWrapper(requireContext(), R.style.TagButtonUnselected), null, R.style.TagButtonUnselected)
             button.text = buttonText
@@ -111,6 +115,11 @@ class PostListFragment : Fragment() {
 
             buttonContainer.addView(button)
         }
+
+        // 검색 버튼 클릭 이벤트 설정
+        searchButton.setOnClickListener {
+            performSearch()
+        }
     }
 
     private fun handleButtonClick(clickedButton: Button) {
@@ -129,16 +138,27 @@ class PostListFragment : Fragment() {
         updatePostList()
     }
 
+    private fun performSearch() {
+        val input = searchInput.text.toString().trim()
+
+        // keyword가 빈 문자열일 경우 null로 설정
+        keyword = if (input.isEmpty()) null else input
+
+        updatePostList()
+    }
+
     private fun updatePostList() {
+        // 전역 필터에 tagName 추가 또는 업데이트
         tagName = selectedButtons.joinToString(", ") { it.text.toString() }
         Log.d("tag", "Data updated: $tagName")
+        filters["tagName"] = tagName
 
-        // 필터 설정
-        val filters = mapOf(
-            "gender" to "m",
-            "memberId" to "K_1",
-            "tagName" to tagName // 태그 이름 필터 추가
-        )
+        // 전역 필터에 keyword 추가 또는 업데이트
+        if (keyword != null && keyword!!.isNotEmpty()) {
+            filters["keyword"] = keyword!!
+        } else {
+            filters.remove("keyword")
+        }
 
         // 데이터 가져오기 및 Adapter 설정
         postViewModel.getPostList(filters, onSuccess = { postList ->
