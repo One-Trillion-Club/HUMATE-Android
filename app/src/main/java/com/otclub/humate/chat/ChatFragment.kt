@@ -10,10 +10,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
-import com.otclub.humate.BuildConfig.TEST_MEMBER_2
-import com.otclub.humate.BuildConfig.WEBSOCKET_URL
+import com.google.gson.Gson
+import com.otclub.humate.BuildConfig.*
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
+import com.otclub.humate.chat.data.ChatMessageRequestDTO
+import com.otclub.humate.chat.data.ChatMessageResponseDTO
+import com.otclub.humate.chat.data.MessageType
 import com.otclub.humate.databinding.FragmentChatBinding
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -31,9 +34,9 @@ class ChatFragment : Fragment() {
     private val reconnectRunnable = object : Runnable {
         override fun run() {
             Log.d("WebSocket", "웹소켓 재연결 요청")
+            handler.postDelayed(this, 180000) // 3분마다 재연결 요청
             closeWebSocket()
             startWebSocket()
-            handler.postDelayed(this, 10000) // Reconnect every 5 seconds
         }
     }
 
@@ -51,7 +54,7 @@ class ChatFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        startWebSocket()
+        //startWebSocket()
         handler.post(reconnectRunnable) // Start periodic reconnection
     }
 
@@ -64,6 +67,11 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupToolbar()
+        setupSendButton()
+    }
+
+    private fun setupToolbar(){
         val activity = activity as? MainActivity
         activity?.let {
             val toolbar = it.getToolbar() // MainActivity의 Toolbar를 가져옴
@@ -79,28 +87,35 @@ class ChatFragment : Fragment() {
             // 액션 바의 타이틀을 설정하거나 액션 바의 다른 속성을 조정
             it.setToolbarTitle("채팅")
         }
+    }
+    private fun setupSendButton() {
+        mBinding?.sendButton?.setOnClickListener {
+            val message = mBinding?.messageInput?.text.toString()
+            if (message.isNotEmpty()) {
+                sendMessage(message)
+                mBinding?.messageInput?.text?.clear()
+            }
+        }
+    }
 
-        val serverUri = URI(WEBSOCKET_URL)
-        Log.d("[ChatFragment]","ServerURI : ${WEBSOCKET_URL}")
-
-        // 헤더 설정
-        val headers = mapOf(
-            "authorization" to TEST_MEMBER_2
+    private fun sendMessage(content: String) {
+        val messageRequest = ChatMessageRequestDTO(
+            chatRoomId = "10",
+            senderId = TEST_MEMBER_1, // 실제 사용자 ID로 변경
+            content = content,
+            messageType = MessageType.TEXT
         )
 
-
-//        webSocketClient = ChatWebSocketClient(serverUri, headers)
-//        webSocketClient.connect()
-//
-//        mBinding?.sendButton?.setOnClickListener {
-//            val message = mBinding?.messageInput?.text.toString()
-//            if (message.isNotEmpty()) {
-//                webSocketClient.send(message)
-//                mBinding?.chatDisplay?.append("\nMe: $message")
-//                mBinding?.messageInput?.text?.clear()
-//            }
-//        }
+        val gson = Gson()
+        val messageJson = gson.toJson(messageRequest)
+        webSocket?.send(messageJson)
+        mBinding?.chatDisplay?.append("\nME : $content")
     }
+
+    fun updateChat(message: ChatMessageResponseDTO) {
+        mBinding?.chatDisplay?.append("\n${message.senderId}: ${message.content}")
+    }
+
     private fun startWebSocket(){
 
         client = OkHttpClient.Builder()
@@ -112,7 +127,7 @@ class ChatFragment : Fragment() {
             .header("authorization", "K_1")
             .build()
 
-        webSocketListener = ChatWebSocketListener()
+        webSocketListener = ChatWebSocketListener(this)
         webSocket = client.newWebSocket(request, webSocketListener)
     }
 
