@@ -12,7 +12,7 @@
         android:title="채팅" />
 
     <item
-        android:id="@+id/missionFragment"
+        android:id="@+id/matchingFragment"
         android:icon="@drawable/ic_mission_selector"
         android:title="활동" />
 
