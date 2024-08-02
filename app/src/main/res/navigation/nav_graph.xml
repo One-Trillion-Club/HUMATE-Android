@@ -3,7 +3,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/nav_graph"
-            app:startDestination="@id/mateFragment">
+            app:startDestination="@id/postListFragment">
 
     <fragment
             android:id="@+id/missionFragment"
@@ -15,10 +15,19 @@
             app:destination="@id/newMissionFragment" />
     </fragment>
     <fragment
-            android:id="@+id/mateFragment"
+            android:id="@+id/postListFragment"
             android:name="com.otclub.humate.mate.fragment.PostListFragment"
             android:label="fragment_mate"
-            tools:layout="@layout/mate_fragment_post_list"/>
+            tools:layout="@layout/mate_fragment_post_list">
+        <action
+                android:id="@+id/action_postListFragment_to_postListFilterFragment"
+                app:destination="@id/postListFilterFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/postListFilterFragment"
+            android:name="com.otclub.humate.mate.fragment.PostListFilterFragment"
+            android:label="fragment_mate"
+            tools:layout="@layout/mate_fragment_post_list_filter"/>
     <fragment
             android:id="@+id/chatFragment"
             android:name="com.otclub.humate.chat.ChatFragment"

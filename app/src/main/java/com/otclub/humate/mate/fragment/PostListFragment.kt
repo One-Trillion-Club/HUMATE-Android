@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.otclub.humate.MainActivity
@@ -84,6 +85,19 @@ class PostListFragment : Fragment() {
 
             // 액션 바의 타이틀을 설정하거나 액션 바의 다른 속성을 조정
             it.setToolbarTitle("메이트 찾기")
+
+            // leftButton 클릭 이벤트 설정 (뒤로가기)
+            leftButton.setOnClickListener {
+                findNavController().navigateUp()
+            }
+        }
+
+        // 필터 버튼 가져오기
+        val filterButton: Button = binding.filterButton
+
+        // 필터 버튼 클릭 이벤트 설정
+        filterButton.setOnClickListener {
+            findNavController().navigate(R.id.action_postListFragment_to_postListFilterFragment)
         }
 
         // buttonContainer 레이아웃을 가져오기

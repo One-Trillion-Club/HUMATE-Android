@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/mateFragment"
+        android:id="@+id/postListFragment"
         android:icon="@drawable/ic_mate_selector"
         android:title="메이트" />
 
