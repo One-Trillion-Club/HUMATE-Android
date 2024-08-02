@@ -41,6 +41,7 @@ class MatchingFragment : Fragment() {
             val toolbar = it.getToolbar() // MainActivity의 Toolbar를 가져옴
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
+            it.setToolbarTitle("동행 목록")
 
             // 버튼의 가시성 설정
             val showLeftButton = true
