@@ -63,5 +63,14 @@
             android:name="companionActivityId"
             app:argType="integer" />
     </fragment>
+    <fragment
+            android:id="@+id/matchingFragment"
+            android:name="com.otclub.humate.mission.fragment.MatchingFragment"
+            android:label="fragment_matching"
+            tools:layout="@layout/fragment_matching">
+        <action
+                android:id="@+id/action_matchingFragment_to_missionFragment"
+                app:destination="@id/missionFragment"/>
+    </fragment>
 
 </navigation>
