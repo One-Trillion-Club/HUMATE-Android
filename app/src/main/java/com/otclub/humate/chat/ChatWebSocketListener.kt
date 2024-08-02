@@ -1,12 +1,18 @@
 package com.otclub.humate.chat
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import com.google.gson.Gson
+import com.otclub.humate.chat.data.ChatMessageResponseDTO
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 import okio.ByteString
 
-class ChatWebSocketListener : WebSocketListener() {
+class ChatWebSocketListener(private val fragment: ChatFragment) : WebSocketListener() {
+    private val gson = Gson()
+    private val handler = Handler(Looper.getMainLooper())
 
     override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
         super.onClosed(webSocket, code, reason)
@@ -27,6 +33,10 @@ class ChatWebSocketListener : WebSocketListener() {
     override fun onMessage(webSocket: WebSocket, text: String) {
         super.onMessage(webSocket, text)
         Log.d("WebSocket", "onMessage 수신된 메시지: $text")
+        val response = gson.fromJson(text, ChatMessageResponseDTO::class.java)
+        handler.post {
+            fragment.updateChat(response)
+        }
     }
 
     override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
