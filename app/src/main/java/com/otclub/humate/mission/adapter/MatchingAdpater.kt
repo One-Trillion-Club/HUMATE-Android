@@ -1,5 +1,6 @@
 package com.otclub.humate.mission.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,7 @@ import com.otclub.humate.mission.data.MatchingResponseDTO
 
 class MatchingAdapter(
     private var matchings: List<MatchingResponseDTO>,
-    param: (Any) -> Unit
+    private val onItemClick: (MatchingResponseDTO) -> Unit
 ) : RecyclerView.Adapter<MatchingAdapter.MatchingViewHolder>() {
 
     inner class MatchingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -37,12 +38,21 @@ class MatchingAdapter(
         Glide.with(holder.itemView.context)
             .load(matching.mateProfileImgUrl)
             .into(holder.mateProfileImg)
+
+        Log.i("Matching 별 companionId : ", matching.companionId.toString())
+
+        if (matching.status.equals("진행중")) { // 진행중
+            holder.status.setBackgroundResource(R.drawable.post_ongoing)
+        } else { // 마감
+            holder.status.setBackgroundResource(R.drawable.post_closed)
+        }
+
+        // 아이템 클릭 리스너 설정
+        holder.itemView.setOnClickListener {
+            onItemClick(matching)
+        }
     }
 
     override fun getItemCount(): Int = matchings.size
 
-    fun updateData(newMatchings: List<MatchingResponseDTO>) {
-        matchings = newMatchings
-        notifyDataSetChanged()
-    }
 }

@@ -11,7 +11,7 @@ import retrofit2.http.Query
 
 interface MissionService {
     @GET("activities")
-    fun getMissions(@Query("companionId") companionId: String): Call<MissionResponseDTO>
+    fun getMissions(@Query("companionId") companionId: Int): Call<MissionResponseDTO>
 
     @GET("activities/{activityId}")
     fun getNewMissionDetails(@Path("activityId") activityId: Int): Call<NewMissionDetailsDTO>

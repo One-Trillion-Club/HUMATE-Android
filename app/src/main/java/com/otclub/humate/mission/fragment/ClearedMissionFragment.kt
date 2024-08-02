@@ -40,17 +40,24 @@ class ClearedMissionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val companionId = arguments?.getInt("companionId")
+
         val activity = activity as? MainActivity
         activity?.let {
             val toolbar = it.getToolbar() // MainActivity의 Toolbar를 가져옴
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
+            it.setToolbarTitle("완료된 활동 목록")
 
             // 버튼의 가시성 설정
             val showLeftButton = true
-            val showRightButton = true
+            val showRightButton = false
             leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
             rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
+            // leftButton 클릭 시 이전 화면으로 돌아가기
+            leftButton.setOnClickListener {
+                findNavController().navigateUp()
+            }
 
         }
 
@@ -81,18 +88,20 @@ class ClearedMissionFragment : Fragment() {
                 Log.i("adapter : ", adapter.toString())
                 mBinding?.recyclerView?.adapter = adapter
 
-                // Toolbar 타이틀 설정
-                val activity = activity as? MainActivity
-                activity?.let { mainActivity ->
-                    val toolbar = mainActivity.getToolbar()
-                    mainActivity.setToolbarTitle(it.postTitle)
-                }
+//                // Toolbar 타이틀 설정
+//                val activity = activity as? MainActivity
+//                activity?.let { mainActivity ->
+//                    val toolbar = mainActivity.getToolbar()
+//                    mainActivity.setToolbarTitle(it.postTitle)
+//                    toolbar.setTitle(it.postTitle)
+//                }
             }
         }
 
         // API 호출
-        val companionId = "4"
-        missionViewModel.fetchMission(companionId)
+        companionId?.let {
+            missionViewModel.fetchMission(it)
+        }
 
         // 버튼 클릭 리스너 설정
         mBinding?.completedMissionButton?.setOnClickListener {
