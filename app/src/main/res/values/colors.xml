@@ -13,4 +13,6 @@
     <color name="humate_main">#7060FE</color>
     <color name="light_gray">#CCCCCC</color>
     <color name="dark_gray">#777777</color>
+    <color name="smooth_blue">#83C1FF</color>
+    <color name="smooth_red">#FF8383</color>
 </resources>

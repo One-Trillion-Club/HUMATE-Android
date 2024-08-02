@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/titleKoreanInputUserInfo"
+
+        android:layout_width="309dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="50dp"
+
+        android:gravity="center"
+        android:text="정보를 입력해주세요."
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/guideInputGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+
+        android:text="성별을 선택해주세요."
+        android:textColor="@color/dark_gray"
+        android:textSize="15sp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleKoreanInputUserInfo" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/innerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideInputGender">
+
+        <android.widget.Button
+            android:id="@+id/maleButton"
+
+            android:layout_width="150dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="15dp"
+
+            android:background="@drawable/auth_light_gray_border"
+            android:text="남자"
+            android:textColor="@color/light_gray"
+            android:textSize="14sp"
+
+            app:layout_constraintEnd_toStartOf="@+id/femaleButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <android.widget.Button
+            android:id="@+id/femaleButton"
+            android:layout_width="150dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="10dp"
+
+            android:background="@drawable/auth_light_gray_border"
+            android:text="여자"
+            android:textColor="@color/light_gray"
+            android:textSize="14sp"
+
+            app:layout_constraintStart_toEndOf="@+id/maleButton"
+            app:layout_constraintTop_toTopOf="@+id/maleButton"
+            app:layout_constraintBottom_toBottomOf="@+id/maleButton"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/guideInputBirthdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+
+        android:text="생년월일을 입력해주세요."
+        android:textColor="@color/dark_gray"
+        android:textSize="15sp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/innerLayout" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/birthdateLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideInputBirthdate">
+
+        <EditText
+            android:id="@+id/inputYear"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+
+            android:background="@color/white"
+
+            android:hint="YYYY"
+            android:gravity="center"
+            android:inputType="number"
+            android:textColorHint="@color/light_gray"
+            android:textSize="15sp"
+            android:maxLength="4"
+
+            app:layout_constraintEnd_toStartOf="@+id/splitYearMonth"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread" />
+
+        <TextView
+            android:id="@+id/splitYearMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="/"
+            android:textSize="15sp"
+            android:textColor="@color/light_gray"
+
+            app:layout_constraintEnd_toStartOf="@+id/inputMonth"
+            app:layout_constraintStart_toEndOf="@+id/inputYear"
+            app:layout_constraintTop_toTopOf="@+id/inputYear"
+            app:layout_constraintBottom_toBottomOf="@+id/inputYear" />
+
+        <EditText
+            android:id="@+id/inputMonth"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+
+            android:background="@color/white"
+
+            android:hint="MM"
+            android:gravity="center"
+            android:inputType="number"
+            android:textColorHint="@color/light_gray"
+            android:textSize="15sp"
+            android:maxLength="2"
+
+            app:layout_constraintEnd_toStartOf="@+id/splitMonthDay"
+            app:layout_constraintStart_toEndOf="@+id/splitYearMonth"
+            app:layout_constraintWidth_percent="0.2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/splitMonthDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="/"
+            android:textSize="15sp"
+            android:textColor="@color/light_gray"
+
+            app:layout_constraintEnd_toStartOf="@+id/inputDay"
+            app:layout_constraintStart_toEndOf="@+id/inputMonth"
+            app:layout_constraintTop_toTopOf="@+id/inputMonth"
+            app:layout_constraintBottom_toBottomOf="@+id/inputMonth" />
+
+        <EditText
+            android:id="@+id/inputDay"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+
+            android:background="@color/white"
+
+            android:hint="DD"
+            android:gravity="center"
+            android:inputType="number"
+            android:textColorHint="@color/light_gray"
+            android:textSize="15sp"
+            android:maxLength="2"
+            app:layout_constraintStart_toEndOf="@+id/splitMonthDay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/guideInputLanguage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+
+        android:text="어느 정도 의사소통이 가능한 언어가 있으신가요?"
+        android:textColor="@color/dark_gray"
+        android:textSize="15sp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/birthdateLayout" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideInputLanguage">
+
+        <android.widget.Button
+            android:id="@+id/englishButton"
+
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="15dp"
+
+            android:background="@drawable/auth_light_gray_border"
+            android:text="영어"
+            android:textColor="@color/light_gray"
+            android:textSize="15sp"
+
+            app:layout_constraintEnd_toStartOf="@+id/japaneseButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <android.widget.Button
+            android:id="@+id/japaneseButton"
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="10dp"
+
+            android:background="@drawable/auth_light_gray_border"
+            android:text="일본어"
+            android:textColor="@color/light_gray"
+            android:textSize="15sp"
+
+            app:layout_constraintStart_toEndOf="@+id/englishButton"
+            app:layout_constraintTop_toTopOf="@+id/englishButton"
+            app:layout_constraintBottom_toBottomOf="@+id/englishButton"/>
+
+        <android.widget.Button
+            android:id="@+id/chineseButton"
+            android:layout_width="100dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="10dp"
+
+            android:background="@drawable/auth_light_gray_border"
+            android:text="중국어"
+            android:textColor="@color/light_gray"
+            android:textSize="15sp"
+
+            app:layout_constraintStart_toEndOf="@+id/japaneseButton"
+            app:layout_constraintTop_toTopOf="@+id/japaneseButton"
+            app:layout_constraintBottom_toBottomOf="@+id/japaneseButton"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <android.widget.Button
+        android:id="@+id/nextButton"
+
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+
+        android:layout_marginBottom="35dp"
+
+        android:background="@drawable/auth_main_large_button"
+        android:gravity="center"
+        android:text="다음"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textAllCaps="false"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
