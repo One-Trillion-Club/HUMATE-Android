@@ -39,9 +39,9 @@ class PostListAdapter(private var posts: List<PostListResponseDTO>) : RecyclerVi
         holder.nickname.text = post.nickname
         holder.title.text = post.title
         holder.isMatched.text = post.isMatched.toString()
-        holder.matchDate.text = post.matchDate?.takeIf { it.isNotBlank() } ?: "선택 안함"
-        holder.matchBranch.text = post.matchBranch?.takeIf { it.isNotBlank() } ?: "선택 안함"
-        holder.matchLanguage.text = post.matchLanguage?.takeIf { it.isNotBlank() } ?: "선택 안함"
+        holder.matchDate.text = post.matchDate?.takeIf { it.isNotBlank() } ?: "상관 없음"
+        holder.matchBranch.text = post.matchBranch?.takeIf { it.isNotBlank() } ?: "상관 없음"
+        holder.matchLanguage.text = post.matchLanguage?.takeIf { it.isNotBlank() } ?: "상관 없음"
 
         // 매칭 진행 여부 세텅
         // Assuming holder and post are already defined and properly initialized
