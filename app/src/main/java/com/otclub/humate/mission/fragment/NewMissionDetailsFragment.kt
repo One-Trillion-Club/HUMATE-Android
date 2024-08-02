@@ -14,15 +14,15 @@ import com.otclub.humate.mission.viewModel.NewMissionDetailsViewModel
 class NewMissionDetailsFragment : Fragment() {
 
     private val viewModel: NewMissionDetailsViewModel by activityViewModels()
-    private var _binding: View? = null
-    private val binding get() = _binding!!
+    private var mBinding: View? = null
+    private val binding get() = mBinding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = inflater.inflate(R.layout.fragment_new_mission_details, container, false)
+        mBinding = inflater.inflate(R.layout.fragment_new_mission_details, container, false)
         return binding
     }
 
@@ -53,7 +53,7 @@ class NewMissionDetailsFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        _binding = null
+        mBinding = null
         super.onDestroyView()
     }
 }

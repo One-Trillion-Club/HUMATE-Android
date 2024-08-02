@@ -57,13 +57,27 @@ class ClearedMissionFragment : Fragment() {
         // RecyclerView 설정
         mBinding?.recyclerView?.apply {
             layoutManager = GridLayoutManager(context, 2)
-            adapter = ClearedMissionAdapter(emptyList())
+            adapter = ClearedMissionAdapter(emptyList()) {
+                mission ->
+                findNavController().navigate(
+                    R.id.action_missionFragment_to_clearedMissionDetailsFragment,
+                    Bundle().apply { putInt("companionActivityId", mission.companionActivityId)}
+                )
+            }
         }
 
         // ViewModel에서 데이터 관찰
         missionViewModel.missionResponseDTO.observe(viewLifecycleOwner) { response ->
             response?.let {
-                val adapter = ClearedMissionAdapter(it.clearedMissionList)
+                val adapter = ClearedMissionAdapter(it.clearedMissionList) { mission ->
+                    val bundle = Bundle().apply {
+                        putInt("companionActivityId", mission.companionActivityId)
+                    }
+                    findNavController().navigate(
+                        R.id.action_missionFragment_to_clearedMissionDetailsFragment,
+                        bundle
+                    )
+                }
                 Log.i("adapter : ", adapter.toString())
                 mBinding?.recyclerView?.adapter = adapter
 

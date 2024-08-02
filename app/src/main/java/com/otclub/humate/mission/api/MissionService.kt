@@ -1,5 +1,6 @@
 package com.otclub.humate.mission.api
 
+import com.otclub.humate.mission.data.ClearedMissionDetailsDTO
 import com.otclub.humate.mission.data.MissionResponseDTO
 import com.otclub.humate.mission.data.NewMissionDetailsDTO
 import retrofit2.Call
@@ -13,5 +14,8 @@ interface MissionService {
 
     @GET("activities/{activityId}")
     fun getNewMissionDetails(@Path("activityId") activityId: Int): Call<NewMissionDetailsDTO>
+
+    @GET("activities/histories/{companionActivityId}")
+    fun getClearedMissionDetails(@Path("companionActivityId") companionActivityId: Int): Call<ClearedMissionDetailsDTO>
 
 }
