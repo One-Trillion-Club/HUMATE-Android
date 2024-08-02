@@ -38,4 +38,12 @@
         <item name="android:textSize">11sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="MatchBranchFilterUnselected" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">wrap_content</item> <!-- 너비 설정 -->
+        <item name="android:textColor">@color/filter_tag_text</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

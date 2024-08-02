@@ -27,7 +27,11 @@
             android:id="@+id/postListFilterFragment"
             android:name="com.otclub.humate.mate.fragment.PostListFilterFragment"
             android:label="fragment_mate"
-            tools:layout="@layout/mate_fragment_post_list_filter"/>
+            tools:layout="@layout/mate_fragment_post_list_filter">
+        <action
+                android:id="@+id/action_postListFilterFragment_to_postListFragment"
+                app:destination="@id/postListFragment" />
+    </fragment>
     <fragment
             android:id="@+id/chatFragment"
             android:name="com.otclub.humate.chat.ChatFragment"

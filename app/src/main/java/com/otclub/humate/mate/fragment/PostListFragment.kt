@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.MateFragmentPostListBinding
 import com.otclub.humate.mate.adapter.PostListAdapter
+import com.otclub.humate.mate.data.PostListFilterDTO
 import com.otclub.humate.mate.viewmodel.PostViewModel
 
 
@@ -48,16 +50,7 @@ class PostListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         // ViewModel 초기화
-        postViewModel = ViewModelProvider(this).get(PostViewModel::class.java)
-
-        // 데이터 가져오기 및 Adapter 설정
-        postViewModel.getPostList(filters, onSuccess = { postList ->
-            postListAdapter = PostListAdapter(postList)
-            recyclerView.adapter = postListAdapter
-        }, onError = { errorMessage ->
-            // 에러 처리
-            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
-        })
+        postViewModel = ViewModelProvider(requireActivity()).get(PostViewModel::class.java)
 
         mBinding = binding
 
@@ -70,6 +63,41 @@ class PostListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // ViewModel의 데이터 사용
+        postViewModel.filterData?.let { filterData ->
+            Log.i("filter", "Received filter data: $filterData")
+
+            filterData.matchDate?.let { matchDate ->
+                filters["matchDate"] = matchDate
+            }
+            filterData.matchBranch?.let { matchBranch ->
+                filters["matchBranch"] = matchBranch
+            }
+            filterData.matchGender?.let { matchGender ->
+                filters["matchGender"] = matchGender
+            }
+            filterData.matchLanguage?.let { matchLanguage ->
+                filters["matchLanguage"] = matchLanguage
+            }
+            filterData.keyword?.let { keyword ->
+                filters["keyword"] = keyword
+            }
+            filterData.tagName?.let { tagName ->
+                filters["tagName"] = tagName
+            }
+
+            Log.i("filter", "Updated filters: $filters")
+        }
+
+        // 데이터 가져오기 및 Adapter 설정
+        postViewModel.getPostList(filters, onSuccess = { postList ->
+            postListAdapter = PostListAdapter(postList)
+            recyclerView.adapter = postListAdapter
+        }, onError = { errorMessage ->
+            // 에러 처리
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+        })
 
         val activity = activity as? MainActivity
         activity?.let {
@@ -173,6 +201,15 @@ class PostListFragment : Fragment() {
         } else {
             filters.remove("keyword")
         }
+
+        postViewModel.updateFilterData(
+            matchDate = filters["matchDate"],
+            matchBranch = filters["matchBranch"]?.split(", ")?.toSet() ?: emptySet(),
+            matchGender = filters["matchGender"],
+            matchLanguage = filters["matchLanguage"]?.split(", ")?.toSet() ?: emptySet(),
+            keyword = keyword.takeIf { !it.isNullOrBlank() },
+            tagName = tagName.takeIf { it.isNotBlank() }
+        )
 
         // 데이터 가져오기 및 Adapter 설정
         postViewModel.getPostList(filters, onSuccess = { postList ->
