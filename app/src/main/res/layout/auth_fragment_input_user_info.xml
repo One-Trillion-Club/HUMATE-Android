@@ -52,7 +52,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="15dp"
 
-            android:background="@drawable/light_gray_border"
+            android:background="@drawable/auth_light_gray_border"
             android:text="남자"
             android:textColor="@color/light_gray"
             android:textSize="14sp"
@@ -67,7 +67,7 @@
             android:layout_height="48dp"
             android:layout_marginStart="10dp"
 
-            android:background="@drawable/light_gray_border"
+            android:background="@drawable/auth_light_gray_border"
             android:text="여자"
             android:textColor="@color/light_gray"
             android:textSize="14sp"
@@ -221,7 +221,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="15dp"
 
-            android:background="@drawable/light_gray_border"
+            android:background="@drawable/auth_light_gray_border"
             android:text="영어"
             android:textColor="@color/light_gray"
             android:textSize="15sp"
@@ -236,7 +236,7 @@
             android:layout_height="48dp"
             android:layout_marginStart="10dp"
 
-            android:background="@drawable/light_gray_border"
+            android:background="@drawable/auth_light_gray_border"
             android:text="일본어"
             android:textColor="@color/light_gray"
             android:textSize="15sp"
@@ -251,7 +251,7 @@
             android:layout_height="48dp"
             android:layout_marginStart="10dp"
 
-            android:background="@drawable/light_gray_border"
+            android:background="@drawable/auth_light_gray_border"
             android:text="중국어"
             android:textColor="@color/light_gray"
             android:textSize="15sp"
@@ -269,7 +269,7 @@
 
         android:layout_marginBottom="35dp"
 
-        android:background="@drawable/main_large_button"
+        android:background="@drawable/auth_main_large_button"
         android:gravity="center"
         android:text="다음"
         android:textColor="@color/white"

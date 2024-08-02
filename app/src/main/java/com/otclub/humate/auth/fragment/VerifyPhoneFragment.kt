@@ -10,11 +10,9 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.view.marginTop
 import androidx.fragment.app.activityViewModels
 import com.otclub.humate.R
 import com.otclub.humate.auth.viewmodel.AuthViewModel
-import com.otclub.humate.databinding.FragmentSignInBinding
 import com.otclub.humate.databinding.FragmentVerifyPhoneBinding
 
 class VerifyPhoneFragment : Fragment() {
@@ -60,7 +58,7 @@ class VerifyPhoneFragment : Fragment() {
             textSize = 14f
             setHintTextColor(resources.getColor(R.color.light_gray, null))
             setPadding(17, 0, 0, 0)
-            setBackgroundResource(R.drawable.light_gray_border)
+            setBackgroundResource(R.drawable.auth_light_gray_border)
         }
 
         val constraintLayout = binding.root as ConstraintLayout

@@ -97,7 +97,7 @@ class InputUserInfoFragment : Fragment() {
             (this as? android.widget.Button)?.apply {
                 setTextColor(Color.WHITE)
                 setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 15f)
-                setBackgroundResource(R.drawable.main_large_button)
+                setBackgroundResource(R.drawable.auth_main_large_button)
                 setTypeface(typeface, android.graphics.Typeface.BOLD)
             }
         }
@@ -108,7 +108,7 @@ class InputUserInfoFragment : Fragment() {
             (this as? android.widget.Button)?.apply {
                 setTextColor(ContextCompat.getColor(context, R.color.light_gray))
                 setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 14f)
-                setBackgroundResource(R.drawable.light_gray_border)
+                setBackgroundResource(R.drawable.auth_light_gray_border)
                 setTypeface(typeface, android.graphics.Typeface.NORMAL)
             }
         }

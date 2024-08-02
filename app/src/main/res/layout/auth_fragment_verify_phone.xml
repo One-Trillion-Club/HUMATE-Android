@@ -44,7 +44,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
 
-        android:background="@drawable/light_gray_border"
+        android:background="@drawable/auth_light_gray_border"
 
         android:gravity="left|center_vertical"
         android:hint="- 를 제외한 휴대폰 번호"
@@ -67,7 +67,7 @@
 
         android:layout_marginTop="10dp"
 
-        android:background="@drawable/main_large_button"
+        android:background="@drawable/auth_main_large_button"
         android:gravity="center"
         android:text="인증번호 전송"
         android:textColor="@color/white"

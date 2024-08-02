@@ -49,7 +49,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="10dp"
 
-            android:background="@drawable/light_gray_border"
+            android:background="@drawable/auth_light_gray_border"
 
             android:gravity="left|center_vertical"
             android:hint="닉네임"
@@ -70,7 +70,7 @@
             android:layout_height="48dp"
             android:layout_marginStart="6dp"
 
-            android:background="@drawable/main_large_button"
+            android:background="@drawable/auth_main_large_button"
             android:text="중복확인"
             android:textColor="@color/white"
             android:textSize="14sp"
@@ -110,7 +110,7 @@
         android:layout_marginTop="10dp"
         android:padding="14dp"
 
-        android:background="@drawable/light_gray_border"
+        android:background="@drawable/auth_light_gray_border"
 
         android:gravity="start|top"
         android:hint="한 줄 소개"
@@ -172,7 +172,7 @@
 
         android:layout_marginBottom="35dp"
 
-        android:background="@drawable/main_large_button"
+        android:background="@drawable/auth_main_large_button"
         android:gravity="center"
         android:text="완료"
         android:textColor="@color/white"
