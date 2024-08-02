@@ -1,4 +1,4 @@
-package com.otclub.humate.chat
+package com.otclub.humate.chat.fragment
 
 import android.os.Bundle
 import android.os.Handler
@@ -10,23 +10,25 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.otclub.humate.BuildConfig.*
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
+import com.otclub.humate.chat.adpater.ChatAdapter
 import com.otclub.humate.chat.data.ChatMessageRequestDTO
 import com.otclub.humate.chat.data.ChatMessageResponseDTO
 import com.otclub.humate.chat.data.MessageType
-import com.otclub.humate.databinding.FragmentChatBinding
+import com.otclub.humate.databinding.ChatFragmentBinding
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.WebSocket
-import java.net.URI
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class ChatFragment : Fragment() {
 
-    private var mBinding : FragmentChatBinding? = null
+    private var mBinding : ChatFragmentBinding? = null
     private lateinit var webSocketListener: ChatWebSocketListener
     private lateinit var client: OkHttpClient
     private var webSocket : WebSocket ?= null
@@ -40,21 +42,28 @@ class ChatFragment : Fragment() {
         }
     }
 
+    private lateinit var chatAdapter: ChatAdapter
+    private val messages = mutableListOf<ChatMessageResponseDTO>()
+    private val myId = TEST_MEMBER_2
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
-        val binding = FragmentChatBinding.inflate(inflater, container, false)
-
+        val binding = ChatFragmentBinding.inflate(inflater, container, false)
         mBinding = binding
+
+        // RecyclerView 설정
+        chatAdapter = ChatAdapter(messages, myId)
+        mBinding?.chatDisplay?.adapter = chatAdapter
+        mBinding?.chatDisplay?.layoutManager = LinearLayoutManager(requireContext())
 
         return mBinding?.root
     }
 
     override fun onResume() {
         super.onResume()
-        //startWebSocket()
         handler.post(reconnectRunnable) // Start periodic reconnection
     }
 
@@ -109,11 +118,20 @@ class ChatFragment : Fragment() {
         val gson = Gson()
         val messageJson = gson.toJson(messageRequest)
         webSocket?.send(messageJson)
-        mBinding?.chatDisplay?.append("\nME : $content")
+
+        // ChatAdapter에 메시지 추가
+        val sentMessage = ChatMessageResponseDTO(
+            chatRoomId = "10",
+            senderId = TEST_MEMBER_2,
+            content = content,
+            messageType = MessageType.TEXT,
+            createdAt = Date()
+        )
+        chatAdapter.addMessage(sentMessage)
     }
 
     fun updateChat(message: ChatMessageResponseDTO) {
-        mBinding?.chatDisplay?.append("\n${message.senderId}: ${message.content}")
+        chatAdapter.addMessage(message)
     }
 
     private fun startWebSocket(){

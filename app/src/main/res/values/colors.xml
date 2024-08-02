@@ -18,4 +18,5 @@
     <color name="light_purple">#AAA0FF</color>
     <color name="smooth_blue">#83C1FF</color>
     <color name="smooth_red">#FF8383</color>
+    <color name="bright_gray">#F2F3F6</color>
 </resources>
