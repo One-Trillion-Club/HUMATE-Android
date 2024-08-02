@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_missionFragment_to_newMissionFragment"
             app:destination="@id/newMissionFragment" />
+        <action
+            android:id="@+id/action_missionFragment_to_clearedMissionDetailsFragment"
+            app:destination="@id/clearedMissionDetailsFragment" />
     </fragment>
     <fragment
             android:id="@+id/mateFragment"
@@ -49,6 +52,15 @@
         android:label="NewMissionDetailsFragment" >
         <argument
             android:name="activityId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/clearedMissionDetailsFragment"
+        android:name="com.otclub.humate.mission.fragment.ClearedMissionDetailsFragment"
+        android:label="fragment_cleared_mission_details"
+        tools:layout="@layout/fragment_cleared_mission_details">
+        <argument
+            android:name="companionActivityId"
             app:argType="integer" />
     </fragment>
 
