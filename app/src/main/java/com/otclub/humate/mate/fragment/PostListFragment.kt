@@ -13,14 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
-import com.otclub.humate.databinding.FragmentPostListBinding
+import com.otclub.humate.databinding.MateFragmentPostListBinding
 import com.otclub.humate.mate.adapter.PostListAdapter
 import com.otclub.humate.mate.viewmodel.PostViewModel
 
 
 class PostListFragment : Fragment() {
 
-    private var mBinding : FragmentPostListBinding? = null
+    private var mBinding : MateFragmentPostListBinding? = null
     private val binding get() = mBinding!!
     private val selectedButtons = mutableSetOf<Button>() // 현재 선택된 버튼들을 추적
 
@@ -35,7 +35,7 @@ class PostListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
-        val binding = FragmentPostListBinding.inflate(inflater, container, false)
+        val binding = MateFragmentPostListBinding.inflate(inflater, container, false)
         recyclerView = binding.postList
         recyclerView.layoutManager = LinearLayoutManager(context)
 
