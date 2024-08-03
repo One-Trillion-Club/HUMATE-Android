@@ -56,17 +56,21 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
 
         inner class ReceivedMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             private val textView: TextView = itemView.findViewById(R.id.message_text)
+            private val dateView: TextView = itemView.findViewById(R.id.message_time)
 
             fun bind(message: ChatMessageResponseDTO) {
                 textView.text = "${message.senderId}: ${message.content}"
+                dateView.text = "${message.createdAt}"
             }
         }
 
         inner class SentMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             private val textView: TextView = itemView.findViewById(R.id.message_text)
+            private val dateView: TextView = itemView.findViewById(R.id.message_time)
 
             fun bind(message: ChatMessageResponseDTO) {
                 textView.text = "${message.senderId}: ${message.content}"
+                dateView.text = "${message.createdAt}"
             }
         }
 }

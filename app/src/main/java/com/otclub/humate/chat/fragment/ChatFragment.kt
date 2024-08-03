@@ -44,7 +44,7 @@ class ChatFragment : Fragment() {
 
     private lateinit var chatAdapter: ChatAdapter
     private val messages = mutableListOf<ChatMessageResponseDTO>()
-    private val myId = TEST_MEMBER_2
+    private val myId = TEST_MEMBER_1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -122,7 +122,7 @@ class ChatFragment : Fragment() {
         // ChatAdapter에 메시지 추가
         val sentMessage = ChatMessageResponseDTO(
             chatRoomId = "10",
-            senderId = TEST_MEMBER_2,
+            senderId = TEST_MEMBER_1,
             content = content,
             messageType = MessageType.TEXT,
             createdAt = Date()
