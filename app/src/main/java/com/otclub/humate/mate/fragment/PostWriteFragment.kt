@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.MateFragmentPostWriteBinding
@@ -55,7 +56,15 @@ class PostWriteFragment : Fragment()  {
             rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
 
             // 액션 바의 타이틀을 설정하거나 액션 바의 다른 속성을 조정
-            it.setToolbarTitle("매칭글 쓰기")
+            it.setToolbarTitle("매칭글 작성")
+        }
+
+        // 매칭 정보 선택 버튼 가져오기
+        val matchInfoButton: Button = binding.matchInfoButton
+
+        // 필터 버튼 클릭 이벤트 설정
+        matchInfoButton.setOnClickListener {
+            findNavController().navigate(R.id.action_postWriteFragment_to_postWriteOptionFragment)
         }
 
         // 태그 데이터 설정

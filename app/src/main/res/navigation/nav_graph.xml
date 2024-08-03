@@ -58,6 +58,18 @@
             android:name="com.otclub.humate.mate.fragment.PostWriteFragment"
             android:label="fragment_mate"
             tools:layout="@layout/mate_fragment_post_write">
+        <action
+                android:id="@+id/action_postWriteFragment_to_postWriteOptionFragment"
+                app:destination="@id/postWriteOptionFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/postWriteOptionFragment"
+            android:name="com.otclub.humate.mate.fragment.PostWriteOptionFragment"
+            android:label="fragment_mate"
+            tools:layout="@layout/mate_fragment_post_write_option">
+        <action
+                android:id="@+id/action_postWriteOptionFragment_to_postWriteFragment"
+                app:destination="@id/postWriteFragment" />
     </fragment>
     <fragment
             android:id="@+id/chatFragment"
