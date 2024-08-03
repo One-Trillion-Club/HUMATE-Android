@@ -12,7 +12,7 @@ data class PostListResponseDTO(
     val matchBranch: String,
     val matchGender: Int,
     val matchLanguage: String,
-    val createdAt: Date,
+    val createdAt: String,
     val isMatched: Int
 )
 

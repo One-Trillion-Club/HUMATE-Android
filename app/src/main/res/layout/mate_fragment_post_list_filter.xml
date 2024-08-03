@@ -27,7 +27,7 @@
         <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/ic_match_date_purple"
+                android:src="@drawable/ic_match_date_black"
                 android:contentDescription="날짜"
                 android:layout_marginRight="5dp"/>
 
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:orientation="horizontal"
-            android:background="@drawable/light_gray_border"
+            android:background="@drawable/auth_light_gray_border"
             android:padding="8dp"
             android:layout_marginBottom="16dp"
             app:layout_constraintTop_toBottomOf="@id/date_selection_content"
@@ -131,7 +131,7 @@
         <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/ic_match_branch_purple"
+                android:src="@drawable/ic_match_branch_black"
                 android:contentDescription="지점"
                 android:layout_marginRight="5dp"/>
 
@@ -219,7 +219,7 @@
         <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/ic_match_gender_purple"
+                android:src="@drawable/ic_match_gender_black"
                 android:contentDescription="성별"
                 android:layout_marginRight="5dp"/>
 
@@ -322,7 +322,7 @@
         <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/ic_match_language_purple"
+                android:src="@drawable/ic_match_language_black"
                 android:contentDescription="언어"
                 android:layout_marginRight="5dp"
                 android:padding="3dp"/>

@@ -91,9 +91,11 @@ class PostListFragment : Fragment() {
             Log.i("filter", "Updated filters: $filters")
         }
 
-        // 데이터 가져오기 및 Adapter 설정
         postViewModel.getPostList(filters, onSuccess = { postList ->
-            postListAdapter = PostListAdapter(postList)
+            postListAdapter = PostListAdapter(postList) { postId ->
+                val action = PostListFragmentDirections.actionPostListFragmentToPostListDetailFragment(postId)
+                findNavController().navigate(action)
+            }
             recyclerView.adapter = postListAdapter
         }, onError = { errorMessage ->
             // 에러 처리
@@ -225,7 +227,10 @@ class PostListFragment : Fragment() {
 
         // 데이터 가져오기 및 Adapter 설정
         postViewModel.getPostList(filters, onSuccess = { postList ->
-            postListAdapter = PostListAdapter(postList)
+            postListAdapter = PostListAdapter(postList) { postId ->
+                val action = PostListFragmentDirections.actionPostListFragmentToPostListDetailFragment(postId)
+                findNavController().navigate(action)
+            }
             recyclerView.adapter = postListAdapter
         }, onError = { errorMessage ->
             // 에러 처리
