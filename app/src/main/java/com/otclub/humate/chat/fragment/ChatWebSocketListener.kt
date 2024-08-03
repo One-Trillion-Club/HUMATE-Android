@@ -1,4 +1,4 @@
-package com.otclub.humate.chat
+package com.otclub.humate.chat.fragment
 
 import android.os.Handler
 import android.os.Looper

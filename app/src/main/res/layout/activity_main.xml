@@ -8,8 +8,10 @@
     android:weightSum="1"
     tools:context=".MainActivity">
 
-
-    <include layout="@layout/common_toolbar" />
+    <FrameLayout
+            android:id="@+id/toolbar_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/my_nav_host"
