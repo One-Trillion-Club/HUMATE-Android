@@ -88,7 +88,7 @@
         android:layout_height="38dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/main_large_button"
+        android:background="@drawable/auth_main_large_button"
         android:backgroundTint="@color/humate_main"
         android:text="기록하기"
         android:textColor="@android:color/white"

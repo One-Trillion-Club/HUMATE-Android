@@ -11,7 +11,10 @@ import com.bumptech.glide.Glide
 import com.otclub.humate.R
 import com.otclub.humate.mission.data.ClearedMissionDTO
 
-class ClearedMissionAdapter(private val clearedMissionList: List<ClearedMissionDTO>) : RecyclerView.Adapter<ClearedMissionAdapter.ViewHolder>() {
+class ClearedMissionAdapter(
+    private val clearedMissionList: List<ClearedMissionDTO>,
+    private val onItemClick: (ClearedMissionDTO) -> Unit
+) : RecyclerView.Adapter<ClearedMissionAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_cleared_mission, parent, false)
@@ -32,6 +35,11 @@ class ClearedMissionAdapter(private val clearedMissionList: List<ClearedMissionD
             Glide.with(holder.itemView.context)
                 .load(mission.imgUrl)
                 .into(holder.missionImage)
+        }
+
+        // 아이템 클릭 리스너 설정
+        holder.itemView.setOnClickListener {
+            onItemClick(mission)
         }
     }
 

@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_missionFragment_to_newMissionFragment"
             app:destination="@id/newMissionFragment" />
+        <action
+            android:id="@+id/action_missionFragment_to_clearedMissionDetailsFragment"
+            app:destination="@id/clearedMissionDetailsFragment" />
+        <argument
+                android:name="companionId"
+                app:argType="integer"/>
     </fragment>
     <fragment
             android:id="@+id/postListFragment"
@@ -63,6 +69,24 @@
         <argument
             android:name="activityId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/clearedMissionDetailsFragment"
+        android:name="com.otclub.humate.mission.fragment.ClearedMissionDetailsFragment"
+        android:label="fragment_cleared_mission_details"
+        tools:layout="@layout/fragment_cleared_mission_details">
+        <argument
+            android:name="companionActivityId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+            android:id="@+id/matchingFragment"
+            android:name="com.otclub.humate.mission.fragment.MatchingFragment"
+            android:label="fragment_matching"
+            tools:layout="@layout/fragment_matching">
+        <action
+                android:id="@+id/action_matchingFragment_to_missionFragment"
+                app:destination="@id/missionFragment"/>
     </fragment>
 
 </navigation>

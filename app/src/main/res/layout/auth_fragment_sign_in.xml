@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".auth.activity.LogInActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/titleSignUp"
+        android:id="@+id/titleSignIn"
 
         android:layout_width="309dp"
         android:layout_height="83dp"
         android:layout_marginTop="50dp"
 
         android:gravity="center"
-        android:text="Sign up/Sign in"
+        android:text="Sign in"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
+
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,12 +35,13 @@
         android:hint="ID"
         android:textColorHint="@color/light_gray"
         android:textSize="14sp"
+        android:maxLength="20"
 
-        android:background="@drawable/light_gray_border"
+        android:background="@drawable/auth_light_gray_border"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleSignUp" />
+        app:layout_constraintTop_toBottomOf="@+id/titleSignIn" />
 
     <EditText
         android:id="@+id/inputPassword"
@@ -57,8 +56,9 @@
         android:hint="PASSWORD"
         android:textColorHint="@color/light_gray"
         android:textSize="14sp"
+        android:maxLength="20"
 
-        android:background="@drawable/light_gray_border"
+        android:background="@drawable/auth_light_gray_border"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,7 +72,7 @@
 
         android:layout_marginTop="28dp"
 
-        android:background="@drawable/main_large_button"
+        android:background="@drawable/auth_main_large_button"
         android:gravity="center"
         android:text="Sign in"
         android:textColor="@color/white"
