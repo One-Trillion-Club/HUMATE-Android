@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -20,8 +21,13 @@ import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentClearedMissionBinding
 import com.otclub.humate.mission.adapter.ClearedMissionAdapter
+import com.otclub.humate.mission.api.MissionService
+import com.otclub.humate.mission.data.CommonResponseDTO
 import com.otclub.humate.mission.data.MissionResponseDTO
 import com.otclub.humate.mission.viewModel.MissionViewModel
+import com.otclub.humate.retrofit.RetrofitConnection
+import retrofit2.Call
+import retrofit2.Response
 
 class ClearedMissionFragment : Fragment() {
 
@@ -178,12 +184,47 @@ class ClearedMissionFragment : Fragment() {
 
             when (item.itemId) {
                 R.id.finish_companion -> {
-                    // Handle "알림끄기" action
+                    val companionId = missionViewModel.lastCompanionId
+                    companionId?.let { id ->
+                        finishCompanion(id)
+                    }
                     true
                 }
                 else -> false
             }
         }
         popupMenu.show()
+    }
+
+    private fun finishCompanion(companionId: Int) {
+        val call = RetrofitConnection.getInstance().create(MissionService::class.java).finishCompanion(companionId)
+        call.enqueue(object : retrofit2.Callback<CommonResponseDTO> {
+            override fun onResponse(
+                call: Call<CommonResponseDTO>,
+                response: Response<CommonResponseDTO>
+            ) {
+                if (response.isSuccessful) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Upload successful",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    missionViewModel.lastCompanionId?.let { missionViewModel.fetchMission(it) }
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Upload failed: ${response.message()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+            }
+
+            override fun onFailure(call: Call<CommonResponseDTO>, t: Throwable) {
+
+            }
+
+
+        })
     }
 }
