@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
+import com.otclub.humate.auth.data.LoginRequestDTO
 import com.otclub.humate.auth.viewmodel.AuthViewModel
 import com.otclub.humate.databinding.AuthFragmentInputProfileBinding
 import com.otclub.humate.databinding.FragmentInputIdPasswordBinding
@@ -170,10 +171,20 @@ class InputProfileFragment : Fragment() {
         viewModel.signUp(viewModel.signUpRequestDTO, imageFile,
             onSuccess = { response ->
                 Toast.makeText(requireContext(), "회원가입 성공.", Toast.LENGTH_SHORT).show()
-                // todo: 로그인 해주기
-                val intent = Intent(requireContext(), MainActivity::class.java)
-                startActivity(intent)
-                activity?.finish()
+
+                viewModel.fetchLogIn(
+                    LoginRequestDTO(viewModel.signUpRequestDTO.loginId!!, viewModel.signUpRequestDTO.password!!),
+                    onSuccess = {response ->
+                        Toast.makeText(requireContext(), "로그인 성공", Toast.LENGTH_SHORT).show()
+                        activity?.let {
+                            startActivity(Intent(it, MainActivity::class.java))
+                            it.finish()
+                        }
+                    },
+                    onError = {error ->
+                        Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+                    }
+                )
             },
             onError = { error ->
                 Log.e("회원가입 실패", error)
