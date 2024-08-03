@@ -29,6 +29,7 @@ class SelectSignUpTypeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.selectKoreanFrame.setOnClickListener {
+            viewModel.signUpRequestDTO.nationality = 1
             parentFragmentManager.beginTransaction()
                 .replace(R.id.authFragment, VerifyPhoneFragment())
                 .addToBackStack(null)
