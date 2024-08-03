@@ -7,8 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
+import androidx.appcompat.widget.PopupMenu
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
@@ -62,6 +64,13 @@ class ChatFragment : Fragment() {
         return mBinding?.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupToolbar() // `view`를 인자로 전달할 필요 없음
+        setupSendButton()
+    }
+
     override fun onResume() {
         super.onResume()
         handler.post(reconnectRunnable) // Start periodic reconnection
@@ -71,40 +80,6 @@ class ChatFragment : Fragment() {
         super.onPause()
         handler.removeCallbacks(reconnectRunnable)
         closeWebSocket()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupToolbar()
-        setupSendButton()
-    }
-
-    private fun setupToolbar(){
-        val activity = activity as? MainActivity
-        activity?.let {
-            val toolbar = it.getToolbar() // MainActivity의 Toolbar를 가져옴
-            val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
-            val rightButton: Button = toolbar.findViewById(R.id.right_button)
-
-            // 버튼의 가시성 설정
-            val showLeftButton = true
-            val showRightButton = false
-            leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
-            rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
-
-            // 액션 바의 타이틀을 설정하거나 액션 바의 다른 속성을 조정
-            it.setToolbarTitle("채팅")
-        }
-    }
-    private fun setupSendButton() {
-        mBinding?.sendButton?.setOnClickListener {
-            val message = mBinding?.messageInput?.text.toString()
-            if (message.isNotEmpty()) {
-                sendMessage(message)
-                mBinding?.messageInput?.text?.clear()
-            }
-        }
     }
 
     private fun sendMessage(content: String) {
@@ -156,6 +131,68 @@ class ChatFragment : Fragment() {
 
     override fun onDestroyView() {
         mBinding = null
+        (activity as? MainActivity)?.restoreToolbar()
         super.onDestroyView()
+    }
+
+    private fun setupToolbar() {
+        val activity = activity as? MainActivity
+        activity?.let {
+            // 기존 Toolbar 숨기기
+            val mainToolbar = it.getToolbar()
+            mainToolbar?.visibility = View.GONE
+
+            // 새로운 Toolbar 설정
+            val chatToolbar = LayoutInflater.from(context).inflate(R.layout.chat_toolbar, null) as Toolbar
+            val leftButton: ImageButton = chatToolbar.findViewById(R.id.left_button)
+            val menuButton: ImageButton = chatToolbar.findViewById(R.id.menu_button)
+            val titleTextView: TextView = chatToolbar.findViewById(R.id.toolbar_title)
+
+            // 버튼 클릭 리스너 설정
+            leftButton.setOnClickListener {
+                parentFragmentManager.popBackStack()
+            }
+            menuButton.setOnClickListener {
+                showPopupMenu(menuButton)
+            }
+
+            // 새로운 Toolbar를 액티비티에 추가
+            it.replaceToolbar(chatToolbar)
+        }
+    }
+
+    private fun showPopupMenu(view: View) {
+        val popupMenu = PopupMenu(requireContext(), view)
+        val inflater = popupMenu.menuInflater
+        inflater.inflate(R.menu.chat_menu, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.alarmActiveBtn -> {
+                    // Handle "알림끄기" action
+                    true
+                }
+                R.id.issueReportBtn -> {
+                    // Handle "신고하기" action
+                    true
+                }
+                R.id.exitChatRoomBtn -> {
+                    // Handle "채팅방 나가기" action
+                    true
+                }
+                else -> false
+            }
+        }
+        popupMenu.show()
+    }
+
+
+    private fun setupSendButton() {
+        mBinding?.sendButton?.setOnClickListener {
+            val message = mBinding?.messageInput?.text.toString()
+            if (message.isNotEmpty()) {
+                sendMessage(message)
+                mBinding?.messageInput?.text?.clear()
+            }
+        }
     }
 }
