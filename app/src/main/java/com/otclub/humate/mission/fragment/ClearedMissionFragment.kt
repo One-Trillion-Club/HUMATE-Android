@@ -1,5 +1,6 @@
 package com.otclub.humate.mission.fragment
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -125,6 +126,8 @@ class ClearedMissionFragment : Fragment() {
                 // 완료된 활동 버튼 클릭 시 처리
             }
             R.id.newMissionButton -> {
+                val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+                prefs.edit().putBoolean("navigate_to_new_mission", true).apply()
                 // 새로운 활동 버튼 클릭 시 NewMissionFragment로 전환
                 findNavController().navigate(R.id.action_missionFragment_to_newMissionFragment)
             }
@@ -141,7 +144,16 @@ class ClearedMissionFragment : Fragment() {
 
     override fun onDestroyView() {
         mBinding = null
-        (activity as? MainActivity)?.restoreToolbar()
+        val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val navigateToNewMission = prefs.getBoolean("navigate_to_new_mission", false)
+
+        // 플래그를 초기화하여 다음 호출에 영향을 주지 않도록 함
+        prefs.edit().putBoolean("navigate_to_new_mission", false).apply()
+
+        if (!navigateToNewMission) {
+            (activity as? MainActivity)?.restoreToolbar()
+        }
+
         super.onDestroyView()
     }
 

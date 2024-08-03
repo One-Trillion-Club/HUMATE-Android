@@ -1,6 +1,7 @@
 package com.otclub.humate.mission.fragment
 
 import NewMissionAdapter
+import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -64,7 +65,6 @@ class NewMissionFragment : Fragment() {
                 }
                 Log.i("adapter : ", adapter.toString())
                 mBinding?.newMissionRecyclerView?.adapter = adapter
-                setupToolbar(it.postTitle)
             }
         }
         // 버튼 클릭 리스너 설정
@@ -108,58 +108,17 @@ class NewMissionFragment : Fragment() {
         }
     }
 
-    private fun setupToolbar(postTitle: String) {
-        val activity = activity as? MainActivity
-        activity?.let {
-            val mainToolbar = it.getToolbar()
-            mainToolbar?.visibility = View.GONE
-            val toolbar = LayoutInflater.from(context).inflate(R.layout.mission_toolbar, null) as Toolbar
-            val leftButton: ImageButton = toolbar.findViewById(R.id.mission_left_button)
-            val rightButton: ImageButton = toolbar.findViewById(R.id.mission_menu_button)
-            val title: TextView = toolbar.findViewById(R.id.mission_toolbar_title)
-            title.setText(postTitle)
-
-            // 버튼의 가시성 설정
-            val showLeftButton = true
-            val showRightButton = true
-            leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
-            rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
-            // leftButton 클릭 시 이전 화면으로 돌아가기
-            leftButton.setOnClickListener {
-                findNavController().navigateUp()
-            }
-
-            it.replaceToolbar(toolbar)
-        }
-    }
-
-    private fun showMissionPopupMenu(view: View) {
-        val popupMenu = PopupMenu(requireContext(), view)
-        val inflater = popupMenu.menuInflater
-        inflater.inflate(R.menu.chat_menu, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.alarmActiveBtn -> {
-                    // Handle "알림끄기" action
-                    true
-                }
-                R.id.issueReportBtn -> {
-                    // Handle "신고하기" action
-                    true
-                }
-                R.id.exitChatRoomBtn -> {
-                    // Handle "채팅방 나가기" action
-                    true
-                }
-                else -> false
-            }
-        }
-        popupMenu.show()
-    }
 
     override fun onDestroyView() {
         mBinding = null
-        (activity as? MainActivity)?.restoreToolbar()
+        val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val navigateToClearedMission = prefs.getBoolean("navigate_to_cleared_mission", false)
+
+        prefs.edit().putBoolean("navigate_to_cleared_mission", false).apply()
+
+        if (!navigateToClearedMission) {
+            (activity as? MainActivity)?.restoreToolbar()
+        }
         super.onDestroyView()
     }
 }

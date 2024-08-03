@@ -32,6 +32,11 @@ class MainActivity : AppCompatActivity() {
 
         if (navController != null) {
             NavigationUI.setupWithNavController(bottomNavigationView, navController)
+
+            bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
+                restoreToolbar()
+                NavigationUI.onNavDestinationSelected(menuItem, navController)
+            }
         }
 
         // 기본 Toolbar 설정
