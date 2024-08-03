@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mission_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    app:contentInsetStart="0dp"
+    app:contentInsetEnd="0dp">
+
+    <FrameLayout
+        android:id="@+id/mission_toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="0dp">
+
+        <ImageButton
+            android:id="@+id/mission_left_button"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back_button"
+            android:contentDescription="뒤로가기"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:layout_gravity="start|center_vertical"/>
+
+        <!-- 메뉴 아이콘 버튼 추가 -->
+        <ImageButton
+            android:id="@+id/mission_menu_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_default_menu"
+            android:contentDescription="메뉴"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:layout_gravity="end|center_vertical"/>
+
+        <TextView
+            android:id="@+id/mission_toolbar_title"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="Default Title"
+            android:textAlignment="center"
+            android:textColor="@color/humate_main"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+</androidx.appcompat.widget.Toolbar>

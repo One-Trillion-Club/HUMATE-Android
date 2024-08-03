@@ -1,6 +1,7 @@
 package com.otclub.humate.mission.fragment
 
 import NewMissionAdapter
+import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -10,6 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
+import androidx.appcompat.widget.PopupMenu
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -38,24 +42,6 @@ class NewMissionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val activity = activity as? MainActivity
-        activity?.let {
-            val toolbar = it.getToolbar() // MainActivity의 Toolbar를 가져옴
-            val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
-            val rightButton: Button = toolbar.findViewById(R.id.right_button)
-
-            // 버튼의 가시성 설정
-            val showLeftButton = true
-            val showRightButton = false
-            leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
-            rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
-            // leftButton 클릭 시 이전 화면으로 돌아가기
-            leftButton.setOnClickListener {
-                findNavController().navigateUp()
-            }
-
-        }
-
         // RecyclerView 설정
         mBinding?.newMissionRecyclerView?.apply {
             layoutManager = GridLayoutManager(context, 2)
@@ -83,7 +69,7 @@ class NewMissionFragment : Fragment() {
         }
         // 버튼 클릭 리스너 설정
         mBinding?.completedMissionButton?.setOnClickListener {
-            selectButton(mBinding?.completedMissionButton)
+            findNavController().navigateUp()
         }
 
         mBinding?.newMissionButton?.setOnClickListener {
@@ -122,8 +108,17 @@ class NewMissionFragment : Fragment() {
         }
     }
 
+
     override fun onDestroyView() {
         mBinding = null
+        val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val navigateToClearedMission = prefs.getBoolean("navigate_to_cleared_mission", false)
+
+        prefs.edit().putBoolean("navigate_to_cleared_mission", false).apply()
+
+        if (!navigateToClearedMission) {
+            (activity as? MainActivity)?.restoreToolbar()
+        }
         super.onDestroyView()
     }
 }

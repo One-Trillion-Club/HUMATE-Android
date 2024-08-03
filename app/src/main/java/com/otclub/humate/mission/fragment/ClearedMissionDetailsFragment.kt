@@ -12,9 +12,6 @@ import com.otclub.humate.R
 import com.otclub.humate.mission.adapter.ImagePagerAdapter
 import com.otclub.humate.mission.data.ClearedMissionDetailsDTO
 import com.otclub.humate.mission.viewModel.MissionViewModel
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class ClearedMissionDetailsFragment : Fragment() {
     private val viewModel: MissionViewModel by activityViewModels()
@@ -45,16 +42,10 @@ class ClearedMissionDetailsFragment : Fragment() {
 
     private fun updateUI(details: ClearedMissionDetailsDTO) {
         binding.findViewById<TextView>(R.id.clearedMissionTitle).text = details.activityTitle
-        binding.findViewById<TextView>(R.id.clearedMissionCreatedAt).text = formatDate(details.createdAt)
+        binding.findViewById<TextView>(R.id.clearedMissionCreatedAt).text = details.createdAt
 
         val viewPager = binding.findViewById<ViewPager>(R.id.viewPager)
         val adapter = ImagePagerAdapter(details.imgUrls)
         viewPager.adapter = adapter
     }
-
-    private fun formatDate(date: Date): String {
-        val sdf = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-        return sdf.format(date)
-    }
-
 }
