@@ -47,8 +47,9 @@ class InputProfileFragment : Fragment() {
 
         pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                selectedImageUri = result.data?.data
-                binding.profileImage.setImageURI(selectedImageUri)
+                result.data?.data?.let { uri ->
+                    handleImageUri(uri)
+                }
             }
         }
 
@@ -79,6 +80,27 @@ class InputProfileFragment : Fragment() {
     private fun openImagePicker() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         pickImageLauncher.launch(intent)
+    }
+
+    private fun handleImageUri(uri: Uri) {
+        try {
+            requireContext().contentResolver.openInputStream(uri)?.use { inputStream ->
+                val imageSizeInBytes = inputStream.available()
+                val imageSizeInMB = imageSizeInBytes / (1024 * 1024).toFloat()
+
+                if (imageSizeInMB > 1) {
+                    Toast.makeText(requireContext(), "이미지 크기가 1MB를 초과합니다. 다른 이미지를 선택해주세요.", Toast.LENGTH_SHORT).show()
+                    selectedImageUri = null
+                    binding.profileImage.setImageURI(null) // 이미지 뷰 초기화
+                } else {
+                    selectedImageUri = uri
+                    binding.profileImage.setImageURI(selectedImageUri)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("이미지 처리 에러", e.toString())
+            Toast.makeText(requireContext(), "이미지 처리 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun handleCheckNicknameButtonClick() {
