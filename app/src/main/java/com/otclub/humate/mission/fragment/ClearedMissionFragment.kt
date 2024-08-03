@@ -98,7 +98,7 @@ class ClearedMissionFragment : Fragment() {
                     val color = ContextCompat.getColor(mainActivity, R.color.humate_main)
 
                     val titleTextView = toolbar.findViewById<TextView>(R.id.toolbar_title)
-                    titleTextView?.setTextColor(color)
+//                    titleTextView?.setTextColor(color)
                     titleTextView?.setTypeface(null, Typeface.BOLD)
                     titleTextView?.textSize = 16f
                 }
