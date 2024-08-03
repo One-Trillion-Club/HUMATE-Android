@@ -19,6 +19,9 @@
         <argument
                 android:name="companionId"
                 app:argType="integer"/>
+        <action
+            android:id="@+id/action_missionFragment_to_reviewFragment"
+            app:destination="@id/reviewFragment" />
     </fragment>
     <fragment
             android:id="@+id/postListFragment"
@@ -112,5 +115,9 @@
             android:id="@+id/action_missionUploadFragment_to_missionFragment"
             app:destination="@id/missionFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/reviewFragment"
+        android:name="com.otclub.humate.mission.fragment.ReviewFragment"
+        android:label="ReviewFragment" />
 
 </navigation>

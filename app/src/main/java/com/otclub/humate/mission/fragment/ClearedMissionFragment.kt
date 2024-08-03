@@ -202,6 +202,12 @@ class ClearedMissionFragment : Fragment() {
                     }
                     true
                 }
+
+                R.id.write_review -> {
+                    findNavController().navigate(R.id.action_missionFragment_to_reviewFragment)
+                    true
+                }
+
                 else -> false
             }
         }

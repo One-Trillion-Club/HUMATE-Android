@@ -28,4 +28,7 @@ interface MissionService {
     @DELETE("companions/finish")
     fun finishCompanion(@Query("companionId") companionId: Int): Call<CommonResponseDTO>
 
+    @GET("reviews")
+    fun getReview(@Query("companionId") companionId: Int): Call<ReviewResponseDTO>
+
 }

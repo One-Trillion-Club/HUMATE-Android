@@ -29,13 +29,13 @@ class MainActivity : AppCompatActivity() {
 
         Log.i("메인 액티비티: 로그인 상태", isLoggedIn.toString())
 
-        if (!isLoggedIn) {
-            // 로그인 상태가 아니면 AuthActivity로 전환
-            val intent = Intent(this, AuthActivity::class.java)
-            startActivity(intent)
-            finish() // 현재 MainActivity 종료
-            return
-        }
+//        if (!isLoggedIn) {
+//            // 로그인 상태가 아니면 AuthActivity로 전환
+//            val intent = Intent(this, AuthActivity::class.java)
+//            startActivity(intent)
+//            finish() // 현재 MainActivity 종료
+//            return
+//        }
 
 
         mBinding = ActivityMainBinding.inflate(layoutInflater)
