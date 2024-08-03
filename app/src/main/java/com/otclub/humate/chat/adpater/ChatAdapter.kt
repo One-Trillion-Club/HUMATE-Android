@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.otclub.humate.R
 import com.otclub.humate.chat.data.ChatMessageResponseDTO
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, private val myId: String) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -60,7 +62,7 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
 
             fun bind(message: ChatMessageResponseDTO) {
                 textView.text = "${message.senderId}: ${message.content}"
-                dateView.text = "${message.createdAt}"
+                dateView.text = formatDate(message.createdAt)
             }
         }
 
@@ -70,7 +72,18 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
 
             fun bind(message: ChatMessageResponseDTO) {
                 textView.text = "${message.senderId}: ${message.content}"
-                dateView.text = "${message.createdAt}"
+                dateView.text = formatDate(message.createdAt)
             }
         }
+
+    // 날짜 형식 변환을 위한 메서드
+    private fun formatDate(date: Date): String {
+        val outputFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+        val formattedDate = outputFormat.format(date)
+        // AM/PM을 소문자로 변환
+        return formattedDate.toLowerCase(Locale.getDefault())
+    }
+
+
+
 }
