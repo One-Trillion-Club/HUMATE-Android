@@ -23,6 +23,7 @@ class MissionViewModel : ViewModel() {
     val clearedMissionDetailsDTO = MutableLiveData<ClearedMissionDetailsDTO>()
     val newMissionDetailsDTO = MutableLiveData<NewMissionDetailsDTO>()
     var lastCompanionId: Int? = null
+    var lastActivityId: Int? = null
 
     fun fetchMission(companionId: Int) {
         if (companionId == 0) return
@@ -67,6 +68,7 @@ class MissionViewModel : ViewModel() {
     }
 
     fun fetchNewMissionDetails(activityId: Int) {
+        lastActivityId = activityId
         missionService.getNewMissionDetails(activityId)
             .enqueue(object : Callback<NewMissionDetailsDTO> {
                 override fun onResponse(

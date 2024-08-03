@@ -95,6 +95,10 @@
             android:id="@+id/missionUploadFragment"
             android:name="com.otclub.humate.mission.fragment.MissionUploadFragment"
             android:label="fragment_mission_upload"
-            tools:layout="@layout/fragment_mission_upload"/>
+            tools:layout="@layout/fragment_mission_upload">
+        <action
+            android:id="@+id/action_missionUploadFragment_to_missionFragment"
+            app:destination="@id/missionFragment" />
+    </fragment>
 
 </navigation>

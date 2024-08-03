@@ -34,7 +34,7 @@ import retrofit2.Response
 class MissionUploadFragment : Fragment() {
     private lateinit var missionService: MissionService
     private lateinit var imagesAdapter: UploadMissionAdapter
-    private val imageFiles = ArrayList<Uri>() // Uri 리스트로 변경
+    private val imageFiles = ArrayList<Uri>()
     private val missionViewModel: MissionViewModel by activityViewModels()
     private var mBinding: FragmentMissionUploadBinding? = null
     private val binding get() = mBinding!!
@@ -124,8 +124,8 @@ class MissionUploadFragment : Fragment() {
     }
 
     private fun uploadImages() {
-        val companionId = 4
-        val activityId = 2
+        val companionId = missionViewModel.lastCompanionId
+        val activityId = missionViewModel.lastActivityId
 
         val requestBody = """
             {
@@ -168,6 +168,8 @@ class MissionUploadFragment : Fragment() {
                         "Upload successful",
                         Toast.LENGTH_SHORT
                     ).show()
+                    missionViewModel.lastCompanionId?.let { missionViewModel.fetchMission(it) }
+                    findNavController().navigate(R.id.action_missionUploadFragment_to_missionFragment)
                 } else {
                     Toast.makeText(
                         requireContext(),

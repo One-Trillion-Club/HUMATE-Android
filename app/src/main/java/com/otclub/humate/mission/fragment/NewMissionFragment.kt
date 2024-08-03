@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -42,7 +43,6 @@ class NewMissionFragment : Fragment() {
             val toolbar = it.getToolbar() // MainActivity의 Toolbar를 가져옴
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
-            it.setToolbarTitle("새로운 활동 목록")
 
             // 버튼의 가시성 설정
             val showLeftButton = true
