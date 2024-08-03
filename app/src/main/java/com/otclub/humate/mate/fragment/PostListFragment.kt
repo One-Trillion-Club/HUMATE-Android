@@ -73,8 +73,14 @@ class PostListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val writeButton: Button = view.findViewById(R.id.write_button)
+        // 글쓰기 버튼 클릭 이벤트 설정
+        val writeButton: Button = binding.writeButton
 
+        writeButton.setOnClickListener {
+            findNavController().navigate(R.id.action_postListFragment_to_postListWriteFragment)
+        }
+
+        // ballon 말풍선
         val balloon = createBalloon(requireContext()) {
             setArrowSize(10)
             setWidth(BalloonSizeSpec.WRAP)

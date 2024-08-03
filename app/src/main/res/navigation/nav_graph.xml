@@ -31,6 +31,9 @@
         <action
                 android:id="@+id/action_postListFragment_to_postListDetailFragment"
                 app:destination="@id/postDetailFragment" />
+        <action
+                android:id="@+id/action_postListFragment_to_postListWriteFragment"
+                app:destination="@id/postWriteFragment" />
     </fragment>
     <fragment
             android:id="@+id/postListFilterFragment"
@@ -49,6 +52,12 @@
         <argument
                 android:name="postId"
                 app:argType="integer" />
+    </fragment>
+    <fragment
+            android:id="@+id/postWriteFragment"
+            android:name="com.otclub.humate.mate.fragment.PostWriteFragment"
+            android:label="fragment_mate"
+            tools:layout="@layout/mate_fragment_post_write">
     </fragment>
     <fragment
             android:id="@+id/chatFragment"
