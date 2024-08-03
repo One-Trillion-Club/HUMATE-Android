@@ -1,9 +1,7 @@
 package com.otclub.humate.mission.fragment
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -14,20 +12,17 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentMissionUploadBinding
 import com.otclub.humate.mission.adapter.UploadMissionAdapter
 import com.otclub.humate.mission.api.MissionService
 import com.otclub.humate.mission.data.CommonResponseDTO
+import com.otclub.humate.mission.viewModel.MissionViewModel
 import com.otclub.humate.retrofit.RetrofitConnection
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -40,6 +35,7 @@ class MissionUploadFragment : Fragment() {
     private lateinit var missionService: MissionService
     private lateinit var imagesAdapter: UploadMissionAdapter
     private val imageFiles = ArrayList<Uri>() // Uri 리스트로 변경
+    private val missionViewModel: MissionViewModel by activityViewModels()
     private var mBinding: FragmentMissionUploadBinding? = null
     private val binding get() = mBinding!!
 

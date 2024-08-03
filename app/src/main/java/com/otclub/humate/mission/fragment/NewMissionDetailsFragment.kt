@@ -11,11 +11,11 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.otclub.humate.R
 import com.otclub.humate.mission.data.NewMissionDetailsDTO
-import com.otclub.humate.mission.viewModel.NewMissionDetailsViewModel
+import com.otclub.humate.mission.viewModel.MissionViewModel
 
 class NewMissionDetailsFragment : Fragment() {
 
-    private val viewModel: NewMissionDetailsViewModel by activityViewModels()
+    private val viewModel: MissionViewModel by activityViewModels()
     private var mBinding: View? = null
     private val binding get() = mBinding!!
 
@@ -32,7 +32,7 @@ class NewMissionDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val activityId = arguments?.getInt("activityId") ?: return
-        viewModel.fetchDetail(activityId)
+        viewModel.fetchNewMissionDetails(activityId)
 
         viewModel.newMissionDetailsDTO.observe(viewLifecycleOwner) { details ->
             details?.let {
