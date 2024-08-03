@@ -16,6 +16,7 @@ import retrofit2.http.Part
 import retrofit2.http.Query
 
 interface AuthService {
+    // 로그인
     @POST("auth/login")
     fun logIn(@Body logInRequestDTO: LoginRequestDTO): Call<CommonResponseDTO>
 
@@ -30,10 +31,6 @@ interface AuthService {
     // 아이디 중복 체크
     @GET("auth/check-loginid")
     fun checkLoginId(@Query("loginId") loginId: String): Call<CommonResponseDTO>
-
-    // 닉네임 중복 체크 todo: 멤버서비스로 옮기기
-    @GET("member/check-nickname")
-    fun checkNickname(@Query("nickname") nickname: String): Call<CommonResponseDTO>
 
     // 로그아웃
     @POST("auth/logout")

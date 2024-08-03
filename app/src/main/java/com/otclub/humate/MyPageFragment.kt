@@ -1,27 +1,32 @@
 package com.otclub.humate
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
-import androidx.appcompat.widget.AppCompatImageButton
-import androidx.appcompat.widget.Toolbar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.otclub.humate.databinding.FragmentMyPageBinding
+import androidx.fragment.app.activityViewModels
+import com.otclub.humate.auth.activity.AuthActivity
+import com.otclub.humate.databinding.MemberFragmentMyPageBinding
+import com.otclub.humate.member.viewmodel.MemberViewModel
 
 
 class MyPageFragment : Fragment() {
-
-    private var mBinding : FragmentMyPageBinding? = null
+    private val viewModel:MemberViewModel by activityViewModels()
+    private var mBinding : MemberFragmentMyPageBinding? = null
+    private val binding get() = mBinding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
-        val binding = FragmentMyPageBinding.inflate(inflater, container, false)
+        val binding = MemberFragmentMyPageBinding.inflate(inflater, container, false)
 
         mBinding = binding
 
@@ -46,10 +51,30 @@ class MyPageFragment : Fragment() {
             // 액션 바의 타이틀을 설정하거나 액션 바의 다른 속성을 조정
             it.setToolbarTitle("마이페이지")
         }
+
+        binding.logoutText.setOnClickListener{
+            logout()
+        }
     }
 
     override fun onDestroyView() {
         mBinding = null
         super.onDestroyView()
+    }
+
+    private fun logout() {
+        Log.i("마이페이지: 로그아웃", "로그아웃")
+        viewModel.fetchLogout(
+            onSuccess = {response ->
+                Toast.makeText(requireContext(), "로그아웃 성공", Toast.LENGTH_SHORT).show()
+                activity?.let {
+                    startActivity(Intent(it, AuthActivity::class.java))
+                    it.finish()
+                }
+            },
+            onError = {error ->
+                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+            }
+        )
     }
 }
