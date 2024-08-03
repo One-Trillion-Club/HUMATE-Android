@@ -74,7 +74,6 @@ class MissionUploadFragment : Fragment() {
 
         missionService = RetrofitConnection.getInstance().create(MissionService::class.java)
 
-        // RecyclerView와 어댑터 초기화
         imagesAdapter = UploadMissionAdapter(imageFiles, requireContext())
         binding.imagesRecyclerView.layoutManager = GridLayoutManager(context, 4)
         binding.imagesRecyclerView.adapter = imagesAdapter
@@ -90,6 +89,11 @@ class MissionUploadFragment : Fragment() {
             startActivityForResult(intent, 200)
         }
 
+        missionViewModel.newMissionDetailsDTO.observe(viewLifecycleOwner) { missionDetailsDTO ->
+            missionDetailsDTO?.let {
+                binding.uploadMissionTitle.text = it.title
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
