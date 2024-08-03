@@ -15,10 +15,10 @@ import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentMatchingBinding
 import com.otclub.humate.mission.adapter.MatchingAdapter
-import com.otclub.humate.mission.viewModel.MatchingViewModel
+import com.otclub.humate.mission.viewModel.MissionViewModel
 
 class MatchingFragment : Fragment() {
-    private val matchingViewModel: MatchingViewModel by activityViewModels()
+    private val matchingViewModel: MissionViewModel by activityViewModels()
     private var mBinding: FragmentMatchingBinding? = null
 
     override fun onCreateView(
