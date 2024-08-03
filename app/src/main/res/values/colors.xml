@@ -19,5 +19,6 @@
     <color name="brown_gray">#C1AAAA</color>
     <color name="smooth_blue">#83C1FF</color>
     <color name="smooth_red">#FF8383</color>
+    <color name="scrollbar_track">#EBE9FF</color>
     <color name="bright_gray">#F2F3F6</color>
 </resources>

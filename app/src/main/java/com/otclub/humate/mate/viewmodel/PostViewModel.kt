@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.otclub.humate.mate.api.PostService
+import com.otclub.humate.mate.data.PostDetailResponseDTO
 import com.otclub.humate.mate.data.PostListFilterDTO
 import com.otclub.humate.mate.data.PostListResponseDTO
 import com.otclub.humate.retrofit.RetrofitConnection
