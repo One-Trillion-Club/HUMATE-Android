@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:layout_marginTop="20dp"
+        tools:context=".mate.fragment.PostListFilterFragment">
+
+    <!-- 매칭 날짜 선택 -->
+    <LinearLayout
+            android:id="@+id/date_selection_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/date_selection_line"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp">
+
+        <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_match_date_purple"
+                android:contentDescription="날짜"
+                android:layout_marginRight="5dp"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="매칭 날짜 선택"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_weight="1"/>
+
+        <!-- 초기화 버튼 -->
+        <android.widget.Button
+                android:id="@+id/date_reset_button"
+                android:layout_width="50dp"
+                android:layout_height="16dp"
+                android:background="@drawable/mate_reset_button"
+                android:drawableLeft="@drawable/ic_reset"
+                android:drawablePadding="4dp"
+                android:paddingStart="4dp"
+                android:text="초기화"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/dark_gray"
+                android:gravity="center_vertical"/>
+    </LinearLayout>
+
+    <View
+            android:id="@+id/date_selection_line"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/date_selection_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"/>
+
+    <TextView
+            android:id="@+id/date_selection_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="메이트 매칭을 원하는 날짜를 선택해주세요."
+            android:textSize="10sp"
+            app:layout_constraintTop_toBottomOf="@id/date_selection_line"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="5dp"/>
+
+    <!-- 날짜 선택 버튼과 관련된 레이아웃 -->
+    <LinearLayout
+            android:id="@+id/date_selection"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:background="@drawable/light_gray_border"
+            android:padding="8dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintTop_toBottomOf="@id/date_selection_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="wrap">
+
+        <!-- 날짜 선택 버튼 -->
+        <ImageButton
+                android:id="@+id/date_selection_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_calendar"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="달력"/>
+
+        <!-- 날짜 선택 텍스트 -->
+        <TextView
+                android:id="@+id/date_selection_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="날짜를 선택해주세요"
+                android:textColor="@color/input_text_gray"
+                android:textSize="10sp"
+                android:layout_weight="1"/>
+    </LinearLayout>
+
+    <!-- 백화점 지점 선택 -->
+    <LinearLayout
+            android:id="@+id/branch_selection_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@id/date_selection"
+            app:layout_constraintBottom_toTopOf="@id/branch_selection_line"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp">
+
+        <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_match_branch_purple"
+                android:contentDescription="지점"
+                android:layout_marginRight="5dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="백화점 지점 선택"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+        <!-- 초기화 버튼 -->
+        <android.widget.Button
+                android:id="@+id/branch_reset_button"
+                android:layout_width="50dp"
+                android:layout_height="16dp"
+                android:background="@drawable/mate_reset_button"
+                android:drawableLeft="@drawable/ic_reset"
+                android:drawablePadding="4dp"
+                android:paddingStart="4dp"
+                android:text="초기화"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/dark_gray"
+                android:gravity="center_vertical"/>
+    </LinearLayout>
+
+    <View
+            android:id="@+id/branch_selection_line"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/branch_selection_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"/>
+
+    <TextView
+            android:id="@+id/branch_selection_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="메이트 매칭을 원하는 현대백화점 지점을 선택해주세요."
+            android:textSize="10sp"
+            app:layout_constraintTop_toBottomOf="@id/branch_selection_line"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="5dp"/>
+
+    <HorizontalScrollView
+            android:id="@+id/branch_selection"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/branch_selection_content"
+            app:layout_constraintStart_toStartOf="parent"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+        <LinearLayout
+                android:id="@+id/branch_selections_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <!-- 여기에 백화점 지점 버튼들을 동적으로 추가할 예정입니다. -->
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- 매칭 성별 선택 -->
+    <LinearLayout
+            android:id="@+id/gender_selection_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@id/branch_selection"
+            app:layout_constraintBottom_toTopOf="@id/gender_selection_line"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp">
+
+        <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_match_gender_purple"
+                android:contentDescription="성별"
+                android:layout_marginRight="5dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="매칭 성별 선택"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+        <!-- 초기화 버튼 -->
+        <android.widget.Button
+                android:id="@+id/gender_reset_button"
+                android:layout_width="50dp"
+                android:layout_height="16dp"
+                android:background="@drawable/mate_reset_button"
+                android:drawableLeft="@drawable/ic_reset"
+                android:drawablePadding="4dp"
+                android:paddingStart="4dp"
+                android:text="초기화"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/dark_gray"
+                android:gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <View
+            android:id="@+id/gender_selection_line"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/gender_selection_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"/>
+
+    <TextView
+            android:id="@+id/gender_selection_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="메이트 매칭을 원하는 상대방의 성별을 선택해주세요."
+            android:textSize="10sp"
+            app:layout_constraintTop_toBottomOf="@id/gender_selection_line"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="5dp"/>
+
+    <LinearLayout
+            android:id="@+id/gender_buttons_container"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/gender_selection_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:gravity="start">
+
+            <android.widget.Button
+                    android:id="@+id/male_button"
+                    android:layout_width="67dp"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/ic_tag_choice_short"
+                    android:text="남성"
+                    android:textSize="12sp"
+                    android:textColor="@color/filter_tag_text"
+                    android:textStyle="bold"/>
+
+            <android.widget.Button
+                    android:id="@+id/female_button"
+                    android:layout_width="67dp"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/ic_tag_choice_short"
+                    android:text="여성"
+                    android:textSize="12sp"
+                    android:textColor="@color/filter_tag_text"
+                    android:textStyle="bold"/>
+    </LinearLayout>
+
+    <!-- 매칭 언어 선택 -->
+    <LinearLayout
+            android:id="@+id/language_selection_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@id/gender_buttons_container"
+            app:layout_constraintBottom_toTopOf="@id/language_selection_line"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp">
+
+        <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_match_language_purple"
+                android:contentDescription="언어"
+                android:layout_marginRight="5dp"
+                android:padding="3dp"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="매칭 언어 선택"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_weight="1"/>
+
+        <!-- 초기화 버튼 -->
+        <android.widget.Button
+                android:id="@+id/language_reset_button"
+                android:layout_width="50dp"
+                android:layout_height="16dp"
+                android:background="@drawable/mate_reset_button"
+                android:drawableLeft="@drawable/ic_reset"
+                android:drawablePadding="4dp"
+                android:paddingStart="4dp"
+                android:text="초기화"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/dark_gray"
+                android:gravity="center_vertical"/>
+    </LinearLayout>
+
+    <View
+            android:id="@+id/language_selection_line"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/language_selection_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"/>
+
+    <TextView
+            android:id="@+id/language_selection_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="메이트 매칭을 원하는 상대방의 성별을 선택해주세요."
+            android:textSize="10sp"
+            app:layout_constraintTop_toBottomOf="@id/language_selection_line"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="5dp"/>
+
+    <LinearLayout
+            android:id="@+id/language_buttons_container"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/language_selection_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:gravity="center">
+
+        <android.widget.Button
+                android:id="@+id/korean_button"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ic_tag_choice_short"
+                android:layout_weight="1"
+                android:text="한국어"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+
+        <android.widget.Button
+                android:id="@+id/english_button"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ic_tag_choice_short"
+                android:layout_weight="1"
+                android:text="영어"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+
+        <android.widget.Button
+                android:id="@+id/japanese_button"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ic_tag_choice_short"
+                android:layout_weight="1"
+                android:text="일본어"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+
+        <android.widget.Button
+                android:id="@+id/chinese_button"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ic_tag_choice_short"
+                android:layout_weight="1"
+                android:text="중국어"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

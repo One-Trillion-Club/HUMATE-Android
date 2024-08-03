@@ -1,7 +1,6 @@
 package com.otclub.humate.mate.adapter
 
 import android.graphics.Typeface
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.view.marginRight
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.otclub.humate.R
@@ -30,7 +28,7 @@ class PostListAdapter(private var posts: List<PostListResponseDTO>) : RecyclerVi
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.mate_item_post, parent, false)
         return PostViewHolder(view)
     }
 
@@ -41,9 +39,9 @@ class PostListAdapter(private var posts: List<PostListResponseDTO>) : RecyclerVi
         holder.nickname.text = post.nickname
         holder.title.text = post.title
         holder.isMatched.text = post.isMatched.toString()
-        holder.matchDate.text = post.matchDate?.takeIf { it.isNotBlank() } ?: "선택 안함"
-        holder.matchBranch.text = post.matchBranch?.takeIf { it.isNotBlank() } ?: "선택 안함"
-        holder.matchLanguage.text = post.matchLanguage?.takeIf { it.isNotBlank() } ?: "선택 안함"
+        holder.matchDate.text = post.matchDate?.takeIf { it.isNotBlank() } ?: "상관 없음"
+        holder.matchBranch.text = post.matchBranch?.takeIf { it.isNotBlank() } ?: "상관 없음"
+        holder.matchLanguage.text = post.matchLanguage?.takeIf { it.isNotBlank() } ?: "상관 없음"
 
         // 매칭 진행 여부 세텅
         // Assuming holder and post are already defined and properly initialized
