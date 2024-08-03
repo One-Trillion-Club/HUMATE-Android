@@ -2,9 +2,11 @@ package com.otclub.humate.auth.fragment
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -18,6 +20,7 @@ class InputUserInfoFragment : Fragment() {
     private val binding get() = mBinding!!
 
     private var selectedGenderButton: View? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,7 +67,39 @@ class InputUserInfoFragment : Fragment() {
     }
 
     private fun handleNextButtonClick() {
-        // todo: 값 다 들어왔는지
+        if (selectedGenderButton == null) {
+            Toast.makeText(requireContext(), "성별을 선택해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val year = binding.inputYear.text.toString()
+        val month = binding.inputMonth.text.toString()
+        val day = binding.inputDay.text.toString()
+        if (year.isEmpty() || year.toInt() > 2024 || year.toInt() < 1900 ||
+            month.isEmpty() || month.toInt() > 12 || month.toInt() < 1 ||
+            day.isEmpty() || day.toInt() > 31 || day.toInt() < 1) {
+            Toast.makeText(requireContext(), "생년월일을 올바르게 입력해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        var language: String = "1"
+        if (binding.englishButton.isSelected) {
+            language += ",2"
+        }
+        if (binding.japaneseButton.isSelected) {
+            language += ",3"
+        }
+        if (binding.chineseButton.isSelected) {
+            language += ",4"
+        }
+
+        if (selectedGenderButton == binding.maleButton) {
+            viewModel.signUpRequestDTO.gender = "m"
+        } else if (selectedGenderButton == binding.femaleButton) {
+            viewModel.signUpRequestDTO.gender = "f"
+        }
+        viewModel.signUpRequestDTO.birthdate = "${year}-${month}-${day}"
+        viewModel.signUpRequestDTO.language = language
+
         parentFragmentManager.beginTransaction()
             .replace(R.id.authFragment, InputProfileFragment())
             .addToBackStack(null)

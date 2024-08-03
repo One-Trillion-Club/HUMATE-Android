@@ -2,7 +2,7 @@
 <androidx.appcompat.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/toolbar"
+        android:id="@+id/chat_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -25,28 +25,25 @@
                 android:padding="8dp"
                 android:layout_gravity="start|center_vertical"/>
 
-        <Button
-                android:id="@+id/right_button"
-                android:layout_width="50dp"
+        <!-- 메뉴 아이콘 버튼 추가 -->
+        <ImageButton
+                android:id="@+id/menu_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="확인"
-                android:textColor="@color/purple_500"
+                android:src="@drawable/ic_default_menu"
+                android:contentDescription="메뉴"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
                 android:layout_gravity="end|center_vertical"/>
 
         <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:text="Default Title"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Default Title"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"/>
     </FrameLayout>
 </androidx.appcompat.widget.Toolbar>

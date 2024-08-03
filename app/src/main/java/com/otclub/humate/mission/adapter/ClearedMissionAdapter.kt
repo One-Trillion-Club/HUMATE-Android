@@ -24,12 +24,18 @@ class ClearedMissionAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val mission = clearedMissionList[position]
         holder.missionTitle.text = mission.title
-        holder.missionStatus.text = when (mission.status) {
-            0 -> "완료"
-            1 -> "진행 중"
-            else -> "대기 중"
+        holder.missionStatus.apply {
+            text = when (mission.status) {
+                0 -> {
+                    setBackgroundResource(R.drawable.post_ongoing)
+                    "대기"
+                }
+                else -> {
+                    setBackgroundResource(R.drawable.post_closed)
+                    "완료"
+                }
+            }
         }
-
         // 이미지 URL이 있는 경우 Glide로 이미지 로딩
         if (mission.imgUrl.isNotEmpty()) {
             Glide.with(holder.itemView.context)
@@ -44,7 +50,6 @@ class ClearedMissionAdapter(
     }
 
     override fun getItemCount(): Int {
-        Log.i("missionListSize : ", clearedMissionList.size.toString())
         return clearedMissionList.size
     }
 

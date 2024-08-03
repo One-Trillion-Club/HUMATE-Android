@@ -1,5 +1,6 @@
 package com.otclub.humate.auth.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,8 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.otclub.humate.MainActivity
 import com.otclub.humate.R
-import com.otclub.humate.auth.data.LogInRequestDTO
+import com.otclub.humate.auth.data.LoginRequestDTO
 import com.otclub.humate.auth.viewmodel.AuthViewModel
 import com.otclub.humate.databinding.AuthFragmentSignInBinding
 
@@ -42,6 +44,7 @@ class SignInFragment : Fragment() {
                 .addToBackStack(null) // 백스택에 추가하여 뒤로가기가 가능하도록 설정
                 .commit()
         }
+
     }
 
     override fun onDestroyView() {
@@ -52,14 +55,18 @@ class SignInFragment : Fragment() {
     private fun logIn(loginId: String, password: String) {
         Log.i("sign in btn click", "loginId:${loginId}, password:${password}")
         viewModel.fetchLogIn(
-            LogInRequestDTO(loginId, password),
+            LoginRequestDTO(loginId, password),
             onSuccess = {response ->
-                Log.i("tes", "te")
-                        Toast.makeText(requireContext(), "로그인 성공", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "로그인 성공", Toast.LENGTH_SHORT).show()
+                activity?.let {
+                    startActivity(Intent(it, MainActivity::class.java))
+                    it.finish()
+                }
             },
             onError = {error ->
-                        Toast.makeText(requireContext(), "로그인 실패", Toast.LENGTH_SHORT).show()
-            })
+                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+            }
+        )
     }
 
 }

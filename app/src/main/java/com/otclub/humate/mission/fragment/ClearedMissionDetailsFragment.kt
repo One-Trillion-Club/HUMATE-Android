@@ -11,13 +11,13 @@ import androidx.viewpager.widget.ViewPager
 import com.otclub.humate.R
 import com.otclub.humate.mission.adapter.ImagePagerAdapter
 import com.otclub.humate.mission.data.ClearedMissionDetailsDTO
-import com.otclub.humate.mission.viewModel.ClearedMissionDetailsViewModel
+import com.otclub.humate.mission.viewModel.MissionViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 class ClearedMissionDetailsFragment : Fragment() {
-    private val viewModel: ClearedMissionDetailsViewModel by activityViewModels()
+    private val viewModel: MissionViewModel by activityViewModels()
     private var mBinding: View? = null
     private val binding get() = mBinding!!
 
@@ -34,7 +34,7 @@ class ClearedMissionDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val companionActivityId = arguments?.getInt("companionActivityId") ?: return
-        viewModel.fetchDetail(companionActivityId)
+        viewModel.fetchClearedMissionDetails(companionActivityId)
 
         viewModel.clearedMissionDetailsDTO.observe(viewLifecycleOwner) { details ->
             details?.let {
