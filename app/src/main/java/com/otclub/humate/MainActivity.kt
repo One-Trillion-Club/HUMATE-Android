@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupDefaultToolbar() {
-        defaultToolbar = layoutInflater.inflate(R.layout.toolbar, null) as Toolbar
+        defaultToolbar = layoutInflater.inflate(R.layout.common_toolbar, null) as Toolbar
         val toolbarContainer: FrameLayout = findViewById(R.id.toolbar_container)
         toolbarContainer.addView(defaultToolbar)
         setSupportActionBar(defaultToolbar)

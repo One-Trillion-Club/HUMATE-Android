@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -40,7 +41,8 @@ class MatchingFragment : Fragment() {
             val toolbar = it.getToolbar()
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
-            it.setToolbarTitle("동행 목록")
+            val title: TextView = toolbar.findViewById(R.id.toolbar_title)
+            title.setText("동행 목록")
 
             // 버튼의 가시성 설정
             val showLeftButton = true

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.otclub.humate.mission.api.MissionService
 import com.otclub.humate.mission.data.ClearedMissionDetailsDTO
+import com.otclub.humate.mission.data.CommonResponseDTO
 import com.otclub.humate.mission.data.MatchingResponseDTO
 import com.otclub.humate.mission.data.MissionResponseDTO
 import com.otclub.humate.mission.data.NewMissionDetailsDTO
@@ -106,6 +107,24 @@ class MissionViewModel : ViewModel() {
                 Log.e("네트워크 오류", "요청 실패: ${t.message}", t)
             }
         })
+    }
+
+    fun fetchFinishCompanion() {
+        lastCompanionId?.let {
+            missionService.finishCompanion(it).enqueue(object : Callback<CommonResponseDTO> {
+                override fun onResponse(
+                    call: Call<CommonResponseDTO>,
+                    response: Response<CommonResponseDTO>
+                ) {
+
+                }
+
+                override fun onFailure(call: Call<CommonResponseDTO>, t: Throwable) {
+
+                }
+
+            })
+        }
     }
 
 }
