@@ -12,7 +12,6 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -161,6 +160,10 @@ class ClearedMissionFragment : Fragment() {
                 findNavController().navigateUp()
             }
 
+            rightButton.setOnClickListener {
+                showMissionPopupMenu(rightButton)
+            }
+
             it.replaceToolbar(toolbar)
         }
     }
@@ -168,19 +171,14 @@ class ClearedMissionFragment : Fragment() {
     private fun showMissionPopupMenu(view: View) {
         val popupMenu = PopupMenu(requireContext(), view)
         val inflater = popupMenu.menuInflater
-        inflater.inflate(R.menu.chat_menu, popupMenu.menu)
+        inflater.inflate(R.menu.mission_menu, popupMenu.menu)
+        popupMenu.menu.findItem(R.id.finish_companion).isVisible = (missionViewModel.isFinished == 0)
+        popupMenu.menu.findItem(R.id.write_review).isVisible = (missionViewModel.isFinished == 1)
         popupMenu.setOnMenuItemClickListener { item ->
+
             when (item.itemId) {
-                R.id.alarmActiveBtn -> {
+                R.id.finish_companion -> {
                     // Handle "알림끄기" action
-                    true
-                }
-                R.id.issueReportBtn -> {
-                    // Handle "신고하기" action
-                    true
-                }
-                R.id.exitChatRoomBtn -> {
-                    // Handle "채팅방 나가기" action
                     true
                 }
                 else -> false

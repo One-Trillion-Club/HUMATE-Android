@@ -10,6 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
+import androidx.appcompat.widget.PopupMenu
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -38,24 +41,6 @@ class NewMissionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val activity = activity as? MainActivity
-        activity?.let {
-            val toolbar = it.getToolbar() // MainActivity의 Toolbar를 가져옴
-            val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
-            val rightButton: Button = toolbar.findViewById(R.id.right_button)
-
-            // 버튼의 가시성 설정
-            val showLeftButton = true
-            val showRightButton = false
-            leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
-            rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
-            // leftButton 클릭 시 이전 화면으로 돌아가기
-            leftButton.setOnClickListener {
-                findNavController().navigateUp()
-            }
-
-        }
-
         // RecyclerView 설정
         mBinding?.newMissionRecyclerView?.apply {
             layoutManager = GridLayoutManager(context, 2)
@@ -79,11 +64,12 @@ class NewMissionFragment : Fragment() {
                 }
                 Log.i("adapter : ", adapter.toString())
                 mBinding?.newMissionRecyclerView?.adapter = adapter
+                setupToolbar(it.postTitle)
             }
         }
         // 버튼 클릭 리스너 설정
         mBinding?.completedMissionButton?.setOnClickListener {
-            selectButton(mBinding?.completedMissionButton)
+            findNavController().navigateUp()
         }
 
         mBinding?.newMissionButton?.setOnClickListener {
@@ -122,8 +108,58 @@ class NewMissionFragment : Fragment() {
         }
     }
 
+    private fun setupToolbar(postTitle: String) {
+        val activity = activity as? MainActivity
+        activity?.let {
+            val mainToolbar = it.getToolbar()
+            mainToolbar?.visibility = View.GONE
+            val toolbar = LayoutInflater.from(context).inflate(R.layout.mission_toolbar, null) as Toolbar
+            val leftButton: ImageButton = toolbar.findViewById(R.id.mission_left_button)
+            val rightButton: ImageButton = toolbar.findViewById(R.id.mission_menu_button)
+            val title: TextView = toolbar.findViewById(R.id.mission_toolbar_title)
+            title.setText(postTitle)
+
+            // 버튼의 가시성 설정
+            val showLeftButton = true
+            val showRightButton = true
+            leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
+            rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
+            // leftButton 클릭 시 이전 화면으로 돌아가기
+            leftButton.setOnClickListener {
+                findNavController().navigateUp()
+            }
+
+            it.replaceToolbar(toolbar)
+        }
+    }
+
+    private fun showMissionPopupMenu(view: View) {
+        val popupMenu = PopupMenu(requireContext(), view)
+        val inflater = popupMenu.menuInflater
+        inflater.inflate(R.menu.chat_menu, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.alarmActiveBtn -> {
+                    // Handle "알림끄기" action
+                    true
+                }
+                R.id.issueReportBtn -> {
+                    // Handle "신고하기" action
+                    true
+                }
+                R.id.exitChatRoomBtn -> {
+                    // Handle "채팅방 나가기" action
+                    true
+                }
+                else -> false
+            }
+        }
+        popupMenu.show()
+    }
+
     override fun onDestroyView() {
         mBinding = null
+        (activity as? MainActivity)?.restoreToolbar()
         super.onDestroyView()
     }
 }

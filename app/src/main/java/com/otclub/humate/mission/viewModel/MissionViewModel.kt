@@ -13,8 +13,6 @@ import com.otclub.humate.retrofit.RetrofitConnection
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class MissionViewModel : ViewModel() {
     private val missionService: MissionService =
@@ -25,6 +23,7 @@ class MissionViewModel : ViewModel() {
     val newMissionDetailsDTO = MutableLiveData<NewMissionDetailsDTO>()
     var lastCompanionId: Int? = null
     var lastActivityId: Int? = null
+    var isFinished: Int? = null
 
     fun fetchMission(companionId: Int) {
         if (companionId == 0) return
@@ -40,6 +39,7 @@ class MissionViewModel : ViewModel() {
                 if (response.isSuccessful && response.body() != null) {
                     Log.i("missonResponse : ", response.body().toString())
                     missionResponseDTO.value = response.body()
+                    isFinished = missionResponseDTO.value?.isFinished
                 }
             }
 
