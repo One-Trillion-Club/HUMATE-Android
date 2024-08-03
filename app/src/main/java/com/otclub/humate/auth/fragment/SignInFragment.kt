@@ -1,5 +1,7 @@
 package com.otclub.humate.auth.fragment
 
+import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -68,5 +70,4 @@ class SignInFragment : Fragment() {
             }
         )
     }
-
 }

@@ -1,6 +1,7 @@
 package com.otclub.humate.auth.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import com.otclub.humate.auth.api.AuthService
 import com.otclub.humate.auth.data.CommonResponseDTO
 import com.otclub.humate.auth.data.GeneratePhoneCodeRequestDTO
@@ -8,39 +9,55 @@ import com.otclub.humate.auth.data.LoginRequestDTO
 import com.otclub.humate.auth.data.SignUpRequestDTO
 import com.otclub.humate.auth.data.VerifyPhoneCodeRequestDTO
 import com.otclub.humate.retrofit.RetrofitConnection
+import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.http.Multipart
 
-class AuthViewModel: ViewModel() {
-    private val authService: AuthService = RetrofitConnection.getInstance().create(AuthService::class.java)
+class AuthViewModel(application: Application) : AndroidViewModel(application) {
+    private val authService: AuthService =
+        RetrofitConnection.getInstance().create(AuthService::class.java)
 
     val signUpRequestDTO: SignUpRequestDTO = SignUpRequestDTO()
+    private val sharedPreferencesManager: SharedPreferencesManager =
+        SharedPreferencesManager(application)
 
-//    private val _loginResult = MutableLiveData<CommonResponseDTO>()
-//    val loginResult: LiveData<CommonResponseDTO> get() = _loginResult
 
-
-    fun fetchLogIn(dto: LoginRequestDTO, onSuccess: (CommonResponseDTO) -> Unit, onError: (String) -> Unit) {
-        authService.logIn(dto).enqueue(object: Callback<CommonResponseDTO> {
-            override fun onResponse(call: Call<CommonResponseDTO>, response: retrofit2.Response<CommonResponseDTO>) {
+    fun fetchLogIn(
+        dto: LoginRequestDTO,
+        onSuccess: (CommonResponseDTO) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        authService.logIn(dto).enqueue(object : Callback<CommonResponseDTO> {
+            override fun onResponse(
+                call: Call<CommonResponseDTO>,
+                response: retrofit2.Response<CommonResponseDTO>
+            ) {
                 if (response.isSuccessful && response.body() != null) {
                     // 서버 응답 성공
+                    sharedPreferencesManager.setIsLogin(true)
                     onSuccess(response.body()!!)
                 } else {
                     onError("아이디나 비밀번호가 틀렸습니다.")
                 }
             }
+
             override fun onFailure(call: Call<CommonResponseDTO>, t: Throwable) {
                 onError(t.message ?: "네트워크 오류")
             }
         })
     }
 
-    fun fetchGeneratePhoneCode(dto: GeneratePhoneCodeRequestDTO, onSuccess: (CommonResponseDTO) -> Unit, onError: (String) -> Unit) {
-        authService.generatePhoneCode(dto).enqueue(object: Callback<CommonResponseDTO> {
-            override fun onResponse(call: Call<CommonResponseDTO>, response: retrofit2.Response<CommonResponseDTO>) {
+    fun fetchGeneratePhoneCode(
+        dto: GeneratePhoneCodeRequestDTO,
+        onSuccess: (CommonResponseDTO) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        authService.generatePhoneCode(dto).enqueue(object : Callback<CommonResponseDTO> {
+            override fun onResponse(
+                call: Call<CommonResponseDTO>,
+                response: retrofit2.Response<CommonResponseDTO>
+            ) {
                 if (response.isSuccessful && response.body() != null) {
                     onSuccess(response.body()!!)
                 } else {
@@ -55,9 +72,16 @@ class AuthViewModel: ViewModel() {
 
     }
 
-    fun fetchVerifyPhoneCode(dto: VerifyPhoneCodeRequestDTO, onSuccess: (CommonResponseDTO) -> Unit, onError: (String) -> Unit) {
-        authService.verifyPhoneCode(dto).enqueue(object: Callback<CommonResponseDTO> {
-            override fun onResponse(call: Call<CommonResponseDTO>, response: retrofit2.Response<CommonResponseDTO>) {
+    fun fetchVerifyPhoneCode(
+        dto: VerifyPhoneCodeRequestDTO,
+        onSuccess: (CommonResponseDTO) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        authService.verifyPhoneCode(dto).enqueue(object : Callback<CommonResponseDTO> {
+            override fun onResponse(
+                call: Call<CommonResponseDTO>,
+                response: retrofit2.Response<CommonResponseDTO>
+            ) {
                 if (response.isSuccessful && response.body() != null && response.body()!!.success) {
 
                     onSuccess(response.body()!!)
@@ -72,9 +96,16 @@ class AuthViewModel: ViewModel() {
         })
     }
 
-    fun fetchCheckLoginId(loginId: String, onSuccess: (CommonResponseDTO) -> Unit, onError: (String) -> Unit) {
-        authService.checkLoginId(loginId).enqueue(object: Callback<CommonResponseDTO> {
-            override fun onResponse(call: Call<CommonResponseDTO>, response: retrofit2.Response<CommonResponseDTO>) {
+    fun fetchCheckLoginId(
+        loginId: String,
+        onSuccess: (CommonResponseDTO) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        authService.checkLoginId(loginId).enqueue(object : Callback<CommonResponseDTO> {
+            override fun onResponse(
+                call: Call<CommonResponseDTO>,
+                response: retrofit2.Response<CommonResponseDTO>
+            ) {
                 if (response.isSuccessful && response.body() != null && response.body()!!.success) {
                     onSuccess(response.body()!!)
                 } else {
@@ -88,9 +119,16 @@ class AuthViewModel: ViewModel() {
         })
     }
 
-    fun fetchCheckNickname(nickname: String, onSuccess: (CommonResponseDTO) -> Unit, onError: (String) -> Unit) {
-        authService.checkNickname(nickname).enqueue(object: Callback<CommonResponseDTO> {
-            override fun onResponse(call: Call<CommonResponseDTO>, response: retrofit2.Response<CommonResponseDTO>) {
+    fun fetchCheckNickname(
+        nickname: String,
+        onSuccess: (CommonResponseDTO) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        authService.checkNickname(nickname).enqueue(object : Callback<CommonResponseDTO> {
+            override fun onResponse(
+                call: Call<CommonResponseDTO>,
+                response: retrofit2.Response<CommonResponseDTO>
+            ) {
                 if (response.isSuccessful && response.body() != null && response.body()!!.success) {
                     onSuccess(response.body()!!)
                 } else {
@@ -104,9 +142,17 @@ class AuthViewModel: ViewModel() {
         })
     }
 
-    fun signUp(dto: SignUpRequestDTO, image: MultipartBody.Part?, onSuccess: (CommonResponseDTO) -> Unit, onError: (String) -> Unit) {
-        authService.signUp(dto, image).enqueue(object: Callback<CommonResponseDTO> {
-            override fun onResponse(call: Call<CommonResponseDTO>, response: retrofit2.Response<CommonResponseDTO>) {
+    fun signUp(
+        dto: SignUpRequestDTO,
+        image: MultipartBody.Part?,
+        onSuccess: (CommonResponseDTO) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        authService.signUp(dto, image).enqueue(object : Callback<CommonResponseDTO> {
+            override fun onResponse(
+                call: Call<CommonResponseDTO>,
+                response: retrofit2.Response<CommonResponseDTO>
+            ) {
                 if (response.isSuccessful && response.body() != null && response.body()!!.success) {
                     onSuccess(response.body()!!)
                 } else {
