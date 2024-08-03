@@ -1,6 +1,8 @@
 package com.otclub.humate
 
 import android.os.Bundle
+import android.view.View
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +15,7 @@ import com.otclub.humate.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityMainBinding
+    private var defaultToolbar: Toolbar? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = ActivityMainBinding.inflate(layoutInflater)
@@ -31,10 +34,15 @@ class MainActivity : AppCompatActivity() {
             NavigationUI.setupWithNavController(bottomNavigationView, navController)
         }
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar) // 액티비티의 앱바(App Bar)로 지정
+        // 기본 Toolbar 설정
+        setupDefaultToolbar()
+    }
 
-        val actionBar: ActionBar? = supportActionBar // 앱바 제어를 위해 액션 바 접근
+    private fun setupDefaultToolbar() {
+        defaultToolbar = layoutInflater.inflate(R.layout.toolbar, null) as Toolbar
+        val toolbarContainer: FrameLayout = findViewById(R.id.toolbar_container)
+        toolbarContainer.addView(defaultToolbar)
+        setSupportActionBar(defaultToolbar)
     }
 
     fun setToolbarTitle(title: String) {
@@ -43,6 +51,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getToolbar(): Toolbar {
-        return findViewById(R.id.toolbar)
+        return defaultToolbar ?: findViewById(R.id.toolbar)
+    }
+
+    fun replaceToolbar(newToolbar: Toolbar) {
+        val toolbarContainer: FrameLayout = findViewById(R.id.toolbar_container)
+        toolbarContainer.removeAllViews()
+        toolbarContainer.addView(newToolbar)
+        setSupportActionBar(newToolbar)
+    }
+
+    fun restoreToolbar() {
+        val toolbarContainer: FrameLayout = findViewById(R.id.toolbar_container)
+        toolbarContainer.removeAllViews()
+
+        // 기존 Toolbar를 복구
+        defaultToolbar?.visibility = View.VISIBLE
+        toolbarContainer.addView(defaultToolbar)
+        setSupportActionBar(defaultToolbar)
     }
 }
