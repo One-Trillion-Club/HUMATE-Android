@@ -14,12 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentMatchingBinding
-import com.otclub.humate.mission.adapter.ClearedMissionAdapter
 import com.otclub.humate.mission.adapter.MatchingAdapter
-import com.otclub.humate.mission.viewModel.MatchingViewModel
+import com.otclub.humate.mission.viewModel.MissionViewModel
 
 class MatchingFragment : Fragment() {
-    private val matchingViewModel: MatchingViewModel by activityViewModels()
+    private val matchingViewModel: MissionViewModel by activityViewModels()
     private var mBinding: FragmentMatchingBinding? = null
 
     override fun onCreateView(
@@ -38,13 +37,14 @@ class MatchingFragment : Fragment() {
 
         val activity = activity as? MainActivity
         activity?.let {
-            val toolbar = it.getToolbar() // MainActivity의 Toolbar를 가져옴
+            val toolbar = it.getToolbar()
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
+            it.setToolbarTitle("동행 목록")
 
             // 버튼의 가시성 설정
             val showLeftButton = true
-            val showRightButton = true
+            val showRightButton = false
             leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
             rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
         }
@@ -52,11 +52,16 @@ class MatchingFragment : Fragment() {
         // RecyclerView 설정
         mBinding?.matchingRecyclerView?.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = ClearedMissionAdapter(emptyList()) {
-                    matching ->
+            adapter = MatchingAdapter(emptyList()) { matching ->
+                val bundle = Bundle().apply {
+                    putInt("companionId", matching.companionId)
+                    Log.i("companionId", matching.companionId.toString())
+                }
                 findNavController().navigate(
-                    R.id.action_matchingFragment_to_missionFragment
+                    R.id.action_matchingFragment_to_missionFragment,
+                    bundle
                 )
+
             }
         }
 
@@ -64,8 +69,12 @@ class MatchingFragment : Fragment() {
         matchingViewModel.matchingResponseDTOList.observe(viewLifecycleOwner) { response ->
             response?.let {
                 val adapter = MatchingAdapter(it) { matching ->
+                    val bundle = Bundle().apply {
+                        putInt("companionId", matching.companionId)
+                    }
                     findNavController().navigate(
-                        R.id.action_matchingFragment_to_missionFragment
+                        R.id.action_matchingFragment_to_missionFragment,
+                        bundle
                     )
                 }
                 Log.i("adapter : ", adapter.toString())

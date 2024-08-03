@@ -9,7 +9,7 @@
     tools:context=".MainActivity">
 
 
-    <include layout="@layout/toolbar" />
+    <include layout="@layout/common_toolbar" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/my_nav_host"

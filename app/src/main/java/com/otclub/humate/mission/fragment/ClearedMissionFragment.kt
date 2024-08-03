@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -17,6 +19,7 @@ import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentClearedMissionBinding
 import com.otclub.humate.mission.adapter.ClearedMissionAdapter
+import com.otclub.humate.mission.data.MissionResponseDTO
 import com.otclub.humate.mission.viewModel.MissionViewModel
 
 class ClearedMissionFragment : Fragment() {
@@ -40,6 +43,8 @@ class ClearedMissionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val companionId = arguments?.getInt("companionId")
+
         val activity = activity as? MainActivity
         activity?.let {
             val toolbar = it.getToolbar() // MainActivity의 Toolbar를 가져옴
@@ -48,9 +53,13 @@ class ClearedMissionFragment : Fragment() {
 
             // 버튼의 가시성 설정
             val showLeftButton = true
-            val showRightButton = true
+            val showRightButton = false
             leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
             rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
+            // leftButton 클릭 시 이전 화면으로 돌아가기
+            leftButton.setOnClickListener {
+                findNavController().navigateUp()
+            }
 
         }
 
@@ -81,18 +90,27 @@ class ClearedMissionFragment : Fragment() {
                 Log.i("adapter : ", adapter.toString())
                 mBinding?.recyclerView?.adapter = adapter
 
-                // Toolbar 타이틀 설정
                 val activity = activity as? MainActivity
                 activity?.let { mainActivity ->
                     val toolbar = mainActivity.getToolbar()
                     mainActivity.setToolbarTitle(it.postTitle)
+                    toolbar.title = it.postTitle
+                    val color = ContextCompat.getColor(mainActivity, R.color.humate_main)
+
+                    val titleTextView = toolbar.findViewById<TextView>(R.id.toolbar_title)
+//                    titleTextView?.setTextColor(color)
+                    titleTextView?.setTypeface(null, Typeface.BOLD)
+                    titleTextView?.textSize = 16f
                 }
+
+                updateEmptyTitle(it)
             }
         }
 
         // API 호출
-        val companionId = "4"
-        missionViewModel.fetchMission(companionId)
+        companionId?.let {
+            missionViewModel.fetchMission(it)
+        }
 
         // 버튼 클릭 리스너 설정
         mBinding?.completedMissionButton?.setOnClickListener {
@@ -106,6 +124,7 @@ class ClearedMissionFragment : Fragment() {
 
         selectButton(mBinding?.completedMissionButton)
     }
+
 
     private fun selectButton(button: Button?) {
         // 기존 선택된 버튼이 있다면 원래 상태로 되돌리기
@@ -134,6 +153,14 @@ class ClearedMissionFragment : Fragment() {
                 findNavController().navigate(R.id.action_missionFragment_to_newMissionFragment)
             }
         }
+    }
+
+    private fun updateEmptyTitle(response: MissionResponseDTO) {
+        val clearedMissionList = response.clearedMissionList
+
+        val isListEmpty = clearedMissionList.isEmpty()
+        mBinding?.recyclerView?.visibility = if (isListEmpty) View.GONE else View.VISIBLE
+        mBinding?.emptyMessage?.visibility = if (isListEmpty) View.VISIBLE else View.GONE
     }
 
     override fun onDestroyView() {

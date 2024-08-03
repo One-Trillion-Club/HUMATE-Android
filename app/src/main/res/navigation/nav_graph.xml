@@ -3,7 +3,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/nav_graph"
-            app:startDestination="@id/mateFragment">
+            app:startDestination="@id/postListFragment">
 
     <fragment
             android:id="@+id/missionFragment"
@@ -16,12 +16,28 @@
         <action
             android:id="@+id/action_missionFragment_to_clearedMissionDetailsFragment"
             app:destination="@id/clearedMissionDetailsFragment" />
+        <argument
+                android:name="companionId"
+                app:argType="integer"/>
     </fragment>
     <fragment
-            android:id="@+id/mateFragment"
+            android:id="@+id/postListFragment"
             android:name="com.otclub.humate.mate.fragment.PostListFragment"
             android:label="fragment_mate"
-            tools:layout="@layout/fragment_post_list"/>
+            tools:layout="@layout/mate_fragment_post_list">
+        <action
+                android:id="@+id/action_postListFragment_to_postListFilterFragment"
+                app:destination="@id/postListFilterFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/postListFilterFragment"
+            android:name="com.otclub.humate.mate.fragment.PostListFilterFragment"
+            android:label="fragment_mate"
+            tools:layout="@layout/mate_fragment_post_list_filter">
+        <action
+                android:id="@+id/action_postListFilterFragment_to_postListFragment"
+                app:destination="@id/postListFragment" />
+    </fragment>
     <fragment
             android:id="@+id/chatFragment"
             android:name="com.otclub.humate.chat.ChatFragment"
@@ -53,6 +69,9 @@
         <argument
             android:name="activityId"
             app:argType="integer" />
+        <action
+                android:id="@+id/action_newMissionDetailsFragment_to_missionUploadFragment"
+                app:destination="@id/missionUploadFragment"/>
     </fragment>
     <fragment
         android:id="@+id/clearedMissionDetailsFragment"
@@ -71,6 +90,15 @@
         <action
                 android:id="@+id/action_matchingFragment_to_missionFragment"
                 app:destination="@id/missionFragment"/>
+    </fragment>
+    <fragment
+            android:id="@+id/missionUploadFragment"
+            android:name="com.otclub.humate.mission.fragment.MissionUploadFragment"
+            android:label="fragment_mission_upload"
+            tools:layout="@layout/fragment_mission_upload">
+        <action
+            android:id="@+id/action_missionUploadFragment_to_missionFragment"
+            app:destination="@id/missionFragment" />
     </fragment>
 
 </navigation>

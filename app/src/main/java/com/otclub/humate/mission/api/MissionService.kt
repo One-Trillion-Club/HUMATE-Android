@@ -1,17 +1,13 @@
 package com.otclub.humate.mission.api
 
-import com.otclub.humate.mission.data.ClearedMissionDetailsDTO
-import com.otclub.humate.mission.data.MatchingResponseDTO
-import com.otclub.humate.mission.data.MissionResponseDTO
-import com.otclub.humate.mission.data.NewMissionDetailsDTO
+import com.otclub.humate.mission.data.*
+import okhttp3.MultipartBody
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface MissionService {
     @GET("activities")
-    fun getMissions(@Query("companionId") companionId: String): Call<MissionResponseDTO>
+    fun getMissions(@Query("companionId") companionId: Int): Call<MissionResponseDTO>
 
     @GET("activities/{activityId}")
     fun getNewMissionDetails(@Path("activityId") activityId: Int): Call<NewMissionDetailsDTO>
@@ -21,5 +17,12 @@ interface MissionService {
 
     @GET("companions")
     fun getMatchings(): Call<List<MatchingResponseDTO>>
+
+    @Multipart
+    @POST("activities/upload")
+    fun uploadActivity(
+        @Part uploadActivityRequestDTO: MultipartBody.Part,
+        @Part images: List<MultipartBody.Part>
+    ): Call<CommonResponseDTO>
 
 }
