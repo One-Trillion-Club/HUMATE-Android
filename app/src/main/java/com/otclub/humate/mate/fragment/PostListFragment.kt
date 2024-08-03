@@ -37,7 +37,7 @@ class PostListFragment : Fragment() {
 
     private var filters = mutableMapOf(
         "gender" to "m",
-        "memberId" to "K_1"
+        "memberId" to "F_1"
         // 초기 필터 값 설정
     )
 

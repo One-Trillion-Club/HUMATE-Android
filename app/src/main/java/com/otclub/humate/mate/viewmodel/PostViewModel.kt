@@ -23,10 +23,6 @@ class PostViewModel: ViewModel() {
     // 필터 데이터
     var filterData: PostListFilterDTO? = null
 
-    // 매칭글 상세 정보
-    private val _postDetail = MutableLiveData<PostDetailResponseDTO>()
-    val postDetail: LiveData<PostDetailResponseDTO> get() = _postDetail
-
     // 게시글 리스트를 가져오는 함수
     fun getPostList(filters: Map<String, String>, onSuccess: (List<PostListResponseDTO>) -> Unit, onError: (String) -> Unit) {
 

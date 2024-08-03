@@ -11,9 +11,9 @@
     <!-- 동그란 이미지 -->
     <FrameLayout
             android:id="@+id/profile_image"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="16dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,8 +32,8 @@
 
         <ImageView
                 android:id="@+id/rounded_image"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:src="@drawable/ic_member_profile_default"
                 android:contentDescription="프로필 이미지"
                 android:scaleType="centerCrop"
@@ -85,26 +85,52 @@
 
     <TextView
             android:id="@+id/post_title"
-            android:layout_width="wrap_content"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:text="매칭글 제목"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@id/post_info_line"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp"
             android:layout_marginStart="5dp"/>
 
     <TextView
             android:id="@+id/post_content"
-            android:layout_width="wrap_content"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:text="매칭글 내용"
             android:textSize="12sp"
+            android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@id/post_title"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp"
             android:layout_marginStart="5dp"/>
+
+    <HorizontalScrollView
+            android:id="@+id/tag_container"
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/post_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+        <LinearLayout
+                android:id="@+id/tag_container_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
+
+            <!-- 여기에 태그들을 동적으로 추가 -->
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <!-- 매칭 정보 확인 -->
     <LinearLayout
@@ -113,7 +139,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            app:layout_constraintTop_toBottomOf="@id/post_content"
+            app:layout_constraintTop_toBottomOf="@id/tag_container"
             app:layout_constraintBottom_toTopOf="@id/match_info_line"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -197,6 +223,7 @@
 
                 <!-- 내용 -->
                 <TextView
+                        android:id="@+id/card1_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="매칭 날짜"
@@ -244,6 +271,7 @@
 
                 <!-- 내용 -->
                 <TextView
+                        android:id="@+id/card2_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="매칭 장소"
@@ -291,6 +319,7 @@
 
                 <!-- 내용 -->
                 <TextView
+                        android:id="@+id/card3_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="매칭 성별"
@@ -338,6 +367,7 @@
 
                 <!-- 내용 -->
                 <TextView
+                        android:id="@+id/card4_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="매칭 언어"
@@ -394,20 +424,24 @@
 
     <HorizontalScrollView
             android:id="@+id/place_container"
-            android:layout_width="360dp"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@id/place_info_line"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:fillViewport="true"
-            android:scrollbars="none">
+            android:scrollbars="horizontal"
+            android:scrollbarThumbHorizontal="@drawable/mate_scrollbar_thumb"
+            android:scrollbarTrackHorizontal="@drawable/mate_scrollbar_track"
+            android:fadeScrollbars="false">
 
         <LinearLayout
                 android:id="@+id/place_container_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="5dp">
 
             <!-- 여기에 매장 및 팝업스토어들을 동적으로 추가 -->
         </LinearLayout>
