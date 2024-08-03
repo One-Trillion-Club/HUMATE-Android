@@ -2,10 +2,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.otclub.humate.R
 import com.otclub.humate.mission.data.NewMissionDetailsDTO
@@ -38,6 +40,9 @@ class NewMissionDetailsFragment : Fragment() {
             }
         }
 
+        binding.findViewById<Button>(R.id.recordButton).setOnClickListener {
+            findNavController().navigate(R.id.action_newMissionDetailsFragment_to_missionUploadFragment)
+        }
     }
 
     private fun updateUI(details: NewMissionDetailsDTO) {

@@ -69,6 +69,9 @@
         <argument
             android:name="activityId"
             app:argType="integer" />
+        <action
+                android:id="@+id/action_newMissionDetailsFragment_to_missionUploadFragment"
+                app:destination="@id/missionUploadFragment"/>
     </fragment>
     <fragment
         android:id="@+id/clearedMissionDetailsFragment"
@@ -88,5 +91,10 @@
                 android:id="@+id/action_matchingFragment_to_missionFragment"
                 app:destination="@id/missionFragment"/>
     </fragment>
+    <fragment
+            android:id="@+id/missionUploadFragment"
+            android:name="com.otclub.humate.mission.fragment.MissionUploadFragment"
+            android:label="fragment_mission_upload"
+            tools:layout="@layout/fragment_mission_upload"/>
 
 </navigation>
