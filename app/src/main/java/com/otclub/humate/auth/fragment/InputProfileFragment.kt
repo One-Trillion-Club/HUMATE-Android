@@ -21,14 +21,9 @@ import com.otclub.humate.R
 import com.otclub.humate.auth.data.LoginRequestDTO
 import com.otclub.humate.auth.viewmodel.AuthViewModel
 import com.otclub.humate.databinding.AuthFragmentInputProfileBinding
-import com.otclub.humate.databinding.FragmentInputIdPasswordBinding
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.File
 
 class InputProfileFragment : Fragment() {
     private val viewModel: AuthViewModel by activityViewModels()

@@ -8,6 +8,7 @@ import com.otclub.humate.auth.data.GeneratePhoneCodeRequestDTO
 import com.otclub.humate.auth.data.LoginRequestDTO
 import com.otclub.humate.auth.data.SignUpRequestDTO
 import com.otclub.humate.auth.data.VerifyPhoneCodeRequestDTO
+import com.otclub.humate.member.api.MemberService
 import com.otclub.humate.retrofit.RetrofitConnection
 import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 import okhttp3.MultipartBody
@@ -17,6 +18,8 @@ import retrofit2.Callback
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val authService: AuthService =
         RetrofitConnection.getInstance().create(AuthService::class.java)
+    private val memberService: MemberService =
+        RetrofitConnection.getInstance().create(MemberService::class.java)
 
     val signUpRequestDTO: SignUpRequestDTO = SignUpRequestDTO()
     private val sharedPreferencesManager: SharedPreferencesManager =
@@ -124,7 +127,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         onSuccess: (CommonResponseDTO) -> Unit,
         onError: (String) -> Unit
     ) {
-        authService.checkNickname(nickname).enqueue(object : Callback<CommonResponseDTO> {
+        memberService.checkNickname(nickname).enqueue(object : Callback<CommonResponseDTO> {
             override fun onResponse(
                 call: Call<CommonResponseDTO>,
                 response: retrofit2.Response<CommonResponseDTO>

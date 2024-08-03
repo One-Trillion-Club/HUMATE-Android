@@ -47,7 +47,7 @@
             android:id="@+id/myPageFragment"
             android:name="com.otclub.humate.MyPageFragment"
             android:label="fragment_my_page"
-            tools:layout="@layout/fragment_my_page"/>
+            tools:layout="@layout/member_fragment_my_page"/>
     <fragment
         android:id="@+id/newMissionFragment"
         android:name="com.otclub.humate.mission.fragment.NewMissionFragment"
