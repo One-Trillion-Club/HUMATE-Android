@@ -17,7 +17,7 @@ import com.google.gson.Gson
 import com.otclub.humate.BuildConfig.*
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
-import com.otclub.humate.chat.adpater.ChatAdapter
+import com.otclub.humate.chat.adapter.ChatAdapter
 import com.otclub.humate.chat.data.ChatMessageRequestDTO
 import com.otclub.humate.chat.data.ChatMessageResponseDTO
 import com.otclub.humate.chat.data.MessageType
@@ -130,8 +130,8 @@ class ChatFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        mBinding = null
         (activity as? MainActivity)?.restoreToolbar()
+        mBinding = null
         super.onDestroyView()
     }
 

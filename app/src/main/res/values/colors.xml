@@ -21,4 +21,6 @@
     <color name="smooth_red">#FF8383</color>
     <color name="scrollbar_track">#EBE9FF</color>
     <color name="bright_gray">#F2F3F6</color>
+    <color name="light_lavender">#D0BEDA</color>
+    <color name="scarlet_red">#FF2D55</color>
 </resources>

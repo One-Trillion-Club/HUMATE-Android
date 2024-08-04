@@ -1,4 +1,4 @@
-package com.otclub.humate.chat.adpater
+package com.otclub.humate.chat.adapter
 
 import android.view.LayoutInflater
 import android.view.View
