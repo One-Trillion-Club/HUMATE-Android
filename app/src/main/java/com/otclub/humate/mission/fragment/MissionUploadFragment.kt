@@ -2,6 +2,7 @@ package com.otclub.humate.mission.fragment
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -50,27 +52,31 @@ class MissionUploadFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val activity = activity as? MainActivity
-        activity?.let {
-            val toolbar = it.getToolbar() // MainActivity의 Toolbar를 가져옴
+        val toolbar = mBinding?.toolbar?.toolbar
+
+        toolbar?.let {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
-            it.setToolbarTitle("활동 업로드")
+            val title: TextView = toolbar.findViewById(R.id.toolbar_title)
+            title.setText("활동 업로드")
+            rightButton.setText("제출")
+            rightButton.setTypeface(Typeface.DEFAULT_BOLD)
 
             // 버튼의 가시성 설정
             val showLeftButton = true
             val showRightButton = true
             leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
             rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
-            // leftButton 클릭 시 이전 화면으로 돌아가기
-            leftButton.setOnClickListener {
-                findNavController().navigateUp()
-            }
-
-            rightButton.setOnClickListener {
-                uploadImages()
-            }
         }
+
+        mBinding?.toolbar?.leftButton?.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        mBinding?.toolbar?.rightButton?.setOnClickListener {
+            uploadImages()
+        }
+
 
         missionService = RetrofitConnection.getInstance().create(MissionService::class.java)
 
