@@ -79,6 +79,9 @@
             android:id="@+id/action_newMissionFragment_to_newMissionDetailsFragment"
             app:destination="@id/newMissionDetailsFragment">
         </action>
+        <action
+            android:id="@+id/action_newMissionFragment_to_reviewFragment"
+            app:destination="@id/reviewFragment" />
 
     </fragment>
     <fragment

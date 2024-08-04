@@ -4,20 +4,20 @@
     <item
         android:id="@+id/postListFragment"
         android:icon="@drawable/ic_mate_selector"
-        android:title="메이트" />
+        android:title="@string/nav_mate" />
 
     <item
         android:id="@+id/chatRoomFragment"
         android:icon="@drawable/ic_chat_selector"
-        android:title="채팅" />
+        android:title="@string/nav_chat" />
 
     <item
         android:id="@+id/matchingFragment"
         android:icon="@drawable/ic_mission_selector"
-        android:title="활동" />
+        android:title="@string/nav_mission" />
 
     <item
         android:id="@+id/myPageFragment"
         android:icon="@drawable/ic_mypage_selector"
-        android:title="마이페이지" />
+        android:title="@string/nav_mypage" />
 </menu>
