@@ -59,7 +59,6 @@
             android:textAlignment="viewStart"
             android:textColor="@color/dark_gray"
             android:textSize="12sp"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/match_date_icon"
             app:layout_constraintStart_toEndOf="@id/match_branch_icon"
@@ -87,8 +86,7 @@
             android:text="2024.07.28"
             android:textAlignment="viewStart"
             android:textColor="@color/dark_gray"
-            android:textSize="12sp"
-            android:textStyle="bold"
+            android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/match_date_icon"
             tools:ignore="MissingConstraints" />
