@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -22,7 +23,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentNewMissionBinding
+import com.otclub.humate.mission.api.MissionService
+import com.otclub.humate.mission.data.CommonResponseDTO
 import com.otclub.humate.mission.viewModel.MissionViewModel
+import com.otclub.humate.retrofit.RetrofitConnection
+import retrofit2.Call
+import retrofit2.Response
 
 class NewMissionFragment : Fragment() {
     private val missionViewModel: MissionViewModel by activityViewModels()
@@ -65,6 +71,7 @@ class NewMissionFragment : Fragment() {
                 }
                 Log.i("adapter : ", adapter.toString())
                 mBinding?.newMissionRecyclerView?.adapter = adapter
+                setupToolbar(it.postTitle)
             }
         }
         // 버튼 클릭 리스너 설정
@@ -108,17 +115,91 @@ class NewMissionFragment : Fragment() {
         }
     }
 
+    private fun setupToolbar(postTitle: String) {
+        val toolbar = mBinding?.toolbar?.missionToolbar
+        toolbar?.let {
+            val leftButton: ImageButton = it.findViewById(R.id.mission_left_button)
+            val rightButton: ImageButton = it.findViewById(R.id.mission_menu_button)
+            val title: TextView = it.findViewById(R.id.mission_toolbar_title)
+            title.text = postTitle
+
+            // 버튼의 가시성 설정
+            val showLeftButton = true
+            val showRightButton = true
+            leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
+            rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
+
+            // leftButton 클릭 시 이전 화면으로 돌아가기
+            leftButton.setOnClickListener {
+                findNavController().navigateUp()
+            }
+
+            rightButton.setOnClickListener {
+                showMissionPopupMenu(rightButton)
+            }
+        }
+    }
+
+    private fun showMissionPopupMenu(view: View) {
+        val popupMenu = PopupMenu(requireContext(), view)
+        val inflater = popupMenu.menuInflater
+        inflater.inflate(R.menu.mission_menu, popupMenu.menu)
+        popupMenu.menu.findItem(R.id.finish_companion).isVisible = (missionViewModel.isFinished == 0)
+        popupMenu.menu.findItem(R.id.write_review).isVisible = (missionViewModel.isFinished == 1)
+        popupMenu.setOnMenuItemClickListener { item ->
+
+            when (item.itemId) {
+                R.id.finish_companion -> {
+                    val companionId = missionViewModel.lastCompanionId
+                    companionId?.let { id ->
+                        finishCompanion(id)
+                    }
+                    true
+                }
+
+                R.id.write_review -> {
+                    findNavController().navigate(R.id.action_missionFragment_to_reviewFragment)
+                    true
+                }
+
+                else -> false
+            }
+        }
+        popupMenu.show()
+    }
+
+    private fun finishCompanion(companionId: Int) {
+        val call = RetrofitConnection.getInstance().create(MissionService::class.java).finishCompanion(companionId)
+        call.enqueue(object : retrofit2.Callback<CommonResponseDTO> {
+            override fun onResponse(
+                call: Call<CommonResponseDTO>,
+                response: Response<CommonResponseDTO>
+            ) {
+                if (response.isSuccessful) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Upload successful",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    missionViewModel.lastCompanionId?.let { missionViewModel.fetchMission(it) }
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Upload failed: ${response.message()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+            }
+
+            override fun onFailure(call: Call<CommonResponseDTO>, t: Throwable) {
+            }
+        })
+    }
+
 
     override fun onDestroyView() {
         mBinding = null
-        val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val navigateToClearedMission = prefs.getBoolean("navigate_to_cleared_mission", false)
-
-        prefs.edit().putBoolean("navigate_to_cleared_mission", false).apply()
-
-        if (!navigateToClearedMission) {
-            (activity as? MainActivity)?.restoreToolbar()
-        }
         super.onDestroyView()
     }
 }
