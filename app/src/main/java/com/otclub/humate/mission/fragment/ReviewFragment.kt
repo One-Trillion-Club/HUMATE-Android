@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -42,7 +43,26 @@ class ReviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val toolbar = mBinding?.toolbar?.toolbar
+
+        toolbar?.let {
+            val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
+            val rightButton: Button = toolbar.findViewById(R.id.right_button)
+            val title: TextView = toolbar.findViewById(R.id.toolbar_title)
+            title.setText("후기 남기기")
+
+            // 버튼의 가시성 설정
+            val showLeftButton = true
+            val showRightButton = false
+            leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
+            rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
+        }
+
         missionViewModel.lastCompanionId?.let { fetchReviewData(it) }
+
+        mBinding?.toolbar?.leftButton?.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
         mBinding?.btnExcellent?.setOnClickListener {
             handleButtonSelection(mBinding?.btnExcellent, 3)
@@ -59,6 +79,8 @@ class ReviewFragment : Fragment() {
         mBinding?.submitButton?.setOnClickListener {
             submitReview()
         }
+
+
     }
 
     private fun handleButtonSelection(selected: ImageButton?, score: Int) {

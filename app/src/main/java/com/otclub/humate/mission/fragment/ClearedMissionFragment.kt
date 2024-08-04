@@ -18,7 +18,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentClearedMissionBinding
 import com.otclub.humate.mission.adapter.ClearedMissionAdapter
@@ -144,35 +143,23 @@ class ClearedMissionFragment : Fragment() {
 
     override fun onDestroyView() {
         mBinding = null
-        val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val navigateToNewMission = prefs.getBoolean("navigate_to_new_mission", false)
-
-        // 플래그를 초기화하여 다음 호출에 영향을 주지 않도록 함
-        prefs.edit().putBoolean("navigate_to_new_mission", false).apply()
-
-        if (!navigateToNewMission) {
-            (activity as? MainActivity)?.restoreToolbar()
-        }
-
         super.onDestroyView()
     }
 
     private fun setupToolbar(postTitle: String) {
-        val activity = activity as? MainActivity
-        activity?.let {
-            val mainToolbar = it.getToolbar()
-            mainToolbar?.visibility = View.GONE
-            val toolbar = LayoutInflater.from(context).inflate(R.layout.mission_toolbar, null) as Toolbar
-            val leftButton: ImageButton = toolbar.findViewById(R.id.mission_left_button)
-            val rightButton: ImageButton = toolbar.findViewById(R.id.mission_menu_button)
-            val title: TextView = toolbar.findViewById(R.id.mission_toolbar_title)
-            title.setText(postTitle)
+        val toolbar = mBinding?.toolbar?.missionToolbar
+        toolbar?.let {
+            val leftButton: ImageButton = it.findViewById(R.id.mission_left_button)
+            val rightButton: ImageButton = it.findViewById(R.id.mission_menu_button)
+            val title: TextView = it.findViewById(R.id.mission_toolbar_title)
+            title.text = postTitle
 
             // 버튼의 가시성 설정
             val showLeftButton = true
             val showRightButton = true
             leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
             rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
+
             // leftButton 클릭 시 이전 화면으로 돌아가기
             leftButton.setOnClickListener {
                 findNavController().navigateUp()
@@ -181,8 +168,6 @@ class ClearedMissionFragment : Fragment() {
             rightButton.setOnClickListener {
                 showMissionPopupMenu(rightButton)
             }
-
-            it.replaceToolbar(toolbar)
         }
     }
 
@@ -239,10 +224,7 @@ class ClearedMissionFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<CommonResponseDTO>, t: Throwable) {
-
             }
-
-
         })
     }
 }
