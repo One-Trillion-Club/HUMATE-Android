@@ -2,17 +2,17 @@ package com.otclub.humate
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
-import android.util.Log
 import android.widget.TextView
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.otclub.humate.auth.activity.AuthActivity
 import com.otclub.humate.databinding.ActivityMainBinding
+import com.otclub.humate.retrofit.RetrofitConnection
 import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 
 
@@ -22,6 +22,8 @@ class MainActivity : AppCompatActivity() {
     private var defaultToolbar: Toolbar? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        RetrofitConnection.init(this)
 
         // 로그인 상태 확인
         val sharedPreferencesManager = SharedPreferencesManager(this)

@@ -39,6 +39,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 if (response.isSuccessful && response.body() != null) {
                     // 서버 응답 성공
                     sharedPreferencesManager.setIsLogin(true)
+
                     onSuccess(response.body()!!)
                 } else {
                     onError("아이디나 비밀번호가 틀렸습니다.")
