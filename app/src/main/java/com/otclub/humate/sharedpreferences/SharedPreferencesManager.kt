@@ -28,4 +28,19 @@ class SharedPreferencesManager(context: Context) {
         }
     }
 
+    fun setLoginToken(accessToken: String, refreshToken: String) {
+        with(authSharedPreferences.edit()) {
+            putString("accessToken", accessToken)
+            putString("refreshToken", refreshToken)
+            apply()
+        }
+    }
+
+    fun getLoginToken(): Pair<String?, String?> {
+        val accessToken = authSharedPreferences.getString("accessToken", null)
+        val refreshToken = authSharedPreferences.getString("refreshToken", null)
+        return Pair(accessToken, refreshToken)
+    }
+
+
 }
