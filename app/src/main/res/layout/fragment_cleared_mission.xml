@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_weight="1"
-                android:text="완료된 활동"
+                android:text="@string/mission_finished"
                 android:textColor="@android:color/black"
                 android:background="@drawable/mission_button_border" />
 
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_weight="1"
-                android:text="새로운 활동"
+                android:text="@string/mission_new"
                 android:textColor="@android:color/black"
                 android:background="@drawable/mission_button_border" />
         </LinearLayout>
@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
-            android:text="메이트와 함께 새로운 활동을 만들어 나가세요"
+            android:text="@string/mission_notice"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"

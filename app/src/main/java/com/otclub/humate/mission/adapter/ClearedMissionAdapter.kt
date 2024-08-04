@@ -22,17 +22,18 @@ class ClearedMissionAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val context = holder.itemView.context // Context 얻기
         val mission = clearedMissionList[position]
         holder.missionTitle.text = mission.title
         holder.missionStatus.apply {
             text = when (mission.status) {
                 0 -> {
                     setBackgroundResource(R.drawable.post_ongoing)
-                    "대기"
+                    context.getString(R.string.mission_pending)
                 }
                 else -> {
                     setBackgroundResource(R.drawable.post_closed)
-                    "완료"
+                    context.getString(R.string.mission_finished)
                 }
             }
         }

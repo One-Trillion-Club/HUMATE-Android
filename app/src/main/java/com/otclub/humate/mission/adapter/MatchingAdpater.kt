@@ -1,6 +1,5 @@
 package com.otclub.humate.mission.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,16 +33,16 @@ class MatchingAdapter(
         holder.postTitle.text = matching.postTitle
         holder.mateNickname.text = matching.mateNickname
         holder.matchDate.text = matching.matchDate
-        holder.status.text = matching.status
         Glide.with(holder.itemView.context)
             .load(matching.mateProfileImgUrl)
             .into(holder.mateProfileImg)
 
-        Log.i("Matching 별 companionId : ", matching.companionId.toString())
-
-        if (matching.status.equals("진행중")) { // 진행중
+        val context = holder.itemView.context
+        if (matching.status.equals("진행중")) {
+            holder.status.text = context.getString(R.string.status_ongoing)
             holder.status.setBackgroundResource(R.drawable.post_ongoing)
-        } else { // 마감
+        } else {
+            holder.status.text = context.getString(R.string.status_completed)
             holder.status.setBackgroundResource(R.drawable.post_closed)
         }
 
@@ -52,6 +51,7 @@ class MatchingAdapter(
             onItemClick(matching)
         }
     }
+
 
     override fun getItemCount(): Int = matchings.size
 
