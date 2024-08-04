@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="5dp"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <!-- 왼쪽 레이아웃: 프로필 사진과 이름 -->
+        <LinearLayout
+                android:id="@+id/left_layout"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/middle_layout">
+
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:cardElevation="4dp"
+                    app:cardCornerRadius="8dp">
+
+                <!-- 프로필 이미지 -->
+                <ImageView
+                        android:id="@+id/profile_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:scaleType="centerInside"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_member_profile_default"/>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <!-- 오른쪽 레이아웃: 나머지 콘텐츠 -->
+
+        <!-- 왼쪽 레이아웃: 프로필 사진과 이름 -->
+        <LinearLayout
+                android:id="@+id/middle_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                app:layout_constraintStart_toEndOf="@id/left_layout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/right_layout"
+                app:layout_constraintVertical_bias="0.507">
+
+            <!-- 게시글 제목 및 상태 -->
+
+            <!-- 매칭 날짜, 매칭 지점, 매칭 언어 -->
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:id="@+id/linearLayout">
+
+                <!--게시물 제목-->
+                <TextView
+                        android:id="@+id/nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:text="Yooki"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        app:layout_constraintEnd_toStartOf="@id/title" tools:layout_conversion_absoluteHeight="16dp"
+                        tools:layout_editor_absoluteY="34dp" tools:layout_editor_absoluteX="60dp"
+                        tools:layout_conversion_absoluteWidth="30dp"/>
+
+                <!-- 상태 (진행중 or 매칭 완료) -->
+                <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="9sp"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:textColor="@color/light_lavender"
+                        android:layout_marginLeft="10dp"
+                        android:text="더현대 뉴진스 팝업..."
+                        android:drawableLeft="@drawable/ic_chat_post_title"
+                        android:drawablePadding="4dp"
+                        app:layout_constraintStart_toStartOf="@id/nickname"/>
+            </LinearLayout>
+            <TextView
+                    android:id="@+id/latest_chat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="13sp"
+                    android:textColor="@color/black"
+                    android:text="Let’s hang out together~ :) "
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/right_layout"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+
+                <TextView
+                        android:id="@+id/latest_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:textColor="@color/brown_gray"
+                        android:text="1일전"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        app:layout_constraintTop_toBottomOf="@id/match_date"
+                        app:layout_constraintBottom_toTopOf="@id/match_language"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                        android:id="@+id/unread_cnt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:textColor="@android:color/white"
+                        android:text="3"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_chat_unread_badge"
+                        app:layout_constraintTop_toBottomOf="@id/match_date"
+                        app:layout_constraintBottom_toTopOf="@id/match_language"
+                        app:layout_constraintStart_toStartOf="parent"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
