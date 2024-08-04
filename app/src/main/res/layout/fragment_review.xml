@@ -131,7 +131,7 @@
 
         <ImageButton
             android:id="@+id/btn_excellent"
-            android:layout_width="60dp"
+            android:layout_width="75dp"
             android:layout_height="80dp"
             android:src="@drawable/ic_excellent_status"
             android:contentDescription="최고에요"

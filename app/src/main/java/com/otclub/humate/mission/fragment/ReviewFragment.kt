@@ -119,7 +119,7 @@ class ReviewFragment : Fragment() {
                             postTitle.text = review.postTitle
                             matchBranch.text = review.matchBranch
                             matchDate.text = review.matchDate
-                            mateNickname.text = review.mateNickname + "님과의 매칭은 어떠셨나요?"
+                            mateNickname.text = getString(R.string.matching_nickname, review.mateNickname)
                         }
                     }
                 } else {
