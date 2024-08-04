@@ -3,9 +3,9 @@
 
     <item
         android:id="@+id/finish_companion"
-        android:title="동행 종료하기" />
+        android:title="@string/companion_finish" />
 
     <item
         android:id="@+id/write_review"
-        android:title="후기 남기기" />
+        android:title="@string/review_write" />
 </menu>

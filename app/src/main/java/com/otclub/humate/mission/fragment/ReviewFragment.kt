@@ -49,7 +49,7 @@ class ReviewFragment : Fragment() {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
             val title: TextView = toolbar.findViewById(R.id.toolbar_title)
-            title.setText("후기 남기기")
+            title.setText(getString(R.string.review_write))
 
             // 버튼의 가시성 설정
             val showLeftButton = true
