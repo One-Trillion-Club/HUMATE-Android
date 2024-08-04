@@ -136,29 +136,29 @@ class ChatFragment : Fragment() {
     }
 
     private fun setupToolbar() {
-        val activity = activity as? MainActivity
-        activity?.let {
-            // 기존 Toolbar 숨기기
-            val mainToolbar = it.getToolbar()
-            mainToolbar?.visibility = View.GONE
-
-            // 새로운 Toolbar 설정
-            val chatToolbar = LayoutInflater.from(context).inflate(R.layout.chat_toolbar, null) as Toolbar
-            val leftButton: ImageButton = chatToolbar.findViewById(R.id.left_button)
-            val menuButton: ImageButton = chatToolbar.findViewById(R.id.menu_button)
-            val titleTextView: TextView = chatToolbar.findViewById(R.id.toolbar_title)
-
-            // 버튼 클릭 리스너 설정
-            leftButton.setOnClickListener {
-                parentFragmentManager.popBackStack()
-            }
-            menuButton.setOnClickListener {
-                showPopupMenu(menuButton)
-            }
-
-            // 새로운 Toolbar를 액티비티에 추가
-            it.replaceToolbar(chatToolbar)
-        }
+//        val activity = activity as? MainActivity
+//        activity?.let {
+//            // 기존 Toolbar 숨기기
+//            val mainToolbar = it.getToolbar()
+//            mainToolbar?.visibility = View.GONE
+//
+//            // 새로운 Toolbar 설정
+//            val chatToolbar = LayoutInflater.from(context).inflate(R.layout.chat_toolbar, null) as Toolbar
+//            val leftButton: ImageButton = chatToolbar.findViewById(R.id.left_button)
+//            val menuButton: ImageButton = chatToolbar.findViewById(R.id.menu_button)
+//            val titleTextView: TextView = chatToolbar.findViewById(R.id.toolbar_title)
+//
+//            // 버튼 클릭 리스너 설정
+//            leftButton.setOnClickListener {
+//                parentFragmentManager.popBackStack()
+//            }
+//            menuButton.setOnClickListener {
+//                showPopupMenu(menuButton)
+//            }
+//
+//            // 새로운 Toolbar를 액티비티에 추가
+//            it.replaceToolbar(chatToolbar)
+//        }
     }
 
     private fun showPopupMenu(view: View) {

@@ -8,22 +8,31 @@
              tools:context=".chat.fragment.ChatFragment">
 
     <LinearLayout
+            android:id="@+id/body"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <View
+        <include
+                android:id="@+id/toolbar"
+                layout="@layout/chat_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="10dp"
-                android:background="@color/bright_gray"
-        />
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="@id/body"
+                app:layout_constraintEnd_toEndOf="parent" />
+
         <!-- Top information layout -->
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="5dp">
+                android:orientation="vertical">
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="10dp"
+                    android:background="@color/bright_gray"
+            />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
