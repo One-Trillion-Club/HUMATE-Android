@@ -84,6 +84,10 @@ class MatchingFragment : Fragment() {
         }
 
         matchingViewModel.fetchMatching()
+
+        mBinding?.toolbar?.leftButton?.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     override fun onDestroyView() {
