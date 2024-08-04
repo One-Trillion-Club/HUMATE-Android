@@ -2,7 +2,6 @@ package com.otclub.humate.sharedpreferences
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 
 class SharedPreferencesManager(context: Context) {
     private val authSharedPreferences: SharedPreferences =
@@ -13,8 +12,6 @@ class SharedPreferencesManager(context: Context) {
             putBoolean("isLoggedIn", isLogin)
             apply()
         }
-
-        Log.i("쉐어드프리퍼런스매니저: 셋이즈로그인", authSharedPreferences.getBoolean("isLoggedIn", false).toString())
     }
 
     fun getIsLogin(): Boolean {
@@ -41,6 +38,4 @@ class SharedPreferencesManager(context: Context) {
         val refreshToken = authSharedPreferences.getString("refreshToken", null)
         return Pair(accessToken, refreshToken)
     }
-
-
 }
