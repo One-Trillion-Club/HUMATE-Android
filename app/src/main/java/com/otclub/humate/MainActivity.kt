@@ -90,4 +90,14 @@ class MainActivity : AppCompatActivity() {
         toolbarContainer.addView(defaultToolbar)
         setSupportActionBar(defaultToolbar)
     }
+
+    fun hideBottomNavigationBar() {
+        val bottomNavigationView = mBinding.bottomNavigationView
+        bottomNavigationView.visibility = View.GONE
+    }
+
+    fun showBottomNavigationBar() {
+        val bottomNavigationView = mBinding.bottomNavigationView
+        bottomNavigationView.visibility = View.VISIBLE
+    }
 }

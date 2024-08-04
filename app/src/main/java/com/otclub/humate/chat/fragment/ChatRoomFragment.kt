@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.chat.adapter.ChatRoomAdapter
 import com.otclub.humate.chat.viewModel.ChatRoomViewModel
@@ -55,6 +56,9 @@ class ChatRoomFragment  : Fragment()  {
                     val bundle = Bundle().apply {
                         putInt("participateId", chatRoom.participateId)
                     }
+                    // Navigation Bar 숨기기
+                    (activity as? MainActivity)?.hideBottomNavigationBar()
+
                     findNavController().navigate(
                         R.id.action_chatRoomFragment_to_chatFragment,
                         bundle
