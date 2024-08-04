@@ -18,4 +18,8 @@
     <string name="submit">제출하기</string>
     <string name="review_notice">후기를 작성해주세요</string>
     <string name="matching_nickname">%1$s님과의 매칭은 어떠셨나요?</string>
+    <string name="nav_mate">메이트</string>
+    <string name="nav_chat">채팅</string>
+    <string name="nav_mission">활동</string>
+    <string name="nav_mypage">마이페이지</string>
 </resources>

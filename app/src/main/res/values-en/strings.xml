@@ -18,4 +18,8 @@
     <string name="submit">submit</string>
     <string name="review_notice">Please write a review</string>
     <string name="matching_nickname">How was your day with %1$s?</string>
+    <string name="nav_mate">mate</string>
+    <string name="nav_chat">chat</string>
+    <string name="nav_mission">mission</string>
+    <string name="nav_mypage">mypage</string>
 </resources>
