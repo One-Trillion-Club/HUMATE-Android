@@ -31,4 +31,7 @@ interface MissionService {
     @GET("reviews")
     fun getReview(@Query("companionId") companionId: Int): Call<ReviewResponseDTO>
 
+    @POST("reviews")
+    fun submitReview(@Body reviewRequest: ReviewRequestDTO): Call<CommonResponseDTO>
+
 }

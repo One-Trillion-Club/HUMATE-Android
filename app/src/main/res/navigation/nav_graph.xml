@@ -118,6 +118,10 @@
     <fragment
         android:id="@+id/reviewFragment"
         android:name="com.otclub.humate.mission.fragment.ReviewFragment"
-        android:label="ReviewFragment" />
+        android:label="ReviewFragment" >
+        <action
+            android:id="@+id/action_reviewFragment_to_missionFragment"
+            app:destination="@id/missionFragment" />
+    </fragment>
 
 </navigation>
