@@ -33,9 +33,11 @@ class MatchingAdapter(
         holder.postTitle.text = matching.postTitle
         holder.mateNickname.text = matching.mateNickname
         holder.matchDate.text = matching.matchDate
-        Glide.with(holder.itemView.context)
-            .load(matching.mateProfileImgUrl)
-            .into(holder.mateProfileImg)
+        if (matching.mateProfileImgUrl != null) {
+            Glide.with(holder.itemView.context)
+                .load(matching.mateProfileImgUrl)
+                .into(holder.mateProfileImg)
+        }
 
         val context = holder.itemView.context
         if (matching.status.equals("진행중")) {
