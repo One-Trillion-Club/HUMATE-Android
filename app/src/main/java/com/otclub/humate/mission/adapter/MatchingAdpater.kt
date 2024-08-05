@@ -40,10 +40,10 @@ class MatchingAdapter(
         val context = holder.itemView.context
         if (matching.status.equals("진행중")) {
             holder.status.text = context.getString(R.string.status_ongoing)
-            holder.status.setBackgroundResource(R.drawable.post_ongoing)
+            holder.status.setBackgroundResource(R.drawable.matching_ongoing)
         } else {
             holder.status.text = context.getString(R.string.status_completed)
-            holder.status.setBackgroundResource(R.drawable.post_closed)
+            holder.status.setBackgroundResource(R.drawable.matching_closed)
         }
 
         // 아이템 클릭 리스너 설정
