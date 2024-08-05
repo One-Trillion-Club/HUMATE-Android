@@ -28,8 +28,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/newMissionImage"
             android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
             android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"
             android:text="Mission Title"
+            android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="15sp"
             android:textStyle="bold" />
