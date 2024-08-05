@@ -135,6 +135,7 @@ class NewMissionFragment : Fragment() {
                     companionId?.let { id ->
                         finishCompanion(id)
                     }
+                    findNavController().navigate(R.id.action_newMissionFragment_to_reviewFragment)
                     true
                 }
 

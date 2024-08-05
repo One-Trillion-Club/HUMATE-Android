@@ -163,6 +163,7 @@ class ClearedMissionFragment : Fragment() {
                     companionId?.let { id ->
                         finishCompanion(id)
                     }
+                    findNavController().navigate(R.id.action_missionFragment_to_reviewFragment)
                     true
                 }
 
