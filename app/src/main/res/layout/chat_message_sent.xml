@@ -10,7 +10,10 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="end"
-            android:padding="8dp">
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp">
 
         <LinearLayout
                 android:layout_width="wrap_content"
