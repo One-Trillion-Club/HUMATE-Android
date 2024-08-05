@@ -137,26 +137,26 @@ class PostListFragment : Fragment() {
             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
         })
 
-        val activity = activity as? MainActivity
-        activity?.let {
-            val toolbar = it.getToolbar() // MainActivity의 Toolbar를 가져옴
-            val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
-            val rightButton: Button = toolbar.findViewById(R.id.right_button)
-
-            // 버튼의 가시성 설정
-            val showLeftButton = false
-            val showRightButton = false
-            leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
-            rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
-
-            // 액션 바의 타이틀을 설정하거나 액션 바의 다른 속성을 조정
-            it.setToolbarTitle("메이트 찾기")
-
-            // leftButton 클릭 이벤트 설정 (뒤로가기)
-            leftButton.setOnClickListener {
-                findNavController().navigateUp()
-            }
-        }
+//        val activity = activity as? MainActivity
+//        activity?.let {
+//            val toolbar = it.getToolbar() // MainActivity의 Toolbar를 가져옴
+//            val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
+//            val rightButton: Button = toolbar.findViewById(R.id.right_button)
+//
+//            // 버튼의 가시성 설정
+//            val showLeftButton = false
+//            val showRightButton = false
+//            leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
+//            rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
+//
+//            // 액션 바의 타이틀을 설정하거나 액션 바의 다른 속성을 조정
+//            it.setToolbarTitle("메이트 찾기")
+//
+//            // leftButton 클릭 이벤트 설정 (뒤로가기)
+//            leftButton.setOnClickListener {
+//                findNavController().navigateUp()
+//            }
+//        }
 
         // 필터 버튼 가져오기
         val filterButton: Button = binding.filterButton

@@ -1,6 +1,7 @@
 package com.otclub.humate.mission.fragment
 
 import NewMissionAdapter
+import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -10,15 +11,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.widget.PopupMenu
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.tabs.TabLayout
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentNewMissionBinding
+import com.otclub.humate.mission.api.MissionService
+import com.otclub.humate.mission.data.CommonResponseDTO
 import com.otclub.humate.mission.viewModel.MissionViewModel
+import com.otclub.humate.retrofit.RetrofitConnection
+import retrofit2.Call
+import retrofit2.Response
 
 class NewMissionFragment : Fragment() {
     private val missionViewModel: MissionViewModel by activityViewModels()
@@ -38,23 +49,24 @@ class NewMissionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val activity = activity as? MainActivity
-        activity?.let {
-            val toolbar = it.getToolbar() // MainActivity의 Toolbar를 가져옴
-            val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
-            val rightButton: Button = toolbar.findViewById(R.id.right_button)
+        mBinding?.tabLayout?.addTab(mBinding!!.tabLayout.newTab().setText(getString(R.string.mission_finished)))
+        mBinding?.tabLayout?.addTab(mBinding!!.tabLayout.newTab().setText(getString(R.string.mission_new)))
+        mBinding?.tabLayout?.getTabAt(1)?.select()
 
-            // 버튼의 가시성 설정
-            val showLeftButton = true
-            val showRightButton = false
-            leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
-            rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
-            // leftButton 클릭 시 이전 화면으로 돌아가기
-            leftButton.setOnClickListener {
-                findNavController().navigateUp()
+        mBinding?.tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (tab!!.text.toString().equals(getString(R.string.mission_finished))) {
+                    findNavController().navigate(R.id.action_newMissionFragment_to_missionFragment)
+                }
             }
 
-        }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
+
 
         // RecyclerView 설정
         mBinding?.newMissionRecyclerView?.apply {
@@ -79,48 +91,93 @@ class NewMissionFragment : Fragment() {
                 }
                 Log.i("adapter : ", adapter.toString())
                 mBinding?.newMissionRecyclerView?.adapter = adapter
-            }
-        }
-        // 버튼 클릭 리스너 설정
-        mBinding?.completedMissionButton?.setOnClickListener {
-            selectButton(mBinding?.completedMissionButton)
-        }
-
-        mBinding?.newMissionButton?.setOnClickListener {
-            selectButton(mBinding?.newMissionButton)
-        }
-
-        selectButton(mBinding?.newMissionButton)
-    }
-
-    private fun selectButton(button: Button?) {
-        // 기존 선택된 버튼이 있다면 원래 상태로 되돌리기
-        selectedButton?.let {
-            it.isSelected = false // 선택 상태를 해제
-            it.setTypeface(Typeface.DEFAULT, Typeface.NORMAL)
-            it.setTextColor(Color.BLACK)
-        }
-
-        // 새로 선택된 버튼의 스타일 적용
-        button?.let {
-            it.isSelected = true // 선택 상태를 해제
-            it.setTypeface(Typeface.DEFAULT_BOLD) // 텍스트를 굵게
-            it.setTextColor(Color.WHITE) // 텍스트 색깔을 흰색으로 설정 (예: Color.WHITE 또는 Color.parseColor("#FFFFFF"))
-        }
-
-        selectedButton = button
-
-        // 버튼에 따라 Fragment 전환
-        when (button?.id) {
-            R.id.completedMissionButton -> {
-                // 완료된 활동 버튼 클릭 시 ClearedMissionFragment로 전환
-                findNavController().navigate(R.id.action_newMissionFragment_to_missionFragment)
-            }
-            R.id.newMissionButton -> {
-                // 새로운 활동 버튼 클릭 시 처리
+                setupToolbar(it.postTitle)
             }
         }
     }
+
+    private fun setupToolbar(postTitle: String) {
+        val toolbar = mBinding?.toolbar?.missionToolbar
+        toolbar?.let {
+            val leftButton: ImageButton = it.findViewById(R.id.mission_left_button)
+            val rightButton: ImageButton = it.findViewById(R.id.mission_menu_button)
+            val title: TextView = it.findViewById(R.id.mission_toolbar_title)
+            title.text = postTitle
+
+            // 버튼의 가시성 설정
+            val showLeftButton = true
+            val showRightButton = true
+            leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
+            rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
+
+            // leftButton 클릭 시 이전 화면으로 돌아가기
+            leftButton.setOnClickListener {
+                findNavController().navigateUp()
+            }
+
+            rightButton.setOnClickListener {
+                showMissionPopupMenu(rightButton)
+            }
+        }
+    }
+
+    private fun showMissionPopupMenu(view: View) {
+        val popupMenu = PopupMenu(requireContext(), view)
+        val inflater = popupMenu.menuInflater
+        inflater.inflate(R.menu.mission_menu, popupMenu.menu)
+        popupMenu.menu.findItem(R.id.finish_companion).isVisible = (missionViewModel.isFinished == 0)
+        popupMenu.menu.findItem(R.id.write_review).isVisible = (missionViewModel.isFinished == 1)
+        popupMenu.setOnMenuItemClickListener { item ->
+
+            when (item.itemId) {
+                R.id.finish_companion -> {
+                    val companionId = missionViewModel.lastCompanionId
+                    companionId?.let { id ->
+                        finishCompanion(id)
+                    }
+                    true
+                }
+
+                R.id.write_review -> {
+                    findNavController().navigate(R.id.action_newMissionFragment_to_reviewFragment)
+                    true
+                }
+
+                else -> false
+            }
+        }
+        popupMenu.show()
+    }
+
+    private fun finishCompanion(companionId: Int) {
+        val call = RetrofitConnection.getInstance().create(MissionService::class.java).finishCompanion(companionId)
+        call.enqueue(object : retrofit2.Callback<CommonResponseDTO> {
+            override fun onResponse(
+                call: Call<CommonResponseDTO>,
+                response: Response<CommonResponseDTO>
+            ) {
+                if (response.isSuccessful) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Upload successful",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    missionViewModel.lastCompanionId?.let { missionViewModel.fetchMission(it) }
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Upload failed: ${response.message()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+            }
+
+            override fun onFailure(call: Call<CommonResponseDTO>, t: Throwable) {
+            }
+        })
+    }
+
 
     override fun onDestroyView() {
         mBinding = null

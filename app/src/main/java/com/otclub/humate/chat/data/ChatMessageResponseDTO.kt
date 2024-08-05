@@ -7,5 +7,5 @@ data class ChatMessageResponseDTO(
     val senderId : String,
     val content : String,
     val messageType : MessageType,
-    val createdAt : Date
+    val createdAt : String
 )

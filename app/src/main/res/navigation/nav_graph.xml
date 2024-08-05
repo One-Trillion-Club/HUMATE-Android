@@ -19,6 +19,9 @@
         <argument
                 android:name="companionId"
                 app:argType="integer"/>
+        <action
+            android:id="@+id/action_missionFragment_to_reviewFragment"
+            app:destination="@id/reviewFragment" />
     </fragment>
     <fragment
             android:id="@+id/postListFragment"
@@ -43,6 +46,13 @@
         <action
                 android:id="@+id/action_postListFilterFragment_to_postListFragment"
                 app:destination="@id/postListFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/chatRoomFragment"
+            android:name="com.otclub.humate.chat.fragment.ChatRoomFragment"
+            android:label="chat_room_fragment"
+            tools:layout="@layout/chat_room_fragment">
+        <action android:id="@+id/action_chatRoomFragment_to_chatFragment" app:destination="@id/chatFragment"/>
     </fragment>
     <fragment
             android:id="@+id/postDetailFragment"
@@ -75,13 +85,8 @@
                 app:destination="@id/postWriteFragment" />
     </fragment>
     <fragment
-            android:id="@+id/chatFragment"
-            android:name="com.otclub.humate.chat.fragment.ChatFragment"
-            android:label="fragment_chat"
-            tools:layout="@layout/chat_fragment"/>
-    <fragment
             android:id="@+id/myPageFragment"
-            android:name="com.otclub.humate.MyPageFragment"
+            android:name="com.otclub.humate.member.fragment.MyPageFragment"
             android:label="fragment_my_page"
             tools:layout="@layout/member_fragment_my_page"/>
     <fragment
@@ -96,7 +101,9 @@
             android:id="@+id/action_newMissionFragment_to_newMissionDetailsFragment"
             app:destination="@id/newMissionDetailsFragment">
         </action>
-
+        <action
+            android:id="@+id/action_newMissionFragment_to_reviewFragment"
+            app:destination="@id/reviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/newMissionDetailsFragment"
@@ -136,5 +143,17 @@
             android:id="@+id/action_missionUploadFragment_to_missionFragment"
             app:destination="@id/missionFragment" />
     </fragment>
-
+    <fragment
+        android:id="@+id/reviewFragment"
+        android:name="com.otclub.humate.mission.fragment.ReviewFragment"
+        android:label="ReviewFragment" >
+        <action
+            android:id="@+id/action_reviewFragment_to_missionFragment"
+            app:destination="@id/missionFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/chatFragment"
+            android:name="com.otclub.humate.chat.fragment.ChatFragment"
+            android:label="chat_fragment"
+            tools:layout="@layout/chat_fragment"/>
 </navigation>

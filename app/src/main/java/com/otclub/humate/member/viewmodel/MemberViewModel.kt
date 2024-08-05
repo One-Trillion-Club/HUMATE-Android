@@ -1,10 +1,12 @@
 package com.otclub.humate.member.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import com.otclub.humate.auth.api.AuthService
 import com.otclub.humate.auth.data.CommonResponseDTO
 import com.otclub.humate.member.api.MemberService
+import com.otclub.humate.member.data.ProfileResponseDTO
 import com.otclub.humate.retrofit.RetrofitConnection
 import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 import retrofit2.Call
@@ -38,6 +40,30 @@ class MemberViewModel(application: Application): AndroidViewModel(application) {
             }
 
             override fun onFailure(call: Call<CommonResponseDTO>, t: Throwable) {
+                onError(t.message ?: "네트워크 오류")
+            }
+        })
+    }
+
+    fun fetchGetMyProfile(
+        onSuccess: (ProfileResponseDTO) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        memberService.getMyProfile().enqueue(object : Callback<ProfileResponseDTO> {
+            override fun onResponse(
+                call: Call<ProfileResponseDTO>,
+                response: retrofit2.Response<ProfileResponseDTO>
+            ) {
+                if (response.isSuccessful && response.body() != null) {
+                    // 서버 응답 성공
+                    onSuccess(response.body()!!)
+                }
+                else {
+                    Log.i("에러에러", response.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<ProfileResponseDTO>, t: Throwable) {
                 onError(t.message ?: "네트워크 오류")
             }
         })

@@ -1,4 +1,4 @@
-package com.otclub.humate.chat.adpater
+package com.otclub.humate.chat.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -56,13 +56,19 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
             notifyItemInserted(messages.size - 1)
         }
 
+        fun updateMessages(newMessages: List<ChatMessageResponseDTO>) {
+            messages.clear()
+            messages.addAll(newMessages)
+            notifyDataSetChanged()
+        }
+
         inner class ReceivedMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             private val textView: TextView = itemView.findViewById(R.id.message_text)
             private val dateView: TextView = itemView.findViewById(R.id.message_time)
 
             fun bind(message: ChatMessageResponseDTO) {
                 textView.text = "${message.senderId}: ${message.content}"
-                dateView.text = formatDate(message.createdAt)
+                dateView.text = "${message.createdAt}"//formatDate(message.createdAt)
             }
         }
 
@@ -72,7 +78,7 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
 
             fun bind(message: ChatMessageResponseDTO) {
                 textView.text = "${message.senderId}: ${message.content}"
-                dateView.text = formatDate(message.createdAt)
+                dateView.text = "${message.createdAt}" //dateView.text = formatDate(message.createdAt)
             }
         }
 

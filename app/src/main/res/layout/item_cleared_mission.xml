@@ -28,12 +28,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:paddingBottom="4dp"
+            android:padding="6dp"
             android:text="Status"
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:textSize="15sp"
-            android:gravity="center"/>
+            android:gravity="center_horizontal" />
 
         <TextView
             android:id="@+id/missionTitle"

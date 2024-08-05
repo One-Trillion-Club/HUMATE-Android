@@ -7,11 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentMatchingBinding
 import com.otclub.humate.mission.adapter.MatchingAdapter
@@ -34,13 +35,13 @@ class MatchingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val toolbar = mBinding?.toolbar?.toolbar
 
-        val activity = activity as? MainActivity
-        activity?.let {
-            val toolbar = it.getToolbar()
+        toolbar?.let {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
-            it.setToolbarTitle("동행 목록")
+            val title: TextView = toolbar.findViewById(R.id.toolbar_title)
+            title.setText(getString(R.string.matching_title))
 
             // 버튼의 가시성 설정
             val showLeftButton = true
@@ -83,6 +84,10 @@ class MatchingFragment : Fragment() {
         }
 
         matchingViewModel.fetchMatching()
+
+        mBinding?.toolbar?.leftButton?.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     override fun onDestroyView() {

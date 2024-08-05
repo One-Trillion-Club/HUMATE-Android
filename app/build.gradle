@@ -74,10 +74,16 @@ dependencies {
     // okhttp - websocket
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
     implementation 'org.java-websocket:Java-WebSocket:1.5.2'
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:4.9.1"
 
     // circle image view
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
     // ballon library
     implementation 'com.github.skydoves:balloon:1.3.7'
+
+    // coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+
 }

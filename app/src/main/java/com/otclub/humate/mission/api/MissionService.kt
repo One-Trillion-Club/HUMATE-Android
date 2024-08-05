@@ -25,4 +25,13 @@ interface MissionService {
         @Part images: List<MultipartBody.Part>
     ): Call<CommonResponseDTO>
 
+    @DELETE("companions/finish")
+    fun finishCompanion(@Query("companionId") companionId: Int): Call<CommonResponseDTO>
+
+    @GET("reviews")
+    fun getReview(@Query("companionId") companionId: Int): Call<ReviewResponseDTO>
+
+    @POST("reviews")
+    fun submitReview(@Body reviewRequest: ReviewRequestDTO): Call<CommonResponseDTO>
+
 }

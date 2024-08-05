@@ -26,14 +26,14 @@
                 android:layout_gravity="start|center_vertical"/>
 
         <Button
-                android:id="@+id/right_button"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="확인"
-                android:textColor="@color/purple_500"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
-                android:layout_gravity="end|center_vertical"/>
+            android:id="@+id/right_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:text="확인"
+            android:textColor="@color/purple_500" />
 
         <TextView
             android:id="@+id/toolbar_title"

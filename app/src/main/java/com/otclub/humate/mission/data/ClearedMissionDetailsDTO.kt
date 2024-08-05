@@ -4,6 +4,6 @@ import java.util.Date
 
 data class ClearedMissionDetailsDTO(
    val activityTitle: String,
-   val createdAt: Date,
+   val createdAt: String,
    val imgUrls: List<String>
 )
