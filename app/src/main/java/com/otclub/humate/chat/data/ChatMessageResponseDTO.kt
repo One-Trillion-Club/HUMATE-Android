@@ -4,8 +4,10 @@ import java.util.*
 
 data class ChatMessageResponseDTO(
     val chatRoomId : String,
-    val senderId : String,
+    val participateId : String?,
     val content : String,
+    val createdAt : String,
+    val readCnt : Int,
     val messageType : MessageType,
-    val createdAt : String
+    val imgUrl : String
 )

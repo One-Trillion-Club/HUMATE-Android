@@ -7,15 +7,19 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.otclub.humate.R
 import com.otclub.humate.chat.data.ChatMessageResponseDTO
+import com.otclub.humate.chat.data.MessageType
 import java.text.SimpleDateFormat
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
-class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, private val myId: String) :
+class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, private val participateId: String?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         private const val TYPE_MESSAGE_RECEIVED = 0
         private const val TYPE_MESSAGE_SENT = 1
+        private const val TYPE_MESSAGE_NOTICE = 2
     }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -28,6 +32,10 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
                     val view = LayoutInflater.from(parent.context).inflate(R.layout.chat_message_sent, parent, false)
                     SentMessageViewHolder(view)
                 }
+                TYPE_MESSAGE_NOTICE -> {
+                    val view = LayoutInflater.from(parent.context).inflate(R.layout.chat_message_notice, parent, false)
+                    NoticeMessageViewHolder(view)
+                }
                 else -> throw IllegalArgumentException("Invalid view type")
             }
         }
@@ -37,15 +45,21 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
             when (holder) {
                 is ReceivedMessageViewHolder -> holder.bind(message)
                 is SentMessageViewHolder -> holder.bind(message)
+                is NoticeMessageViewHolder -> holder.bind(message)
             }
         }
 
         override fun getItemViewType(position: Int): Int {
             val message = messages[position]
-            return if (message.senderId == myId) {
-                TYPE_MESSAGE_SENT
-            } else {
-                TYPE_MESSAGE_RECEIVED
+            return if(isNotice(message.messageType)){
+                TYPE_MESSAGE_NOTICE
+            }
+            else{
+                if (message.participateId.equals(participateId)) {
+                    TYPE_MESSAGE_SENT
+                } else {
+                    TYPE_MESSAGE_RECEIVED
+                }
             }
         }
 
@@ -67,8 +81,8 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
             private val dateView: TextView = itemView.findViewById(R.id.message_time)
 
             fun bind(message: ChatMessageResponseDTO) {
-                textView.text = "${message.senderId}: ${message.content}"
-                dateView.text = "${message.createdAt}"//formatDate(message.createdAt)
+                textView.text = "${message.content}"
+                dateView.text = formatDate(message.createdAt)
             }
         }
 
@@ -77,17 +91,40 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
             private val dateView: TextView = itemView.findViewById(R.id.message_time)
 
             fun bind(message: ChatMessageResponseDTO) {
-                textView.text = "${message.senderId}: ${message.content}"
-                dateView.text = "${message.createdAt}" //dateView.text = formatDate(message.createdAt)
+                textView.text = "${message.content}"
+                dateView.text = formatDate(message.createdAt)
+            }
+        }
+
+        inner class NoticeMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+            private val textView: TextView = itemView.findViewById(R.id.message_notice)
+
+            fun bind(message: ChatMessageResponseDTO){
+                textView.text = "${message.participateId} 님이 ${message.content}"
             }
         }
 
     // 날짜 형식 변환을 위한 메서드
-    private fun formatDate(date: Date): String {
-        val outputFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        val formattedDate = outputFormat.format(date)
+    private fun formatDate(createdAt: String): String {
+        // Step 1: 타임스탬프 문자열을 Long 타입으로 변환
+        val timestamp = createdAt.toLong()
+
+        // Step 2: Long 타입의 타임스탬프를 Date 객체로 변환
+        val date = Date(timestamp)
+
+        // Step 3: Date 객체를 원하는 형식의 문자열로 변환
+        val targetFormat = SimpleDateFormat("hh:mm a")
+        val formattedDate: String = targetFormat.format(date)
+
         // AM/PM을 소문자로 변환
         return formattedDate.toLowerCase(Locale.getDefault())
+    }
+
+
+    private fun isNotice(msgType : MessageType) : Boolean {
+        if(MessageType.TEXT.equals(msgType) || MessageType.IMAGE.equals(msgType))
+            return false;
+        return true;
     }
 
 
