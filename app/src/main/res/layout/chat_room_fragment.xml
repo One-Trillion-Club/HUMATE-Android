@@ -13,32 +13,18 @@
             android:padding="16dp">
 
         <!-- 버튼을 위한 상위 레이아웃 -->
-        <LinearLayout
+        <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:orientation="horizontal">
-
-            <android.widget.Button
-                    android:id="@+id/mateListButton"
-                    android:layout_marginTop="15dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="메이트 채팅"
-                    android:textColor="@android:color/black"
-                    android:background="@drawable/tab_basic_indicator" />
-
-            <android.widget.Button
-                    android:id="@+id/pendingListButton"
-                    android:layout_marginTop="15dp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="대기"
-                    android:textColor="@android:color/black"
-                    android:background="@drawable/tab_basic_indicator" />
-        </LinearLayout>
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tabGravity="fill"
+                app:tabMode="fixed"
+                app:tabTextColor="@color/black"
+                app:tabSelectedTextColor="@color/black"
+                app:tabIndicatorColor="@color/black"/>
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/chatRoomRecyclerView"
