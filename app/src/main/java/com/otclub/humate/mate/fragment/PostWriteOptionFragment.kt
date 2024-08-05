@@ -71,20 +71,19 @@ class PostWriteOptionFragment : Fragment() {
             Log.i("option", "Updated options: $options")
         }
 
-        val activity = activity as? MainActivity
-        activity?.let {
-            val toolbar = it.getToolbar() // MainActivity의 Toolbar를 가져옴
+        val toolbar = mBinding?.toolbar?.toolbar
+
+        toolbar?.let {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
+            val title: TextView = toolbar.findViewById(R.id.toolbar_title)
+            title.setText("매칭 정보 선택")
 
             // 버튼의 가시성 설정
             val showLeftButton = true
-            val showRightButton = true
+            val showRightButton = false
             leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
             rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
-
-            // 액션 바의 타이틀을 설정하거나 액션 바의 다른 속성을 조정
-            it.setToolbarTitle("매칭 정보 선택")
 
             // 확인 버튼 이벤트 처리
             rightButton.setOnClickListener {
@@ -95,6 +94,11 @@ class PostWriteOptionFragment : Fragment() {
                     matchLanguage = selectedLanguage
                 )
                 findNavController().navigate(R.id.action_postWriteOptionFragment_to_postWriteFragment)
+            }
+
+            // 뒤로가기 버튼 이벤트 처리
+            leftButton.setOnClickListener {
+                findNavController().navigateUp()
             }
         }
 
