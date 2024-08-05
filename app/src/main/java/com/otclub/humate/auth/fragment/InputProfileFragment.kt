@@ -84,7 +84,7 @@ class InputProfileFragment : Fragment() {
                 val imageSizeInBytes = inputStream.available()
                 val imageSizeInMB = imageSizeInBytes / (1024 * 1024).toFloat()
 
-                if (imageSizeInMB > 1) {
+                if (imageSizeInMB > 50) {
                     Toast.makeText(requireContext(), "이미지 크기가 1MB를 초과합니다. 다른 이미지를 선택해주세요.", Toast.LENGTH_SHORT).show()
                     selectedImageUri = null
                     binding.profileImage.setImageURI(null) // 이미지 뷰 초기화
