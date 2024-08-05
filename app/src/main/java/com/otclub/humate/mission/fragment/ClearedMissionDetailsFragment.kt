@@ -16,6 +16,7 @@ import com.otclub.humate.mission.adapter.ImagePagerAdapter
 import com.otclub.humate.mission.data.ClearedMissionDetailsDTO
 import com.otclub.humate.mission.viewModel.MissionViewModel
 
+
 class ClearedMissionDetailsFragment : Fragment() {
     private val viewModel: MissionViewModel by activityViewModels()
     private var mBinding: FragmentClearedMissionDetailsBinding? = null
@@ -71,6 +72,7 @@ class ClearedMissionDetailsFragment : Fragment() {
             // Set up the ViewPager with the adapter
             val adapter = ImagePagerAdapter(details.imgUrls)
             viewPager.adapter = adapter
+            dotsIndicator.setViewPager(viewPager)
         }
     }
 }
