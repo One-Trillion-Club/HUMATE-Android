@@ -54,7 +54,7 @@ class ChatRoomFragment  : Fragment()  {
             response?.let {
                 val adapter = ChatRoomAdapter(it) { chatRoom ->
                     val bundle = Bundle().apply {
-                        putInt("participateId", chatRoom.participateId)
+                        putString("participateId", chatRoom.participateId.toString())
                         putString("chatRoomId", chatRoom.chatRoomId)
                     }
                     // Navigation Bar 숨기기

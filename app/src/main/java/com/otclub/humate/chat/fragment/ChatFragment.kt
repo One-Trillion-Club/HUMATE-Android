@@ -21,7 +21,6 @@ import com.otclub.humate.BuildConfig.*
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.chat.adapter.ChatAdapter
-import com.otclub.humate.chat.adapter.ChatRoomAdapter
 import com.otclub.humate.chat.data.ChatMessageRequestDTO
 import com.otclub.humate.chat.data.ChatMessageResponseDTO
 import com.otclub.humate.chat.data.MessageType
@@ -38,7 +37,7 @@ import java.util.concurrent.TimeUnit
 
 class ChatFragment : Fragment() {
 
-    private var participateId: Int? = null
+    private var participateId: String? = null
     private var chatRoomId : String? = null
     private val chatViewModel : ChatViewModel by activityViewModels()
     private var mBinding : ChatFragmentBinding? = null
@@ -48,15 +47,16 @@ class ChatFragment : Fragment() {
     private val handler = Handler(Looper.getMainLooper())
     private val reconnectRunnable = object : Runnable {
         override fun run() {
-            Log.d("WebSocket", "웹소켓 재연결 요청")
-            closeWebSocket()
-            startWebSocket()
-            handler.postDelayed(this, 10000) // 3분마다 재연결 요청
+            if (webSocket == null) {
+                Log.d("WebSocket", "웹소켓 재연결 요청")
+                closeWebSocket()
+                startWebSocket()
+            }
+            handler.postDelayed(this, 180000) // 3분마다 재연결 요청
         }
     }
 
     private lateinit var chatAdapter: ChatAdapter
-    private val myId = TEST_MEMBER_1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,10 +66,19 @@ class ChatFragment : Fragment() {
         val binding = ChatFragmentBinding.inflate(inflater, container, false)
         mBinding = binding
 
+        // Get participateId from arguments
+        arguments?.let {
+            participateId = it.getString("participateId", "")
+            chatRoomId = it.getString("chatRoomId", "")
+
+            // Use participateId as needed
+            Log.d("ChatFragment", "Received participateId: $participateId")
+        }
         // RecyclerView 설정
-        chatAdapter = ChatAdapter(mutableListOf(), myId)
+        chatAdapter = ChatAdapter(mutableListOf(), participateId)
         mBinding?.chatDisplay?.adapter = chatAdapter
         mBinding?.chatDisplay?.layoutManager = LinearLayoutManager(requireContext())
+        scrollToBottom()
 
         return mBinding?.root
     }
@@ -79,28 +88,20 @@ class ChatFragment : Fragment() {
         setupToolbar()
         setupSendButton()
 
-        // Get participateId from arguments
-        arguments?.let {
-            participateId = it.getInt("participateId", -1) // Default value is -1 if "participateId" is not found
-            chatRoomId = it.getString("chatRoomId", "")
-
-            // Use participateId as needed
-            Log.d("ChatFragment", "Received participateId: $participateId")
-        }
-
         // ViewModel에서 데이터 관찰
         chatViewModel.chatHistoryList.observe(viewLifecycleOwner) { response ->
             response?.let {
                 chatAdapter.updateMessages(it)
                 Log.i("adapter : ", it.toString())
                 mBinding?.chatDisplay?.adapter = chatAdapter
+                scrollToBottom()
             }
         }
 
         // 비동기적으로 과거 채팅 내역 로드 및 웹소켓 시작
         lifecycleScope.launch {
             loadChatHistory() // 과거 채팅 내역 로드
-            startWebSocket() // 웹소켓 시작
+            handler.post(reconnectRunnable) // 웹소켓 시작
         }
     }
 
@@ -108,24 +109,26 @@ class ChatFragment : Fragment() {
         withContext(Dispatchers.IO) {
             chatViewModel.fetchChatHistoryList(chatRoomId)
             Log.d("[loadChatHistory]", chatRoomId.toString())
+
         }
     }
 
     override fun onResume() {
         super.onResume()
-        handler.post(reconnectRunnable) // Start periodic reconnection
+        Log.d("[onResume]","다시 시작")
     }
 
     override fun onPause() {
         super.onPause()
+        Log.d("[onPause]","일시정지")
         handler.removeCallbacks(reconnectRunnable)
         closeWebSocket()
     }
 
     private fun sendMessage(content: String) {
         val messageRequest = ChatMessageRequestDTO(
-            chatRoomId = "10",
-            senderId = TEST_MEMBER_1, // 실제 사용자 ID로 변경
+            chatRoomId = chatRoomId,
+            participateId = participateId, // 실제 사용자 ID로 변경
             content = content,
             messageType = MessageType.TEXT
         )
@@ -133,20 +136,11 @@ class ChatFragment : Fragment() {
         val gson = Gson()
         val messageJson = gson.toJson(messageRequest)
         webSocket?.send(messageJson)
-
-        // ChatAdapter에 메시지 추가
-        val sentMessage = ChatMessageResponseDTO(
-            chatRoomId = "10",
-            senderId = TEST_MEMBER_1,
-            content = content,
-            messageType = MessageType.TEXT,
-            createdAt = Date().toString()
-        )
-        chatAdapter.addMessage(sentMessage)
     }
 
     fun updateChat(message: ChatMessageResponseDTO) {
         chatAdapter.addMessage(message)
+        scrollToBottom()
     }
 
     private fun startWebSocket(){
@@ -157,7 +151,7 @@ class ChatFragment : Fragment() {
 
         val request = Request.Builder()
             .url(WEBSOCKET_URL)
-            .header("authorization", "K_1")
+            .header("Authorization", participateId.toString())
             .build()
 
         webSocketListener = ChatWebSocketListener(this)
@@ -173,6 +167,10 @@ class ChatFragment : Fragment() {
         (activity as? MainActivity)?.restoreToolbar()
         mBinding = null
         super.onDestroyView()
+    }
+
+    private fun scrollToBottom() {
+        mBinding?.chatDisplay?.scrollToPosition(chatAdapter.itemCount - 1)
     }
 
     @SuppressLint("ResourceType")
