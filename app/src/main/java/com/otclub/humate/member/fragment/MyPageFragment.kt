@@ -8,11 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.otclub.humate.R
 import com.otclub.humate.auth.activity.AuthActivity
 import com.otclub.humate.databinding.MemberFragmentMyPageBinding
@@ -51,14 +52,21 @@ class MyPageFragment : Fragment() {
         }
 
 
+        // 서버 정보 받아서 프로필 업데이트
+        updateProfile()
 
         binding.logoutText.setOnClickListener{
             logout()
         }
 
-        binding.innerLayout.setOnClickListener{
-            updateProfile()
+        binding.profileLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_myPageFragment_to_myProfileFragment)
         }
+
+        binding.mateListLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_myPageFragment_to_myMatesFragment)
+        }
+
     }
 
     override fun onDestroyView() {
@@ -85,10 +93,21 @@ class MyPageFragment : Fragment() {
     private fun updateProfile() {
         Log.i("마이페이지", "마이페이지 업데이트프로필")
 
-
         viewModel.fetchGetMyProfile(
             onSuccess = { response ->
-                Log.i("겟마이프로필", response.toString())
+                // 매너바
+                binding.mannerBar.progress = response.manner.toInt()
+                binding.mannerText.setText("${response.manner}°C")
+
+                // 닉네임
+                binding.nicknameText.setText(response.nickname)
+
+                // 이미지
+                if (response.profileImgUrl != null) {
+                    Glide.with(binding.profileImage.context)
+                        .load(response.profileImgUrl)
+                        .into(binding.profileImage)
+                }
             },
             onError = { error ->
                 Log.i("겟마이프로필실패", error)

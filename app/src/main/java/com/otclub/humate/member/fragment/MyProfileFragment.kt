@@ -1,4 +1,4 @@
-package com.otclub.humate.auth.fragment
+package com.otclub.humate.member.fragment
 
 import android.app.Activity
 import android.content.Intent
@@ -9,6 +9,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -16,29 +18,42 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.auth.data.LoginRequestDTO
 import com.otclub.humate.auth.viewmodel.AuthViewModel
-import com.otclub.humate.databinding.AuthFragmentInputProfileBinding
+import com.otclub.humate.databinding.MemberFragmentMyPageBinding
+import com.otclub.humate.databinding.MemberFragmentMyProfileBinding
+import com.otclub.humate.member.data.ModifyProfileRequestDTO
+import com.otclub.humate.member.viewmodel.MemberViewModel
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
-class InputProfileFragment : Fragment() {
-    private val viewModel: AuthViewModel by activityViewModels()
-    private var mBinding : AuthFragmentInputProfileBinding? = null
+class MyProfileFragment : Fragment() {
+    private val viewModel: MemberViewModel by activityViewModels()
+    private val authViewModel: AuthViewModel by activityViewModels()
+    private var mBinding : MemberFragmentMyProfileBinding? = null
     private val binding get() = mBinding!!
 
     private lateinit var pickImageLauncher: ActivityResultLauncher<Intent>
     private var selectedImageUri: Uri? = null
 
+    private lateinit var modifyProfileRequestDTO: ModifyProfileRequestDTO
+
+    private lateinit var originNickname: String
+    private lateinit var originIntroduction: String
+    private var originProfileImgUrl: String? = null
+    private var isRequestAvailable = true
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val binding = AuthFragmentInputProfileBinding.inflate(inflater, container, false)
+        savedInstanceState: Bundle?): View? {
+
+        val binding = MemberFragmentMyProfileBinding.inflate(inflater, container, false)
         mBinding = binding
 
         pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -54,6 +69,37 @@ class InputProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val toolbar = binding.toolbar?.toolbar
+        originNickname = viewModel.profileResponseDTO.value!!.nickname
+        originIntroduction = viewModel.profileResponseDTO.value!!.introduction?:""
+        originProfileImgUrl = viewModel.profileResponseDTO.value!!.profileImgUrl
+
+        modifyProfileRequestDTO = ModifyProfileRequestDTO(null, originIntroduction)
+
+        binding.inputNickname.setText(originNickname)
+        binding.inputIntroduction.setText(originIntroduction)
+        if (originProfileImgUrl != null) {
+            Glide.with(binding.profileImage.context)
+                .load(originProfileImgUrl)
+                .into(binding.profileImage)
+        }
+
+        toolbar?.let {
+            val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
+            val rightButton: Button = toolbar.findViewById(R.id.right_button)
+            val title: TextView = toolbar.findViewById(R.id.toolbar_title)
+            title.setText("내 정보")
+
+            // 버튼의 가시성 설정
+            val showLeftButton = true
+            val showRightButton = false
+            leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
+            rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
+
+            leftButton.setOnClickListener {
+                findNavController().navigateUp()
+            }
+        }
 
         binding.checkNicknameButton.setOnClickListener {
             handleCheckNicknameButtonClick()
@@ -87,7 +133,7 @@ class InputProfileFragment : Fragment() {
                 if (imageSizeInMB > 50) {
                     Toast.makeText(requireContext(), "이미지 크기가 1MB를 초과합니다. 다른 이미지를 선택해주세요.", Toast.LENGTH_SHORT).show()
                     selectedImageUri = null
-                    binding.profileImage.setImageURI(null) // 이미지 뷰 초기화
+                    return
                 } else {
                     selectedImageUri = uri
                     binding.profileImage.setImageURI(selectedImageUri)
@@ -103,37 +149,44 @@ class InputProfileFragment : Fragment() {
         val inputNickname: String = binding.inputNickname.text.toString()
         val guideCheckNickname: TextView = binding.guideCheckNickname
 
-        if (inputNickname.length < 2) {
-            viewModel.signUpRequestDTO.nickname = null
-            guideCheckNickname.setText("두 글자 이상의 닉네임을 입력해주세요.")
+        if (originNickname == inputNickname) {
+            guideCheckNickname.setText("기존과 다른 닉네임으로 변경해주세요.")
             guideCheckNickname.setTextColor(ContextCompat.getColor(requireContext(), R.color.smooth_red))
+            modifyProfileRequestDTO.nickname = null
+            isRequestAvailable = false
             return
         }
 
-        viewModel.fetchCheckNickname(
+        if (inputNickname.length < 2) {
+            guideCheckNickname.setText("두 글자 이상의 닉네임을 입력해주세요.")
+            guideCheckNickname.setTextColor(ContextCompat.getColor(requireContext(), R.color.smooth_red))
+            modifyProfileRequestDTO.nickname = null
+            isRequestAvailable = false
+            return
+        }
+
+        authViewModel.fetchCheckNickname(
             inputNickname,
             onSuccess = {response ->
-                viewModel.signUpRequestDTO.nickname = inputNickname
                 guideCheckNickname.setText("사용 가능한 닉네임입니다.")
                 guideCheckNickname.setTextColor(ContextCompat.getColor(requireContext(), R.color.smooth_blue))
+                modifyProfileRequestDTO.nickname = inputNickname
+                isRequestAvailable = true
             },
             onError = {error ->
-                viewModel.signUpRequestDTO.nickname = null
                 guideCheckNickname.setText("이미 사용중인 닉네임입니다.")
                 guideCheckNickname.setTextColor(ContextCompat.getColor(requireContext(), R.color.smooth_red))
+                modifyProfileRequestDTO.nickname = null
+                isRequestAvailable = false
             }
         )
     }
 
     private fun handleFinishButtonClick() {
-
-        if (viewModel.signUpRequestDTO.nickname == null) {
+        if (!isRequestAvailable) {
             Toast.makeText(requireContext(), "닉네임 중복 확인이 필요합니다.", Toast.LENGTH_SHORT).show()
             return
         }
-
-        // 입력 안 했으면 ""
-        viewModel.signUpRequestDTO.introduction = binding.inputIntroduction.text.toString()
 
         val imageFile = selectedImageUri?.let { uri ->
             try {
@@ -161,32 +214,19 @@ class InputProfileFragment : Fragment() {
             }
         }
 
-        Log.i("여기***", viewModel.signUpRequestDTO.toString())
+        modifyProfileRequestDTO.introduction = binding.inputIntroduction.text.toString()
 
-        viewModel.signUp(viewModel.signUpRequestDTO, imageFile,
+        Log.i("회원 수정 여기***", modifyProfileRequestDTO.toString())
+
+        viewModel.fetchModifyProfile(modifyProfileRequestDTO, imageFile,
             onSuccess = { response ->
-                Toast.makeText(requireContext(), "회원가입 성공.", Toast.LENGTH_SHORT).show()
-
-                viewModel.fetchLogIn(
-                    LoginRequestDTO(viewModel.signUpRequestDTO.loginId!!, viewModel.signUpRequestDTO.password!!),
-                    onSuccess = {response ->
-                        Toast.makeText(requireContext(), "로그인 성공", Toast.LENGTH_SHORT).show()
-                        activity?.let {
-                            startActivity(Intent(it, MainActivity::class.java))
-                            it.finish()
-                        }
-                    },
-                    onError = {error ->
-                        Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
-                    }
-                )
+                Toast.makeText(requireContext(), "회원 정보 수정 성공.", Toast.LENGTH_SHORT).show()
+                findNavController().navigateUp()
             },
             onError = { error ->
-                Log.e("회원가입 실패", error)
-                Toast.makeText(requireContext(), "회원가입 실패. ${error}", Toast.LENGTH_SHORT).show()
+                Log.e("회원 정보 수정 실패", error)
+                Toast.makeText(requireContext(), "회원 정보 수정 실패. ${error}", Toast.LENGTH_SHORT).show()
             }
         )
-
-
     }
 }

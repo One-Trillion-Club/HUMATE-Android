@@ -35,6 +35,20 @@
             android:text="확인"
             android:textColor="@color/purple_500" />
 
+        <Button
+            android:id="@+id/additional_number"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:text=""
+            android:textSize="20sp"
+            android:visibility="invisible"
+            android:textColor="@color/purple_500"
+            android:textStyle="bold"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:layout_gravity="center|center_vertical"/>
+
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="200dp"

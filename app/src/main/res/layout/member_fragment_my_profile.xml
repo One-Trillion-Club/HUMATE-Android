@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/common_toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/guideInputNickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="닉네임"
+        android:textColor="@color/dark_gray"
+        android:textSize="15sp"
+        android:maxLength="20"
+        app:layout_constraintStart_toStartOf="@+id/innerLayout"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/innerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideInputNickname">
+
+        <EditText
+            android:id="@+id/inputNickname"
+
+            android:layout_width="220dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+
+            android:background="@drawable/auth_light_gray_border"
+
+            android:gravity="left|center_vertical"
+            android:hint="닉네임"
+            android:inputType="text"
+            android:maxLength="20"
+
+            android:paddingStart="17dp"
+            android:textColorHint="@color/light_gray"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+
+            app:layout_constraintEnd_toStartOf="@+id/checkNicknameButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <android.widget.Button
+            android:id="@+id/checkNicknameButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginStart="6dp"
+
+            android:background="@drawable/auth_main_large_button"
+            android:text="중복확인"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+
+            app:layout_constraintStart_toEndOf="@+id/inputNickname"
+            app:layout_constraintTop_toTopOf="@+id/inputNickname"
+            app:layout_constraintBottom_toBottomOf="@+id/inputNickname"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/guideCheckNickname"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:text=""
+        android:textColor="@color/smooth_blue"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="@+id/innerLayout"
+        app:layout_constraintTop_toBottomOf="@+id/innerLayout" />
+
+    <TextView
+        android:id="@+id/guideInputIntroduction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="한 줄 소개"
+        android:textColor="@color/dark_gray"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/innerLayout"
+        app:layout_constraintTop_toBottomOf="@+id/innerLayout" />
+
+    <EditText
+        android:id="@+id/inputIntroduction"
+
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="10dp"
+        android:padding="14dp"
+
+        android:background="@drawable/auth_light_gray_border"
+
+        android:gravity="start|top"
+        android:hint="한 줄 소개"
+        android:inputType="textMultiLine"
+        android:textColorHint="@color/light_gray"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:maxLength="100"
+
+        app:layout_constraintStart_toStartOf="@+id/innerLayout"
+        app:layout_constraintTop_toBottomOf="@+id/guideInputIntroduction"/>
+
+    <TextView
+        android:id="@+id/guideInputProfileImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="프로필 이미지"
+        android:textColor="@color/dark_gray"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/inputIntroduction"
+        app:layout_constraintTop_toBottomOf="@+id/inputIntroduction" />
+
+    <FrameLayout
+        android:id="@+id/profileImageContainer"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideInputProfileImage">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:padding="2dp"
+            android:src="@drawable/ic_member_profile_default"
+
+            app:civ_border_width="1dp"
+            app:civ_border_color="#DFE1E7"
+            android:contentDescription="프로필 이미지"/>
+
+        <ImageView
+            android:id="@+id/profileImageEdit"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_member_upload_image"
+            android:contentDescription="업로드 이미지" />
+    </FrameLayout>
+
+    <android.widget.Button
+        android:id="@+id/finishButton"
+
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+
+        android:layout_marginBottom="35dp"
+
+        android:background="@drawable/auth_main_large_button"
+        android:gravity="center"
+        android:text="수정하기"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textAllCaps="false"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
