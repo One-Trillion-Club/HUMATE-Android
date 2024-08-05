@@ -108,11 +108,13 @@ class PostWriteFragment : Fragment()  {
 
         Log.i("PostWriteFragment", "Received final data: $requests")
 
-        val activity = activity as? MainActivity
-        activity?.let {
-            val toolbar = it.getToolbar() // MainActivity의 Toolbar를 가져옴
+        val toolbar = mBinding?.toolbar?.toolbar
+
+        toolbar?.let {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
+            val title: TextView = toolbar.findViewById(R.id.toolbar_title)
+            title.setText("매칭글 작성")
 
             // 버튼의 가시성 설정
             val showLeftButton = true
@@ -120,8 +122,10 @@ class PostWriteFragment : Fragment()  {
             leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
             rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
 
-            // 액션 바의 타이틀을 설정하거나 액션 바의 다른 속성을 조정
-            it.setToolbarTitle("매칭글 작성")
+            // 뒤로가기 버튼 이벤트 처리
+            leftButton.setOnClickListener {
+                findNavController().navigateUp()
+            }
         }
 
         // 매칭 정보 선택 버튼 가져오기
@@ -435,8 +439,6 @@ class PostWriteFragment : Fragment()  {
 
             }
         }
-
-
 
         // 버튼들을 포함하는 buttonContainer를 categoryLayout에 추가
         categoryLayout.addView(buttonContainer)
