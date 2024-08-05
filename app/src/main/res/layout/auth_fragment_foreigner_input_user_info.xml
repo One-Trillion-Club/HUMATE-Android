@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/titleKoreanInputUserInfo"
+
+        android:layout_width="309dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="50dp"
+
+        android:gravity="center"
+        android:text="Input your Information"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/guideInputGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+
+        android:text="Select your gender"
+        android:textColor="@color/dark_gray"
+        android:textSize="15sp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleKoreanInputUserInfo" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/innerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideInputGender">
+
+        <android.widget.Button
+            android:id="@+id/maleButton"
+
+            android:layout_width="150dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="15dp"
+
+            android:background="@drawable/auth_light_gray_border"
+            android:text="Male"
+            android:textColor="@color/light_gray"
+            android:textSize="14sp"
+            android:textAllCaps="false"
+
+            app:layout_constraintEnd_toStartOf="@+id/femaleButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <android.widget.Button
+            android:id="@+id/femaleButton"
+            android:layout_width="150dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="10dp"
+
+            android:background="@drawable/auth_light_gray_border"
+            android:text="Female"
+            android:textColor="@color/light_gray"
+            android:textSize="14sp"
+            android:textAllCaps="false"
+
+            app:layout_constraintStart_toEndOf="@+id/maleButton"
+            app:layout_constraintTop_toTopOf="@+id/maleButton"
+            app:layout_constraintBottom_toBottomOf="@+id/maleButton"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/guideInputLanguage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+
+        android:text="Available language"
+        android:textColor="@color/dark_gray"
+        android:textSize="15sp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/innerLayout" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/languageLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideInputLanguage">
+
+        <android.widget.Button
+            android:id="@+id/englishButton"
+
+            android:layout_width="120dp"
+            android:layout_height="48dp"
+            android:textAllCaps="false"
+            android:background="@drawable/auth_light_gray_border"
+            android:text="English"
+            android:textColor="@color/light_gray"
+            android:textSize="15sp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <android.widget.Button
+            android:id="@+id/koreanButton"
+            android:layout_width="120dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="10dp"
+            android:textAllCaps="false"
+            android:background="@drawable/auth_light_gray_border"
+            android:text="Korean"
+            android:textColor="@color/light_gray"
+            android:textSize="15sp"
+
+            app:layout_constraintStart_toEndOf="@+id/englishButton"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <android.widget.Button
+            android:id="@+id/japaneseButton"
+            android:layout_width="120dp"
+            android:layout_height="48dp"
+            android:textAllCaps="false"
+            android:background="@drawable/auth_light_gray_border"
+            android:text="Japanese"
+            android:layout_marginTop="18dp"
+            android:textColor="@color/light_gray"
+            android:textSize="15sp"
+
+            app:layout_constraintTop_toBottomOf="@+id/englishButton"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <android.widget.Button
+            android:id="@+id/chineseButton"
+            android:layout_width="120dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="18dp"
+            android:textAllCaps="false"
+            android:background="@drawable/auth_light_gray_border"
+            android:text="Chinese"
+            android:textColor="@color/light_gray"
+            android:textSize="15sp"
+
+            app:layout_constraintStart_toEndOf="@+id/japaneseButton"
+            app:layout_constraintTop_toBottomOf="@+id/koreanButton"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <android.widget.Button
+        android:id="@+id/nextButton"
+
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+
+        android:layout_marginBottom="35dp"
+
+        android:background="@drawable/auth_main_large_button"
+        android:gravity="center"
+        android:text="Next"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textAllCaps="false"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

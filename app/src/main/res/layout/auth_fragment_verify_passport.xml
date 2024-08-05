@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/titleKoreanSignUp"
+
+        android:layout_width="309dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="50dp"
+
+        android:gravity="center"
+        android:text="Sign up"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/guideInputBirthdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+
+        android:text="Input your birthdate."
+        android:textColor="@color/dark_gray"
+        android:textSize="15sp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleKoreanSignUp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/birthdateLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideInputBirthdate">
+
+        <EditText
+            android:id="@+id/inputYear"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+
+            android:background="@color/white"
+
+            android:hint="YYYY"
+            android:gravity="center"
+            android:inputType="number"
+            android:textColorHint="@color/light_gray"
+            android:textSize="15sp"
+            android:maxLength="4"
+
+            app:layout_constraintEnd_toStartOf="@+id/splitYearMonth"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread" />
+
+        <TextView
+            android:id="@+id/splitYearMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="/"
+            android:textSize="15sp"
+            android:textColor="@color/light_gray"
+
+            app:layout_constraintEnd_toStartOf="@+id/inputMonth"
+            app:layout_constraintStart_toEndOf="@+id/inputYear"
+            app:layout_constraintTop_toTopOf="@+id/inputYear"
+            app:layout_constraintBottom_toBottomOf="@+id/inputYear" />
+
+        <EditText
+            android:id="@+id/inputMonth"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+
+            android:background="@color/white"
+
+            android:hint="MM"
+            android:gravity="center"
+            android:inputType="number"
+            android:textColorHint="@color/light_gray"
+            android:textSize="15sp"
+            android:maxLength="2"
+
+            app:layout_constraintEnd_toStartOf="@+id/splitMonthDay"
+            app:layout_constraintStart_toEndOf="@+id/splitYearMonth"
+            app:layout_constraintWidth_percent="0.2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/splitMonthDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="/"
+            android:textSize="15sp"
+            android:textColor="@color/light_gray"
+
+            app:layout_constraintEnd_toStartOf="@+id/inputDay"
+            app:layout_constraintStart_toEndOf="@+id/inputMonth"
+            app:layout_constraintTop_toTopOf="@+id/inputMonth"
+            app:layout_constraintBottom_toBottomOf="@+id/inputMonth" />
+
+        <EditText
+            android:id="@+id/inputDay"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+
+            android:background="@color/white"
+
+            android:hint="DD"
+            android:gravity="center"
+            android:inputType="number"
+            android:textColorHint="@color/light_gray"
+            android:textSize="15sp"
+            android:maxLength="2"
+            app:layout_constraintStart_toEndOf="@+id/splitMonthDay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <EditText
+        android:id="@+id/inputPassport"
+
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+
+        android:background="@drawable/auth_light_gray_border"
+
+        android:gravity="left|center_vertical"
+        android:hint="passport number"
+        android:inputType="text"
+        android:paddingStart="17dp"
+        android:textColorHint="@color/light_gray"
+        android:maxLength="11"
+
+        android:textSize="14sp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/birthdateLayout" />
+
+    <FrameLayout
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputPassport"
+        android:background="@drawable/auth_light_gray_border"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp"
+        >
+
+        <Spinner
+            android:id="@+id/selectSpinner"
+            style="@style/CustomSpinnerStyleSignUp"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            />
+
+
+        <TextView
+            android:id="@+id/selectedType"
+            android:layout_width="230dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="select country"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:background="@color/white"
+            />
+
+    </FrameLayout>
+
+    <android.widget.Button
+        android:id="@+id/nextButton"
+
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+
+        android:layout_marginBottom="35dp"
+
+        android:background="@drawable/auth_main_large_button"
+        android:gravity="center"
+        android:text="Authenticate"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textAllCaps="false"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

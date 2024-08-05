@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import com.otclub.humate.R
 import com.otclub.humate.auth.viewmodel.AuthViewModel
 import com.otclub.humate.databinding.FragmentInputIdPasswordBinding
+import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 
 class InputIdPasswordFragment : Fragment() {
     private val viewModel: AuthViewModel by activityViewModels()
@@ -79,10 +80,21 @@ class InputIdPasswordFragment : Fragment() {
                 Toast.makeText(requireContext(), "아이디 중복 확인이 필요합니다.", Toast.LENGTH_SHORT).show()
                 return
             }
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.authFragment, InputUserInfoFragment())
-                .addToBackStack(null)
-                .commit()
+
+            val sharedPreferencesManager = SharedPreferencesManager(requireContext())
+            val language = sharedPreferencesManager.getLanguage()
+            if (language == 1) {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.authFragment, InputUserInfoFragment())
+                    .addToBackStack(null)
+                    .commit()
+            } else {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.authFragment, ForeignerInputUserInfoFragment())
+                    .addToBackStack(null)
+                    .commit()
+            }
+
         }
     }
 
