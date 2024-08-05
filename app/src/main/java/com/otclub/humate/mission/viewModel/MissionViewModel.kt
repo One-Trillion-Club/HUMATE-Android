@@ -109,22 +109,4 @@ class MissionViewModel : ViewModel() {
         })
     }
 
-    fun fetchFinishCompanion() {
-        lastCompanionId?.let {
-            missionService.finishCompanion(it).enqueue(object : Callback<CommonResponseDTO> {
-                override fun onResponse(
-                    call: Call<CommonResponseDTO>,
-                    response: Response<CommonResponseDTO>
-                ) {
-
-                }
-
-                override fun onFailure(call: Call<CommonResponseDTO>, t: Throwable) {
-
-                }
-
-            })
-        }
-    }
-
 }

@@ -58,8 +58,8 @@ class MissionUploadFragment : Fragment() {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
             val title: TextView = toolbar.findViewById(R.id.toolbar_title)
-            title.setText("활동 업로드")
-            rightButton.setText("제출")
+            title.setText(R.string.mission_upload_title)
+            rightButton.setText(R.string.mission_record)
             rightButton.setTypeface(Typeface.DEFAULT_BOLD)
 
             // 버튼의 가시성 설정
@@ -175,7 +175,7 @@ class MissionUploadFragment : Fragment() {
                 if (response.isSuccessful) {
                     Toast.makeText(
                         requireContext(),
-                        "Upload successful",
+                        getString(R.string.upload_success),
                         Toast.LENGTH_SHORT
                     ).show()
                     missionViewModel.lastCompanionId?.let { missionViewModel.fetchMission(it) }
@@ -183,7 +183,7 @@ class MissionUploadFragment : Fragment() {
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        "Upload failed: ${response.message()}",
+                        getString(R.string.upload_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -192,7 +192,7 @@ class MissionUploadFragment : Fragment() {
             override fun onFailure(call: Call<CommonResponseDTO>, t: Throwable) {
                 Toast.makeText(
                     requireContext(),
-                    "Upload error: ${t.message}",
+                    getString(R.string.upload_failed),
                     Toast.LENGTH_SHORT
                 ).show()
             }

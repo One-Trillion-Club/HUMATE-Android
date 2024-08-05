@@ -1,6 +1,7 @@
 package com.otclub.humate.mission.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import com.otclub.humate.mission.api.MissionService
 import com.otclub.humate.mission.data.CommonResponseDTO
 import com.otclub.humate.mission.data.ReviewRequestDTO
 import com.otclub.humate.mission.data.ReviewResponseDTO
+import com.otclub.humate.mission.data.ReviewScore
 import com.otclub.humate.mission.viewModel.MissionViewModel
 import com.otclub.humate.retrofit.RetrofitConnection
 import retrofit2.Call
@@ -27,7 +29,7 @@ class ReviewFragment : Fragment() {
     private val missionViewModel: MissionViewModel by activityViewModels()
     private var mBinding: FragmentReviewBinding? = null
     private var selectedButton: ImageButton? = null
-    private var selectedScore: Int = 0
+    private var selectedScore: Double = 0.0
 
 
     override fun onCreateView(
@@ -49,7 +51,7 @@ class ReviewFragment : Fragment() {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
             val title: TextView = toolbar.findViewById(R.id.toolbar_title)
-            title.setText("후기 남기기")
+            title.setText(getString(R.string.review_write))
 
             // 버튼의 가시성 설정
             val showLeftButton = true
@@ -65,15 +67,15 @@ class ReviewFragment : Fragment() {
         }
 
         mBinding?.btnExcellent?.setOnClickListener {
-            handleButtonSelection(mBinding?.btnExcellent, 3)
+            handleButtonSelection(mBinding?.btnExcellent, ReviewScore.EXCELLENT.weight)
         }
 
         mBinding?.btnGood?.setOnClickListener {
-            handleButtonSelection(mBinding?.btnGood, 2)
+            handleButtonSelection(mBinding?.btnGood, ReviewScore.GOOD.weight)
         }
 
         mBinding?.btnBad?.setOnClickListener {
-            handleButtonSelection(mBinding?.btnBad, 1)
+            handleButtonSelection(mBinding?.btnBad, ReviewScore.BAD.weight)
         }
 
         mBinding?.submitButton?.setOnClickListener {
@@ -83,7 +85,7 @@ class ReviewFragment : Fragment() {
 
     }
 
-    private fun handleButtonSelection(selected: ImageButton?, score: Int) {
+    private fun handleButtonSelection(selected: ImageButton?, score: Double) {
         resetButtonStates()
 
         selected?.let {
@@ -119,11 +121,15 @@ class ReviewFragment : Fragment() {
                             postTitle.text = review.postTitle
                             matchBranch.text = review.matchBranch
                             matchDate.text = review.matchDate
-                            mateNickname.text = review.mateNickname + "님과의 매칭은 어떠셨나요?"
+                            mateNickname.text = getString(R.string.matching_nickname, review.mateNickname)
                         }
                     }
                 } else {
-                    // Handle the error
+                    Toast.makeText(
+                        requireContext(),
+                        "후기를 작성할 수 없습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -149,18 +155,18 @@ class ReviewFragment : Fragment() {
                 call: Call<CommonResponseDTO>,
                 response: Response<CommonResponseDTO>
             ) {
-                if (response.isSuccessful) {
+                if (response.body()?.success == true) {
                     findNavController().navigate(R.id.action_reviewFragment_to_missionFragment)
                     Toast.makeText(
                         requireContext(),
-                        "후기 작성에 성공했습니다.",
+                        getString(R.string.review_success),
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
                     findNavController().navigate(R.id.action_reviewFragment_to_missionFragment)
                     Toast.makeText(
                         requireContext(),
-                        "후기 작성에 실패했습니다.",
+                        getString(R.string.review_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                 }

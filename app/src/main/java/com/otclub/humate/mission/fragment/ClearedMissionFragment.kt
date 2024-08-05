@@ -18,6 +18,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentClearedMissionBinding
 import com.otclub.humate.mission.adapter.ClearedMissionAdapter
@@ -51,6 +54,23 @@ class ClearedMissionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val companionId = arguments?.getInt("companionId")
+        mBinding?.tabLayout?.addTab(mBinding!!.tabLayout.newTab().setText(getString(R.string.mission_finished)))
+        mBinding?.tabLayout?.addTab(mBinding!!.tabLayout.newTab().setText(getString(R.string.mission_new)))
+
+        mBinding?.tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (tab!!.text.toString().equals(getString(R.string.mission_new))) {
+                    findNavController().navigate(R.id.action_missionFragment_to_newMissionFragment)
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
+
 
         // RecyclerView 설정
         mBinding?.recyclerView?.apply {
@@ -88,49 +108,6 @@ class ClearedMissionFragment : Fragment() {
             missionViewModel.fetchMission(it)
         }
 
-        // 버튼 클릭 리스너 설정
-        mBinding?.completedMissionButton?.setOnClickListener {
-            selectButton(mBinding?.completedMissionButton)
-        }
-
-        mBinding?.newMissionButton?.setOnClickListener {
-            selectButton(mBinding?.newMissionButton)
-
-        }
-
-        selectButton(mBinding?.completedMissionButton)
-    }
-
-
-    private fun selectButton(button: Button?) {
-        // 기존 선택된 버튼이 있다면 원래 상태로 되돌리기
-        selectedButton?.let {
-            it.isSelected = false // 선택 상태를 해제
-            it.setTypeface(Typeface.DEFAULT, Typeface.NORMAL)
-            it.setTextColor(Color.BLACK)
-        }
-
-        // 새로 선택된 버튼의 스타일 적용
-        button?.let {
-            it.isSelected = true // 선택 상태를 해제
-            it.setTypeface(Typeface.DEFAULT_BOLD) // 텍스트를 굵게
-            it.setTextColor(Color.WHITE) // 텍스트 색깔을 흰색으로 설정 (예: Color.WHITE 또는 Color.parseColor("#FFFFFF"))
-        }
-
-        selectedButton = button
-
-        // 버튼에 따라 Fragment 전환
-        when (button?.id) {
-            R.id.completedMissionButton -> {
-                // 완료된 활동 버튼 클릭 시 처리
-            }
-            R.id.newMissionButton -> {
-                val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-                prefs.edit().putBoolean("navigate_to_new_mission", true).apply()
-                // 새로운 활동 버튼 클릭 시 NewMissionFragment로 전환
-                findNavController().navigate(R.id.action_missionFragment_to_newMissionFragment)
-            }
-        }
     }
 
     private fun updateEmptyTitle(response: MissionResponseDTO) {
@@ -209,14 +186,14 @@ class ClearedMissionFragment : Fragment() {
                 if (response.isSuccessful) {
                     Toast.makeText(
                         requireContext(),
-                        "Upload successful",
+                        getString(R.string.companion_finished_success),
                         Toast.LENGTH_SHORT
                     ).show()
                     missionViewModel.lastCompanionId?.let { missionViewModel.fetchMission(it) }
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        "Upload failed: ${response.message()}",
+                        getString(R.string.companion_finished_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                 }

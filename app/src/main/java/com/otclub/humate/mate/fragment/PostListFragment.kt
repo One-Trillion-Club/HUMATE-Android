@@ -2,8 +2,11 @@ package com.otclub.humate.mate.fragment
 
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.*
 import android.widget.*
+import androidx.appcompat.widget.TooltipCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -11,12 +14,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.MateFragmentPostListBinding
 import com.otclub.humate.mate.adapter.PostListAdapter
 import com.otclub.humate.mate.data.PostListFilterDTO
 import com.otclub.humate.mate.viewmodel.PostViewModel
+import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonSizeSpec
+import com.skydoves.balloon.createBalloon
 
 
 class PostListFragment : Fragment() {
@@ -64,6 +72,33 @@ class PostListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 글쓰기 버튼 클릭 이벤트 설정
+        val writeButton: Button = binding.writeButton
+
+        writeButton.setOnClickListener {
+            findNavController().navigate(R.id.action_postListFragment_to_postListWriteFragment)
+        }
+
+        // ballon 말풍선
+        val balloon = createBalloon(requireContext()) {
+            setArrowSize(10)
+            setWidth(BalloonSizeSpec.WRAP)
+            setHeight(BalloonSizeSpec.WRAP)
+            setArrowOrientation(ArrowOrientation.RIGHT)
+            setText("매칭글을 작성해보세요. 맞춤형 동행 메이트를 구할 수 있습니다!")
+            setTextColorResource(R.color.black)
+            setTextSize(10f)
+            setBackgroundColorResource(R.color.super_light_gray)
+            setBalloonAnimation(BalloonAnimation.ELASTIC)
+            setLifecycleOwner(lifecycleOwner)
+            setPadding(8)
+        }
+
+        writeButton.post {
+            balloon.showAlignLeft(writeButton)
+            balloon.dismissWithDelay(3000)
+        }
 
         // ViewModel의 데이터 사용
         postViewModel.filterData?.let { filterData ->

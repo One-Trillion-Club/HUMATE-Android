@@ -34,6 +34,9 @@
         <action
                 android:id="@+id/action_postListFragment_to_postListDetailFragment"
                 app:destination="@id/postDetailFragment" />
+        <action
+                android:id="@+id/action_postListFragment_to_postListWriteFragment"
+                app:destination="@id/postWriteFragment" />
     </fragment>
     <fragment
             android:id="@+id/postListFilterFragment"
@@ -51,7 +54,6 @@
             tools:layout="@layout/chat_room_fragment">
         <action android:id="@+id/action_chatRoomFragment_to_chatFragment" app:destination="@id/chatFragment"/>
     </fragment>
-
     <fragment
             android:id="@+id/postDetailFragment"
             android:name="com.otclub.humate.mate.fragment.PostDetailFragment"
@@ -61,7 +63,27 @@
                 android:name="postId"
                 app:argType="integer" />
     </fragment>
-
+    <fragment
+            android:id="@+id/postWriteFragment"
+            android:name="com.otclub.humate.mate.fragment.PostWriteFragment"
+            android:label="fragment_mate"
+            tools:layout="@layout/mate_fragment_post_write">
+        <action
+                android:id="@+id/action_postWriteFragment_to_postWriteOptionFragment"
+                app:destination="@id/postWriteOptionFragment" />
+        <action
+                android:id="@+id/action_postWriteFragment_to_postListFragment"
+                app:destination="@id/postListFragment"/>
+    </fragment>
+    <fragment
+            android:id="@+id/postWriteOptionFragment"
+            android:name="com.otclub.humate.mate.fragment.PostWriteOptionFragment"
+            android:label="fragment_mate"
+            tools:layout="@layout/mate_fragment_post_write_option">
+        <action
+                android:id="@+id/action_postWriteOptionFragment_to_postWriteFragment"
+                app:destination="@id/postWriteFragment" />
+    </fragment>
     <fragment
             android:id="@+id/myPageFragment"
             android:name="com.otclub.humate.member.fragment.MyPageFragment"
@@ -96,7 +118,9 @@
             android:id="@+id/action_newMissionFragment_to_newMissionDetailsFragment"
             app:destination="@id/newMissionDetailsFragment">
         </action>
-
+        <action
+            android:id="@+id/action_newMissionFragment_to_reviewFragment"
+            app:destination="@id/reviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/newMissionDetailsFragment"

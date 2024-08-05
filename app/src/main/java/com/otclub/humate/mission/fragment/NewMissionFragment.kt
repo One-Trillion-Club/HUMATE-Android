@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.tabs.TabLayout
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentNewMissionBinding
@@ -48,6 +49,25 @@ class NewMissionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mBinding?.tabLayout?.addTab(mBinding!!.tabLayout.newTab().setText(getString(R.string.mission_finished)))
+        mBinding?.tabLayout?.addTab(mBinding!!.tabLayout.newTab().setText(getString(R.string.mission_new)))
+        mBinding?.tabLayout?.getTabAt(1)?.select()
+
+        mBinding?.tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (tab!!.text.toString().equals(getString(R.string.mission_finished))) {
+                    findNavController().navigate(R.id.action_newMissionFragment_to_missionFragment)
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
+
+
         // RecyclerView 설정
         mBinding?.newMissionRecyclerView?.apply {
             layoutManager = GridLayoutManager(context, 2)
@@ -72,45 +92,6 @@ class NewMissionFragment : Fragment() {
                 Log.i("adapter : ", adapter.toString())
                 mBinding?.newMissionRecyclerView?.adapter = adapter
                 setupToolbar(it.postTitle)
-            }
-        }
-        // 버튼 클릭 리스너 설정
-        mBinding?.completedMissionButton?.setOnClickListener {
-            findNavController().navigateUp()
-        }
-
-        mBinding?.newMissionButton?.setOnClickListener {
-            selectButton(mBinding?.newMissionButton)
-        }
-
-        selectButton(mBinding?.newMissionButton)
-    }
-
-    private fun selectButton(button: Button?) {
-        // 기존 선택된 버튼이 있다면 원래 상태로 되돌리기
-        selectedButton?.let {
-            it.isSelected = false // 선택 상태를 해제
-            it.setTypeface(Typeface.DEFAULT, Typeface.NORMAL)
-            it.setTextColor(Color.BLACK)
-        }
-
-        // 새로 선택된 버튼의 스타일 적용
-        button?.let {
-            it.isSelected = true // 선택 상태를 해제
-            it.setTypeface(Typeface.DEFAULT_BOLD) // 텍스트를 굵게
-            it.setTextColor(Color.WHITE) // 텍스트 색깔을 흰색으로 설정 (예: Color.WHITE 또는 Color.parseColor("#FFFFFF"))
-        }
-
-        selectedButton = button
-
-        // 버튼에 따라 Fragment 전환
-        when (button?.id) {
-            R.id.completedMissionButton -> {
-                // 완료된 활동 버튼 클릭 시 ClearedMissionFragment로 전환
-                findNavController().navigate(R.id.action_newMissionFragment_to_missionFragment)
-            }
-            R.id.newMissionButton -> {
-                // 새로운 활동 버튼 클릭 시 처리
             }
         }
     }
@@ -158,7 +139,7 @@ class NewMissionFragment : Fragment() {
                 }
 
                 R.id.write_review -> {
-                    findNavController().navigate(R.id.action_missionFragment_to_reviewFragment)
+                    findNavController().navigate(R.id.action_newMissionFragment_to_reviewFragment)
                     true
                 }
 
@@ -178,18 +159,17 @@ class NewMissionFragment : Fragment() {
                 if (response.isSuccessful) {
                     Toast.makeText(
                         requireContext(),
-                        "Upload successful",
+                        getString(R.string.companion_finished_success),
                         Toast.LENGTH_SHORT
                     ).show()
                     missionViewModel.lastCompanionId?.let { missionViewModel.fetchMission(it) }
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        "Upload failed: ${response.message()}",
+                        getString(R.string.companion_finished_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-
             }
 
             override fun onFailure(call: Call<CommonResponseDTO>, t: Throwable) {

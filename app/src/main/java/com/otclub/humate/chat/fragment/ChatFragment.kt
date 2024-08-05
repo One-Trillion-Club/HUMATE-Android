@@ -1,5 +1,6 @@
 package com.otclub.humate.chat.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,16 +13,23 @@ import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.otclub.humate.BuildConfig.*
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.chat.adapter.ChatAdapter
+import com.otclub.humate.chat.adapter.ChatRoomAdapter
 import com.otclub.humate.chat.data.ChatMessageRequestDTO
 import com.otclub.humate.chat.data.ChatMessageResponseDTO
 import com.otclub.humate.chat.data.MessageType
+import com.otclub.humate.chat.viewModel.ChatViewModel
 import com.otclub.humate.databinding.ChatFragmentBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.WebSocket
@@ -30,6 +38,9 @@ import java.util.concurrent.TimeUnit
 
 class ChatFragment : Fragment() {
 
+    private var participateId: Int? = null
+    private var chatRoomId : String? = null
+    private val chatViewModel : ChatViewModel by activityViewModels()
     private var mBinding : ChatFragmentBinding? = null
     private lateinit var webSocketListener: ChatWebSocketListener
     private lateinit var client: OkHttpClient
@@ -38,14 +49,13 @@ class ChatFragment : Fragment() {
     private val reconnectRunnable = object : Runnable {
         override fun run() {
             Log.d("WebSocket", "웹소켓 재연결 요청")
-            handler.postDelayed(this, 180000) // 3분마다 재연결 요청
             closeWebSocket()
             startWebSocket()
+            handler.postDelayed(this, 10000) // 3분마다 재연결 요청
         }
     }
 
     private lateinit var chatAdapter: ChatAdapter
-    private val messages = mutableListOf<ChatMessageResponseDTO>()
     private val myId = TEST_MEMBER_1
 
     override fun onCreateView(
@@ -57,7 +67,7 @@ class ChatFragment : Fragment() {
         mBinding = binding
 
         // RecyclerView 설정
-        chatAdapter = ChatAdapter(messages, myId)
+        chatAdapter = ChatAdapter(mutableListOf(), myId)
         mBinding?.chatDisplay?.adapter = chatAdapter
         mBinding?.chatDisplay?.layoutManager = LinearLayoutManager(requireContext())
 
@@ -66,9 +76,39 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupToolbar() // `view`를 인자로 전달할 필요 없음
+        setupToolbar()
         setupSendButton()
+
+        // Get participateId from arguments
+        arguments?.let {
+            participateId = it.getInt("participateId", -1) // Default value is -1 if "participateId" is not found
+            chatRoomId = it.getString("chatRoomId", "")
+
+            // Use participateId as needed
+            Log.d("ChatFragment", "Received participateId: $participateId")
+        }
+
+        // ViewModel에서 데이터 관찰
+        chatViewModel.chatHistoryList.observe(viewLifecycleOwner) { response ->
+            response?.let {
+                chatAdapter.updateMessages(it)
+                Log.i("adapter : ", it.toString())
+                mBinding?.chatDisplay?.adapter = chatAdapter
+            }
+        }
+
+        // 비동기적으로 과거 채팅 내역 로드 및 웹소켓 시작
+        lifecycleScope.launch {
+            loadChatHistory() // 과거 채팅 내역 로드
+            startWebSocket() // 웹소켓 시작
+        }
+    }
+
+    private suspend fun loadChatHistory() {
+        withContext(Dispatchers.IO) {
+            chatViewModel.fetchChatHistoryList(chatRoomId)
+            Log.d("[loadChatHistory]", chatRoomId.toString())
+        }
     }
 
     override fun onResume() {
@@ -100,7 +140,7 @@ class ChatFragment : Fragment() {
             senderId = TEST_MEMBER_1,
             content = content,
             messageType = MessageType.TEXT,
-            createdAt = Date()
+            createdAt = Date().toString()
         )
         chatAdapter.addMessage(sentMessage)
     }
@@ -135,30 +175,22 @@ class ChatFragment : Fragment() {
         super.onDestroyView()
     }
 
+    @SuppressLint("ResourceType")
     private fun setupToolbar() {
-//        val activity = activity as? MainActivity
-//        activity?.let {
-//            // 기존 Toolbar 숨기기
-//            val mainToolbar = it.getToolbar()
-//            mainToolbar?.visibility = View.GONE
-//
-//            // 새로운 Toolbar 설정
-//            val chatToolbar = LayoutInflater.from(context).inflate(R.layout.chat_toolbar, null) as Toolbar
-//            val leftButton: ImageButton = chatToolbar.findViewById(R.id.left_button)
-//            val menuButton: ImageButton = chatToolbar.findViewById(R.id.menu_button)
-//            val titleTextView: TextView = chatToolbar.findViewById(R.id.toolbar_title)
-//
-//            // 버튼 클릭 리스너 설정
-//            leftButton.setOnClickListener {
-//                parentFragmentManager.popBackStack()
-//            }
-//            menuButton.setOnClickListener {
-//                showPopupMenu(menuButton)
-//            }
-//
-//            // 새로운 Toolbar를 액티비티에 추가
-//            it.replaceToolbar(chatToolbar)
-//        }
+        // 새로운 Toolbar 설정
+        val chatToolbar = LayoutInflater.from(context).inflate(R.layout.chat_toolbar, null) as Toolbar
+        val leftButton: ImageButton = chatToolbar.findViewById(R.id.left_button)
+        val menuButton: ImageButton = chatToolbar.findViewById(R.id.menu_button)
+        val titleTextView: TextView = chatToolbar.findViewById(R.id.toolbar_title)
+
+        // 버튼 클릭 리스너 설정
+        leftButton.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+        menuButton.setOnClickListener {
+            showPopupMenu(menuButton)
+        }
+
     }
 
     private fun showPopupMenu(view: View) {

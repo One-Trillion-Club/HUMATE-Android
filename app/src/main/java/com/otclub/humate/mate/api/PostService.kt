@@ -2,10 +2,9 @@ package com.otclub.humate.mate.api
 
 import com.otclub.humate.mate.data.PostDetailResponseDTO
 import com.otclub.humate.mate.data.PostListResponseDTO
+import com.otclub.humate.mate.data.PostWriteRequestDTO
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.QueryMap
+import retrofit2.http.*
 
 interface PostService {
     @GET("posts/list")
@@ -13,4 +12,7 @@ interface PostService {
 
     @GET("posts/{postId}")
     fun postDetail(@Path("postId") postId: Int): Call<PostDetailResponseDTO>
+
+    @POST("posts/new")
+    fun postAdd(@Body request: PostWriteRequestDTO): Call<Int>
 }

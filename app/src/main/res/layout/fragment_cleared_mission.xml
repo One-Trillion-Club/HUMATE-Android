@@ -25,41 +25,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-        <!-- 버튼을 위한 상위 레이아웃 -->
-        <LinearLayout
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <android.widget.Button
-                android:id="@+id/completedMissionButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_weight="1"
-                android:text="완료된 활동"
-                android:textColor="@android:color/black"
-                android:background="@drawable/mission_button_border" />
-
-            <android.widget.Button
-                android:id="@+id/newMissionButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_weight="1"
-                android:text="새로운 활동"
-                android:textColor="@android:color/black"
-                android:background="@drawable/mission_button_border" />
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tabGravity="fill"
+            app:tabMode="fixed" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:nestedScrollingEnabled="false"
-            app:layout_constraintTop_toBottomOf="@id/completedMissionButton"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout"
             app:layout_constraintBottom_toTopOf="@id/emptyMessage" />
 
         <TextView
@@ -67,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
-            android:text="메이트와 함께 새로운 활동을 만들어 나가세요"
+            android:text="@string/mission_notice"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"

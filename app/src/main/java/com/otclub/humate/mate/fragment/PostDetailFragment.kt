@@ -3,6 +3,7 @@ package com.otclub.humate.mate.fragment
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -129,32 +130,39 @@ class PostDetailFragment : Fragment() {
         }
 
         // 태그 업데이트
-// 태그 업데이트
         val tagContainerLayout: LinearLayout = binding.tagContainerLayout
         tagContainerLayout.removeAllViews() // 기존 태그 제거
 
         postDetail.postTags.forEach { tag ->
             val tagView = TextView(context).apply {
                 text = tag.name
-                textSize = 8f
-                setPadding(30, 8, 30, 8)
+                textSize = 10f
+                setPadding(40, 8, 40, 8) // 패딩을 추가하여 양 끝 여백을 확보
                 setBackgroundResource(R.drawable.mate_post_detail_tag_background)
                 setTextColor(resources.getColor(R.color.humate_main, null)) // 텍스트 색상 설정
                 typeface = Typeface.DEFAULT_BOLD // 텍스트를 볼드체로 설정
+                gravity = Gravity.CENTER // 텍스트를 가운데 정렬
+
+                // 텍스트의 폭을 측정
+                val textPaint = paint
+                val textWidth = textPaint.measureText(text.toString())
+
+                // 패딩을 포함한 최종 너비 계산
+                val finalWidth = textWidth.toInt() + 80
+
                 layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    finalWidth,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 ).apply {
                     // 태그 간의 간격을 조정
-                    (this as? LinearLayout.LayoutParams)?.apply {
-                        marginEnd = 16   // 태그 간의 끝 여백
-                    }
+                    marginEnd = 30 // 태그 간의 끝 여백
                 }
             }
 
             // LinearLayout에 추가
             tagContainerLayout.addView(tagView)
         }
+
 
     }
 }

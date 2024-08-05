@@ -55,6 +55,7 @@ class ChatRoomFragment  : Fragment()  {
                 val adapter = ChatRoomAdapter(it) { chatRoom ->
                     val bundle = Bundle().apply {
                         putInt("participateId", chatRoom.participateId)
+                        putString("chatRoomId", chatRoom.chatRoomId)
                     }
                     // Navigation Bar 숨기기
                     (activity as? MainActivity)?.hideBottomNavigationBar()

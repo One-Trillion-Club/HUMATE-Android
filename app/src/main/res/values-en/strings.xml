@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HuMate</string>
+    <string name="matching_title">Matching List</string>
+    <string name="status_ongoing">Ongoing</string>
+    <string name="status_completed">Done</string>
+    <string name="mission_finished">Completed</string>
+    <string name="mission_new">New</string>
+    <string name="mission_notice">Create new experiences together with your mate</string>
+    <string name="mission_pending">Pending</string>
+    <string name="mission_completed_title">Completed Mission</string>
+    <string name="mission_new_title">New Mission</string>
+    <string name="mission_record">upload</string>
+    <string name="mission_upload_title">Upload Mission</string>
+    <string name="upload_photo">Upload Photo</string>
+    <string name="companion_finish">Finish Companion</string>
+    <string name="review_write">Write a Review</string>
+    <string name="submit">submit</string>
+    <string name="review_notice">Please write a review</string>
+    <string name="matching_nickname">How was your day with %1$s?</string>
+    <string name="nav_mate">mate</string>
+    <string name="nav_chat">chat</string>
+    <string name="nav_mission">mission</string>
+    <string name="nav_mypage">mypage</string>
+    <string name="review_success">Review submission was successful</string>
+    <string name="review_failed">Review submission was failed</string>
+    <string name="companion_finished_success">The companion has fnished</string>
+    <string name="companion_finished_failed">Failed to end the companion</string>
+    <string name="upload_success">"Successfully Registered "</string>
+    <string name="upload_failed">Failed to register</string>
+</resources>
