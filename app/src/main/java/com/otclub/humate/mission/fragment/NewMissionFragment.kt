@@ -159,18 +159,17 @@ class NewMissionFragment : Fragment() {
                 if (response.isSuccessful) {
                     Toast.makeText(
                         requireContext(),
-                        "Upload successful",
+                        "동행이 종료되었습니다.",
                         Toast.LENGTH_SHORT
                     ).show()
                     missionViewModel.lastCompanionId?.let { missionViewModel.fetchMission(it) }
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        "Upload failed: ${response.message()}",
+                        "동행을 종료하지 못했습니다.",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-
             }
 
             override fun onFailure(call: Call<CommonResponseDTO>, t: Throwable) {
