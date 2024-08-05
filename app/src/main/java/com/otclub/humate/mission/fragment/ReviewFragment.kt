@@ -159,14 +159,14 @@ class ReviewFragment : Fragment() {
                     findNavController().navigate(R.id.action_reviewFragment_to_missionFragment)
                     Toast.makeText(
                         requireContext(),
-                        "후기 작성에 성공했습니다.",
+                        getString(R.string.review_success),
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
                     findNavController().navigate(R.id.action_reviewFragment_to_missionFragment)
                     Toast.makeText(
                         requireContext(),
-                        "후기 작성에 실패했습니다.",
+                        getString(R.string.review_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                 }

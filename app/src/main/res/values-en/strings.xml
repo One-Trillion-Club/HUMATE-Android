@@ -22,4 +22,10 @@
     <string name="nav_chat">chat</string>
     <string name="nav_mission">mission</string>
     <string name="nav_mypage">mypage</string>
+    <string name="review_success">Review submission was successful</string>
+    <string name="review_failed">Review submission was failed</string>
+    <string name="companion_finished_success">The companion has fnished</string>
+    <string name="companion_finished_failed">Failed to end the companion</string>
+    <string name="upload_success">"Successfully Registered "</string>
+    <string name="upload_failed">Failed to register</string>
 </resources>

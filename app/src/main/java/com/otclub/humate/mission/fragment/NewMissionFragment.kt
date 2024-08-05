@@ -159,14 +159,14 @@ class NewMissionFragment : Fragment() {
                 if (response.isSuccessful) {
                     Toast.makeText(
                         requireContext(),
-                        "동행이 종료되었습니다.",
+                        getString(R.string.companion_finished_success),
                         Toast.LENGTH_SHORT
                     ).show()
                     missionViewModel.lastCompanionId?.let { missionViewModel.fetchMission(it) }
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        "동행을 종료하지 못했습니다.",
+                        getString(R.string.companion_finished_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                 }

@@ -175,7 +175,7 @@ class MissionUploadFragment : Fragment() {
                 if (response.isSuccessful) {
                     Toast.makeText(
                         requireContext(),
-                        "Upload successful",
+                        getString(R.string.upload_success),
                         Toast.LENGTH_SHORT
                     ).show()
                     missionViewModel.lastCompanionId?.let { missionViewModel.fetchMission(it) }
@@ -183,7 +183,7 @@ class MissionUploadFragment : Fragment() {
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        "Upload failed: ${response.message()}",
+                        getString(R.string.upload_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -192,7 +192,7 @@ class MissionUploadFragment : Fragment() {
             override fun onFailure(call: Call<CommonResponseDTO>, t: Throwable) {
                 Toast.makeText(
                     requireContext(),
-                    "Upload error: ${t.message}",
+                    getString(R.string.upload_failed),
                     Toast.LENGTH_SHORT
                 ).show()
             }
