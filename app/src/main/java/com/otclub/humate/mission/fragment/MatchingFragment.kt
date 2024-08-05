@@ -44,7 +44,7 @@ class MatchingFragment : Fragment() {
             title.setText(getString(R.string.matching_title))
 
             // 버튼의 가시성 설정
-            val showLeftButton = true
+            val showLeftButton = false
             val showRightButton = false
             leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
             rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
