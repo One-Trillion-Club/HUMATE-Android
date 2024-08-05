@@ -61,6 +61,9 @@
         <action
                 android:id="@+id/action_postWriteFragment_to_postWriteOptionFragment"
                 app:destination="@id/postWriteOptionFragment" />
+        <action
+                android:id="@+id/action_postWriteFragment_to_postListFragment"
+                app:destination="@id/postListFragment"/>
     </fragment>
     <fragment
             android:id="@+id/postWriteOptionFragment"
