@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentClearedMissionDetailsBinding
 import com.otclub.humate.databinding.FragmentNewMissionDetailsBinding
@@ -34,7 +35,7 @@ class NewMissionDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        (activity as? MainActivity)?.hideBottomNavigationBar()
         val toolbar = mBinding?.toolbar?.toolbar
 
         toolbar?.let {
@@ -58,6 +59,8 @@ class NewMissionDetailsFragment : Fragment() {
                 updateUI(it)
             }
         }
+
+        (activity as? MainActivity)?.hideBottomNavigationBar()
 
         mBinding?.toolbar?.leftButton?.setOnClickListener {
             findNavController().navigateUp()
@@ -86,5 +89,6 @@ class NewMissionDetailsFragment : Fragment() {
     override fun onDestroyView() {
         mBinding = null
         super.onDestroyView()
+        (activity as? MainActivity)?.showBottomNavigationBar()
     }
 }

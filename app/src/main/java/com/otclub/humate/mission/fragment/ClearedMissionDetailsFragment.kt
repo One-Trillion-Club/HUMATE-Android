@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentClearedMissionDetailsBinding
 import com.otclub.humate.mission.adapter.ImagePagerAdapter
@@ -34,6 +35,7 @@ class ClearedMissionDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (activity as? MainActivity)?.hideBottomNavigationBar()
         val toolbar = mBinding?.toolbar?.toolbar
 
         toolbar?.let {
@@ -74,5 +76,10 @@ class ClearedMissionDetailsFragment : Fragment() {
             viewPager.adapter = adapter
             dotsIndicator.setViewPager(viewPager)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        (activity as? MainActivity)?.showBottomNavigationBar()
     }
 }

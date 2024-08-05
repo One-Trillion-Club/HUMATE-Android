@@ -16,6 +16,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.otclub.humate.MainActivity
@@ -39,21 +40,21 @@ class MissionUploadFragment : Fragment() {
     private val imageFiles = ArrayList<Uri>()
     private val missionViewModel: MissionViewModel by activityViewModels()
     private var mBinding: FragmentMissionUploadBinding? = null
-    private val binding get() = mBinding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mBinding = FragmentMissionUploadBinding.inflate(inflater, container, false)
+        val binding = FragmentMissionUploadBinding.inflate(inflater, container, false)
+        mBinding = binding
         return mBinding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        (activity as? MainActivity)?.hideBottomNavigationBar()
         val toolbar = mBinding?.toolbar?.toolbar
-
         toolbar?.let {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
@@ -81,13 +82,13 @@ class MissionUploadFragment : Fragment() {
         missionService = RetrofitConnection.getInstance().create(MissionService::class.java)
 
         imagesAdapter = UploadMissionAdapter(imageFiles, requireContext())
-        binding.imagesRecyclerView.layoutManager = GridLayoutManager(context, 4)
-        binding.imagesRecyclerView.adapter = imagesAdapter
+        mBinding?.imagesRecyclerView?.layoutManager = GridLayoutManager(context, 4)
+        mBinding?.imagesRecyclerView?.adapter = imagesAdapter
 
         // RecyclerView 설정
         Log.i("imageFiles.size : ", imageFiles.size.toString())
 
-        binding.selectImagesButton.setOnClickListener {
+        mBinding?.selectImagesButton?.setOnClickListener {
             var intent = Intent(Intent.ACTION_PICK)
             intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
@@ -97,9 +98,10 @@ class MissionUploadFragment : Fragment() {
 
         missionViewModel.newMissionDetailsDTO.observe(viewLifecycleOwner) { missionDetailsDTO ->
             missionDetailsDTO?.let {
-                binding.uploadMissionTitle.text = it.title
+                mBinding?.uploadMissionTitle!!.text = it.title
             }
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -197,5 +199,10 @@ class MissionUploadFragment : Fragment() {
                 ).show()
             }
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        (activity as? MainActivity)?.showBottomNavigationBar()
     }
 }

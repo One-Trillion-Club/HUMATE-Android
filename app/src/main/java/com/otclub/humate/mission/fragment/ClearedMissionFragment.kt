@@ -140,7 +140,7 @@ class ClearedMissionFragment : Fragment() {
 
             // leftButton 클릭 시 이전 화면으로 돌아가기
             leftButton.setOnClickListener {
-                findNavController().navigateUp()
+                findNavController().navigate(R.id.action_missionFragment_to_matchingFragment)
             }
 
             rightButton.setOnClickListener {

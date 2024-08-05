@@ -112,7 +112,7 @@ class NewMissionFragment : Fragment() {
 
             // leftButton 클릭 시 이전 화면으로 돌아가기
             leftButton.setOnClickListener {
-                findNavController().navigateUp()
+                findNavController().navigate(R.id.action_newMissionFragment_to_matchingFragment)
             }
 
             rightButton.setOnClickListener {
@@ -136,6 +136,7 @@ class NewMissionFragment : Fragment() {
                         finishCompanion(id)
                     }
                     findNavController().navigate(R.id.action_newMissionFragment_to_reviewFragment)
+
                     true
                 }
 
