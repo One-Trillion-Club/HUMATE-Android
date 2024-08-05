@@ -30,6 +30,7 @@
             android:layout_alignParentTop="true"
             android:padding="6dp"
             android:text="Status"
+            android:clipToOutline="true"
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:textSize="15sp"
