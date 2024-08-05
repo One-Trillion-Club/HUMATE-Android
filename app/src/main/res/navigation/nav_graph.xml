@@ -70,12 +70,20 @@
         <action
             android:id="@+id/action_myPageFragment_to_myProfileFragment"
             app:destination="@id/myProfileFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_myMatesFragment"
+            app:destination="@id/myMatesFragment" />
     </fragment>
     <fragment
         android:id="@+id/myProfileFragment"
         android:name="com.otclub.humate.member.fragment.MyProfileFragment"
         android:label="fragment_my_profile"
         tools:layout="@layout/member_fragment_my_profile"/>
+    <fragment
+        android:id="@+id/myMatesFragment"
+        android:name="com.otclub.humate.member.fragment.MyMatesFragment"
+        android:label="fragment_my_mates"
+        tools:layout="@layout/member_fragment_my_mates"/>
     <fragment
         android:id="@+id/newMissionFragment"
         android:name="com.otclub.humate.mission.fragment.NewMissionFragment"

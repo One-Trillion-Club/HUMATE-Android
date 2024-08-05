@@ -61,10 +61,10 @@ class MyPageFragment : Fragment() {
 
         binding.profileLayout.setOnClickListener {
             findNavController().navigate(R.id.action_myPageFragment_to_myProfileFragment)
-//            parentFragmentManager.beginTransaction()
-//                .replace(R.id.my_nav_host, MyProfileFragment())
-//                .addToBackStack(null)
-//                .commit()
+        }
+
+        binding.mateListLayout.setOnClickListener {
+            findNavController().navigate(R.id.action_myPageFragment_to_myMatesFragment)
         }
 
     }

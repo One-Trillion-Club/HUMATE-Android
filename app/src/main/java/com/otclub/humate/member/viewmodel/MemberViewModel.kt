@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.otclub.humate.auth.api.AuthService
 import com.otclub.humate.auth.data.CommonResponseDTO
+import com.otclub.humate.mate.data.MateDetailResponseDTO
 import com.otclub.humate.member.api.MemberService
 import com.otclub.humate.member.data.ModifyProfileRequestDTO
 import com.otclub.humate.member.data.ProfileResponseDTO
@@ -66,7 +67,7 @@ class MemberViewModel(application: Application): AndroidViewModel(application) {
                     onSuccess(response.body()!!)
                 }
                 else {
-                    Log.i("에러에러", response.toString())
+                    Log.i("MemberViewModel: fetchGetMyProfile Error", response.toString())
                 }
             }
 
@@ -95,6 +96,55 @@ class MemberViewModel(application: Application): AndroidViewModel(application) {
             }
 
             override fun onFailure(call: Call<CommonResponseDTO>, t: Throwable) {
+                onError(t.message ?: "네트워크 오류")
+            }
+        })
+    }
+
+    fun fetchGetMyMateList(
+        onSuccess: (List<MateDetailResponseDTO>) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        memberService.getMyMateList().enqueue(object : Callback<List<MateDetailResponseDTO>> {
+            override fun onResponse(
+                call: Call<List<MateDetailResponseDTO>>,
+                response: retrofit2.Response<List<MateDetailResponseDTO>>
+            ) {
+                if (response.isSuccessful && response.body() != null) {
+                    // 서버 응답 성공
+                    onSuccess(response.body()!!)
+                }
+                else {
+                    Log.i("MemberViewModel: getMyMateList Error", response.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<List<MateDetailResponseDTO>>, t: Throwable) {
+                onError(t.message ?: "네트워크 오류")
+            }
+        })
+    }
+
+    fun getOtherMemberProfile(
+        memberId: String,
+        onSuccess: (ProfileResponseDTO) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        memberService.getOtherMemberProfile(memberId).enqueue(object : Callback<ProfileResponseDTO> {
+            override fun onResponse(
+                call: Call<ProfileResponseDTO>,
+                response: retrofit2.Response<ProfileResponseDTO>
+            ) {
+                if (response.isSuccessful && response.body() != null) {
+                    // 서버 응답 성공
+                    onSuccess(response.body()!!)
+                }
+                else {
+                    Log.i("MemberViewModel: getMyMateList Error", response.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<ProfileResponseDTO>, t: Throwable) {
                 onError(t.message ?: "네트워크 오류")
             }
         })

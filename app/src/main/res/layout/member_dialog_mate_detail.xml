@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:paddingBottom="30dp"
+    android:background="@drawable/member_mate_dialog_background"
+    android:clipToOutline="false">
+
+    <ImageButton
+        android:id="@+id/close_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+
+        android:background="@drawable/ic_member_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="X" />
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/leftLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rightLayout"
+            app:layout_constraintTop_toTopOf="parent">
+        <!-- 프로필 이미지 -->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+
+            android:layout_gravity="center"
+            android:background="@drawable/ic_member_profile_default"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/nickname"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+
+            android:gravity="center"
+            android:text="로딩중"
+
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileImage" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rightLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toEndOf="@+id/leftLayout"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/ageLayout"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:gravity="start|center_vertical">
+
+            <TextView
+                android:id="@+id/guideAge"
+
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+
+                android:gravity="start|center_vertical"
+                android:text="나이  |  "
+
+                android:textSize="12dp"
+                android:textColor="@color/black"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/ageText"
+
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="10dp"
+
+                android:gravity="start|center_vertical"
+                android:text="26세"
+
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/genderLayout"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ageLayout"
+            android:orientation="horizontal"
+            android:gravity="start|center_vertical">
+
+            <TextView
+                android:id="@+id/guidegender"
+
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+
+                android:gravity="start|center_vertical"
+                android:text="성별  |  "
+
+                android:textSize="12dp"
+                android:textColor="@color/black"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/genderText"
+
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="10dp"
+
+                android:gravity="start|center_vertical"
+                android:text="남성"
+
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mannerLayout"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/genderLayout"
+            android:orientation="horizontal"
+            android:gravity="start|center_vertical">
+
+            <TextView
+                android:id="@+id/guideManner"
+
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+
+                android:gravity="start|center_vertical"
+                android:text="메이트 온도  |  "
+
+                android:textSize="12dp"
+                android:textColor="@color/black"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/mannerText"
+
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="10dp"
+
+                android:gravity="start|center_vertical"
+                android:text="36.5°C"
+
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mannerBarLayout"
+            android:layout_width="0dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mannerLayout"
+            >
+
+            <ImageView
+                android:id="@+id/happyIcon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="3dp"
+                android:src="@drawable/ic_member_happy"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/unhappyIcon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="3dp"
+                android:src="@drawable/ic_member_unhappy"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/mannerBar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="11dp"
+                android:layout_marginTop="25dp"
+                android:progress="20"
+                android:progressDrawable="@drawable/member_manner_bar_progress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
