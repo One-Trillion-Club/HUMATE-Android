@@ -196,6 +196,7 @@
                 android:layout_height="232dp"
                 android:layout_marginTop="20dp"
                 android:elevation="4dp"
+                android:gravity="left|top"
                 android:background="@drawable/review_text_border"
                 android:clipToOutline="true"
                 android:padding="16dp"
