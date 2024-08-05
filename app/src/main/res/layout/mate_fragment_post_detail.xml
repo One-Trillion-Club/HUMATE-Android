@@ -15,7 +15,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/profile_container"
@@ -105,7 +106,7 @@
 
             <TextView
                     android:id="@+id/post_title"
-                    android:layout_width="340dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="매칭글 제목"
                     android:textSize="14sp"
@@ -115,11 +116,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="8dp"
-                    android:layout_marginStart="5dp"/>
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"/>
 
             <TextView
                     android:id="@+id/post_content"
-                    android:layout_width="340dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="매칭글 내용"
                     android:textSize="12sp"
@@ -128,13 +130,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="8dp"
-                    android:layout_marginStart="5dp"/>
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"/>
 
             <HorizontalScrollView
                     android:id="@+id/tag_container"
-                    android:layout_width="340dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     app:layout_constraintTop_toBottomOf="@id/post_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -210,7 +216,7 @@
                         android:id="@+id/card1"
                         android:layout_width="0dp"
                         android:layout_height="120dp"
-                        app:layout_constraintWidth_percent="0.23"
+                        app:layout_constraintWidth_percent="0.21"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -258,7 +264,7 @@
                         android:id="@+id/card2"
                         android:layout_width="0dp"
                         android:layout_height="120dp"
-                        app:layout_constraintWidth_percent="0.23"
+                        app:layout_constraintWidth_percent="0.21"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/card1"
@@ -306,7 +312,7 @@
                         android:id="@+id/card3"
                         android:layout_width="0dp"
                         android:layout_height="120dp"
-                        app:layout_constraintWidth_percent="0.23"
+                        app:layout_constraintWidth_percent="0.21"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/card2"
@@ -354,7 +360,7 @@
                         android:id="@+id/card4"
                         android:layout_width="0dp"
                         android:layout_height="120dp"
-                        app:layout_constraintWidth_percent="0.23"
+                        app:layout_constraintWidth_percent="0.21"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/card3"

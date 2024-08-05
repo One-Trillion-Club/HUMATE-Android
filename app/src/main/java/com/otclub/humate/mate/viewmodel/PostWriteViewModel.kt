@@ -33,6 +33,10 @@ class PostWriteViewModel: ViewModel() {
                 if (response.isSuccessful) {
                     response.body()?.let { postId ->
                         onSuccess(postId)
+
+                        // optionData와 requestData 초기화
+                        optionData = null
+                        requestData = null
                     } ?: onError("응답 본문이 비어 있습니다.")
                 } else {
                     onError("오류 코드: ${response.code()}")

@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -69,6 +70,7 @@ class PostWriteFragment : Fragment()  {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         // ViewModel의 데이터 사용
         postWriteViewModel.optionData?.let { optionData ->
             Log.i("PostWriteFragment", "Received option data: $optionData")
@@ -114,39 +116,12 @@ class PostWriteFragment : Fragment()  {
 
             // 버튼의 가시성 설정
             val showLeftButton = true
-            val showRightButton = true
+            val showRightButton = false
             leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
             rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
 
             // 액션 바의 타이틀을 설정하거나 액션 바의 다른 속성을 조정
             it.setToolbarTitle("매칭글 작성")
-
-            rightButton.setOnClickListener {
-                saveRequest()
-                postWriteViewModel.writePost(
-                    onSuccess = { postId ->
-                        // 성공 시 처리
-                        Log.i("PostWrite", "Post created successfully with ID: $postId")
-
-                        // 커스텀 다이얼로그 레이아웃 설정
-                        val customView = layoutInflater.inflate(R.layout.mate_post_write_dialog, null)
-
-                        // AlertDialog로 팝업 표시
-                        AlertDialog.Builder(requireContext())
-                            .setView(customView)
-                            .setPositiveButton("확인") { dialog, which ->
-                                // 확인 버튼 클릭 시 PostListFragment로 이동
-                                findNavController().navigate(R.id.action_postWriteFragment_to_postListFragment)
-                            }
-                            .show()
-                    },
-                    onError = { errorMessage ->
-                        // 실패 시 처리
-                        Log.e("PostWrite", "Error occurred: $errorMessage")
-                        Toast.makeText(context, "Failed to create post: $errorMessage", Toast.LENGTH_LONG).show()
-                    }
-                )
-            }
         }
 
         // 매칭 정보 선택 버튼 가져오기
@@ -157,6 +132,37 @@ class PostWriteFragment : Fragment()  {
             // requestDTO에 저장
             saveRequest()
             findNavController().navigate(R.id.action_postWriteFragment_to_postWriteOptionFragment)
+        }
+
+        // 작성하기 버튼 가져오기
+        val postSaveButton: CardView = binding.postSaveButton
+
+        // 작성하기 버튼 클릭 이벤트 설정
+        postSaveButton.setOnClickListener {
+            saveRequest()
+            postWriteViewModel.writePost(
+                onSuccess = { postId ->
+                    // 성공 시 처리
+                    Log.i("PostWrite", "Post created successfully with ID: $postId")
+
+                    // 커스텀 다이얼로그 레이아웃 설정
+                    val customView = layoutInflater.inflate(R.layout.mate_post_write_dialog, null)
+
+                    // AlertDialog로 팝업 표시
+                    AlertDialog.Builder(requireContext())
+                        .setView(customView)
+                        .setPositiveButton("확인") { dialog, which ->
+                            // 확인 버튼 클릭 시 PostListFragment로 이동
+                            findNavController().navigate(R.id.action_postWriteFragment_to_postListFragment)
+                        }
+                        .show()
+                },
+                onError = { errorMessage ->
+                    // 실패 시 처리
+                    Log.e("PostWrite", "Error occurred: $errorMessage")
+                    Toast.makeText(context, "Failed to create post: $errorMessage", Toast.LENGTH_LONG).show()
+                }
+            )
         }
 
         // 태그 데이터 설정
