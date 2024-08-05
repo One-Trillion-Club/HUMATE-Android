@@ -1,6 +1,7 @@
 package com.otclub.humate.chat.viewModel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.otclub.humate.chat.api.ChatRoomService
@@ -12,6 +13,8 @@ class ChatRoomViewModel : ViewModel() {
     private val chatRoomService : ChatRoomService = RetrofitConnection.getInstance().create(ChatRoomService::class.java)
     val chatRoomDetailDTOList = MutableLiveData<List<ChatRoomDetailDTO>>()
 
+    private val _selectedButton = MutableLiveData<Int>()
+    val selectedButton: LiveData<Int> = _selectedButton
     fun fetchChatRoomList(memberId: String)  {
 
         chatRoomService.getChatRoomList(memberId!!).enqueue(object :
@@ -50,5 +53,9 @@ class ChatRoomViewModel : ViewModel() {
                 Log.e("채팅 목록 페이지 응답 실패 ", t.toString())
             }
         })
+    }
+
+    fun setSelectedButton(buttonId: Int) {
+        _selectedButton.value = buttonId
     }
 }

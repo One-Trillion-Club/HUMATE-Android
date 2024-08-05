@@ -74,15 +74,21 @@ class ChatRoomFragment  : Fragment()  {
         mBinding?.mateListButton?.setOnClickListener {
             selectButton(mBinding?.mateListButton)
             chatRoomViewModel.fetchChatRoomList("K_1")
+            chatRoomViewModel.setSelectedButton(R.id.mateListButton)
         }
 
         mBinding?.pendingListButton?.setOnClickListener {
             selectButton(mBinding?.pendingListButton)
             chatRoomViewModel.fetchPendingChatRoomList("K_1")
+            chatRoomViewModel.setSelectedButton(R.id.mateListButton)
         }
 
-        selectButton(mBinding?.mateListButton)
-        chatRoomViewModel.fetchChatRoomList("K_1")
+        // 초기 상태 설정
+        if (chatRoomViewModel.selectedButton.value == null) {
+            selectButton(mBinding?.mateListButton)
+            chatRoomViewModel.fetchChatRoomList("K_1")
+            chatRoomViewModel.setSelectedButton(R.id.mateListButton)
+        }
     }
 
     private fun selectButton(button: Button?) {

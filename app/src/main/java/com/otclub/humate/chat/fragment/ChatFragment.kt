@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.otclub.humate.BuildConfig.*
@@ -164,7 +165,6 @@ class ChatFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        (activity as? MainActivity)?.restoreToolbar()
         mBinding = null
         super.onDestroyView()
     }
@@ -173,22 +173,30 @@ class ChatFragment : Fragment() {
         mBinding?.chatDisplay?.scrollToPosition(chatAdapter.itemCount - 1)
     }
 
-    @SuppressLint("ResourceType")
     private fun setupToolbar() {
-        // 새로운 Toolbar 설정
-        val chatToolbar = LayoutInflater.from(context).inflate(R.layout.chat_toolbar, null) as Toolbar
-        val leftButton: ImageButton = chatToolbar.findViewById(R.id.left_button)
-        val menuButton: ImageButton = chatToolbar.findViewById(R.id.menu_button)
-        val titleTextView: TextView = chatToolbar.findViewById(R.id.toolbar_title)
+        val toolbar = mBinding?.toolbar?.chatToolbar
+        toolbar?.let {
+            val leftButton: ImageButton = it.findViewById(R.id.left_button)
+            val menuButton: ImageButton = it.findViewById(R.id.menu_button)
+            val title: TextView = it.findViewById(R.id.toolbar_title)
+            title.text = "Hello"
 
-        // 버튼 클릭 리스너 설정
-        leftButton.setOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
-        menuButton.setOnClickListener {
-            showPopupMenu(menuButton)
-        }
+            // 버튼의 가시성 설정
+            val showLeftButton = true
+            val showRightButton = true
+            leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
+            menuButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
 
+            // leftButton 클릭 시 이전 화면으로 돌아가기
+            leftButton.setOnClickListener {
+                findNavController().navigateUp()
+                (activity as? MainActivity)?.showBottomNavigationBar()
+            }
+
+            menuButton.setOnClickListener {
+                showPopupMenu(menuButton)
+            }
+        }
     }
 
     private fun showPopupMenu(view: View) {
