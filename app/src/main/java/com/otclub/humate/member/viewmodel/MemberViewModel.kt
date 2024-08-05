@@ -25,7 +25,6 @@ class MemberViewModel(application: Application): AndroidViewModel(application) {
         SharedPreferencesManager(application)
 
     val profileResponseDTO = MutableLiveData<ProfileResponseDTO>()
-    val modifyProfileRequestDTO = MutableLiveData<ModifyProfileRequestDTO>()
 
     /**
      * 로그아웃

@@ -1,5 +1,6 @@
 package com.otclub.humate.member.fragment
 
+//import com.otclub.humate.member.adapter.MateListAdapter
 import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -15,7 +16,6 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -27,7 +27,6 @@ import com.otclub.humate.databinding.MemberFragmentMyMatesBinding
 import com.otclub.humate.mate.data.MateDetailResponseDTO
 import com.otclub.humate.member.adapter.MateListAdapter
 import com.otclub.humate.member.data.ProfileResponseDTO
-//import com.otclub.humate.member.adapter.MateListAdapter
 import com.otclub.humate.member.viewmodel.MemberViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -41,6 +40,7 @@ class MyMatesFragment: Fragment() {
     private lateinit var mateList: List<MateDetailResponseDTO>
     private lateinit var adapter: MateListAdapter
     private lateinit var recyclerView: RecyclerView
+    private lateinit var mateNumber: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,13 +62,16 @@ class MyMatesFragment: Fragment() {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
             val title: TextView = toolbar.findViewById(R.id.toolbar_title)
+            mateNumber = toolbar.findViewById(R.id.additional_number)
             title.setText("내 메이트")
 
             // 버튼의 가시성 설정
             val showLeftButton = true
             val showRightButton = false
+            val showMateNumber = true
             leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
             rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
+            mateNumber.visibility = if (showMateNumber) View.VISIBLE else View.GONE
 
             leftButton.setOnClickListener {
                 findNavController().navigateUp()
@@ -78,6 +81,8 @@ class MyMatesFragment: Fragment() {
         viewModel.fetchGetMyMateList(
             onSuccess = { mateList ->
                 this.mateList = mateList
+                mateNumber?.setText(mateList.size.toString())
+                Log.i("lwaejflkwejfc", mateNumber.toString())
                 adapter = MateListAdapter(mateList, onMateClick = { memberId -> // 카드 뷰 클릭 시
                     // 카드 뷰 클릭 시 모달 창 띄우기
                     viewModel.getOtherMemberProfile(

@@ -27,7 +27,6 @@ class MateListAdapter(
             // 프로필 이미지 세팅
             Glide.with(profileImage.context)
                 .load(mate.profileImgUrl)
-                .placeholder(R.drawable.ic_member_profile_default)
                 .into(profileImage)
 
             nickname.setText(mate.nickname)

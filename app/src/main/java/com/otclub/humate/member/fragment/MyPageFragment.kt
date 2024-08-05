@@ -106,7 +106,6 @@ class MyPageFragment : Fragment() {
                 if (response.profileImgUrl != null) {
                     Glide.with(binding.profileImage.context)
                         .load(response.profileImgUrl)
-                        .placeholder(R.drawable.ic_member_profile_default)
                         .into(binding.profileImage)
                 }
             },
