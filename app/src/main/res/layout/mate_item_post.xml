@@ -13,65 +13,39 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <!-- 왼쪽 레이아웃: 프로필 사진과 이름 -->
+        <!-- 왼쪽 레이아웃 -->
         <LinearLayout
                 android:id="@+id/left_layout"
-                android:layout_width="80dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/right_layout">
-
-            <androidx.cardview.widget.CardView
-                    android:layout_width="50dp"
-                    android:layout_height="70dp"
-                    app:cardElevation="4dp"
-                    app:cardCornerRadius="8dp">
-
-                <!-- 프로필 이미지 -->
-                <ImageView
-                        android:id="@+id/profile_image"
-                        android:layout_width="50dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/basic_profile"/>
-            </androidx.cardview.widget.CardView>
-
-            <!-- 이름 -->
-            <TextView
-                    android:id="@+id/nickname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_gravity="center"
-                    android:textSize="9sp"
-                    android:textColor="@color/black"
-                    android:text="이름"/>
-        </LinearLayout>
-
-        <!-- 오른쪽 레이아웃: 나머지 콘텐츠 -->
-        <LinearLayout
-                android:id="@+id/right_layout"
-                android:layout_width="230dp"
+                android:layout_width="245dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:layout_marginStart="10dp"
                 android:orientation="vertical"
-                app:layout_constraintStart_toEndOf="@id/left_layout"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginStart="15dp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
+
+            <!-- 태그 리스트 -->
+            <LinearLayout
+                    android:id="@+id/tag_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="end"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+                <!-- 태그가 동적으로 추가될 부분 -->
+            </LinearLayout>
 
             <!-- 게시글 제목 및 상태 -->
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="15dp">
+                    android:layout_marginStart="5dp">
 
                 <!-- 게시글 제목 -->
                 <TextView
@@ -80,90 +54,168 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginEnd="30dp"
-                        android:textSize="12sp"
+                        android:textSize="15sp"
                         android:textStyle="bold"
                         android:textColor="@color/black"
                         android:text="게시글 제목"
                         android:maxLines="1"
                         android:ellipsize="end"/>
 
-                <!-- 상태 (진행중 or 매칭 완료) -->
-                <TextView
-                        android:id="@+id/is_matched"
-                        android:layout_width="45dp"
-                        android:layout_height="20dp"
-                        android:textSize="10sp"
-                        android:textStyle="bold"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:paddingTop="1dp"
-                        android:text="진행중"/>
             </LinearLayout>
 
-            <!-- 매칭 날짜, 매칭 지점, 매칭 언어 -->
+            <!-- 매칭 날짜, 매칭 지점, 매칭 언어, 매칭 성별 -->
             <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="64dp"
-                    android:layout_marginTop="10dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="5dp">
 
-                <!-- 매칭 날짜 -->
-                <TextView
-                        android:id="@+id/match_date"
-                        android:layout_width="wrap_content"
+                <!-- 왼쪽 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/match_left"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
-                        android:textSize="10sp"
-                        android:drawableLeft="@drawable/ic_match_date_gray"
-                        android:drawablePadding="4dp"
-                        android:textColor="@color/black"
-                        android:text="매칭 날짜"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/match_branch"
-                        app:layout_constraintStart_toStartOf="parent"/>
-
-                <!-- 매칭 지점 -->
-                <TextView
-                        android:id="@+id/match_branch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="10sp"
-                        android:drawableLeft="@drawable/ic_match_branch_gray"
-                        android:drawablePadding="4dp"
-                        android:textColor="@color/black"
-                        android:text="매칭 지점"
-                        app:layout_constraintTop_toBottomOf="@id/match_date"
-                        app:layout_constraintBottom_toTopOf="@id/match_language"
-                        app:layout_constraintStart_toStartOf="parent"/>
-
-                <!-- 매칭 언어 -->
-                <TextView
-                        android:id="@+id/match_language"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="10sp"
-                        android:textColor="@color/black"
-                        android:drawableLeft="@drawable/ic_match_language_gray"
-                        android:drawablePadding="4dp"
-                        android:text="매칭 언어"
-                        app:layout_constraintTop_toBottomOf="@id/match_branch"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent">
+
+                    <!-- 매칭 날짜 -->
+                    <TextView
+                            android:id="@+id/match_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp"
+                            android:drawableLeft="@drawable/ic_match_date_black"
+                            android:drawablePadding="4dp"
+                            android:textColor="@color/black"
+                            android:text="매칭 날짜"
+                            app:layout_constraintBottom_toTopOf="@id/match_language"
+                            app:layout_constraintStart_toStartOf="parent"/>
+
+                    <!-- 매칭 언어 -->
+                    <TextView
+                            android:id="@+id/match_language"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp"
+                            android:textColor="@color/black"
+                            android:drawableLeft="@drawable/ic_match_language_black"
+                            android:drawablePadding="4dp"
+                            android:text="매칭 언어"
+                            app:layout_constraintTop_toBottomOf="@id/match_date"
+                            app:layout_constraintStart_toStartOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- 오른쪽 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/match_right"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                    <!-- 매칭 지점 -->
+                    <TextView
+                            android:id="@+id/match_branch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp"
+                            android:drawableLeft="@drawable/ic_match_branch_black"
+                            android:drawablePadding="4dp"
+                            android:textColor="@color/black"
+                            android:text="매칭 지점"
+                            app:layout_constraintBottom_toTopOf="@id/match_gender"
+                            app:layout_constraintStart_toStartOf="parent"/>
+
+                    <!-- 매칭 성별 -->
+                    <TextView
+                            android:id="@+id/match_gender"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp"
+                            android:drawableLeft="@drawable/ic_match_gender_black"
+                            android:drawablePadding="4dp"
+                            android:textColor="@color/black"
+                            android:text="매칭 성별"
+                            app:layout_constraintTop_toBottomOf="@id/match_branch"
+                            app:layout_constraintStart_toStartOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
-        <!-- 태그 리스트 -->
-        <LinearLayout
-                android:id="@+id/tag_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
+        <!-- 오른쪽 레이아웃: 프로필 사진과 이름 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/right_layout"
+                android:layout_width="45dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:gravity="end">
-            <!-- 태그가 동적으로 추가될 부분 -->
-        </LinearLayout>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+            <!-- 상태 (진행중 or 매칭 완료) -->
+            <TextView
+                    android:id="@+id/is_matched"
+                    android:layout_width="45dp"
+                    android:layout_height="20dp"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:paddingTop="1dp"
+                    android:text="진행중"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/is_matched"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.cardview.widget.CardView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        app:cardElevation="4dp"
+                        app:cardCornerRadius="15dp">
+
+                    <!-- 프로필 이미지 -->
+                    <ImageView
+                            android:id="@+id/profile_image"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/basic_profile"/>
+                </androidx.cardview.widget.CardView>
+
+                <!-- 이름 -->
+                <TextView
+                        android:id="@+id/nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_gravity="center"
+                        android:textSize="9sp"
+                        android:textColor="@color/black"
+                        android:text="이름"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>

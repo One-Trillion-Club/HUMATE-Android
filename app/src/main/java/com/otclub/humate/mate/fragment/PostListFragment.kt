@@ -1,5 +1,6 @@
 package com.otclub.humate.mate.fragment
 
+import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -86,7 +87,7 @@ class PostListFragment : Fragment() {
             setWidth(BalloonSizeSpec.WRAP)
             setHeight(BalloonSizeSpec.WRAP)
             setArrowOrientation(ArrowOrientation.RIGHT)
-            setText("매칭글을 작성해보세요. 맞춤형 동행 메이트를 구할 수 있습니다!")
+            setText("매칭글을 작성해보세요. \n맞춤형 동행 메이트를 구할 수 있습니다!")
             setTextColorResource(R.color.black)
             setTextSize(10f)
             setBackgroundColorResource(R.color.super_light_gray)
@@ -170,15 +171,26 @@ class PostListFragment : Fragment() {
         for (buttonText in buttonsData) {
             val button = Button(ContextThemeWrapper(requireContext(), R.style.TagButtonUnselected), null, R.style.TagButtonUnselected)
             button.text = buttonText
+
+            // 텍스트의 실제 너비 측정
+            val paint = Paint()
+            paint.textSize = button.textSize
+            val textWidth = paint.measureText(buttonText)
+
+            // 여유 공간(패딩)을 포함한 버튼 너비 계산
+            val padding = 100 // 좌우 패딩 (예: 32dp * 2)
+            val buttonWidth = textWidth.toInt() + padding
+
             val params = LinearLayout.LayoutParams(
-                180,
-                70
+                buttonWidth,
+                100
             )
             // 버튼 간의 간격을 설정 (예: 8dp)
-            params.setMargins(8, 0, 8, 0)
+            params.setMargins(16, 0, 16, 0)
             button.layoutParams = params
             button.gravity = Gravity.CENTER
-            button.setPadding(16, 8, 16, 8)
+//            button.setPadding(32, 16, 16, 32)
+            button.setPadding(0, 0, 0, 0)
             button.setBackgroundResource(R.drawable.tag_button_unselected)
             button.setTextColor(resources.getColor(R.color.dark_gray, null))
 

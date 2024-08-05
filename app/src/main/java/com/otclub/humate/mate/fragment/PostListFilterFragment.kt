@@ -1,6 +1,7 @@
 package com.otclub.humate.mate.fragment
 
 import android.app.DatePickerDialog
+import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log

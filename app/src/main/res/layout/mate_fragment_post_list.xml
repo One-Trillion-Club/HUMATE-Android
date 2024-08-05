@@ -5,7 +5,8 @@
          xmlns:tools="http://schemas.android.com/tools"
          android:layout_width="match_parent"
          android:layout_height="match_parent"
-         android:layout_marginTop="15dp"
+         android:layout_marginStart="10dp"
+         android:layout_marginEnd="10dp"
          tools:context=".mate.fragment.PostListFragment">
 
     <include
@@ -19,7 +20,7 @@
     <!-- 검색 바 레이아웃 -->
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/search_bar"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/search_layout"
             android:padding="8dp"
@@ -37,7 +38,7 @@
                 android:paddingEnd="8dp"
                 android:text="필터"
                 android:textColor="@color/white"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:background="@drawable/purple_button"
                 android:drawableEnd="@drawable/filter_img"
                 android:drawablePadding="1dp"
@@ -94,7 +95,7 @@
         <LinearLayout
                 android:id="@+id/button_container"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
             <!-- 동적으로 추가될 버튼들 -->
         </LinearLayout>
