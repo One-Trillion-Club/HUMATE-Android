@@ -1,450 +1,518 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".mate.fragment.PostDetailFragment">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        tools:context=".mate.fragment.PostDetailFragment">
 
-    <!-- 동그란 이미지 -->
-    <FrameLayout
-            android:id="@+id/profile_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintTop_toTopOf="parent"
+    <android.widget.ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="60dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/profile_container"
+                    android:layout_width="360dp"
+                    android:layout_height="100dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="8dp">
+
+                <!-- 동그란 이미지 -->
+                <FrameLayout
+                        android:id="@+id/profile_image"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="16dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:clipChildren="true"
+                        android:layout_gravity="center">
+
+                    <ImageView
+                            android:id="@+id/background"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/mate_profile_circle_background"
+                            android:contentDescription="프로필 이미지"
+                            android:scaleType="centerCrop"
+                            android:adjustViewBounds="true"/>
+
+                    <ImageView
+                            android:id="@+id/rounded_image"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:src="@drawable/ic_member_profile_default"
+                            android:contentDescription="프로필 이미지"
+                            android:scaleType="centerCrop"
+                            android:adjustViewBounds="true"
+                            android:layout_gravity="center"/>
+
+                </FrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <!-- 한마디 -->
+            <LinearLayout
+                    android:id="@+id/post_info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    app:layout_constraintTop_toBottomOf="@id/profile_container"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp">
+
+                <ImageView
+                        android:layout_width="27dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/ic_speaker"
+                        android:contentDescription="확성기"
+                        android:layout_marginRight="5dp"/>
+
+                <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="한마디"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:layout_weight="1"/>
+            </LinearLayout>
+
+            <View
+                    android:id="@+id/post_info_line"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintTop_toBottomOf="@id/post_info"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="8dp"/>
+
+            <TextView
+                    android:id="@+id/post_title"
+                    android:layout_width="340dp"
+                    android:layout_height="wrap_content"
+                    android:text="매칭글 제목"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    app:layout_constraintTop_toBottomOf="@id/post_info_line"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="5dp"/>
+
+            <TextView
+                    android:id="@+id/post_content"
+                    android:layout_width="340dp"
+                    android:layout_height="wrap_content"
+                    android:text="매칭글 내용"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    app:layout_constraintTop_toBottomOf="@id/post_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="5dp"/>
+
+            <HorizontalScrollView
+                    android:id="@+id/tag_container"
+                    android:layout_width="340dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/post_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:fillViewport="true"
+                    android:scrollbars="none">
+
+                <LinearLayout
+                        android:id="@+id/tag_container_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="5dp">
+
+                    <!-- 여기에 태그들을 동적으로 추가 -->
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- 매칭 정보 확인 -->
+            <LinearLayout
+                    android:id="@+id/match_info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    app:layout_constraintTop_toBottomOf="@id/tag_container"
+                    app:layout_constraintBottom_toTopOf="@id/match_info_line"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp">
+
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/ic_document"
+                        android:contentDescription="지점"
+                        android:layout_marginRight="5dp"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="매칭 정보"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_weight="1"/>
+            </LinearLayout>
+
+            <View
+                    android:id="@+id/match_info_line"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintTop_toBottomOf="@id/match_info"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="8dp"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/card_container"
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="360dp"
+                    android:layout_height="130dp"
+                    app:layout_constraintTop_toBottomOf="@id/match_info_line"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="8dp">
+
+                <!-- 카드 1 -->
+                <androidx.cardview.widget.CardView
+                        android:id="@+id/card1"
+                        android:layout_width="0dp"
+                        android:layout_height="120dp"
+                        app:layout_constraintWidth_percent="0.23"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/card2"
+                        app:cardElevation="4dp">
+
+                    <!-- 카드 내용 -->
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                        <!-- 아이콘 -->
+                        <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="35dp"
+                                android:src="@drawable/ic_match_date_purple"
+                                android:contentDescription="날짜" />
+
+                        <!-- 날짜 -->
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="날짜"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:textColor="@android:color/black"
+                                android:layout_marginTop="5dp"/>
+
+                        <!-- 내용 -->
+                        <TextView
+                                android:id="@+id/card1_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="매칭 날짜"
+                                android:textSize="10sp"
+                                android:textColor="@android:color/black"
+                                android:layout_marginTop="20dp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- 카드 2 -->
+                <androidx.cardview.widget.CardView
+                        android:id="@+id/card2"
+                        android:layout_width="0dp"
+                        android:layout_height="120dp"
+                        app:layout_constraintWidth_percent="0.23"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/card1"
+                        app:layout_constraintEnd_toStartOf="@id/card3"
+                        app:cardElevation="4dp">
+
+                    <!-- 카드 내용 -->
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                        <!-- 아이콘 -->
+                        <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="35dp"
+                                android:src="@drawable/ic_match_branch_purple"
+                                android:contentDescription="장소"/>
+
+                        <!-- 장소 -->
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="장소"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:textColor="@android:color/black"
+                                android:layout_marginTop="5dp"/>
+
+                        <!-- 내용 -->
+                        <TextView
+                                android:id="@+id/card2_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="매칭 장소"
+                                android:textSize="10sp"
+                                android:textColor="@android:color/black"
+                                android:layout_marginTop="20dp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- 카드 3 -->
+                <androidx.cardview.widget.CardView
+                        android:id="@+id/card3"
+                        android:layout_width="0dp"
+                        android:layout_height="120dp"
+                        app:layout_constraintWidth_percent="0.23"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/card2"
+                        app:layout_constraintEnd_toStartOf="@id/card4"
+                        app:cardElevation="4dp">
+
+                    <!-- 카드 내용 -->
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                        <!-- 아이콘 -->
+                        <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="35dp"
+                                android:src="@drawable/ic_match_gender_purple"
+                                android:contentDescription="성별" />
+
+                        <!-- 성별 -->
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="성별"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:textColor="@android:color/black"
+                                android:layout_marginTop="5dp"/>
+
+                        <!-- 내용 -->
+                        <TextView
+                                android:id="@+id/card3_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="매칭 성별"
+                                android:textSize="10sp"
+                                android:textColor="@android:color/black"
+                                android:layout_marginTop="20dp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- 카드 4 -->
+                <androidx.cardview.widget.CardView
+                        android:id="@+id/card4"
+                        android:layout_width="0dp"
+                        android:layout_height="120dp"
+                        app:layout_constraintWidth_percent="0.23"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/card3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:cardElevation="4dp">
+
+                    <!-- 카드 내용 -->
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                        <!-- 아이콘 -->
+                        <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="35dp"
+                                android:src="@drawable/ic_match_language_purple"
+                                android:contentDescription="언어" />
+
+                        <!-- 언어 -->
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="언어"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:textColor="@android:color/black"
+                                android:layout_marginTop="5dp"/>
+
+                        <!-- 내용 -->
+                        <TextView
+                                android:id="@+id/card4_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="매칭 언어"
+                                android:textSize="10sp"
+                                android:textColor="@android:color/black"
+                                android:layout_marginTop="20dp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 매장 및 팝업스토어 확인 -->
+            <LinearLayout
+                    android:id="@+id/place_info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    app:layout_constraintTop_toBottomOf="@id/card_container"
+                    app:layout_constraintBottom_toTopOf="@id/place_info_line"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp">
+
+                <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/ic_market"
+                        android:contentDescription="매장"
+                        android:layout_marginRight="5dp"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="매장 및 팝업스토어"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <View
+                    android:id="@+id/place_info_line"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintTop_toBottomOf="@id/place_info"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="8dp"/>
+
+            <HorizontalScrollView
+                    android:id="@+id/place_container"
+                    android:layout_width="340dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/place_info_line"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:fillViewport="true"
+                    android:scrollbars="horizontal"
+                    android:scrollbarThumbHorizontal="@drawable/mate_scrollbar_thumb"
+                    android:scrollbarTrackHorizontal="@drawable/mate_scrollbar_track"
+                    android:fadeScrollbars="false">
+
+                <LinearLayout
+                        android:id="@+id/place_container_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="5dp">
+
+                    <!-- 여기에 매장 및 팝업스토어들을 동적으로 추가 -->
+                </LinearLayout>
+            </HorizontalScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </android.widget.ScrollView>
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/mate_request_button"
+            android:layout_width="140dp"
+            android:layout_height="35dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:clipChildren="true"
-            android:layout_gravity="center">
+            android:layout_marginBottom="10dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="8dp">
 
-        <ImageView
-                android:id="@+id/background"
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/mate_profile_circle_background"
-                android:contentDescription="프로필 이미지"
-                android:scaleType="centerCrop"
-                android:adjustViewBounds="true"/>
+                android:background="@color/humate_main">
 
-        <ImageView
-                android:id="@+id/rounded_image"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:src="@drawable/ic_member_profile_default"
-                android:contentDescription="프로필 이미지"
-                android:scaleType="centerCrop"
-                android:adjustViewBounds="true"
-                android:layout_gravity="center"/>
+            <ImageView
+                    android:id="@+id/mate_request_image"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_mate_request"
+                    android:contentDescription="TODO"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </FrameLayout>
+            <TextView
+                    android:id="@+id/mate_request_text"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="메이트 신청하기"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"/>
 
-    <!-- 한마디 -->
-    <LinearLayout
-            android:id="@+id/post_info"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            app:layout_constraintTop_toBottomOf="@id/profile_image"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp">
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
-                android:layout_width="27dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_speaker"
-                android:contentDescription="확성기"
-                android:layout_marginRight="5dp"/>
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="한마디"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_weight="1"/>
-    </LinearLayout>
-
-    <View
-            android:id="@+id/post_info_line"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintTop_toBottomOf="@id/post_info"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp"/>
-
-    <TextView
-            android:id="@+id/post_title"
-            android:layout_width="340dp"
-            android:layout_height="wrap_content"
-            android:text="매칭글 제목"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/post_info_line"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="5dp"/>
-
-    <TextView
-            android:id="@+id/post_content"
-            android:layout_width="340dp"
-            android:layout_height="wrap_content"
-            android:text="매칭글 내용"
-            android:textSize="12sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/post_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="5dp"/>
-
-    <HorizontalScrollView
-            android:id="@+id/tag_container"
-            android:layout_width="340dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/post_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:fillViewport="true"
-            android:scrollbars="none">
-
-        <LinearLayout
-                android:id="@+id/tag_container_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingBottom="5dp">
-
-            <!-- 여기에 태그들을 동적으로 추가 -->
-        </LinearLayout>
-    </HorizontalScrollView>
-
-    <!-- 매칭 정보 확인 -->
-    <LinearLayout
-            android:id="@+id/match_info"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            app:layout_constraintTop_toBottomOf="@id/tag_container"
-            app:layout_constraintBottom_toTopOf="@id/match_info_line"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="40dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp">
-
-        <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_document"
-                android:contentDescription="지점"
-                android:layout_marginRight="5dp"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="매칭 정보"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:layout_weight="1"/>
-    </LinearLayout>
-
-    <View
-            android:id="@+id/match_info_line"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintTop_toBottomOf="@id/match_info"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/card_container"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="360dp"
-            android:layout_height="130dp"
-            app:layout_constraintTop_toBottomOf="@id/match_info_line"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp">
-
-        <!-- 카드 1 -->
-        <androidx.cardview.widget.CardView
-                android:id="@+id/card1"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                app:layout_constraintWidth_percent="0.23"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/card2"
-                app:cardElevation="4dp">
-
-            <!-- 카드 내용 -->
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
-
-                <!-- 아이콘 -->
-                <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="35dp"
-                        android:src="@drawable/ic_match_date_purple"
-                        android:contentDescription="날짜" />
-
-                <!-- 날짜 -->
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="날짜"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:layout_marginTop="5dp"/>
-
-                <!-- 내용 -->
-                <TextView
-                        android:id="@+id/card1_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="매칭 날짜"
-                        android:textSize="10sp"
-                        android:textColor="@android:color/black"
-                        android:layout_marginTop="20dp"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- 카드 2 -->
-        <androidx.cardview.widget.CardView
-                android:id="@+id/card2"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                app:layout_constraintWidth_percent="0.23"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/card1"
-                app:layout_constraintEnd_toStartOf="@id/card3"
-                app:cardElevation="4dp">
-
-            <!-- 카드 내용 -->
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
-
-                <!-- 아이콘 -->
-                <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="35dp"
-                        android:src="@drawable/ic_match_branch_purple"
-                        android:contentDescription="장소"/>
-
-                <!-- 장소 -->
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="장소"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:layout_marginTop="5dp"/>
-
-                <!-- 내용 -->
-                <TextView
-                        android:id="@+id/card2_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="매칭 장소"
-                        android:textSize="10sp"
-                        android:textColor="@android:color/black"
-                        android:layout_marginTop="20dp"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- 카드 3 -->
-        <androidx.cardview.widget.CardView
-                android:id="@+id/card3"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                app:layout_constraintWidth_percent="0.23"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/card2"
-                app:layout_constraintEnd_toStartOf="@id/card4"
-                app:cardElevation="4dp">
-
-            <!-- 카드 내용 -->
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
-
-                <!-- 아이콘 -->
-                <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="35dp"
-                        android:src="@drawable/ic_match_gender_purple"
-                        android:contentDescription="성별" />
-
-                <!-- 성별 -->
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="성별"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:layout_marginTop="5dp"/>
-
-                <!-- 내용 -->
-                <TextView
-                        android:id="@+id/card3_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="매칭 성별"
-                        android:textSize="10sp"
-                        android:textColor="@android:color/black"
-                        android:layout_marginTop="20dp"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- 카드 4 -->
-        <androidx.cardview.widget.CardView
-                android:id="@+id/card4"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                app:layout_constraintWidth_percent="0.23"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/card3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:cardElevation="4dp">
-
-            <!-- 카드 내용 -->
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
-
-                <!-- 아이콘 -->
-                <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="35dp"
-                        android:src="@drawable/ic_match_language_purple"
-                        android:contentDescription="언어" />
-
-                <!-- 언어 -->
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="언어"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:layout_marginTop="5dp"/>
-
-                <!-- 내용 -->
-                <TextView
-                        android:id="@+id/card4_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="매칭 언어"
-                        android:textSize="10sp"
-                        android:textColor="@android:color/black"
-                        android:layout_marginTop="20dp"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- 매장 및 팝업스토어 확인 -->
-    <LinearLayout
-            android:id="@+id/place_info"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            app:layout_constraintTop_toBottomOf="@id/card_container"
-            app:layout_constraintBottom_toTopOf="@id/place_info_line"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="40dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp">
-
-        <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/ic_market"
-                android:contentDescription="매장"
-                android:layout_marginRight="5dp"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="매장 및 팝업스토어"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:layout_weight="1"/>
-
-    </LinearLayout>
-
-    <View
-            android:id="@+id/place_info_line"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintTop_toBottomOf="@id/place_info"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp"/>
-
-    <HorizontalScrollView
-            android:id="@+id/place_container"
-            android:layout_width="340dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/place_info_line"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:fillViewport="true"
-            android:scrollbars="horizontal"
-            android:scrollbarThumbHorizontal="@drawable/mate_scrollbar_thumb"
-            android:scrollbarTrackHorizontal="@drawable/mate_scrollbar_track"
-            android:fadeScrollbars="false">
-
-        <LinearLayout
-                android:id="@+id/place_container_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingBottom="5dp">
-
-            <!-- 여기에 매장 및 팝업스토어들을 동적으로 추가 -->
-        </LinearLayout>
-    </HorizontalScrollView>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
