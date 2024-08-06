@@ -71,7 +71,7 @@ class NewMissionFragment : Fragment() {
         // RecyclerView 설정
         mBinding?.newMissionRecyclerView?.apply {
             layoutManager = GridLayoutManager(context, 2)
-            adapter = NewMissionAdapter(emptyList()) { mission ->
+            adapter = NewMissionAdapter(emptyList(), missionViewModel.sharedPreferencesManager.getLanguage()) { mission ->
                 // 아이템 클릭 시 DetailFragment로 이동
                 findNavController().navigate(
                     R.id.action_newMissionFragment_to_newMissionDetailsFragment,
@@ -83,7 +83,7 @@ class NewMissionFragment : Fragment() {
         // ViewModel에서 데이터 관찰
         missionViewModel.missionResponseDTO.observe(viewLifecycleOwner) { response ->
             response?.let {
-                val adapter = NewMissionAdapter(it.newMissionList) { mission ->
+                val adapter = NewMissionAdapter(it.newMissionList, missionViewModel.sharedPreferencesManager.getLanguage()) { mission ->
                     val bundle = Bundle().apply {
                         putInt("activityId", mission.activityId)
                     }
