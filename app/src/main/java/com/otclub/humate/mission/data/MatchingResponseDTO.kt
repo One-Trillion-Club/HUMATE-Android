@@ -6,5 +6,6 @@ data class MatchingResponseDTO(
     val mateProfileImgUrl: String,
     val mateNickname: String,
     val matchDate: String,
+    val matchBranch: String,
     val status: String
 )

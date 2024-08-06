@@ -52,7 +52,7 @@
             android:layout_marginTop="10dp"
 
             android:gravity="center"
-            android:text="로딩중"
+            android:text="@string/mypage_loading"
 
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -87,7 +87,7 @@
                 android:layout_height="30dp"
 
                 android:gravity="start|center_vertical"
-                android:text="나이  |  "
+                android:text="@string/member_item_mate_age"
 
                 android:textSize="12dp"
                 android:textColor="@color/black"
@@ -103,7 +103,7 @@
                 android:layout_marginEnd="10dp"
 
                 android:gravity="start|center_vertical"
-                android:text="26세"
+                android:text=""
 
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -126,7 +126,7 @@
                 android:layout_height="30dp"
 
                 android:gravity="start|center_vertical"
-                android:text="성별  |  "
+                android:text="@string/member_item_mate_gender"
 
                 android:textSize="12dp"
                 android:textColor="@color/black"
@@ -142,7 +142,7 @@
                 android:layout_marginEnd="10dp"
 
                 android:gravity="start|center_vertical"
-                android:text="남성"
+                android:text=""
 
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -165,7 +165,7 @@
                 android:layout_height="30dp"
 
                 android:gravity="start|center_vertical"
-                android:text="메이트 온도  |  "
+                android:text="@string/member_item_mate_temperature"
 
                 android:textSize="12dp"
                 android:textColor="@color/black"
@@ -181,7 +181,7 @@
                 android:layout_marginEnd="10dp"
 
                 android:gravity="start|center_vertical"
-                android:text="36.5°C"
+                android:text=""
 
                 android:textColor="@color/black"
                 android:textSize="16sp"

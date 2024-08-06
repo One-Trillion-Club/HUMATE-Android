@@ -40,7 +40,7 @@
             android:id="@+id/additional_number"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="45dp"
             android:text=""
             android:textSize="17sp"
             android:visibility="invisible"
@@ -63,5 +63,15 @@
             android:textColor="@color/black"
             android:textSize="17sp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/logout"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="20dp"
+            android:visibility="gone"
+
+            android:background="@drawable/ic_member_logout"
+            android:layout_gravity="end|center_vertical" />
     </FrameLayout>
 </androidx.appcompat.widget.Toolbar>

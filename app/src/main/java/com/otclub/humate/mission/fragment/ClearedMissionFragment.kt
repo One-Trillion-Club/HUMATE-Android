@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentClearedMissionBinding
 import com.otclub.humate.mission.adapter.ClearedMissionAdapter
@@ -52,7 +54,7 @@ class ClearedMissionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        (activity as? MainActivity)?.hideBottomNavigationBar()
         val companionId = arguments?.getInt("companionId")
         mBinding?.tabLayout?.addTab(mBinding!!.tabLayout.newTab().setText(getString(R.string.mission_finished)))
         mBinding?.tabLayout?.addTab(mBinding!!.tabLayout.newTab().setText(getString(R.string.mission_new)))
@@ -139,7 +141,7 @@ class ClearedMissionFragment : Fragment() {
 
             // leftButton 클릭 시 이전 화면으로 돌아가기
             leftButton.setOnClickListener {
-                findNavController().navigateUp()
+                findNavController().navigate(R.id.action_missionFragment_to_matchingFragment)
             }
 
             rightButton.setOnClickListener {
@@ -162,6 +164,7 @@ class ClearedMissionFragment : Fragment() {
                     companionId?.let { id ->
                         finishCompanion(id)
                     }
+                    findNavController().navigate(R.id.action_missionFragment_to_reviewFragment)
                     true
                 }
 

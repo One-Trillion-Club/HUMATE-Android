@@ -12,7 +12,7 @@
         android:layout_marginTop="50dp"
 
         android:gravity="center"
-        android:text="프로필 작성"
+        android:text="@string/signup_input_profile_title"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="닉네임"
+        android:text="@string/mypage_profile_nickname"
         android:textColor="@color/dark_gray"
         android:textSize="15sp"
         android:maxLength="20"
@@ -52,7 +52,7 @@
             android:background="@drawable/auth_light_gray_border"
 
             android:gravity="left|center_vertical"
-            android:hint="닉네임"
+            android:hint="@string/mypage_profile_nickname_lower"
             android:inputType="text"
             android:maxLength="20"
 
@@ -69,15 +69,17 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_marginStart="6dp"
+            android:textAllCaps="false"
 
             android:background="@drawable/auth_main_large_button"
-            android:text="중복확인"
+            android:text="@string/mypage_profile_check_dup"
             android:textColor="@color/white"
             android:textSize="14sp"
 
+            app:layout_constraintBottom_toBottomOf="@+id/inputNickname"
             app:layout_constraintStart_toEndOf="@+id/inputNickname"
             app:layout_constraintTop_toTopOf="@+id/inputNickname"
-            app:layout_constraintBottom_toBottomOf="@+id/inputNickname"/>
+            app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -96,7 +98,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="한 줄 소개"
+        android:text="@string/mypage_profile_introduction"
         android:textColor="@color/dark_gray"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="@+id/innerLayout"
@@ -113,7 +115,7 @@
         android:background="@drawable/auth_light_gray_border"
 
         android:gravity="start|top"
-        android:hint="한 줄 소개"
+        android:hint="@string/mypage_profile_introduction_lower"
         android:inputType="textMultiLine"
         android:textColorHint="@color/light_gray"
         android:textSize="14sp"
@@ -127,7 +129,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="프로필 이미지"
+        android:text="@string/mypage_profile_profile_img"
         android:textColor="@color/dark_gray"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="@+id/inputIntroduction"
@@ -152,7 +154,7 @@
 
             app:civ_border_width="1dp"
             app:civ_border_color="#DFE1E7"
-            android:contentDescription="프로필 이미지"/>
+            android:contentDescription="@string/mypage_profile_profile_img"/>
 
         <ImageView
             android:id="@+id/profileImageEdit"
@@ -161,7 +163,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="5dp"
             android:src="@drawable/ic_member_upload_image"
-            android:contentDescription="업로드 이미지" />
+            android:contentDescription="@string/mypage_profile_profile_img" />
     </FrameLayout>
 
     <android.widget.Button
@@ -174,7 +176,7 @@
 
         android:background="@drawable/auth_main_large_button"
         android:gravity="center"
-        android:text="완료"
+        android:text="@string/signup_done"
         android:textColor="@color/white"
         android:textSize="15sp"
         android:textAllCaps="false"

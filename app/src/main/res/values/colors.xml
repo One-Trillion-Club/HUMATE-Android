@@ -7,6 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="pastel_green">#00A587</color>
+    <color name="paste_red">#FE6060</color>
+    <color name="super_light_purple">#B39DCF</color>
     <color name="super_light_gray">#EDEDED</color>
     <color name="nav_item_text_color_unselected">#858585</color>
     <color name="nav_item_text_color_selected">#7060FE</color>

@@ -8,10 +8,12 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.otclub.humate.auth.activity.AuthActivity
 import com.otclub.humate.databinding.ActivityMainBinding
+import com.otclub.humate.member.viewmodel.MemberViewModel
 import com.otclub.humate.retrofit.RetrofitConnection
 import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 
@@ -20,10 +22,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityMainBinding
     private var defaultToolbar: Toolbar? = null
+    private lateinit var memberViewModel: MemberViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         RetrofitConnection.init(this)
+        memberViewModel = ViewModelProvider(this).get(MemberViewModel::class.java)
 
         // 로그인 상태 확인
         val sharedPreferencesManager = SharedPreferencesManager(this)
@@ -39,6 +44,23 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        // 언어 설정
+        memberViewModel.fetchGetMyProfile(
+            onSuccess = { response ->
+                Log.i("메인 액티비티: 언어 상태", response.toString())
+                if (response.memberId[0] == 'K') {
+                    sharedPreferencesManager.setLanguage(1)
+                } else {
+                    sharedPreferencesManager.setLanguage(2)
+                }
+                Log.i("메인 액티비티: 언어 상태", sharedPreferencesManager.getLanguage().toString())
+
+            },
+            onError = { error ->
+                sharedPreferencesManager.setLanguage(1)
+                Log.i("메인 액티비티: 언어 상태", sharedPreferencesManager.getLanguage().toString())
+            }
+        )
 
         mBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mBinding.root)

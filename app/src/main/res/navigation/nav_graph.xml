@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_missionFragment_to_reviewFragment"
             app:destination="@id/reviewFragment" />
+        <action
+            android:id="@+id/action_missionFragment_to_matchingFragment"
+            app:destination="@id/matchingFragment" />
     </fragment>
     <fragment
             android:id="@+id/postListFragment"
@@ -121,6 +124,9 @@
         <action
             android:id="@+id/action_newMissionFragment_to_reviewFragment"
             app:destination="@id/reviewFragment" />
+        <action
+            android:id="@+id/action_newMissionFragment_to_matchingFragment"
+            app:destination="@id/matchingFragment" />
     </fragment>
     <fragment
         android:id="@+id/newMissionDetailsFragment"

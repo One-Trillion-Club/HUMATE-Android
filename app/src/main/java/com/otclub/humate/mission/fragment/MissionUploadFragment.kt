@@ -14,12 +14,12 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.otclub.humate.MainActivity
-import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentMissionUploadBinding
 import com.otclub.humate.mission.adapter.UploadMissionAdapter
 import com.otclub.humate.mission.api.MissionService
@@ -39,27 +39,29 @@ class MissionUploadFragment : Fragment() {
     private val imageFiles = ArrayList<Uri>()
     private val missionViewModel: MissionViewModel by activityViewModels()
     private var mBinding: FragmentMissionUploadBinding? = null
-    private val binding get() = mBinding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mBinding = FragmentMissionUploadBinding.inflate(inflater, container, false)
+        val binding = FragmentMissionUploadBinding.inflate(inflater, container, false)
+        mBinding = binding
         return mBinding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        (activity as? MainActivity)?.hideBottomNavigationBar()
         val toolbar = mBinding?.toolbar?.toolbar
-
         toolbar?.let {
-            val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
-            val rightButton: Button = toolbar.findViewById(R.id.right_button)
-            val title: TextView = toolbar.findViewById(R.id.toolbar_title)
-            title.setText(R.string.mission_upload_title)
-            rightButton.setText(R.string.mission_record)
+            val leftButton: ImageButton = toolbar.findViewById(com.otclub.humate.R.id.left_button)
+            val rightButton: Button = toolbar.findViewById(com.otclub.humate.R.id.right_button)
+            val title: TextView = toolbar.findViewById(com.otclub.humate.R.id.toolbar_title)
+            title.setText(com.otclub.humate.R.string.mission_upload_title)
+            rightButton.setText(com.otclub.humate.R.string.mission_record)
+            val color = ContextCompat.getColor(context!!, com.otclub.humate.R.color.humate_main)
+            rightButton.setTextColor(color)
             rightButton.setTypeface(Typeface.DEFAULT_BOLD)
 
             // 버튼의 가시성 설정
@@ -81,13 +83,13 @@ class MissionUploadFragment : Fragment() {
         missionService = RetrofitConnection.getInstance().create(MissionService::class.java)
 
         imagesAdapter = UploadMissionAdapter(imageFiles, requireContext())
-        binding.imagesRecyclerView.layoutManager = GridLayoutManager(context, 4)
-        binding.imagesRecyclerView.adapter = imagesAdapter
+        mBinding?.imagesRecyclerView?.layoutManager = GridLayoutManager(context, 4)
+        mBinding?.imagesRecyclerView?.adapter = imagesAdapter
 
         // RecyclerView 설정
         Log.i("imageFiles.size : ", imageFiles.size.toString())
 
-        binding.selectImagesButton.setOnClickListener {
+        mBinding?.selectImagesButton?.setOnClickListener {
             var intent = Intent(Intent.ACTION_PICK)
             intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
@@ -97,9 +99,10 @@ class MissionUploadFragment : Fragment() {
 
         missionViewModel.newMissionDetailsDTO.observe(viewLifecycleOwner) { missionDetailsDTO ->
             missionDetailsDTO?.let {
-                binding.uploadMissionTitle.text = it.title
+                mBinding?.uploadMissionTitle!!.text = it.title
             }
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -175,15 +178,15 @@ class MissionUploadFragment : Fragment() {
                 if (response.isSuccessful) {
                     Toast.makeText(
                         requireContext(),
-                        getString(R.string.upload_success),
+                        getString(com.otclub.humate.R.string.upload_success),
                         Toast.LENGTH_SHORT
                     ).show()
                     missionViewModel.lastCompanionId?.let { missionViewModel.fetchMission(it) }
-                    findNavController().navigate(R.id.action_missionUploadFragment_to_missionFragment)
+                    findNavController().navigate(com.otclub.humate.R.id.action_missionUploadFragment_to_missionFragment)
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        getString(R.string.upload_failed),
+                        getString(com.otclub.humate.R.string.upload_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -192,7 +195,7 @@ class MissionUploadFragment : Fragment() {
             override fun onFailure(call: Call<CommonResponseDTO>, t: Throwable) {
                 Toast.makeText(
                     requireContext(),
-                    getString(R.string.upload_failed),
+                    getString(com.otclub.humate.R.string.upload_failed),
                     Toast.LENGTH_SHORT
                 ).show()
             }

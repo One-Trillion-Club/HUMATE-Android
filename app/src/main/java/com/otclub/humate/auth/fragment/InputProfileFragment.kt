@@ -85,7 +85,7 @@ class InputProfileFragment : Fragment() {
                 val imageSizeInMB = imageSizeInBytes / (1024 * 1024).toFloat()
 
                 if (imageSizeInMB > 50) {
-                    Toast.makeText(requireContext(), "이미지 크기가 1MB를 초과합니다. 다른 이미지를 선택해주세요.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), R.string.toast_image_size_over, Toast.LENGTH_SHORT).show()
                     selectedImageUri = null
                     binding.profileImage.setImageURI(null) // 이미지 뷰 초기화
                 } else {
@@ -95,7 +95,7 @@ class InputProfileFragment : Fragment() {
             }
         } catch (e: Exception) {
             Log.e("이미지 처리 에러", e.toString())
-            Toast.makeText(requireContext(), "이미지 처리 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.toast_please_one_more_time, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -105,7 +105,7 @@ class InputProfileFragment : Fragment() {
 
         if (inputNickname.length < 2) {
             viewModel.signUpRequestDTO.nickname = null
-            guideCheckNickname.setText("두 글자 이상의 닉네임을 입력해주세요.")
+            guideCheckNickname.setText(R.string.mypage_profile_two_letter_nickname)
             guideCheckNickname.setTextColor(ContextCompat.getColor(requireContext(), R.color.smooth_red))
             return
         }
@@ -114,12 +114,12 @@ class InputProfileFragment : Fragment() {
             inputNickname,
             onSuccess = {response ->
                 viewModel.signUpRequestDTO.nickname = inputNickname
-                guideCheckNickname.setText("사용 가능한 닉네임입니다.")
+                guideCheckNickname.setText(R.string.mypage_profile_available_nickname)
                 guideCheckNickname.setTextColor(ContextCompat.getColor(requireContext(), R.color.smooth_blue))
             },
             onError = {error ->
                 viewModel.signUpRequestDTO.nickname = null
-                guideCheckNickname.setText("이미 사용중인 닉네임입니다.")
+                guideCheckNickname.setText(R.string.mypage_profile_already_in_use_nickname)
                 guideCheckNickname.setTextColor(ContextCompat.getColor(requireContext(), R.color.smooth_red))
             }
         )
@@ -128,7 +128,7 @@ class InputProfileFragment : Fragment() {
     private fun handleFinishButtonClick() {
 
         if (viewModel.signUpRequestDTO.nickname == null) {
-            Toast.makeText(requireContext(), "닉네임 중복 확인이 필요합니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.mypage_profile_duplication_check_needed, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -165,12 +165,11 @@ class InputProfileFragment : Fragment() {
 
         viewModel.signUp(viewModel.signUpRequestDTO, imageFile,
             onSuccess = { response ->
-                Toast.makeText(requireContext(), "회원가입 성공.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.toast_signup_success_signup, Toast.LENGTH_SHORT).show()
 
                 viewModel.fetchLogIn(
                     LoginRequestDTO(viewModel.signUpRequestDTO.loginId!!, viewModel.signUpRequestDTO.password!!),
                     onSuccess = {response ->
-                        Toast.makeText(requireContext(), "로그인 성공", Toast.LENGTH_SHORT).show()
                         activity?.let {
                             startActivity(Intent(it, MainActivity::class.java))
                             it.finish()
@@ -183,7 +182,7 @@ class InputProfileFragment : Fragment() {
             },
             onError = { error ->
                 Log.e("회원가입 실패", error)
-                Toast.makeText(requireContext(), "회원가입 실패. ${error}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.toast_please_one_more_time, Toast.LENGTH_SHORT).show()
             }
         )
 
