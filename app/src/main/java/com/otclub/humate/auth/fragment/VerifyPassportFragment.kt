@@ -35,7 +35,7 @@ class VerifyPassportFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val spinner: Spinner = binding.selectSpinner
-        val countries = arrayOf("select country", "United States", "Japan", "China", "Korea")
+        val countries = arrayOf("select country", "United States", "Japan", "China", "South Korea")
         val adapter = ArrayAdapter(requireContext(), R.layout.simple_spinner_dropdown_item, countries)
         spinner.adapter = adapter
 

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -42,22 +43,29 @@ class MyPageFragment : Fragment() {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
             val title: TextView = toolbar.findViewById(R.id.toolbar_title)
-            title.setText("마이페이지")
+            val logoutIcon: ImageView = toolbar.findViewById(R.id.logout)
+            title.setText(R.string.mypage_title)
 
             // 버튼의 가시성 설정
             val showLeftButton = false
             val showRightButton = false
+            val showLogoutIcon = true
             leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
             rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
+            logoutIcon.visibility = if (showLogoutIcon) View.VISIBLE else View.GONE
+
+            logoutIcon.setOnClickListener {
+                logout()
+            }
         }
 
 
         // 서버 정보 받아서 프로필 업데이트
         updateProfile()
 
-        binding.logoutText.setOnClickListener{
-            logout()
-        }
+//        binding.logoutText.setOnClickListener{
+//            logout()
+//        }
 
         binding.profileLayout.setOnClickListener {
             findNavController().navigate(R.id.action_myPageFragment_to_myProfileFragment)
@@ -78,14 +86,14 @@ class MyPageFragment : Fragment() {
         Log.i("마이페이지: 로그아웃", "로그아웃")
         viewModel.fetchLogout(
             onSuccess = {response ->
-                Toast.makeText(requireContext(), "로그아웃 성공", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.toast_member_logout_success, Toast.LENGTH_SHORT).show()
                 activity?.let {
                     startActivity(Intent(it, AuthActivity::class.java))
                     it.finish()
                 }
             },
             onError = {error ->
-                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.toast_fail_server_connection, Toast.LENGTH_SHORT).show()
             }
         )
     }

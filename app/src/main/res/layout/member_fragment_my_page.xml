@@ -49,7 +49,7 @@
             android:layout_marginStart="15dp"
 
             android:gravity="start|center_vertical"
-            android:text="로딩중"
+            android:text="@string/mypage_loading"
 
             android:textSize="16sp"
             android:textColor="@color/black"
@@ -87,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="나의 온도"
+            android:text="@string/mypage_mymanner"
             android:textSize="11sp"
             android:textColor="@color/black"
 
@@ -188,7 +188,7 @@
             android:layout_marginStart="15dp"
 
             android:gravity="start|center_vertical"
-            android:text="내 메이트 목록"
+            android:text="@string/mypage_my_mates"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -224,7 +224,7 @@
             android:layout_marginStart="15dp"
 
             android:gravity="start|center_vertical"
-            android:text="글 작성 내역"
+            android:text="@string/mypage_my_posts"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -260,7 +260,7 @@
             android:layout_marginStart="15dp"
 
             android:gravity="start|center_vertical"
-            android:text="내 포인트"
+            android:text="@string/mypage_my_points"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -268,29 +268,29 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/logoutLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toBottomOf="@+id/pointListLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp">
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/logoutLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="50dp"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/pointListLayout"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:paddingStart="30dp"-->
+<!--        android:paddingEnd="30dp">-->
 
-        <TextView
-            android:id="@+id/logoutText"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+<!--        <TextView-->
+<!--            android:id="@+id/logoutText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
 
-            android:gravity="start|center_vertical"
-            android:text="로그아웃"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--            android:gravity="start|center_vertical"-->
+<!--            android:text="@string/mypage_logout"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="16sp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

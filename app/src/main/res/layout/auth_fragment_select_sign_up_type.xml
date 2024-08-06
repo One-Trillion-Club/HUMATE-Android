@@ -68,7 +68,7 @@
             android:id="@+id/textViewKorean3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Looking for foreigner mate."
+            android:text="Looking for foreigner mates."
             android:textColor="@color/black"
             android:textSize="14sp"
 
@@ -122,7 +122,7 @@
             android:id="@+id/textViewForeigner3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Looking for Korean mate."
+            android:text="Looking for Korean mates."
             android:textColor="@color/black"
             android:textSize="14sp"
 

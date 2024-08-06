@@ -30,7 +30,7 @@ class MateListAdapter(
                 .into(profileImage)
 
             nickname.setText(mate.nickname)
-            matchingDate.setText(mate.matchingDate.split(" ")[0])
+            matchingDate.setText(mate.matchingDate.split(" ")[0].replace("-", "."))
 
             // 아이템 클릭 리스너 설정
             itemView.setOnClickListener {
