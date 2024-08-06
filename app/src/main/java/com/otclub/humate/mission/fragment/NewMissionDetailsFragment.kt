@@ -73,8 +73,14 @@ class NewMissionDetailsFragment : Fragment() {
 
     private fun updateUI(details: NewMissionDetailsDTO) {
         mBinding?.apply {
-            missionTitle.text = details.title
-            missionContent.text = details.content
+            if (viewModel.sharedPreferencesManager.getLanguage() == 1) {
+                missionTitle.text = details.titleKo
+                missionContent.text = details.contentKo
+            } else {
+                missionContent.text = details.titleEn
+                missionContent.text = details.contentEn
+            }
+
             missionPoint.text = "${details.point} P"
 
             if (details.imgUrl.isNotEmpty()) {
@@ -89,6 +95,5 @@ class NewMissionDetailsFragment : Fragment() {
     override fun onDestroyView() {
         mBinding = null
         super.onDestroyView()
-//        (activity as? MainActivity)?.showBottomNavigationBar()
     }
 }

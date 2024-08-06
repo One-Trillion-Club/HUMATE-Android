@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.otclub.humate.R
 import com.otclub.humate.mission.data.ClearedMissionDTO
+import com.otclub.humate.mission.viewModel.MissionViewModel
 
 class ClearedMissionAdapter(
     private val clearedMissionList: List<ClearedMissionDTO>,
+    private val languageCode: Int,
     private val onItemClick: (ClearedMissionDTO) -> Unit
 ) : RecyclerView.Adapter<ClearedMissionAdapter.ViewHolder>() {
 
@@ -24,7 +26,12 @@ class ClearedMissionAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val context = holder.itemView.context // Context 얻기
         val mission = clearedMissionList[position]
-        holder.missionTitle.text = mission.title
+        if (languageCode == 1) {
+            holder.missionTitle.text = mission.titleKo
+        } else {
+            holder.missionTitle.text = mission.titleEn
+        }
+
         holder.missionStatus.apply {
             text = when (mission.status) {
                 0 -> {
@@ -38,7 +45,7 @@ class ClearedMissionAdapter(
             }
         }
         // 이미지 URL이 있는 경우 Glide로 이미지 로딩
-        if (mission.imgUrl.isNotEmpty()) {
+        if (mission.imgUrl?.isNotEmpty() == true) {
             Glide.with(holder.itemView.context)
                 .load(mission.imgUrl)
                 .into(holder.missionImage)

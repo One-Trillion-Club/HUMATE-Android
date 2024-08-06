@@ -99,7 +99,12 @@ class MissionUploadFragment : Fragment() {
 
         missionViewModel.newMissionDetailsDTO.observe(viewLifecycleOwner) { missionDetailsDTO ->
             missionDetailsDTO?.let {
-                mBinding?.uploadMissionTitle!!.text = it.title
+                if (missionViewModel.sharedPreferencesManager.getLanguage() == 1) {
+                    mBinding?.uploadMissionTitle!!.text = it.titleKo
+                } else {
+                    mBinding?.uploadMissionTitle!!.text = it.titleEn
+                }
+
             }
         }
 

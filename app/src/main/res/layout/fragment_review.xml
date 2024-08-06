@@ -26,12 +26,14 @@
 
             <TextView
                 android:id="@+id/post_title"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
                 android:text="글 제목"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"

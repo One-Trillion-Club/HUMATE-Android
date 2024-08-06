@@ -1,22 +1,25 @@
 package com.otclub.humate.mission.viewModel
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.otclub.humate.mission.api.MissionService
 import com.otclub.humate.mission.data.ClearedMissionDetailsDTO
-import com.otclub.humate.mission.data.CommonResponseDTO
 import com.otclub.humate.mission.data.MatchingResponseDTO
 import com.otclub.humate.mission.data.MissionResponseDTO
 import com.otclub.humate.mission.data.NewMissionDetailsDTO
 import com.otclub.humate.retrofit.RetrofitConnection
+import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MissionViewModel : ViewModel() {
+class MissionViewModel(application: Application) : AndroidViewModel(application) {
     private val missionService: MissionService =
         RetrofitConnection.getInstance().create(MissionService::class.java)
+    val sharedPreferencesManager: SharedPreferencesManager =
+        SharedPreferencesManager(application)
     val missionResponseDTO = MutableLiveData<MissionResponseDTO>()
     val matchingResponseDTOList = MutableLiveData<List<MatchingResponseDTO>>()
     val clearedMissionDetailsDTO = MutableLiveData<ClearedMissionDetailsDTO>()

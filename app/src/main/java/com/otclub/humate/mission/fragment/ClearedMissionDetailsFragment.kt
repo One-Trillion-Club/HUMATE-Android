@@ -68,7 +68,12 @@ class ClearedMissionDetailsFragment : Fragment() {
     private fun updateUI(details: ClearedMissionDetailsDTO) {
         mBinding?.apply {
             // Set the title and creation date
-            clearedMissionTitle.text = details.activityTitle
+            if (viewModel.sharedPreferencesManager.getLanguage() == 1) {
+                clearedMissionTitle.text = details.activityTitleKo
+            } else {
+                clearedMissionTitle.text = details.activityTitleEn
+            }
+
             clearedMissionCreatedAt.text = details.createdAt
 
             // Set up the ViewPager with the adapter
