@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.auth.viewmodel.AuthViewModel
 import com.otclub.humate.databinding.MemberFragmentMyProfileBinding

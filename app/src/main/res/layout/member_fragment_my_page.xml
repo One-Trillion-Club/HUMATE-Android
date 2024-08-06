@@ -224,7 +224,7 @@
             android:layout_marginStart="15dp"
 
             android:gravity="start|center_vertical"
-            android:text="글 작성 내역"
+            android:text="@string/mypage_my_posts"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
