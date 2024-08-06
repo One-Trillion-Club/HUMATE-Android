@@ -39,7 +39,7 @@
             android:id="@+id/additional_number"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="45dp"
             android:text=""
             android:textSize="17sp"
             android:visibility="invisible"
