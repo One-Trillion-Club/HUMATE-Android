@@ -41,7 +41,7 @@
             android:layout_marginStart="15dp"
 
             android:gravity="start|center_vertical"
-            android:text="로딩중"
+            android:text="@string/mypage_loading"
 
             android:textSize="16sp"
             android:textColor="@color/black"
@@ -59,7 +59,7 @@
             android:layout_marginEnd="15dp"
 
             android:gravity="end|center_vertical"
-            android:text="2024.07.24"
+            android:text=""
 
             android:textColor="@color/dark_gray"
             android:textSize="14sp"

@@ -63,7 +63,7 @@ class MyMatesFragment: Fragment() {
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
             val title: TextView = toolbar.findViewById(R.id.toolbar_title)
             mateNumber = toolbar.findViewById(R.id.additional_number)
-            title.setText("내 메이트")
+            title.setText(R.string.member_mymate_title)
 
             // 버튼의 가시성 설정
             val showLeftButton = true
@@ -82,7 +82,6 @@ class MyMatesFragment: Fragment() {
             onSuccess = { mateList ->
                 this.mateList = mateList
                 mateNumber?.setText(mateList.size.toString())
-                Log.i("lwaejflkwejfc", mateNumber.toString())
                 adapter = MateListAdapter(mateList, onMateClick = { memberId -> // 카드 뷰 클릭 시
                     // 카드 뷰 클릭 시 모달 창 띄우기
                     viewModel.getOtherMemberProfile(
@@ -91,16 +90,14 @@ class MyMatesFragment: Fragment() {
                             showMateDetailPopup(profile)
                         },
                         onError = { error ->
-                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, R.string.toast_please_one_more_time, Toast.LENGTH_SHORT).show()
                         }
                     )
                 })
                 recyclerView.adapter = adapter
-//                    MateListAdapter.sumbitList(mateList)
-                Log.i("dd", mateList.toString())
             },
             onError = { error ->
-                Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.toast_fail_server_connection, Toast.LENGTH_SHORT).show()
             }
         )
     }
@@ -126,8 +123,10 @@ class MyMatesFragment: Fragment() {
 
         nicknameTextView.text = profile.nickname
         mannerTextView.text = "${profile.manner}°C"
-        genderTextView.text = if (profile.gender == "m") "남자" else "여자"
-        ageTextView.text = "${calculateAge(profile.birthdate)}세"
+        genderTextView.text = if (profile.gender == "m")
+            getString(R.string.member_mymate_gender_male)
+            else getString(R.string.member_mymate_gender_female)
+        ageTextView.text = "${calculateAge(profile.birthdate)}${getString(R.string.member_mymate_postage)}"
         progressBar.progress = profile.manner.toInt()
 
         Glide.with(this)

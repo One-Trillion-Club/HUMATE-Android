@@ -20,11 +20,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.otclub.humate.MainActivity
 import com.otclub.humate.R
-import com.otclub.humate.auth.data.LoginRequestDTO
 import com.otclub.humate.auth.viewmodel.AuthViewModel
-import com.otclub.humate.databinding.MemberFragmentMyPageBinding
 import com.otclub.humate.databinding.MemberFragmentMyProfileBinding
 import com.otclub.humate.member.data.ModifyProfileRequestDTO
 import com.otclub.humate.member.viewmodel.MemberViewModel
@@ -88,7 +85,7 @@ class MyProfileFragment : Fragment() {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
             val title: TextView = toolbar.findViewById(R.id.toolbar_title)
-            title.setText("내 정보")
+            title.setText(R.string.mypage_profile_title)
 
             // 버튼의 가시성 설정
             val showLeftButton = true
@@ -131,7 +128,7 @@ class MyProfileFragment : Fragment() {
                 val imageSizeInMB = imageSizeInBytes / (1024 * 1024).toFloat()
 
                 if (imageSizeInMB > 50) {
-                    Toast.makeText(requireContext(), "이미지 크기가 1MB를 초과합니다. 다른 이미지를 선택해주세요.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), R.string.toast_image_size_over, Toast.LENGTH_SHORT).show()
                     selectedImageUri = null
                     return
                 } else {
@@ -141,7 +138,7 @@ class MyProfileFragment : Fragment() {
             }
         } catch (e: Exception) {
             Log.e("이미지 처리 에러", e.toString())
-            Toast.makeText(requireContext(), "이미지 처리 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.toast_please_one_more_time, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -150,7 +147,7 @@ class MyProfileFragment : Fragment() {
         val guideCheckNickname: TextView = binding.guideCheckNickname
 
         if (originNickname == inputNickname) {
-            guideCheckNickname.setText("기존과 다른 닉네임으로 변경해주세요.")
+            guideCheckNickname.setText(R.string.mypage_profile_different_nickname)
             guideCheckNickname.setTextColor(ContextCompat.getColor(requireContext(), R.color.smooth_red))
             modifyProfileRequestDTO.nickname = null
             isRequestAvailable = false
@@ -158,7 +155,7 @@ class MyProfileFragment : Fragment() {
         }
 
         if (inputNickname.length < 2) {
-            guideCheckNickname.setText("두 글자 이상의 닉네임을 입력해주세요.")
+            guideCheckNickname.setText(R.string.mypage_profile_two_letter_nickname)
             guideCheckNickname.setTextColor(ContextCompat.getColor(requireContext(), R.color.smooth_red))
             modifyProfileRequestDTO.nickname = null
             isRequestAvailable = false
@@ -168,13 +165,13 @@ class MyProfileFragment : Fragment() {
         authViewModel.fetchCheckNickname(
             inputNickname,
             onSuccess = {response ->
-                guideCheckNickname.setText("사용 가능한 닉네임입니다.")
+                guideCheckNickname.setText(R.string.mypage_profile_available_nickname)
                 guideCheckNickname.setTextColor(ContextCompat.getColor(requireContext(), R.color.smooth_blue))
                 modifyProfileRequestDTO.nickname = inputNickname
                 isRequestAvailable = true
             },
             onError = {error ->
-                guideCheckNickname.setText("이미 사용중인 닉네임입니다.")
+                guideCheckNickname.setText(R.string.mypage_profile_already_in_use_nickname)
                 guideCheckNickname.setTextColor(ContextCompat.getColor(requireContext(), R.color.smooth_red))
                 modifyProfileRequestDTO.nickname = null
                 isRequestAvailable = false
@@ -184,7 +181,7 @@ class MyProfileFragment : Fragment() {
 
     private fun handleFinishButtonClick() {
         if (!isRequestAvailable) {
-            Toast.makeText(requireContext(), "닉네임 중복 확인이 필요합니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.mypage_profile_duplication_check_needed, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -220,12 +217,12 @@ class MyProfileFragment : Fragment() {
 
         viewModel.fetchModifyProfile(modifyProfileRequestDTO, imageFile,
             onSuccess = { response ->
-                Toast.makeText(requireContext(), "회원 정보 수정 성공.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.toast_mypage_profile_edit_success, Toast.LENGTH_SHORT).show()
                 findNavController().navigateUp()
             },
             onError = { error ->
                 Log.e("회원 정보 수정 실패", error)
-                Toast.makeText(requireContext(), "회원 정보 수정 실패. ${error}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.toast_mypage_profile_edit_fail, Toast.LENGTH_SHORT).show()
             }
         )
     }
