@@ -128,7 +128,7 @@ class ReviewFragment : Fragment() {
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        "후기를 작성할 수 없습니다.",
+                        getString(R.string.review_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
