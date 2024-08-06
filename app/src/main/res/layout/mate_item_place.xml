@@ -30,7 +30,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/place_name"
-            android:textSize="10sp"
+            android:textSize="11sp"
             android:text="명탐정 코난"
             android:textStyle="bold"
             android:textColor="@android:color/black"

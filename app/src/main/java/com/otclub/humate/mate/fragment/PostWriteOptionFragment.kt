@@ -1,6 +1,7 @@
 package com.otclub.humate.mate.fragment
 
 import android.app.DatePickerDialog
+import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
@@ -81,7 +82,7 @@ class PostWriteOptionFragment : Fragment() {
 
             // 버튼의 가시성 설정
             val showLeftButton = true
-            val showRightButton = false
+            val showRightButton = true
             leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
             rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE
 
@@ -113,10 +114,21 @@ class PostWriteOptionFragment : Fragment() {
         for (buttonText in buttonsData) {
             val button = Button(ContextThemeWrapper(requireContext(), R.style.MatchBranchFilterUnselected), null, R.style.MatchBranchFilterUnselected)
             button.text = buttonText
+
+            // 텍스트의 실제 너비 측정
+            val paint = Paint()
+            paint.textSize = button.textSize
+            val textWidth = paint.measureText(buttonText)
+
+            // 여유 공간(패딩)을 포함한 버튼 너비 계산
+            val padding = 100 // 좌우 패딩 (예: 32dp * 2)
+            val buttonWidth = textWidth.toInt() + padding
+
             val params = LinearLayout.LayoutParams(
-                240,
-                70
+                buttonWidth,
+                90
             )
+
             // 버튼 간의 간격을 설정
             params.setMargins(12, 0, 12, 0)
             button.layoutParams = params
@@ -428,27 +440,15 @@ class PostWriteOptionFragment : Fragment() {
     // 언어 초기화
     private fun resetLanguageSelection() {
         // 버튼 컨테이너에서 모든 버튼을 가져옴
-        val koreanButton: Button = mBinding?.koreanButton ?: return
-        val englishButton: Button = mBinding?.englishButton ?: return
-        val japaneseButton: Button = mBinding?.japaneseButton ?: return
-        val chineseButton: Button = mBinding?.chineseButton ?: return
+        val buttonContainer = mBinding?.languageButtonsContainer
+        val buttons = buttonContainer?.children?.filterIsInstance<Button>() ?: return
 
         // 모든 버튼의 배경과 텍스트 색상 초기화
-        koreanButton.setBackgroundResource(R.drawable.ic_tag_choice_long)
-        koreanButton.setTextColor(resources.getColor(R.color.filter_tag_text, null))
-
-        englishButton.setBackgroundResource(R.drawable.ic_tag_choice_long)
-        englishButton.setTextColor(resources.getColor(R.color.filter_tag_text, null))
-
-        japaneseButton.setBackgroundResource(R.drawable.ic_tag_choice_long)
-        japaneseButton.setTextColor(resources.getColor(R.color.filter_tag_text, null))
-
-        chineseButton.setBackgroundResource(R.drawable.ic_tag_choice_long)
-        chineseButton.setTextColor(resources.getColor(R.color.filter_tag_text, null))
-
-
-        // 선택된 버튼 초기화
-        selectedLanguageButton = mutableSetOf<Button>()
+        buttons.forEach { button ->
+            button.setBackgroundResource(R.drawable.ic_tag_choice_short)
+            button.setTextColor(resources.getColor(R.color.filter_tag_text, null))
+            selectedLanguage.remove(button.text.toString())
+        }
     }
 
     override fun onDestroyView() {

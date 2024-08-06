@@ -1,6 +1,7 @@
 package com.otclub.humate.mate.fragment
 
 import android.app.AlertDialog
+import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
@@ -346,8 +347,6 @@ class PostWriteFragment : Fragment()  {
     // 3. 매장 및 팝업스토어 설정
 
     // 4. 태그 선택
-
-    // 태그 레이아웃 설정
     private fun addTagToLayout(tag: Tag) {
         val container = binding.tagContainer
         val postTags = requests["postTags"]?.let { parsePostWriteTagRequestDTO(it) }
@@ -357,7 +356,7 @@ class PostWriteFragment : Fragment()  {
             orientation = LinearLayout.HORIZONTAL
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                100
             ).apply {
                 setMargins(0, 8.dpToPx(), 0, 0)
             }
@@ -379,7 +378,7 @@ class PostWriteFragment : Fragment()  {
         // 제목을 위한 TextView 생성
         val title = TextView(context).apply {
             text = tag.title
-            textSize = 12f
+            textSize = 13f
             setTextColor(resources.getColor(R.color.black, null))
             typeface = Typeface.DEFAULT_BOLD
             layoutParams = LinearLayout.LayoutParams(
@@ -406,11 +405,21 @@ class PostWriteFragment : Fragment()  {
         for (buttonText in tag.buttons) {
             val button = Button(ContextThemeWrapper(requireContext(), R.style.TagButtonUnselected), null, R.style.TagButtonUnselected).apply {
                 text = buttonText
+
+                // 텍스트의 실제 너비 측정
+                val paint = Paint()
+                paint.textSize = this.textSize
+                val textWidth = paint.measureText(buttonText)
+
+                // 여유 공간(패딩)을 포함한 버튼 너비 계산
+                val padding = 100 // 좌우 패딩 (예: 32dp * 2)
+                val buttonWidth = textWidth.toInt() + padding
+
                 val params = LinearLayout.LayoutParams(
-                    180,
-                    70
+                    buttonWidth,
+                    80
                 ).apply {
-                    setMargins(8, 0, 8,0)
+                    setMargins(14, 0, 14,0)
                 }
                 layoutParams = params
                 gravity = Gravity.CENTER
@@ -487,21 +496,21 @@ class PostWriteFragment : Fragment()  {
 
         val spinner: Spinner = itemView.findViewById(R.id.select_spinner)
         val textView: TextView = itemView.findViewById(R.id.selected_type)
-        val deleteButton: ImageButton = itemView.findViewById(R.id.place_delete_button)
+        val deleteButton: Button = itemView.findViewById(R.id.place_delete_button)
         val contentInput: EditText = itemView.findViewById(R.id.content_input)
 
         // name 설정
         contentInput.setText(place.name)
 
         // Spinner의 항목 설정
-        val options = arrayOf("매장", "팝업스토어")
+        val options = arrayOf("매장", "팝업")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, options)
         spinner.adapter = adapter
 
         // 선택 항목 설정
         textView.text = when (place.type) {
             1 -> "매장"
-            2 -> "팝업스토어"
+            2 -> "팝업"
             else -> ""
         }
 
@@ -528,8 +537,8 @@ class PostWriteFragment : Fragment()  {
 
         val spinner: Spinner = itemView.findViewById(R.id.select_spinner)
         val textView: TextView = itemView.findViewById(R.id.selected_type)
-        val deleteButton: ImageButton = itemView.findViewById(R.id.place_delete_button)
-        val saveButton: ImageButton = itemView.findViewById(R.id.place_save_button)
+        val deleteButton: Button = itemView.findViewById(R.id.place_delete_button)
+        val saveButton: Button = itemView.findViewById(R.id.place_save_button)
         val contentInput: EditText = itemView.findViewById(R.id.content_input)
 
         // new_place 초기화
@@ -546,7 +555,7 @@ class PostWriteFragment : Fragment()  {
         })
 
         // Spinner의 항목 설정
-        val options = arrayOf("매장", "팝업스토어")
+        val options = arrayOf("매장", "팝업")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, options)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         adapter.setDropDownViewResource(R.layout.mate_spinner_item)
@@ -560,7 +569,7 @@ class PostWriteFragment : Fragment()  {
                 // new_place.type 설정
                 new_place.type = when (selectedItem) {
                     "매장" -> 1
-                    "팝업스토어" -> 2
+                    "팝업" -> 2
                     else -> 1
                 }
             }
