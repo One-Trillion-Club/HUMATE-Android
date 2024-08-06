@@ -1,5 +1,6 @@
 package com.otclub.humate.mate.adapter
 
+import android.graphics.Paint
 import android.graphics.Typeface
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -27,6 +28,7 @@ class PostListAdapter(
         val matchDate: TextView = itemView.findViewById(R.id.match_date)
         val matchBranch: TextView = itemView.findViewById(R.id.match_branch)
         val matchLanguage: TextView = itemView.findViewById(R.id.match_language)
+        val matchGender: TextView = itemView.findViewById(R.id.match_gender)
         val tagList: LinearLayout = itemView.findViewById(R.id.tag_list)
 
         fun bind(post: PostListResponseDTO) {
@@ -34,9 +36,14 @@ class PostListAdapter(
             nickname.text = post.nickname
             title.text = post.title
             isMatched.text = post.isMatched.toString()
-            matchDate.text = post.matchDate?.takeIf { it.isNotBlank() } ?: "상관 없음"
-            matchBranch.text = post.matchBranch?.takeIf { it.isNotBlank() } ?: "상관 없음"
-            matchLanguage.text = post.matchLanguage?.takeIf { it.isNotBlank() } ?: "상관 없음"
+            matchDate.text = post.matchDate?.takeIf { it.isNotBlank() } ?: "-"
+            matchBranch.text = post.matchBranch?.takeIf { it.isNotBlank() } ?: "-"
+            matchLanguage.text = post.matchLanguage?.takeIf { it.isNotBlank() } ?: "-"
+            matchGender.text = when (post.matchGender) {
+                1 -> "나랑 같은 성별"
+                2 -> "상관 없음"
+                else -> "-"
+            }
 
             // 매칭 진행 여부 설정
             isMatched.text = if (post.isMatched == 0) "진행중" else "마감"
@@ -69,13 +76,22 @@ class PostListAdapter(
                     gravity = Gravity.CENTER
                     typeface = Typeface.DEFAULT_BOLD
 
+                    // 텍스트의 실제 너비 측정
+                    val paint = Paint()
+                    paint.textSize = this.textSize
+                    val textWidth = paint.measureText(tag)
+
+                    // 여유 공간(패딩)을 포함한 버튼 너비 계산
+                    val padding = 80 // 좌우 패딩 (예: 50dp * 2)
+                    val tagWidth = textWidth.toInt() + padding
+
                     // LayoutParams 설정
                     layoutParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        tagWidth,
                         LinearLayout.LayoutParams.WRAP_CONTENT
                     ).apply {
                         // 태그들 사이의 간격 설정 (여기서는 오른쪽 마진을 설정함)
-                        setMargins(8, 4, 8, 4) // 원하는 간격으로 설정
+                        setMargins(12, 0, 12, 0) // 원하는 간격으로 설정
                     }
                 }
                 tagList.addView(tagView)
