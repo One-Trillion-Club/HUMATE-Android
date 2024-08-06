@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="80dp"
             android:gravity="left"
             android:text="미션 제목"
             android:textColor="@color/dark_gray"
