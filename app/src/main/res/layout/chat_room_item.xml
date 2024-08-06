@@ -100,7 +100,9 @@
                         android:text="더현대 뉴진스 팝업..."
                         android:drawableLeft="@drawable/ic_chat_post_title"
                         android:drawablePadding="4dp"
-                        app:layout_constraintStart_toStartOf="@id/nickname"/>
+                        app:layout_constraintStart_toStartOf="@id/nickname"
+                        android:maxLines="1"
+                        android:ellipsize="end"/>
             </LinearLayout>
             <TextView
                     android:id="@+id/latest_chat"

@@ -13,12 +13,13 @@ import com.google.android.material.tabs.TabLayout
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.chat.adapter.ChatRoomAdapter
-import com.otclub.humate.chat.viewModel.ChatRoomViewModel
+import com.otclub.humate.chat.viewModel.ChatViewModel
 import com.otclub.humate.databinding.ChatRoomFragmentBinding
 
 class ChatRoomFragment  : Fragment()  {
-    private val chatRoomViewModel: ChatRoomViewModel by activityViewModels()
+    private val chatViewModel : ChatViewModel by activityViewModels()
     private var mBinding: ChatRoomFragmentBinding? = null
+    var tab : Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,19 +35,26 @@ class ChatRoomFragment  : Fragment()  {
         super.onViewCreated(view, savedInstanceState)
         mBinding?.tabLayout?.addTab(mBinding!!.tabLayout.newTab().setText(getString(R.string.chat_mate_list)))
         mBinding?.tabLayout?.addTab(mBinding!!.tabLayout.newTab().setText(getString(R.string.chat_pending_list)))
-        mBinding?.tabLayout?.getTabAt(1)?.select()
+
+        val tab: Int = chatViewModel.tabSelect.value ?: 0
+
+        tab?.let {
+            mBinding?.tabLayout?.getTabAt(it)?.select()
+        }
 
         mBinding?.tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position) {
                     0 -> {
                         // "채팅방 리스트" 탭 선택 시
-                        chatRoomViewModel.fetchChatRoomList("K_1")
+                        chatViewModel.setChatHistory(emptyList())
+                        chatViewModel.fetchChatRoomList("K_1")
                         //chatRoomViewModel.setSelectedButton(R.id.mateListButton)
                     }
                     1 -> {
                         // "대기 중인 채팅방 리스트" 탭 선택 시
-                        chatRoomViewModel.fetchPendingChatRoomList("K_1")
+                        chatViewModel.setChatHistory(emptyList())
+                        chatViewModel.fetchPendingChatRoomList("K_1")
                         //chatRoomViewModel.setSelectedButton(R.id.pendingListButton)
                     }
                 }
@@ -61,34 +69,27 @@ class ChatRoomFragment  : Fragment()  {
             }
         })
 
-
-
         // RecyclerView 설정
         mBinding?.chatRoomRecyclerView?.apply {
             layoutManager = GridLayoutManager(context, 1)
             adapter = ChatRoomAdapter(emptyList()) { chatRoom ->
                 // 아이템 클릭 시 ChatFragment로 이동 -> 설정해줘야 함
+                chatViewModel.setChatDetailDTO(chatRoom)
                 findNavController().navigate(
-                    R.id.action_chatRoomFragment_to_chatFragment,
-                    Bundle().apply { putInt("participateId", chatRoom.participateId) }
+                    R.id.action_chatRoomFragment_to_chatFragment
                 )
             }
         }
 
         // ViewModel에서 데이터 관찰
-        chatRoomViewModel.chatRoomDetailDTOList.observe(viewLifecycleOwner) { response ->
+        chatViewModel.chatRoomDetailDTOList.observe(viewLifecycleOwner) { response ->
             response?.let {
                 val adapter = ChatRoomAdapter(it) { chatRoom ->
-                    val bundle = Bundle().apply {
-                        putString("participateId", chatRoom.participateId.toString())
-                        putString("chatRoomId", chatRoom.chatRoomId)
-                    }
                     // Navigation Bar 숨기기
                     (activity as? MainActivity)?.hideBottomNavigationBar()
-
+                    chatViewModel.setChatDetailDTO(chatRoom)
                     findNavController().navigate(
-                        R.id.action_chatRoomFragment_to_chatFragment,
-                        bundle
+                        R.id.action_chatRoomFragment_to_chatFragment
                     )
                 }
                 Log.i("adapter : ", adapter.toString())
@@ -97,8 +98,13 @@ class ChatRoomFragment  : Fragment()  {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
     override fun onDestroyView() {
         mBinding = null
+        chatViewModel.setChatHistory(emptyList())
         super.onDestroyView()
     }
 }

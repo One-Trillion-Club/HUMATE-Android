@@ -7,6 +7,9 @@ import retrofit2.http.Path
 
 interface ChatService {
 
-    @GET("/chat/{chatRoomId}")
+    @GET("chat/{chatRoomId}")
     fun getChatHistoryList(@Path("chatRoomId") chatRoomId: String): Call<List<ChatMessageResponseDTO>>
+
+//    @GET("/chat/history/{chatRoomId}")
+//    fun getChatHistoryList(@Path("chatRoomId") chatRoomId: String): Call<List<ChatHistoryResponseDTO>>
 }

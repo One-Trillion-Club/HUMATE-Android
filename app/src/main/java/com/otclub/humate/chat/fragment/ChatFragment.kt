@@ -1,6 +1,5 @@
 package com.otclub.humate.chat.fragment
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +22,7 @@ import com.otclub.humate.R
 import com.otclub.humate.chat.adapter.ChatAdapter
 import com.otclub.humate.chat.data.ChatMessageRequestDTO
 import com.otclub.humate.chat.data.ChatMessageResponseDTO
+import com.otclub.humate.chat.data.ChatRoomDetailDTO
 import com.otclub.humate.chat.data.MessageType
 import com.otclub.humate.chat.viewModel.ChatViewModel
 import com.otclub.humate.databinding.ChatFragmentBinding
@@ -37,13 +36,12 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 class ChatFragment : Fragment() {
-
-    private var participateId: String? = null
-    private var chatRoomId : String? = null
+    private var chatRoomDetailDTO: ChatRoomDetailDTO? = null
     private val chatViewModel : ChatViewModel by activityViewModels()
     private var mBinding : ChatFragmentBinding? = null
     private lateinit var webSocketListener: ChatWebSocketListener
     private lateinit var client: OkHttpClient
+    private lateinit var chatAdapter: ChatAdapter
     private var webSocket : WebSocket ?= null
     private val handler = Handler(Looper.getMainLooper())
     private val reconnectRunnable = object : Runnable {
@@ -57,8 +55,6 @@ class ChatFragment : Fragment() {
         }
     }
 
-    private lateinit var chatAdapter: ChatAdapter
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -67,16 +63,11 @@ class ChatFragment : Fragment() {
         val binding = ChatFragmentBinding.inflate(inflater, container, false)
         mBinding = binding
 
-        // Get participateId from arguments
-        arguments?.let {
-            participateId = it.getString("participateId", "")
-            chatRoomId = it.getString("chatRoomId", "")
+        val currentDetail = chatViewModel.latestChatRoomDetailDTO.value
+        chatRoomDetailDTO = currentDetail
 
-            // Use participateId as needed
-            Log.d("ChatFragment", "Received participateId: $participateId")
-        }
         // RecyclerView 설정
-        chatAdapter = ChatAdapter(mutableListOf(), participateId)
+        chatAdapter = ChatAdapter(mutableListOf(), chatRoomDetailDTO?.participateId.toString())
         mBinding?.chatDisplay?.adapter = chatAdapter
         mBinding?.chatDisplay?.layoutManager = LinearLayoutManager(requireContext())
         scrollToBottom()
@@ -87,6 +78,7 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
+        bindChatDetails()
         setupSendButton()
 
         // ViewModel에서 데이터 관찰
@@ -108,9 +100,8 @@ class ChatFragment : Fragment() {
 
     private suspend fun loadChatHistory() {
         withContext(Dispatchers.IO) {
-            chatViewModel.fetchChatHistoryList(chatRoomId)
-            Log.d("[loadChatHistory]", chatRoomId.toString())
-
+            chatViewModel.fetchChatHistoryList(chatRoomDetailDTO?.chatRoomId.toString())
+            Log.d("[loadChatHistory]", chatRoomDetailDTO?.chatRoomId.toString())
         }
     }
 
@@ -128,8 +119,8 @@ class ChatFragment : Fragment() {
 
     private fun sendMessage(content: String) {
         val messageRequest = ChatMessageRequestDTO(
-            chatRoomId = chatRoomId,
-            participateId = participateId, // 실제 사용자 ID로 변경
+            chatRoomId = chatRoomDetailDTO?.chatRoomId.toString(),
+            participateId = chatRoomDetailDTO?.participateId.toString(), // 실제 사용자 ID로 변경
             content = content,
             messageType = MessageType.TEXT
         )
@@ -152,7 +143,7 @@ class ChatFragment : Fragment() {
 
         val request = Request.Builder()
             .url(WEBSOCKET_URL)
-            .header("Authorization", participateId.toString())
+            .header("Authorization", chatRoomDetailDTO?.participateId.toString())
             .build()
 
         webSocketListener = ChatWebSocketListener(this)
@@ -179,7 +170,7 @@ class ChatFragment : Fragment() {
             val leftButton: ImageButton = it.findViewById(R.id.left_button)
             val menuButton: ImageButton = it.findViewById(R.id.menu_button)
             val title: TextView = it.findViewById(R.id.toolbar_title)
-            title.text = "Hello"
+            title.text = chatRoomDetailDTO?.targetNickname.toString()
 
             // 버튼의 가시성 설정
             val showLeftButton = true
@@ -232,5 +223,18 @@ class ChatFragment : Fragment() {
                 mBinding?.messageInput?.text?.clear()
             }
         }
+    }
+
+    private fun bindChatDetails() {
+        mBinding?.postTitle?.text = chatRoomDetailDTO?.postTitle.toString()
+        mBinding?.matchDate?.text = chatRoomDetailDTO?.matchDate.toString()
+        mBinding?.matchBranch?.text = chatRoomDetailDTO?.matchBranch.toString()
+
+        // 두 값이 null일 수 있으므로 null 체크를 수행하고, null일 경우 0으로 처리합니다.
+        val isClickedValue = chatRoomDetailDTO?.isClicked ?: 0
+        val targetIsClickedValue = chatRoomDetailDTO?.targetIsClicked ?: 0
+
+        // 두 값을 더한 후 String으로 변환합니다.
+        mBinding?.matchButtonText?.text = (isClickedValue + targetIsClickedValue).toString()
     }
 }
