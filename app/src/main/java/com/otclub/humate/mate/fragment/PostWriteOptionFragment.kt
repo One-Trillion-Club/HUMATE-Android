@@ -78,7 +78,7 @@ class PostWriteOptionFragment : Fragment() {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
             val title: TextView = toolbar.findViewById(R.id.toolbar_title)
-            title.setText("매칭 정보 선택")
+            title.setText(R.string.write_detail)
 
             // 버튼의 가시성 설정
             val showLeftButton = true

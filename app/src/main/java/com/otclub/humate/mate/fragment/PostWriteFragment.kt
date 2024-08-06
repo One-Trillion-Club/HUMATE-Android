@@ -20,10 +20,7 @@ import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.MateFragmentPostWriteBinding
 import com.otclub.humate.mate.adapter.PostListAdapter
-import com.otclub.humate.mate.data.PostWritePlaceRequestDTO
-import com.otclub.humate.mate.data.PostWriteRequestDTO
-import com.otclub.humate.mate.data.PostWriteTagRequestDTO
-import com.otclub.humate.mate.data.Tag
+import com.otclub.humate.mate.data.*
 import com.otclub.humate.mate.viewmodel.PostWriteViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -115,7 +112,7 @@ class PostWriteFragment : Fragment()  {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
             val title: TextView = toolbar.findViewById(R.id.toolbar_title)
-            title.setText("매칭글 작성")
+            title.setText(R.string.write)
 
             // 버튼의 가시성 설정
             val showLeftButton = true
@@ -175,33 +172,33 @@ class PostWriteFragment : Fragment()  {
             Tag(
                 iconResId = R.drawable.mate_shopping,
                 title = "쇼핑",
-                buttons = listOf("의류", "뷰티", "악세서리", "신발류")
+                buttons = listOf(
+                    LocalizedTag.CLOTHING,
+                    LocalizedTag.BEAUTY,
+                    LocalizedTag.ACCESSORY,
+                    LocalizedTag.FOOTWEAR
+                )
             ),
             Tag(
                 iconResId = R.drawable.mate_food,
                 title = "식사",
-                buttons = listOf("한식", "일식", "양식", "중식", "분식")
+                buttons = listOf(
+                    LocalizedTag.KOREAN_FOOD,
+                    LocalizedTag.JAPANESE_FOOD,
+                    LocalizedTag.WESTERN_FOOD,
+                    LocalizedTag.CHINESE_FOOD,
+                    LocalizedTag.SNACK
+                )
             ),
             Tag(
                 iconResId = R.drawable.mate_event,
                 title = "행사",
-                buttons = listOf("팝업스토어", "전시", "공연")
+                buttons = listOf(
+                    LocalizedTag.POPUP_STORE,
+                    LocalizedTag.EXHIBITION,
+                    LocalizedTag.PERFORMANCE
+                )
             )
-        )
-
-        tagIdMap = mapOf(
-            "의류" to 1,
-            "뷰티" to 2,
-            "악세서리" to 3,
-            "신발류" to 4,
-            "한식" to 5,
-            "일식" to 6,
-            "양식" to 7,
-            "중식" to 8,
-            "분식" to 9,
-            "팝업스토어" to 10,
-            "전시" to 11,
-            "공연" to 12
         )
 
         tags.forEach { tag ->
@@ -325,22 +322,22 @@ class PostWriteFragment : Fragment()  {
     private fun updateCardViews() {
         postWriteViewModel.optionData?.let { optionData ->
             // 날짜 카드뷰 업데이트
-            binding.card1.findViewById<TextView>(R.id.card1_text).text = optionData.matchDate ?: "선택 안함"
+            binding.card1.findViewById<TextView>(R.id.card1_text).text = optionData.matchDate ?: "-"
 
             // 지점 카드뷰 업데이트
-            binding.card2.findViewById<TextView>(R.id.card2_text).text = optionData.matchBranch ?: "선택 안함"
+            binding.card2.findViewById<TextView>(R.id.card2_text).text = optionData.matchBranch ?: "-"
 
             // 성별 카드뷰 업데이트
             binding.card3.findViewById<TextView>(R.id.card3_text).text = optionData.matchGender?.let {
                 when (it) {
                     1 -> "동성"
                     2 -> "상관 없음"
-                    else -> "선택 안함"
+                    else -> "-"
                 }
-            } ?: "선택 안함"
+            } ?: "-"
 
             // 언어 카드뷰 업데이트
-            binding.card4.findViewById<TextView>(R.id.card4_text).text = optionData.matchLanguage ?: "선택 안함"
+            binding.card4.findViewById<TextView>(R.id.card4_text).text = optionData.matchLanguage ?: "-"
         }
     }
 

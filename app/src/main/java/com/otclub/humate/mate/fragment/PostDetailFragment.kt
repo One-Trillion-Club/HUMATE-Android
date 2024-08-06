@@ -58,7 +58,7 @@ class PostDetailFragment : Fragment() {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
             val title: TextView = toolbar.findViewById(R.id.toolbar_title)
-            title.setText("매칭글 정보")
+            title.setText(R.string.detail)
 
             // 버튼의 가시성 설정
             val showLeftButton = true
@@ -118,10 +118,13 @@ class PostDetailFragment : Fragment() {
         postDetail.postPlaces.forEach { place ->
             val placeView = LayoutInflater.from(context).inflate(R.layout.mate_item_place, placeContainerLayout, false)
 
+
+            val context = placeView.context
+
             val typeText = when (place.type) {
-                1 -> "매장"
-                2 -> "팝업스토어"
-                else -> "알 수 없음"
+                1 -> context.getString(R.string.store)   // 매장
+                2 -> context.getString(R.string.pop_up)  // 팝업스토어
+                else -> "-"    // 알 수 없음
             }
             val nameText = place.name ?: "알 수 없음"
 

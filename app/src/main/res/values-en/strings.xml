@@ -28,4 +28,50 @@
     <string name="companion_finished_failed">Failed to end the companion</string>
     <string name="upload_success">"Successfully Registered "</string>
     <string name="upload_failed">Failed to register</string>
+
+    <!-- MATE 도메인 -->
+    <string name="done">done</string>
+    <string name="title">Title</string>
+    <string name="content">Content</string>
+    <string name="date">date</string>
+    <string name="location">location</string>
+    <string name="gender">gender</string>
+    <string name="language">language</string>
+    <string name="add_store">add</string>
+    <string name="enter_name_message">Please enter name.</string>
+    <string name="write_detail">Preferences Settings</string>
+    <string name="status_closed">Closed</string>
+
+    <string name="list">Search for a Mate</string>
+    <string name="list_filter">filter</string>
+    <string name="write_ballon">Write a post to find your customized mate!</string>
+
+    <string name="closed">closed</string>
+    <string name="write">Write a post</string>
+    <string name="write_option">Preferences</string>
+    <string name="write_select">select</string>
+    <string name="write_store">Store and Pop-up</string>
+    <string name="write_tag">Tags</string>
+    <string name="shopping">shopping</string>
+    <string name="meal">meal</string>
+    <string name="event">event</string>
+
+    <string name="filter">Filtering Options</string>
+    <string name="filter_date">Select date</string>
+    <string name="filter_branch">Select location</string>
+    <string name="filter_gender">Select gender</string>
+    <string name="filter_language">Select language</string>
+    <string name="reset">reset</string>
+
+    <string name="detail">Detail View of a Post</string>
+    <string name="remark">Remark</string>
+    <string name="detail_store"></string>
+    <string name="store">Store</string>
+    <string name="pop_up">Pop-up</string>
+    <string name="post">post</string>
+    <string name="select_date">Please select a date</string>
+    <string name="same_gender">Same-Gender Only</string>
+    <string name="same_gender_detail">Looking for Same-Gender!</string>
+    <string name="both_gender">No Preference</string>
+    <string name="both_gender_detail">Any gender is fine!</string>
 </resources>

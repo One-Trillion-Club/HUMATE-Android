@@ -87,7 +87,7 @@ class PostListFragment : Fragment() {
             setWidth(BalloonSizeSpec.WRAP)
             setHeight(BalloonSizeSpec.WRAP)
             setArrowOrientation(ArrowOrientation.RIGHT)
-            setText("매칭글을 작성해보세요. \n맞춤형 동행 메이트를 구할 수 있습니다!")
+            setText(getString(R.string.write_ballon))
             setTextColorResource(R.color.black)
             setTextSize(10f)
             setBackgroundColorResource(R.color.super_light_gray)
@@ -144,7 +144,7 @@ class PostListFragment : Fragment() {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
             val title: TextView = toolbar.findViewById(R.id.toolbar_title)
-            title.setText("매칭글 목록")
+            title.setText(R.string.list)
 
             // 버튼의 가시성 설정
             val showLeftButton = false

@@ -46,7 +46,12 @@ class PostListAdapter(
             }
 
             // 매칭 진행 여부 설정
-            isMatched.text = if (post.isMatched == 0) "진행중" else "마감"
+            val context = itemView.context
+            isMatched.text = if (post.isMatched == 0) {
+                context.getString(R.string.status_ongoing)
+            } else {
+                context.getString(R.string.closed)
+            }
             isMatched.setBackgroundResource(if (post.isMatched == 0) R.drawable.post_ongoing else R.drawable.post_closed)
 
             // 프로필 이미지 세팅

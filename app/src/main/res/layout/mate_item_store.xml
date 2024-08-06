@@ -32,7 +32,7 @@
                     android:layout_width="40dp"
                     android:layout_height="match_parent"
                     android:padding="8dp"
-                    android:text="팝업"
+                    android:text="@string/store"
                     android:textSize="13sp"
                     android:textColor="@color/black"
                     android:background="@color/white"
@@ -59,12 +59,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
-                android:hint="이름을 입력해주세요."
+                android:hint="@string/enter_name_message"
                 android:textSize="13sp"
                 android:padding="8dp"
                 android:layout_weight="2"
                 android:maxLines="1"
-                android:scrollHorizontally="true" />
+                android:scrollHorizontally="true"
+                android:gravity="center_vertical|start"/>
 
     </androidx.cardview.widget.CardView>
 
