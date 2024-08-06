@@ -53,7 +53,7 @@ class InputIdPasswordFragment : Fragment() {
 
         if (inputLoginId.length < 5) {
             viewModel.signUpRequestDTO.loginId = null
-            guideCheckId.setText("다섯 글자 이상의 아이디를 입력해주세요.")
+            guideCheckId.setText(R.string.signup_id_five_letter)
             guideCheckId.setTextColor(ContextCompat.getColor(requireContext(), R.color.smooth_red))
             return
         }
@@ -62,12 +62,12 @@ class InputIdPasswordFragment : Fragment() {
             inputLoginId,
             onSuccess = {response ->
                 viewModel.signUpRequestDTO.loginId = inputLoginId
-                guideCheckId.setText("사용 가능한 아이디입니다.")
+                guideCheckId.setText(R.string.signup_available_id)
                 guideCheckId.setTextColor(ContextCompat.getColor(requireContext(), R.color.smooth_blue))
             },
             onError = {error ->
                 viewModel.signUpRequestDTO.loginId = null
-                guideCheckId.setText("이미 사용중인 아이디입니다.")
+                guideCheckId.setText(R.string.signup_id_already_in_use)
                 guideCheckId.setTextColor(ContextCompat.getColor(requireContext(), R.color.smooth_red))
             }
         )
@@ -77,7 +77,7 @@ class InputIdPasswordFragment : Fragment() {
 
         if (checkPassword()) {
             if (viewModel.signUpRequestDTO.loginId == null) {
-                Toast.makeText(requireContext(), "아이디 중복 확인이 필요합니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.signup_id_duplication_check_needed, Toast.LENGTH_SHORT).show()
                 return
             }
 
@@ -103,12 +103,12 @@ class InputIdPasswordFragment : Fragment() {
         val inputPasswordConfirm: String = binding.inputPasswordConfirm.text.toString()
 
         if (!inputPassword.equals(inputPasswordConfirm)) {
-            Toast.makeText(requireContext(), "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.signup_password_not_match, Toast.LENGTH_SHORT).show()
             return false
         }
 
         if (inputPassword.length < 8 || inputPassword.length > 20) {
-            Toast.makeText(requireContext(), "8~20글자 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.signup_password_letter_size, Toast.LENGTH_SHORT).show()
             return false
         }
 
@@ -120,7 +120,7 @@ class InputIdPasswordFragment : Fragment() {
         val validCombination = listOf(hasLetter, hasDigit, hasSpecialChar).count { it } >= 2
 
         if (!validCombination) {
-            Toast.makeText(requireContext(), "비밀번호는 영문자, 숫자, 특수문자 중 2가지 이상을 포함해야 합니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.signup_password_constraints, Toast.LENGTH_SHORT).show()
             return false
         }
 

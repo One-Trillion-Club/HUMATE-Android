@@ -42,7 +42,7 @@
             android:background="@drawable/auth_light_gray_border"
 
             android:gravity="left|center_vertical"
-            android:hint="@string/mypage_profile_nickname"
+            android:hint="@string/mypage_profile_nickname_lower"
             android:inputType="text"
             android:maxLength="20"
 
@@ -65,6 +65,7 @@
             android:text="@string/mypage_profile_check_dup"
             android:textColor="@color/white"
             android:textSize="14sp"
+            android:textAllCaps="false"
 
             app:layout_constraintStart_toEndOf="@+id/inputNickname"
             app:layout_constraintTop_toTopOf="@+id/inputNickname"
@@ -104,7 +105,7 @@
         android:background="@drawable/auth_light_gray_border"
 
         android:gravity="start|top"
-        android:hint="@string/mypage_profile_introduction"
+        android:hint="@string/mypage_profile_introduction_lower"
         android:inputType="textMultiLine"
         android:textColorHint="@color/light_gray"
         android:textColor="@color/black"

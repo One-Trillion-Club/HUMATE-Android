@@ -59,14 +59,14 @@ class SignInFragment : Fragment() {
         viewModel.fetchLogIn(
             LoginRequestDTO(loginId, password),
             onSuccess = {response ->
-                Toast.makeText(requireContext(), "로그인 성공", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.toast_signin_success, Toast.LENGTH_SHORT).show()
                 activity?.let {
                     startActivity(Intent(it, MainActivity::class.java))
                     it.finish()
                 }
             },
             onError = {error ->
-                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.toast_please_one_more_time, Toast.LENGTH_SHORT).show()
             }
         )
     }
