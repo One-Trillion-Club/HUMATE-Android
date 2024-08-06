@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentClearedMissionBinding
 import com.otclub.humate.mission.adapter.ClearedMissionAdapter
@@ -53,7 +54,7 @@ class ClearedMissionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        (activity as? MainActivity)?.hideBottomNavigationBar()
         val companionId = arguments?.getInt("companionId")
         mBinding?.tabLayout?.addTab(mBinding!!.tabLayout.newTab().setText(getString(R.string.mission_finished)))
         mBinding?.tabLayout?.addTab(mBinding!!.tabLayout.newTab().setText(getString(R.string.mission_new)))

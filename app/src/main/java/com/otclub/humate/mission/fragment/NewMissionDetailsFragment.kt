@@ -89,6 +89,6 @@ class NewMissionDetailsFragment : Fragment() {
     override fun onDestroyView() {
         mBinding = null
         super.onDestroyView()
-        (activity as? MainActivity)?.showBottomNavigationBar()
+//        (activity as? MainActivity)?.showBottomNavigationBar()
     }
 }

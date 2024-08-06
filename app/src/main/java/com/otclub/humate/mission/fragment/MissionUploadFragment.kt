@@ -200,9 +200,4 @@ class MissionUploadFragment : Fragment() {
             }
         })
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        (activity as? MainActivity)?.showBottomNavigationBar()
-    }
 }
