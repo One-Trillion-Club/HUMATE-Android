@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.auth.viewmodel.AuthViewModel
+import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.MemberFragmentMyProfileBinding
 import com.otclub.humate.member.data.ModifyProfileRequestDTO
 import com.otclub.humate.member.viewmodel.MemberViewModel
@@ -187,6 +188,8 @@ class MyProfileFragment : Fragment() {
             Toast.makeText(requireContext(), R.string.mypage_profile_duplication_check_needed, Toast.LENGTH_SHORT).show()
             return
         }
+        val loadingDialog = LoadingDialog.getInstance(requireContext())
+        loadingDialog.show()
 
         val imageFile = selectedImageUri?.let { uri ->
             try {
@@ -221,10 +224,12 @@ class MyProfileFragment : Fragment() {
         viewModel.fetchModifyProfile(modifyProfileRequestDTO, imageFile,
             onSuccess = { response ->
                 Toast.makeText(requireContext(), R.string.toast_mypage_profile_edit_success, Toast.LENGTH_SHORT).show()
+                loadingDialog.dismiss()
                 findNavController().navigateUp()
             },
             onError = { error ->
                 Log.e("회원 정보 수정 실패", error)
+                loadingDialog.dismiss()
                 Toast.makeText(requireContext(), R.string.toast_mypage_profile_edit_fail, Toast.LENGTH_SHORT).show()
             }
         )

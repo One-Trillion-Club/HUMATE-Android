@@ -15,7 +15,7 @@ class RetrofitConnection {
 
     // 싱글턴 패턴 적용
     companion object {
-        private const val BASE_URL = "http://192.168.0.204:8080/"
+        private const val BASE_URL = "http://10.0.2.2:8080/"
         private var INSTANCE: Retrofit? = null
         private lateinit var sharedPreferencesManager: SharedPreferencesManager
 
