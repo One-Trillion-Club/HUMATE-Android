@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentMatchingBinding
 import com.otclub.humate.mission.adapter.MatchingAdapter
@@ -35,6 +36,7 @@ class MatchingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as? MainActivity)?.showBottomNavigationBar()
         val toolbar = mBinding?.toolbar?.toolbar
 
         toolbar?.let {
@@ -44,7 +46,7 @@ class MatchingFragment : Fragment() {
             title.setText(getString(R.string.matching_title))
 
             // 버튼의 가시성 설정
-            val showLeftButton = true
+            val showLeftButton = false
             val showRightButton = false
             leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
             rightButton.visibility = if (showRightButton) View.VISIBLE else View.GONE

@@ -48,7 +48,7 @@ class NewMissionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        (activity as? MainActivity)?.hideBottomNavigationBar()
         mBinding?.tabLayout?.addTab(mBinding!!.tabLayout.newTab().setText(getString(R.string.mission_finished)))
         mBinding?.tabLayout?.addTab(mBinding!!.tabLayout.newTab().setText(getString(R.string.mission_new)))
         mBinding?.tabLayout?.getTabAt(1)?.select()
@@ -112,7 +112,7 @@ class NewMissionFragment : Fragment() {
 
             // leftButton 클릭 시 이전 화면으로 돌아가기
             leftButton.setOnClickListener {
-                findNavController().navigateUp()
+                findNavController().navigate(R.id.action_newMissionFragment_to_matchingFragment)
             }
 
             rightButton.setOnClickListener {
@@ -135,6 +135,8 @@ class NewMissionFragment : Fragment() {
                     companionId?.let { id ->
                         finishCompanion(id)
                     }
+                    findNavController().navigate(R.id.action_newMissionFragment_to_reviewFragment)
+
                     true
                 }
 
