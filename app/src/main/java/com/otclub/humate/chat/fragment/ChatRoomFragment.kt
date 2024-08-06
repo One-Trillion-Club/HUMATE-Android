@@ -19,7 +19,7 @@ import com.otclub.humate.databinding.ChatRoomFragmentBinding
 class ChatRoomFragment  : Fragment()  {
     private val chatViewModel : ChatViewModel by activityViewModels()
     private var mBinding: ChatRoomFragmentBinding? = null
-    var tab : Int? = null
+    var selectedTab : Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,28 +33,27 @@ class ChatRoomFragment  : Fragment()  {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mBinding?.tabLayout?.addTab(mBinding!!.tabLayout.newTab().setText(getString(R.string.chat_mate_list)))
-        mBinding?.tabLayout?.addTab(mBinding!!.tabLayout.newTab().setText(getString(R.string.chat_pending_list)))
+        mBinding?.chatTabLayout?.addTab(mBinding!!.chatTabLayout.newTab().setText(getString(R.string.chat_mate_list)))
+        mBinding?.chatTabLayout?.addTab(mBinding!!.chatTabLayout.newTab().setText(getString(R.string.chat_pending_list)))
 
-        val tab: Int = chatViewModel.tabSelect.value ?: 0
+        selectedTab = chatViewModel.tabSelect.value ?: 0
+        mBinding?.chatTabLayout?.getTabAt(selectedTab)?.select()
 
-        tab?.let {
-            mBinding?.tabLayout?.getTabAt(it)?.select()
-        }
-
-        mBinding?.tabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        mBinding?.chatTabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position) {
                     0 -> {
                         // "채팅방 리스트" 탭 선택 시
-                        chatViewModel.setChatHistory(emptyList())
+                        chatViewModel.setChatRoomList(emptyList())
                         chatViewModel.fetchChatRoomList("K_1")
+                        chatViewModel.setTabSelect(tab?.position!!)
                         //chatRoomViewModel.setSelectedButton(R.id.mateListButton)
                     }
                     1 -> {
                         // "대기 중인 채팅방 리스트" 탭 선택 시
-                        chatViewModel.setChatHistory(emptyList())
+                        chatViewModel.setChatRoomList(emptyList())
                         chatViewModel.fetchPendingChatRoomList("K_1")
+                        chatViewModel.setTabSelect(tab?.position!!)
                         //chatRoomViewModel.setSelectedButton(R.id.pendingListButton)
                     }
                 }
@@ -100,11 +99,12 @@ class ChatRoomFragment  : Fragment()  {
 
     override fun onResume() {
         super.onResume()
+        //chatViewModel.setTabSelect(0)
     }
 
     override fun onDestroyView() {
         mBinding = null
-        chatViewModel.setChatHistory(emptyList())
+        //chatViewModel.setChatRoomList(emptyList())
         super.onDestroyView()
     }
 }

@@ -25,8 +25,8 @@ class ChatViewModel : ViewModel() {
     }
 
     // 채팅 메시지 리스트를 업데이트
-    fun setChatHistory(newMessages: List<ChatMessageResponseDTO>) {
-        chatHistoryList.value = newMessages
+    fun setChatRoomList(roomList: List<ChatRoomDetailDTO>) {
+        chatRoomDetailDTOList.value = roomList
     }
 
     fun fetchChatHistoryList(chatRoomId: String?)  {

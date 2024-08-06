@@ -14,7 +14,7 @@
 
         <!-- 버튼을 위한 상위 레이아웃 -->
         <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
+                android:id="@+id/chatTabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

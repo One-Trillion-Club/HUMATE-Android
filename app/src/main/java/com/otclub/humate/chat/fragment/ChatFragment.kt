@@ -15,6 +15,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.otclub.humate.BuildConfig.*
 import com.otclub.humate.MainActivity
@@ -157,6 +158,7 @@ class ChatFragment : Fragment() {
 
     override fun onDestroyView() {
         mBinding = null
+
         super.onDestroyView()
     }
 
@@ -180,6 +182,8 @@ class ChatFragment : Fragment() {
 
             // leftButton 클릭 시 이전 화면으로 돌아가기
             leftButton.setOnClickListener {
+//                val selectedTab = (activity as MainActivity).findViewById<TabLayout>(R.id.chatTabLayout).selectedTabPosition
+//                chatViewModel.setTabSelect(selectedTab)
                 findNavController().navigateUp()
                 (activity as? MainActivity)?.showBottomNavigationBar()
             }
