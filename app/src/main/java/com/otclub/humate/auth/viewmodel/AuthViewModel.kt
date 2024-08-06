@@ -7,6 +7,7 @@ import com.otclub.humate.auth.data.CommonResponseDTO
 import com.otclub.humate.auth.data.GeneratePhoneCodeRequestDTO
 import com.otclub.humate.auth.data.LoginRequestDTO
 import com.otclub.humate.auth.data.SignUpRequestDTO
+import com.otclub.humate.auth.data.VerifyPassportRequestDTO
 import com.otclub.humate.auth.data.VerifyPhoneCodeRequestDTO
 import com.otclub.humate.member.api.MemberService
 import com.otclub.humate.retrofit.RetrofitConnection
@@ -161,6 +162,29 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                     onSuccess(response.body()!!)
                 } else {
                     onError("회원가입에 실패하였습니다. ${response.body()?.message}")
+                }
+            }
+
+            override fun onFailure(call: Call<CommonResponseDTO>, t: Throwable) {
+                onError(t.message ?: "네트워크 오류")
+            }
+        })
+    }
+
+    fun fetchVerifyPassport(
+        dto: VerifyPassportRequestDTO,
+        onSuccess: (CommonResponseDTO) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        authService.verifyPassport(dto).enqueue(object : Callback<CommonResponseDTO> {
+            override fun onResponse(
+                call: Call<CommonResponseDTO>,
+                response: retrofit2.Response<CommonResponseDTO>
+            ) {
+                if (response.isSuccessful && response.body() != null && response.body()!!.success) {
+                    onSuccess(response.body()!!)
+                } else {
+                    onError("인증 실패")
                 }
             }
 

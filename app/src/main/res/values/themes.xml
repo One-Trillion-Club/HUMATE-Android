@@ -52,4 +52,10 @@
         <item name="android:dropDownWidth">80dp</item>
     </style>
 
+    <style name="CustomSpinnerStyleSignUp" parent="Widget.AppCompat.Spinner">
+        <item name="android:dropDownVerticalOffset">35dp</item>
+        <item name="android:dropDownHorizontalOffset">10dp</item>
+        <item name="android:dropDownWidth">270dp</item>
+    </style>
+
 </resources>

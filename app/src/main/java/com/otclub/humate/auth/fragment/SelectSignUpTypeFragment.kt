@@ -1,6 +1,7 @@
 package com.otclub.humate.auth.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.otclub.humate.R
 import com.otclub.humate.auth.viewmodel.AuthViewModel
 import com.otclub.humate.databinding.AuthFragmentSelectSignUpTypeBinding
+import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 
 class SelectSignUpTypeFragment : Fragment() {
     private val viewModel: AuthViewModel by activityViewModels()
@@ -30,8 +32,28 @@ class SelectSignUpTypeFragment : Fragment() {
 
         binding.selectKoreanFrame.setOnClickListener {
             viewModel.signUpRequestDTO.nationality = 1
+
+            val sharedPreferencesManager = SharedPreferencesManager(requireContext())
+            sharedPreferencesManager.setLanguage(1)
+
+            Log.i("한국인박스 클릭", sharedPreferencesManager.getLanguage().toString())
+
             parentFragmentManager.beginTransaction()
                 .replace(R.id.authFragment, VerifyPhoneFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
+        binding.selectForeignerFrame.setOnClickListener {
+            viewModel.signUpRequestDTO.nationality = 2
+
+            val sharedPreferencesManager = SharedPreferencesManager(requireContext())
+            sharedPreferencesManager.setLanguage(2)
+
+            Log.i("외국인박스 클릭", sharedPreferencesManager.getLanguage().toString())
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.authFragment, VerifyPassportFragment())
                 .addToBackStack(null)
                 .commit()
         }

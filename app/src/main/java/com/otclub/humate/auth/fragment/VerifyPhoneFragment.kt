@@ -44,11 +44,6 @@ class VerifyPhoneFragment : Fragment() {
     }
 
     private fun handleSendAuthCodeClick() {
-//        addAuthCodeInputField(binding.inputPhone.text.toString())
-//        return
-        // 중요 중요 중요
-        // todo: 위에 코드 꼭 제거
-
         val phone: String = binding.inputPhone.text.toString()
         if (phone.length < 11) {
             Toast.makeText(requireContext(), "올바른 휴대폰 번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
@@ -83,14 +78,14 @@ class VerifyPhoneFragment : Fragment() {
     private fun sendPhoneVerifyCode(phone: String) {
         val code = binding.inputCode.text.toString()
         if (code.length < 6) {
-            Toast.makeText(requireContext(), "6자리 코드를 인증번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "6자리 코드를 인증번호를 입력해주세요", Toast.LENGTH_SHORT).show()
             return
         }
 
         viewModel.fetchVerifyPhoneCode(
             VerifyPhoneCodeRequestDTO(phone, code),
             onSuccess = {response ->
-                Toast.makeText(requireContext(), "인증에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "인증에 성공하였습니다", Toast.LENGTH_SHORT).show()
                 viewModel.signUpRequestDTO.phone = phone
                 viewModel.signUpRequestDTO.verifyCode = response.message
                 parentFragmentManager.beginTransaction()
@@ -99,7 +94,7 @@ class VerifyPhoneFragment : Fragment() {
                     .commit()
             },
             onError = {error ->
-                Toast.makeText(requireContext(), "인증번호가 올바르지 않습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "인증번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show()
             })
 
 
