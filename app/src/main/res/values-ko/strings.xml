@@ -122,6 +122,7 @@
     <string name="mypage_profile_nickname_lower">닉네임</string>
     <string name="mypage_profile_introduction_lower">한 줄 소개</string>
     <string name="signup_password_lower">비밀번호</string>
+
     <string name="male">남성</string>
     <string name="female">여성</string>
     <string name="korean">한국어</string>
@@ -129,5 +130,9 @@
     <string name="japanese">일본어</string>
     <string name="chinese">중국어</string>
     <string name="apply_mate">메이트 신청하기</string>
+
+
+    <string name="chat_mate_list">메이트 채팅</string>
+    <string name="chat_pending_list">대기</string>
 
 </resources>

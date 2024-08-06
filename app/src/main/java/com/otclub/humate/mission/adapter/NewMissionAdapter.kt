@@ -10,6 +10,7 @@ import com.otclub.humate.mission.data.NewMission
 
 class NewMissionAdapter(
     private val newMissionList: List<NewMission>,
+    private val languageCode: Int,
     private val onItemClick: (NewMission) -> Unit
 ) : RecyclerView.Adapter<NewMissionAdapter.ViewHolder>() {
 
@@ -20,7 +21,12 @@ class NewMissionAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val mission = newMissionList[position]
-        holder.missionTitle.text = mission.title
+        if (languageCode == 1) {
+            holder.missionTitle.text = mission.titleKo
+        } else {
+            holder.missionTitle.text = mission.titleEn
+        }
+
 
         if (mission.imgUrl.isNotEmpty()) {
             Glide.with(holder.itemView.context)

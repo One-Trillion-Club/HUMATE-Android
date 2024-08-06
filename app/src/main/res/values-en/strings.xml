@@ -131,9 +131,14 @@
     <string name="mypage_profile_nickname_lower">nickname</string>
     <string name="mypage_profile_introduction_lower">introduction</string>
     <string name="signup_password_lower">password</string>
+
     <string name="korean">Korean</string>
     <string name="english">English</string>
     <string name="japanese">Japanese</string>
     <string name="chinese">Chinese</string>
+
+
+    <string name="chat_mate_list">Chat</string>
+    <string name="chat_pending_list">Pending</string>
 
 </resources>

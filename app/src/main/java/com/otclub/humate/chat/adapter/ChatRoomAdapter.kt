@@ -41,6 +41,7 @@ class ChatRoomAdapter(private val roomList: List<ChatRoomDetailDTO>,
         holder.unreadCnt.text = "3"
         Log.d("[onBindViewHolder] room : " , room.toString())
         Log.d("[onBindViewHolder] holder : " , holder.toString())
+
         // 프로필 이미지 세팅
         Glide.with(holder.profileImage.context)
             .load(room.targetProfileImgUrl)
