@@ -37,6 +37,7 @@
         <item name="android:textColor">@color/dark_gray</item>
         <item name="android:textSize">11sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="MatchBranchFilterUnselected" parent="Widget.AppCompat.Button">
@@ -44,6 +45,7 @@
         <item name="android:textColor">@color/filter_tag_text</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="CustomSpinnerStyle" parent="Widget.AppCompat.Spinner">

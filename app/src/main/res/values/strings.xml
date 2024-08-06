@@ -53,6 +53,7 @@
     <string name="event">행사</string>
     <string name="post">등록</string>
     <string name="add_store">추가</string>
+    <string name="write_completed">매칭글 작성이 완료되었습니다.</string>
 
     <string name="filter">필터 설정</string>
     <string name="filter_date">매칭 날짜 선택</string>
@@ -60,6 +61,12 @@
     <string name="filter_gender">매칭 성별 선택</string>
     <string name="filter_language">매칭 언어 선택</string>
     <string name="reset">초기화</string>
+    <string name="male">남성</string>
+    <string name="female">여성</string>
+    <string name="korean">한국어</string>
+    <string name="english">영어</string>
+    <string name="japanese">일본어</string>
+    <string name="chinese">중국어</string>
 
     <string name="detail">매칭글 정보</string>
     <string name="remark">한마디</string>
@@ -67,6 +74,7 @@
     <string name="store">매장</string>
     <string name="pop_up">팝업스토어</string>
     <string name="enter_name_message">이름을 입력해주세요.</string>
+    <string name="apply_mate">메이트 신청하기</string>
 
     <string name="write_detail">매칭 정보 선택</string>
     <string name="select_date">날짜를 선택해주세요</string>

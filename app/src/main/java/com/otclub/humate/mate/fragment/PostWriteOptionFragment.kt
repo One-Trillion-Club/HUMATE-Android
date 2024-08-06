@@ -15,7 +15,10 @@ import androidx.navigation.fragment.findNavController
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.MateFragmentPostWriteOptionBinding
+import com.otclub.humate.mate.data.LocalizedBranch
+import com.otclub.humate.mate.data.LocalizedTag
 import com.otclub.humate.mate.viewmodel.PostWriteViewModel
+import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,12 +31,30 @@ class PostWriteOptionFragment : Fragment() {
 
     private var options = mutableMapOf<String, String>()
     private var selectedDate: String? = null
-    private val selectedBranches = mutableSetOf<String>()
+    private val selectedBranchesId = mutableSetOf<Int>()
+    private val selectedBranchesName = mutableSetOf<String>()
     private var selectedGender: Int? = null
-    private var selectedLanguage = mutableSetOf<String>()
+    private var selectedLanguageKName = mutableSetOf<String>()
+    private var selectedLanguageFName = mutableSetOf<String>()
 
     private var selectedGenderButton: CardView? = null
     private var selectedLanguageButton = mutableSetOf<Button>()
+
+    private lateinit var sharedPreferencesManager: SharedPreferencesManager
+
+    val englishToKorean = mutableMapOf(
+        "Korean" to "한국어",
+        "English" to "영어",
+        "Japanese" to "일본어",
+        "Chinese" to "중국어"
+    )
+
+    val koreanToEnglish = mutableMapOf(
+        "한국어" to "Korean",
+        "영어" to "English",
+        "일본어" to "Japanese",
+        "중국어" to "Chinese"
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +66,8 @@ class PostWriteOptionFragment : Fragment() {
         // ViewModel 초기화
         postWriteViewModel = ViewModelProvider(requireActivity()).get(PostWriteViewModel::class.java)
 
+        sharedPreferencesManager = SharedPreferencesManager(requireContext())
+
         mBinding = binding
 
         return mBinding?.root
@@ -52,6 +75,7 @@ class PostWriteOptionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val currentLanguage = sharedPreferencesManager.getLanguage()
 
         // ViewModel의 데이터 사용
         postWriteViewModel.optionData?.let { optionData ->
@@ -88,11 +112,20 @@ class PostWriteOptionFragment : Fragment() {
 
             // 확인 버튼 이벤트 처리
             rightButton.setOnClickListener {
+                for (branchId in selectedBranchesId) {
+                    val branch = LocalizedBranch.fromId(branchId)
+                    branch?.let {
+                        val name = it.koreanName
+                        Log.i("haha", "저장하기 -> $name")
+                        selectedBranchesName.add(name)
+                    }
+                }
+
                 postWriteViewModel.updateOptionData(
                     matchDate = selectedDate.takeIf { !it.isNullOrBlank()},
-                    matchBranch = selectedBranches,
+                    matchBranch = selectedBranchesName,
                     matchGender = selectedGender,
-                    matchLanguage = selectedLanguage
+                    matchLanguage = selectedLanguageKName
                 )
                 findNavController().navigate(R.id.action_postWriteOptionFragment_to_postWriteFragment)
             }
@@ -106,43 +139,63 @@ class PostWriteOptionFragment : Fragment() {
         // buttonContainer 레이아웃을 가져오기
         val buttonContainer = binding.branchSelectionsContainer
 
-        // 동적으로 버튼 추가
-        val buttonsData = listOf("더현대 서울", "더현대 대구", "압구정본점", "무역센터점", "천호점", "신촌점", "미아점",
-            "목동점", "중동점", "킨텍스점", "디큐브시티", "판교점", "부산점", "울산점", "울산동구점", "충청점") // 서버나 데이터베이스에서 가져온 데이터
+        // 지점 데이터 설정
+        val branches = listOf(
+            LocalizedBranch.THE_HYUNDAI_SEOUL,
+            LocalizedBranch.THE_HYUNDAI_DAEGU,
+            LocalizedBranch.APGUJEONG,
+            LocalizedBranch.TRADE_CENTER,
+            LocalizedBranch.CHEONHO,
+            LocalizedBranch.SINCHON,
+            LocalizedBranch.MIA,
+            LocalizedBranch.MOKDONG,
+            LocalizedBranch.JUNGDONG,
+            LocalizedBranch.KINTEX,
+            LocalizedBranch.D_CUBE,
+            LocalizedBranch.PANGYO,
+            LocalizedBranch.BUSAN,
+            LocalizedBranch.ULSAN,
+            LocalizedBranch.ULSAN_DONG_GU,
+            LocalizedBranch.CHUNGCHEONG
+        )
 
+        for (branch in branches) {
+            val buttonTextLocalized = branch.getName(currentLanguage).replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
 
-        for (buttonText in buttonsData) {
-            val button = Button(ContextThemeWrapper(requireContext(), R.style.MatchBranchFilterUnselected), null, R.style.MatchBranchFilterUnselected)
-            button.text = buttonText
+            Log.i("지점 변경", "buttonTextLocalized -> $buttonTextLocalized")
 
-            // 텍스트의 실제 너비 측정
-            val paint = Paint()
-            paint.textSize = button.textSize
-            val textWidth = paint.measureText(buttonText)
+            val button = Button(ContextThemeWrapper(requireContext(), R.style.MatchBranchFilterUnselected), null, R.style.MatchBranchFilterUnselected).apply {
+                text = buttonTextLocalized
 
-            // 여유 공간(패딩)을 포함한 버튼 너비 계산
-            val padding = 100 // 좌우 패딩 (예: 32dp * 2)
-            val buttonWidth = textWidth.toInt() + padding
+                // 텍스트의 실제 너비 측정
+                val paint = Paint()
+                paint.textSize = this.textSize
+                val textWidth = paint.measureText(buttonTextLocalized)
 
-            val params = LinearLayout.LayoutParams(
-                buttonWidth,
-                90
-            )
+                // 여유 공간(패딩)을 포함한 버튼 너비 계산
+                val padding = 100 // 좌우 패딩 (예: 32dp * 2)
+                val buttonWidth = textWidth.toInt() + padding
 
-            // 버튼 간의 간격을 설정
-            params.setMargins(12, 0, 12, 0)
-            button.layoutParams = params
-            button.gravity = Gravity.CENTER
-            button.setPadding(16, 8, 16, 8)
-            button.setBackgroundResource(R.drawable.ic_tag_choice_long)
-            button.setTextColor(resources.getColor(R.color.filter_tag_text, null))
+                val params = LinearLayout.LayoutParams(
+                    buttonWidth,
+                    90
+                )
+
+                // 버튼 간의 간격을 설정
+                params.setMargins(12, 0, 12, 0)
+                layoutParams = params
+                gravity = Gravity.CENTER
+                setPadding(16, 8, 16, 8)
+                setBackgroundResource(R.drawable.ic_tag_choice_long)
+                setTextColor(resources.getColor(R.color.filter_tag_text, null))
+            }
+
+            buttonContainer.addView(button)
 
             // 버튼 클릭 이벤트 설정
             button.setOnClickListener {
                 handleButtonClick(button)
             }
-
-            buttonContainer.addView(button)
         }
 
         // 날짜 선택 버튼 클릭 이벤트 설정
@@ -187,6 +240,9 @@ class PostWriteOptionFragment : Fragment() {
 
     // 초기화
     private fun initializeOptions() {
+        val currentLanguage = sharedPreferencesManager.getLanguage()
+
+        Log.i("haha", "초기화")
         // 날짜 초기화
         options["matchDate"]?.let { matchDate ->
             selectedDate = matchDate
@@ -202,9 +258,17 @@ class PostWriteOptionFragment : Fragment() {
 
         // 지점 초기화
         options["matchBranch"]?.let { matchBranch ->
-            selectedBranches.clear()
+            Log.i("haha", "$matchBranch")
+            val currentLanguage = sharedPreferencesManager.getLanguage()
+            selectedBranchesId.clear()
             matchBranch.split(", ").forEach { branch ->
-                selectedBranches.add(branch)
+                val branchId = LocalizedBranch.fromName(branch)?.id
+                Log.i("haha", "$branch")
+                Log.i("haha", "$branchId")
+                if (branchId != null) {
+                    selectedBranchesId.add(branchId)
+                    Log.i("haha", "$selectedBranchesId")
+                }
                 // 선택된 버튼 스타일 적용
                 setButtonSelectedState(branch, true)
             }
@@ -220,9 +284,14 @@ class PostWriteOptionFragment : Fragment() {
 
         // 언어 초기화
         options["matchLanguage"]?.let { matchLanguage ->
-            selectedLanguage.clear()
+            selectedLanguageKName.clear()
             matchLanguage.split(", ").forEach { language ->
-                selectedLanguage.add(language)
+                selectedLanguageKName.add(language)
+
+                if (currentLanguage == 1) {
+                    koreanToEnglish[language]?.let { selectedLanguageFName.add(it) }
+                }
+
                 // 선택된 버튼 스타일 적용
                 setLanguageButtonSelectedState(language, true)
             }
@@ -230,10 +299,23 @@ class PostWriteOptionFragment : Fragment() {
     }
 
     private fun setButtonSelectedState(branch: String, isSelected: Boolean) {
+        val currentLanguage = sharedPreferencesManager.getLanguage()
+
+        // branch를 currentLanguage에 따라 변환
+        val displayBranch = if (currentLanguage == 1) {
+            // 현재 언어가 1 (한국어)일 때
+            branch
+        } else {
+            // 현재 언어가 1이 아닐 때 (영어)
+            val localizedTag = LocalizedTag.values().find { it.koreanName == branch }
+            localizedTag?.englishName ?: branch
+        }
+
+        Log.i("haha", "displayBranch -> $displayBranch")
         // 버튼 컨테이너에서 해당 지점 버튼을 찾아 상태를 설정
         val buttonContainer = mBinding?.branchSelectionsContainer
         buttonContainer?.children?.filterIsInstance<Button>()?.forEach { button ->
-            if (button.text.toString() == branch) {
+            if (button.text.toString() == displayBranch) {
                 if (isSelected) {
                     button.setBackgroundResource(R.drawable.ic_tag_choice_long_selected)
                     button.setTextColor(resources.getColor(R.color.white, null))
@@ -248,10 +330,10 @@ class PostWriteOptionFragment : Fragment() {
     private fun setLanguageButtonSelectedState(language: String, isSelected: Boolean) {
         // 버튼을 찾아 상태를 설정
         val button = when (language) {
-            "한국어" -> mBinding?.koreanButton
-            "영어" -> mBinding?.englishButton
-            "일본어" -> mBinding?.japaneseButton
-            "중국어" -> mBinding?.chineseButton
+            context?.getString(R.string.korean) -> mBinding?.koreanButton
+            context?.getString(R.string.english) -> mBinding?.englishButton
+            context?.getString(R.string.japanese)  -> mBinding?.japaneseButton
+            context?.getString(R.string.chinese)  -> mBinding?.chineseButton
             else -> null
         }
 
@@ -316,33 +398,53 @@ class PostWriteOptionFragment : Fragment() {
         selectedDate = null
     }
 
+    private fun getBranchIdByName(branchName: String, currentLanguage: Int): Int? {
+        return LocalizedBranch.values().firstOrNull {
+            when (currentLanguage) {
+                1 -> it.koreanName == branchName // 한국어 설정
+                else -> it.englishName == branchName // 영어 설정
+            }
+        }?.id
+    }
+
     // 지점 선택
     private fun handleButtonClick(clickedButton: Button) {
+        val currentLanguage = sharedPreferencesManager.getLanguage()
+        val branchName = clickedButton.text.toString()
+        val branchId = getBranchIdByName(branchName, currentLanguage)
+        Log.i("지점 등록 확인", "branchName -> $branchName, branchId -> $branchId")
+
         // 버튼 스타일 변경
-        if (selectedBranches.contains(clickedButton.text.toString())) {
+        if (selectedBranchesId.contains(branchId)) {
             // 이미 선택된 버튼이면 선택 해제
             clickedButton.setBackgroundResource(R.drawable.ic_tag_choice_long)
             clickedButton.setTextColor(resources.getColor(R.color.filter_tag_text, null))
-            selectedBranches.remove(clickedButton.text.toString())
+            selectedBranchesId.remove(branchId)
         } else {
             // 새로 선택된 버튼이면 강조
             clickedButton.setBackgroundResource(R.drawable.ic_tag_choice_long_selected)
             clickedButton.setTextColor(resources.getColor(R.color.white, null))
-            selectedBranches.add(clickedButton.text.toString())
+            if (branchId != null) {
+                selectedBranchesId.add(branchId)
+            }
         }
     }
 
     // 지점 초기화
     private fun resetBranchSelection() {
+        val currentLanguage = sharedPreferencesManager.getLanguage()
+
         // 버튼 컨테이너에서 모든 버튼을 가져옴
         val buttonContainer = mBinding?.branchSelectionsContainer
         val buttons = buttonContainer?.children?.filterIsInstance<Button>() ?: return
 
         // 모든 버튼의 배경과 텍스트 색상 초기화
         buttons.forEach { button ->
+            val branchName = button.text.toString()
+            val branchId = getBranchIdByName(branchName, currentLanguage)
             button.setBackgroundResource(R.drawable.ic_tag_choice_long)
             button.setTextColor(resources.getColor(R.color.filter_tag_text, null))
-            selectedBranches.remove(button.text.toString())
+            selectedBranchesId.remove(branchId)
         }
     }
 
@@ -417,7 +519,16 @@ class PostWriteOptionFragment : Fragment() {
     private fun updateLanguageButtonStates(selectedButton: Button, language: String) {
         // 버튼이 이미 선택된 상태인지 확인
         val isAlreadySelected = selectedButton in selectedLanguageButton
+        val currentLanguage = sharedPreferencesManager.getLanguage()
 
+        val originalText = selectedButton.text
+        val buttonText = if (currentLanguage == 1) {
+            originalText
+        } else {
+            englishToKorean[originalText]
+        }
+
+        Log.i("언어 선택", "$originalText")
         if (isAlreadySelected) {
             // 선택 상태를 취소
             selectedButton.setBackgroundResource(R.drawable.ic_tag_choice_short)
@@ -425,7 +536,13 @@ class PostWriteOptionFragment : Fragment() {
 
             // 버튼 집합에서 선택된 버튼 제거
             selectedLanguageButton.remove(selectedButton)
-            selectedLanguage.remove(language)
+
+            if (currentLanguage == 1) {
+                selectedLanguageKName.remove(buttonText)
+            } else {
+                selectedLanguageKName.remove(buttonText)
+                selectedLanguageFName.remove(originalText)
+            }
         } else {
             // 선택된 버튼 상태 업데이트
             selectedButton.setBackgroundResource(R.drawable.ic_tag_choice_short_selected)
@@ -433,7 +550,13 @@ class PostWriteOptionFragment : Fragment() {
 
             // 선택된 버튼 집합에 현재 버튼 추가
             selectedLanguageButton.add(selectedButton)
-            selectedLanguage.add(language)
+
+            if (currentLanguage == 1) {
+                selectedLanguageKName.add(buttonText.toString())
+            } else {
+                selectedLanguageKName.add(buttonText.toString())
+                selectedLanguageFName.add(originalText.toString())
+            }
         }
     }
 
@@ -447,8 +570,11 @@ class PostWriteOptionFragment : Fragment() {
         buttons.forEach { button ->
             button.setBackgroundResource(R.drawable.ic_tag_choice_short)
             button.setTextColor(resources.getColor(R.color.filter_tag_text, null))
-            selectedLanguage.remove(button.text.toString())
         }
+
+        selectedLanguageButton = mutableSetOf()
+        selectedLanguageKName = mutableSetOf()
+        selectedLanguageFName = mutableSetOf()
     }
 
     override fun onDestroyView() {

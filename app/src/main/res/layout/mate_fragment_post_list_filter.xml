@@ -282,10 +282,11 @@
                     android:layout_height="25dp"
                     android:layout_marginHorizontal="10dp"
                     android:background="@drawable/ic_tag_choice_short"
-                    android:text="남성"
+                    android:text="@string/male"
                     android:textSize="12sp"
                     android:textColor="@color/filter_tag_text"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:textAllCaps="false"/>
 
             <android.widget.Button
                     android:id="@+id/female_button"
@@ -293,10 +294,11 @@
                     android:layout_height="25dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/ic_tag_choice_short"
-                    android:text="여성"
+                    android:text="@string/female"
                     android:textSize="12sp"
                     android:textColor="@color/filter_tag_text"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:textAllCaps="false"/>
         </LinearLayout>
         <LinearLayout
                 android:id="@+id/language_selection_title"
@@ -374,7 +376,8 @@
                     android:layout_height="25dp"
                     android:background="@drawable/ic_tag_choice_short"
                     android:layout_weight="1"
-                    android:text="한국어"
+                    android:text="@string/korean"
+                    android:textAllCaps="false"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     android:layout_marginEnd="10dp"
@@ -389,7 +392,8 @@
                     android:layout_height="25dp"
                     android:background="@drawable/ic_tag_choice_short"
                     android:layout_weight="1"
-                    android:text="영어"
+                    android:text="@string/english"
+                    android:textAllCaps="false"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     android:layout_marginEnd="10dp"
@@ -404,7 +408,8 @@
                     android:layout_height="25dp"
                     android:background="@drawable/ic_tag_choice_short"
                     android:layout_weight="1"
-                    android:text="일본어"
+                    android:text="@string/japanese"
+                    android:textAllCaps="false"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     android:layout_marginEnd="10dp"
@@ -419,7 +424,8 @@
                     android:layout_height="25dp"
                     android:background="@drawable/ic_tag_choice_short"
                     android:layout_weight="1"
-                    android:text="중국어"
+                    android:text="@string/chinese"
+                    android:textAllCaps="false"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@id/japanese_button"

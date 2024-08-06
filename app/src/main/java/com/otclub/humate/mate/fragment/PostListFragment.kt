@@ -20,8 +20,11 @@ import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.MateFragmentPostListBinding
 import com.otclub.humate.mate.adapter.PostListAdapter
+import com.otclub.humate.mate.data.LocalizedTag
 import com.otclub.humate.mate.data.PostListFilterDTO
+import com.otclub.humate.mate.data.Tag
 import com.otclub.humate.mate.viewmodel.PostViewModel
+import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 import com.skydoves.balloon.ArrowOrientation
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
@@ -33,6 +36,7 @@ class PostListFragment : Fragment() {
     private var mBinding : MateFragmentPostListBinding? = null
     private val binding get() = mBinding!!
     private val selectedButtons = mutableSetOf<Button>() // 현재 선택된 버튼들을 추적
+    private val selectedButtonsId = mutableSetOf<Int>()
 
     private lateinit var postViewModel: PostViewModel
     private lateinit var recyclerView: RecyclerView
@@ -49,6 +53,8 @@ class PostListFragment : Fragment() {
         "memberId" to "F_1"
         // 초기 필터 값 설정
     )
+
+    private lateinit var sharedPreferencesManager: SharedPreferencesManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,6 +79,9 @@ class PostListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        sharedPreferencesManager = SharedPreferencesManager(requireContext())
+        val currentLanguage = sharedPreferencesManager.getLanguage()
 
         // 글쓰기 버튼 클릭 이벤트 설정
         val writeButton: Button = binding.writeButton
@@ -165,53 +174,101 @@ class PostListFragment : Fragment() {
         val buttonContainer = binding.buttonContainer
         // view.findViewById<LinearLayout>(R.id.button_container)
 
-        // 동적으로 버튼 추가
-        val buttonsData = listOf("의류", "뷰티", "악세서리", "신발류", "한식", "일식", "양식", "중식", "분식", "팝업스토어", "전시", "공연") // 서버나 데이터베이스에서 가져온 데이터
-
-        for (buttonText in buttonsData) {
-            val button = Button(ContextThemeWrapper(requireContext(), R.style.TagButtonUnselected), null, R.style.TagButtonUnselected)
-            button.text = buttonText
-
-            // 텍스트의 실제 너비 측정
-            val paint = Paint()
-            paint.textSize = button.textSize
-            val textWidth = paint.measureText(buttonText)
-
-            // 여유 공간(패딩)을 포함한 버튼 너비 계산
-            val padding = 100 // 좌우 패딩 (예: 32dp * 2)
-            val buttonWidth = textWidth.toInt() + padding
-
-            val params = LinearLayout.LayoutParams(
-                buttonWidth,
-                100
+        // 태그 데이터 설정
+        val tags = listOf(
+            // 쇼핑
+            Tag(
+                iconResId = R.drawable.mate_shopping,
+                titleResId = R.string.shopping,
+                buttons = listOf(
+                    LocalizedTag.CLOTHING,
+                    LocalizedTag.BEAUTY,
+                    LocalizedTag.ACCESSORY,
+                    LocalizedTag.FOOTWEAR
+                )
+            ),
+            // 식사
+            Tag(
+                iconResId = R.drawable.mate_food,
+                titleResId = R.string.meal,
+                buttons = listOf(
+                    LocalizedTag.KOREAN_FOOD,
+                    LocalizedTag.JAPANESE_FOOD,
+                    LocalizedTag.WESTERN_FOOD,
+                    LocalizedTag.CHINESE_FOOD,
+                    LocalizedTag.SNACK
+                )
+            ),
+            // 행사
+            Tag(
+                iconResId = R.drawable.mate_event,
+                titleResId = R.string.event,
+                buttons = listOf(
+                    LocalizedTag.POPUP_STORE,
+                    LocalizedTag.EXHIBITION,
+                    LocalizedTag.PERFORMANCE
+                )
             )
-            // 버튼 간의 간격을 설정 (예: 8dp)
-            params.setMargins(16, 0, 16, 0)
-            button.layoutParams = params
-            button.gravity = Gravity.CENTER
+        )
+
+        tags.forEach { tag ->
+            for (localizedTag in tag.buttons) {
+                val button = Button(ContextThemeWrapper(requireContext(), R.style.TagButtonUnselected), null, R.style.TagButtonUnselected)
+                val buttonTextLocalized = localizedTag.getName(currentLanguage).lowercase()
+                button.text = buttonTextLocalized
+
+                // 텍스트의 실제 너비 측정
+                val paint = Paint()
+                paint.textSize = button.textSize
+                val textWidth = paint.measureText(buttonTextLocalized)
+
+                // 여유 공간(패딩)을 포함한 버튼 너비 계산
+                val padding = 100 // 좌우 패딩 (예: 32dp * 2)
+                val buttonWidth = textWidth.toInt() + padding
+
+                val params = LinearLayout.LayoutParams(
+                    buttonWidth,
+                    100
+                )
+                // 버튼 간의 간격을 설정 (예: 8dp)
+                params.setMargins(16, 0, 16, 0)
+                button.layoutParams = params
+                button.gravity = Gravity.CENTER
 //            button.setPadding(32, 16, 16, 32)
-            button.setPadding(0, 0, 0, 0)
-            button.setBackgroundResource(R.drawable.tag_button_unselected)
-            button.setTextColor(resources.getColor(R.color.dark_gray, null))
+                button.setPadding(0, 0, 0, 0)
+                button.setBackgroundResource(R.drawable.tag_button_unselected)
+                button.setTextColor(resources.getColor(R.color.dark_gray, null))
 
-            // 버튼 추가 후 초기 상태 설정
-            // 선택된 버튼 상태로 설정
-            filters["tagName"]?.let { tagName ->
-                val selectedTags = tagName.split(", ")
-                if (selectedTags.contains(buttonText)) {
-                    button.setBackgroundResource(R.drawable.tag_button_selected)
-                    button.setTextColor(resources.getColor(R.color.white, null))
-                    selectedButtons.add(button)
+                // 버튼 추가 후 초기 상태 설정
+                // 선택된 버튼 상태로 설정
+                filters["tagName"]?.let { tagName ->
+                    val selectedTags = tagName.split(", ")
+                    val localizedButtonText = if (currentLanguage != 1) {
+                        // LocalizedTag에서 buttonText에 해당하는 태그 찾기
+                        val foundLocalizedTag = LocalizedTag.values().find { it.id.toString() == buttonTextLocalized }
+                        // koreanName으로 변경
+                        foundLocalizedTag?.koreanName ?: buttonTextLocalized
+                    } else {
+                        buttonTextLocalized
+                    }
+
+                    if (selectedTags.contains(localizedButtonText)) {
+                        button.setBackgroundResource(R.drawable.tag_button_selected)
+                        button.setTextColor(resources.getColor(R.color.white, null))
+                        selectedButtons.add(button)
+                        getTagIdByName(localizedButtonText, currentLanguage)?.let { selectedButtonsId.add(it) }
+                    }
                 }
-            }
 
-            // 버튼 클릭 이벤트 설정
-            button.setOnClickListener {
-                handleButtonClick(button)
-            }
+                // 버튼 클릭 이벤트 설정
+                button.setOnClickListener {
+                    handleButtonClick(button)
+                }
 
-            buttonContainer.addView(button)
+                buttonContainer.addView(button)
+            }
         }
+
 
         // 검색 버튼 클릭 이벤트 설정
         searchButton.setOnClickListener {
@@ -219,17 +276,34 @@ class PostListFragment : Fragment() {
         }
     }
 
+    private fun getTagIdByName(tagName: String, currentLanguage: Int): Int? {
+        return LocalizedTag.values().firstOrNull {
+            when (currentLanguage) {
+                1 -> it.koreanName == tagName // 한국어 설정
+                else -> it.englishName == tagName // 영어 설정
+            }
+        }?.id
+    }
+
     private fun handleButtonClick(clickedButton: Button) {
-        if (selectedButtons.contains(clickedButton)) {
+        Log.i("태그 버튼 선택", "clickedButton -> ${clickedButton.text}")
+
+        val currentLanguage = sharedPreferencesManager.getLanguage()
+        val tagName = clickedButton.text.toString()
+        val tagId = getTagIdByName(tagName, currentLanguage)
+
+        if (selectedButtonsId.contains(tagId)) {
             // 선택 해제
             clickedButton.setBackgroundResource(R.drawable.tag_button_unselected)
             clickedButton.setTextColor(resources.getColor(R.color.dark_gray, null))
-            selectedButtons.remove(clickedButton)
+            selectedButtonsId.remove(tagId)
         } else {
             // 선택
             clickedButton.setBackgroundResource(R.drawable.tag_button_selected)
             clickedButton.setTextColor(resources.getColor(R.color.white, null)) // 선택된 버튼의 글자색을 흰색으로 변경
-            selectedButtons.add(clickedButton)
+            if (tagId != null) {
+                selectedButtonsId.add(tagId)
+            }
         }
 
         updatePostList()
@@ -246,9 +320,12 @@ class PostListFragment : Fragment() {
 
     private fun updatePostList() {
         // 전역 필터에 tagName 추가 또는 업데이트
-        tagName = selectedButtons.joinToString(", ") { it.text.toString() }
-        Log.d("tag", "Data updated: $tagName")
-        filters["tagName"] = tagName
+        val koreanNames = selectedButtonsId.mapNotNull { id ->
+            val tag = LocalizedTag.fromId(id)
+            tag?.koreanName
+        }
+        val tagNamesString = koreanNames.joinToString(separator = ", ")
+        filters["tagName"] = tagNamesString
 
         // 전역 필터에 keyword 추가 또는 업데이트
         if (keyword != null && keyword!!.isNotEmpty()) {

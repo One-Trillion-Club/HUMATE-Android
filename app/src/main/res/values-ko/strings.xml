@@ -29,6 +29,7 @@
     <string name="upload_success">활동 등록이 완료됐습니다</string>
     <string name="upload_failed">활동 등록에 실패했습니다</string>
 
+    <string name="write_completed">매칭글 작성이 완료되었습니다.</string>
     <string name="filter">필터 설정</string>
     <string name="list">매칭글 목록</string>
     <string name="list_filter">필터</string>
@@ -121,5 +122,12 @@
     <string name="mypage_profile_nickname_lower">닉네임</string>
     <string name="mypage_profile_introduction_lower">한 줄 소개</string>
     <string name="signup_password_lower">비밀번호</string>
+    <string name="male">남성</string>
+    <string name="female">여성</string>
+    <string name="korean">한국어</string>
+    <string name="english">영어</string>
+    <string name="japanese">일본어</string>
+    <string name="chinese">중국어</string>
+    <string name="apply_mate">메이트 신청하기</string>
 
 </resources>

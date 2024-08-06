@@ -13,7 +13,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.otclub.humate.R
+import com.otclub.humate.mate.data.LocalizedBranch
+import com.otclub.humate.mate.data.LocalizedTag
 import com.otclub.humate.mate.data.PostListResponseDTO
+import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 
 class PostListAdapter(
     private var posts: List<PostListResponseDTO>,
@@ -31,6 +34,19 @@ class PostListAdapter(
         val matchGender: TextView = itemView.findViewById(R.id.match_gender)
         val tagList: LinearLayout = itemView.findViewById(R.id.tag_list)
 
+        private var sharedPreferencesManager = SharedPreferencesManager(itemView.context)
+        val currentLanguage = sharedPreferencesManager.getLanguage()
+
+        private fun getEnglishLanguageName(language: String): String {
+            return when (language) {
+                "한국어" -> "Korean"
+                "영어" -> "English"
+                "중국어" -> "Chinese"
+                "일본어" -> "Japanese"
+                else -> language
+            }
+        }
+
         fun bind(post: PostListResponseDTO) {
             // 데이터를 각 뷰에 바인딩
             nickname.text = post.nickname
@@ -38,10 +54,23 @@ class PostListAdapter(
             isMatched.text = post.isMatched.toString()
             matchDate.text = post.matchDate?.takeIf { it.isNotBlank() } ?: "-"
             matchBranch.text = post.matchBranch?.takeIf { it.isNotBlank() } ?: "-"
-            matchLanguage.text = post.matchLanguage?.takeIf { it.isNotBlank() } ?: "-"
+
+            val selectedLanguage = post.matchLanguage?.split(", ") ?: emptyList()
+            val englishLanguage = selectedLanguage.map { getEnglishLanguageName(it) }
+            val englishLanguageText = if (englishLanguage.isNotEmpty()) {
+                englishLanguage.joinToString(", ")
+            } else {
+                "-"
+            }
+            matchLanguage.text = if (currentLanguage == 1) {
+                post.matchLanguage?.takeIf { it.isNotBlank() } ?: "-"
+            } else {
+                englishLanguageText
+            }
+
             matchGender.text = when (post.matchGender) {
-                1 -> "나랑 같은 성별"
-                2 -> "상관 없음"
+                1 -> itemView.context.getString(R.string.same_gender)
+                2 -> itemView.context.getString(R.string.both_gender)
                 else -> "-"
             }
 
@@ -65,17 +94,20 @@ class PostListAdapter(
             val tagsToShow = post.tags.take(3) // 최대 3개 태그만 표시
 
             // 태그 리스트의 Gravity 설정
-            tagList.gravity = if (tagsToShow.size <= 2) {
-                Gravity.END // 1개 또는 2개 태그를 오른쪽으로 배치
-            } else {
-                Gravity.START // 3개 이상은 기본 왼쪽 정렬
-            }
+            tagList.gravity = Gravity.START
 
             tagsToShow.forEach { tag ->
                 val tagView = TextView(tagList.context).apply {
-                    text = tag
+                    val displayText = if (currentLanguage != 1) {
+                        val localizedTag = LocalizedTag.values().find { it.koreanName == tag }
+                        localizedTag?.englishName ?: tag
+                    } else {
+                        tag
+                    }
+
+                    text = displayText
                     setBackgroundResource(R.drawable.post_tag)
-                    setPadding(8, 4, 8, 4)
+                    setPadding(15, 4, 15, 4)
                     setTextColor(ContextCompat.getColor(context, R.color.black))
                     textSize = 10f
                     gravity = Gravity.CENTER
@@ -95,8 +127,17 @@ class PostListAdapter(
                         tagWidth,
                         LinearLayout.LayoutParams.WRAP_CONTENT
                     ).apply {
-                        // 태그들 사이의 간격 설정 (여기서는 오른쪽 마진을 설정함)
-                        setMargins(12, 0, 12, 0) // 원하는 간격으로 설정
+                        // 태그들 사이의 간격 설정
+                        setMargins(12, 0, 12, 0)
+
+                        // currentLanguage에 따라 다르게 설정
+                        if (currentLanguage == 1) {
+                            width = tagWidth
+                            setPadding(15, 4, 15, 4)
+                        } else {
+                            width = LinearLayout.LayoutParams.WRAP_CONTENT
+                            setPadding(20, 4, 20, 4)
+                        }
                     }
                 }
                 tagList.addView(tagView)
@@ -105,6 +146,16 @@ class PostListAdapter(
             // 아이템 클릭 리스너 설정
             itemView.setOnClickListener {
                 onItemClick(post.postId)
+            }
+
+            // LocalizedBranch를 사용하여 matchBranch 텍스트 설정
+            if (currentLanguage != 1) {
+                post.matchBranch?.let { branchName ->
+                    val localizedBranch = LocalizedBranch.values().find { it.koreanName == branchName }
+                    localizedBranch?.let {
+                        matchBranch.text = it.englishName
+                    }
+                }
             }
         }
     }
