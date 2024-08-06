@@ -3,8 +3,11 @@ package com.otclub.humate.chat.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.otclub.humate.R
 import com.otclub.humate.chat.data.ChatMessageResponseDTO
 import com.otclub.humate.chat.data.MessageType
@@ -79,10 +82,21 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
         inner class ReceivedMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             private val textView: TextView = itemView.findViewById(R.id.message_text)
             private val dateView: TextView = itemView.findViewById(R.id.message_time)
+            private val profileImage: ImageView = itemView.findViewById(R.id.profile_image)
 
             fun bind(message: ChatMessageResponseDTO) {
-                textView.text = "${message.content}"
+                textView.text = message.content
                 dateView.text = formatDate(message.createdAt)
+
+                // 프로필 이미지 설정
+                Glide.with(itemView.context) // Context는 itemView의 Context를 사용합니다.
+                    .load(message.imgUrl) // URL을 message.profileImgUrl로 설정합니다.
+                    .apply(
+                        RequestOptions()
+                            .circleCrop()
+                            .placeholder(R.drawable.ic_member_profile_default)
+                    )
+                    .into(profileImage) // profileImage ImageView에 로드
             }
         }
 

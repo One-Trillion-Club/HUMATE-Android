@@ -40,7 +40,7 @@
 
                 <!-- Title -->
                 <TextView
-                        android:id="@+id/text_title"
+                        android:id="@+id/post_title"
                         android:layout_width="290dp"
                         android:layout_height="18dp"
                         android:text="더현대 뉴진스 팝업스토어 같이 갈 사람!"
@@ -51,7 +51,8 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toTopOf="@+id/linear_date_location"
                         android:layout_marginStart="15dp"
-                />
+                        android:maxLines="1"
+                        android:ellipsize="end"/>
 
                 <!-- Right button -->
                 <LinearLayout
@@ -79,7 +80,7 @@
 
                     <!-- 텍스트 -->
                     <TextView
-                            android:id="@+id/button_text"
+                            android:id="@+id/match_button_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1"
@@ -96,7 +97,7 @@
                         android:gravity="center_vertical"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/button_right"
-                        app:layout_constraintTop_toBottomOf="@id/text_title"
+                        app:layout_constraintTop_toBottomOf="@id/post_title"
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="15dp">

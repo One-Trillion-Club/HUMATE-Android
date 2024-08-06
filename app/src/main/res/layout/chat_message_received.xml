@@ -17,7 +17,7 @@
             android:paddingBottom="2dp">
 
         <ImageView
-                android:id="@+id/icon"
+                android:id="@+id/profile_image"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/ic_member_profile_default"
