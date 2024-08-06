@@ -1,4 +1,5 @@
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,11 +74,12 @@ class NewMissionDetailsFragment : Fragment() {
 
     private fun updateUI(details: NewMissionDetailsDTO) {
         mBinding?.apply {
+
             if (viewModel.sharedPreferencesManager.getLanguage() == 1) {
                 missionTitle.text = details.titleKo
                 missionContent.text = details.contentKo
             } else {
-                missionContent.text = details.titleEn
+                missionTitle.text = details.titleEn
                 missionContent.text = details.contentEn
             }
 
