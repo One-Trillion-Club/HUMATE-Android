@@ -22,6 +22,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.MemberFragmentMyMatesBinding
 import com.otclub.humate.mate.data.MateDetailResponseDTO
@@ -56,6 +57,7 @@ class MyMatesFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as? MainActivity)?.hideBottomNavigationBar()
         val toolbar = binding.toolbar?.toolbar
 
         toolbar?.let {
@@ -105,6 +107,7 @@ class MyMatesFragment: Fragment() {
     override fun onDestroyView() {
         mBinding = null
         super.onDestroyView()
+        (activity as? MainActivity)?.showBottomNavigationBar()
     }
 
     private fun showMateDetailPopup(profile: ProfileResponseDTO) {

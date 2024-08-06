@@ -62,5 +62,15 @@
             android:textColor="@color/black"
             android:textSize="17sp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/logout"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="20dp"
+            android:visibility="gone"
+
+            android:background="@drawable/ic_member_logout"
+            android:layout_gravity="end|center_vertical" />
     </FrameLayout>
 </androidx.appcompat.widget.Toolbar>
