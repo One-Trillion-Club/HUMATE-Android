@@ -188,7 +188,7 @@ class MyProfileFragment : Fragment() {
             Toast.makeText(requireContext(), R.string.mypage_profile_duplication_check_needed, Toast.LENGTH_SHORT).show()
             return
         }
-        val loadingDialog = LoadingDialog.getInstance(requireContext())
+        val loadingDialog = LoadingDialog(requireContext())
         loadingDialog.show()
 
         val imageFile = selectedImageUri?.let { uri ->

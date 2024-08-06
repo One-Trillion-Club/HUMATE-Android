@@ -26,6 +26,7 @@ import com.otclub.humate.chat.data.ChatMessageResponseDTO
 import com.otclub.humate.chat.data.ChatRoomDetailDTO
 import com.otclub.humate.chat.data.MessageType
 import com.otclub.humate.chat.viewModel.ChatViewModel
+import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.ChatFragmentBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -56,10 +57,12 @@ class ChatFragment : Fragment() {
         }
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
+
 
         val binding = ChatFragmentBinding.inflate(inflater, container, false)
         mBinding = binding
@@ -73,6 +76,8 @@ class ChatFragment : Fragment() {
         mBinding?.chatDisplay?.layoutManager = LinearLayoutManager(requireContext())
         scrollToBottom()
 
+
+
         return mBinding?.root
     }
 
@@ -81,6 +86,9 @@ class ChatFragment : Fragment() {
         setupToolbar()
         bindChatDetails()
         setupSendButton()
+
+        val loadingDialog = LoadingDialog(requireContext())
+        loadingDialog.show()
 
         // ViewModel에서 데이터 관찰
         chatViewModel.chatHistoryList.observe(viewLifecycleOwner) { response ->
@@ -96,6 +104,7 @@ class ChatFragment : Fragment() {
         lifecycleScope.launch {
             loadChatHistory() // 과거 채팅 내역 로드
             handler.post(reconnectRunnable) // 웹소켓 시작
+            loadingDialog.dismiss()
         }
     }
 
