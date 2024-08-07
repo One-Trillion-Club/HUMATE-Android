@@ -13,6 +13,7 @@ import com.otclub.humate.R
 import com.otclub.humate.auth.data.GeneratePhoneCodeRequestDTO
 import com.otclub.humate.auth.data.VerifyPhoneCodeRequestDTO
 import com.otclub.humate.auth.viewmodel.AuthViewModel
+import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.AuthFragmentVerifyPhoneBinding
 
 class VerifyPhoneFragment : Fragment() {
@@ -82,12 +83,16 @@ class VerifyPhoneFragment : Fragment() {
             return
         }
 
+        val loadingDialog = LoadingDialog(requireContext())
+        loadingDialog.show()
+
         viewModel.fetchVerifyPhoneCode(
             VerifyPhoneCodeRequestDTO(phone, code),
             onSuccess = {response ->
                 Toast.makeText(requireContext(), "인증에 성공하였습니다", Toast.LENGTH_SHORT).show()
                 viewModel.signUpRequestDTO.phone = phone
                 viewModel.signUpRequestDTO.verifyCode = response.message
+                loadingDialog.dismiss()
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.authFragment, InputIdPasswordFragment())
                     .addToBackStack(null)
@@ -95,6 +100,7 @@ class VerifyPhoneFragment : Fragment() {
             },
             onError = {error ->
                 Toast.makeText(requireContext(), "인증번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show()
+                loadingDialog.dismiss()
             })
 
 

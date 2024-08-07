@@ -116,7 +116,7 @@
     <string name="signin_signup">회원가입</string>
     <string name="signup_id">아이디</string>
     <string name="signup_password">비밀번호</string>
-    <string name="signup_password_guide">영문자, 숫자, 특수문자 중 2가지 이상을 조합하여 \\n 8~20자로 입력해주세요</string>
+    <string name="signup_password_guide">영문자, 숫자, 특수문자 중 2가지 이상을 조합하여\n8~20자로 입력해주세요</string>
     <string name="signup_confirm_password">비밀번호 확인</string>
     <string name="signup_next">다음</string>
     <string name="mypage_profile_nickname_lower">닉네임</string>
@@ -134,5 +134,5 @@
 
     <string name="chat_mate_list">메이트 채팅</string>
     <string name="chat_pending_list">대기</string>
-
+    <string name="toast_signup_invalid_id_password">아이디나 비밀번호를 확인해주세요</string>
 </resources>

@@ -15,6 +15,7 @@ import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.auth.data.LoginRequestDTO
 import com.otclub.humate.auth.viewmodel.AuthViewModel
+import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.AuthFragmentSignInBinding
 
 class SignInFragment : Fragment() {
@@ -56,9 +57,12 @@ class SignInFragment : Fragment() {
 
     private fun logIn(loginId: String, password: String) {
         Log.i("sign in btn click", "loginId:${loginId}, password:${password}")
+        val loadingDialog = LoadingDialog(requireContext())
+        loadingDialog.show()
         viewModel.fetchLogIn(
             LoginRequestDTO(loginId, password),
             onSuccess = {response ->
+                loadingDialog.dismiss()
                 Toast.makeText(requireContext(), R.string.toast_signin_success, Toast.LENGTH_SHORT).show()
                 activity?.let {
                     startActivity(Intent(it, MainActivity::class.java))
@@ -66,7 +70,8 @@ class SignInFragment : Fragment() {
                 }
             },
             onError = {error ->
-                Toast.makeText(requireContext(), R.string.toast_please_one_more_time, Toast.LENGTH_SHORT).show()
+                loadingDialog.dismiss()
+                Toast.makeText(requireContext(), R.string.toast_signup_invalid_id_password, Toast.LENGTH_SHORT).show()
             }
         )
     }
