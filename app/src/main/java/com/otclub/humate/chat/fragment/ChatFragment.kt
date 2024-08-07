@@ -95,15 +95,6 @@ class ChatFragment : Fragment() {
         mBinding?.chatDisplay?.layoutManager = LinearLayoutManager(requireContext())
         scrollToBottom()
 
-//        // ViewModel의 상태를 관찰합니다.
-//        Log.d("[bindChatDetails]", (chatRoomDetailDTO?.isClicked == 1).toString() + (chatRoomDetailDTO?.targetIsClicked == 1).toString() + (chatRoomDetailDTO?.isMatched == 1).toString() )
-//        if(chatRoomDetailDTO!=null && chatRoomDetailDTO?.isClicked == 1 && chatRoomDetailDTO?.targetIsClicked == 1 && chatRoomDetailDTO?.isMatched  == 0) {
-//            showMateDialogConfirmed()
-//        }
-
-
-
-
         return mBinding?.root
     }
 
