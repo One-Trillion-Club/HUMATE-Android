@@ -28,6 +28,48 @@
     <string name="companion_finished_failed">동행을 종료하지 못했습니다</string>
     <string name="upload_success">활동 등록이 완료됐습니다</string>
     <string name="upload_failed">활동 등록에 실패했습니다</string>
+
+    <string name="write_completed">매칭글 작성이 완료되었습니다.</string>
+    <string name="filter">필터 설정</string>
+    <string name="list">매칭글 목록</string>
+    <string name="list_filter">필터</string>
+    <string name="closed">마감</string>
+    <string name="write">매칭글 작성</string>
+    <string name="done">확인</string>
+    <string name="title">제목</string>
+    <string name="content">내용</string>
+    <string name="filter_date">매칭 날짜 선택</string>
+    <string name="filter_branch">백화점 지점 선택</string>
+    <string name="filter_gender">매칭 성별 선택</string>
+    <string name="filter_language">매칭 언어 선택</string>
+    <string name="reset">초기화</string>
+    <string name="write_ballon">맞춤형 메이트를 구하기 위한 매칭글을 작성해보세요!</string>
+    <string name="detail">매칭글 정보</string>
+    <string name="remark">한마디</string>
+    <string name="write_option">매칭 정보 선택</string>
+    <string name="write_select">선택</string>
+    <string name="write_store">매장 및 팝업스토어 선택</string>
+    <string name="write_tag">태그 선택</string>
+    <string name="detail_store">매장 및 팝업스토어</string>
+    <string name="date">날짜</string>
+    <string name="gender">성별</string>
+    <string name="language">언어</string>
+    <string name="location">장소</string>
+    <string name="store">매장</string>
+    <string name="pop_up">팝업스토어</string>
+    <string name="shopping">쇼핑</string>
+    <string name="meal">식사</string>
+    <string name="event">행사</string>
+    <string name="post">등록</string>
+    <string name="add_store">추가</string>
+    <string name="enter_name_message">이름을 입력해주세요</string>
+    <string name="write_detail">매칭 정보 선택</string>
+    <string name="select_date">날짜를 선택해주세요</string>
+    <string name="same_gender">나와 같은 성별</string>
+    <string name="same_gender_detail">동성 메이트를 원해요!</string>
+    <string name="both_gender">상관 없음</string>
+    <string name="both_gender_detail">동성, 이성 모두 상관없어요!</string>
+
     <string name="mypage_title">마이페이지</string>
     <string name="mypage_loading">로딩중..</string>
     <string name="mypage_mymanner">나의 온도</string>
@@ -80,6 +122,16 @@
     <string name="mypage_profile_nickname_lower">닉네임</string>
     <string name="mypage_profile_introduction_lower">한 줄 소개</string>
     <string name="signup_password_lower">비밀번호</string>
+
+    <string name="male">남성</string>
+    <string name="female">여성</string>
+    <string name="korean">한국어</string>
+    <string name="english">영어</string>
+    <string name="japanese">일본어</string>
+    <string name="chinese">중국어</string>
+    <string name="apply_mate">메이트 신청하기</string>
+
+
     <string name="chat_mate_list">메이트 채팅</string>
     <string name="chat_pending_list">대기</string>
     <string name="toast_signup_invalid_id_password">아이디나 비밀번호를 확인해주세요</string>
