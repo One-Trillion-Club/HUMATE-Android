@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
+import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.MateFragmentPostDetailBinding
 import com.otclub.humate.mate.adapter.PostDetailAdapter
 import com.otclub.humate.mate.adapter.PostListAdapter
@@ -25,6 +27,7 @@ import com.otclub.humate.mate.data.LocalizedBranch
 import com.otclub.humate.mate.data.LocalizedTag
 import com.otclub.humate.mate.data.PostDetailResponseDTO
 import com.otclub.humate.mate.viewmodel.PostDetailViewModel
+import com.otclub.humate.member.viewmodel.MemberViewModel
 import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 
 class PostDetailFragment : Fragment() {
@@ -37,6 +40,7 @@ class PostDetailFragment : Fragment() {
     private lateinit var postDetailAdapter: PostDetailAdapter
 
     private lateinit var sharedPreferencesManager: SharedPreferencesManager
+    private val memberViewModel: MemberViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +53,6 @@ class PostDetailFragment : Fragment() {
         postDetailViewModel = ViewModelProvider(requireActivity()).get(PostDetailViewModel::class.java)
 
         sharedPreferencesManager = SharedPreferencesManager(requireContext())
-
         mBinding = binding
 
         return mBinding?.root
@@ -83,11 +86,24 @@ class PostDetailFragment : Fragment() {
         val postId = args.postId
 
         // 상세 게시글 정보 요청
-        postDetailViewModel.getPostDetail(postId, onSuccess = { postDetail -> updateUI(postDetail)
+        postDetailViewModel.getPostDetail(postId, onSuccess = { postDetail ->
+            updateUI(postDetail)
+            binding.profileImage.setOnClickListener {
+                memberViewModel.getOtherMemberProfile(
+                    memberId = postDetail.memberId,
+                    onSuccess = { profile ->
+                        val loadingDialog = LoadingDialog(requireContext())
+                        loadingDialog.showMateDetailPopup(profile)
+                    },
+                    onError = { error ->
+                        Toast.makeText(context, R.string.toast_please_one_more_time, Toast.LENGTH_SHORT).show()
+                    })
+            }
         }, onError = { errorMessage ->
             // 에러 처리
             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
         })
+
     }
 
     private fun getEnglishLanguageName(language: String): String {
