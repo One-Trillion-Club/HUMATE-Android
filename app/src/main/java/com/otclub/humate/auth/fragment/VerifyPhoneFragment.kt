@@ -51,14 +51,19 @@ class VerifyPhoneFragment : Fragment() {
             return
         }
 
+        val loadingDialog = LoadingDialog(requireContext())
+        loadingDialog.show()
+
         viewModel.fetchGeneratePhoneCode(
             GeneratePhoneCodeRequestDTO(phone),
             onSuccess = {response ->
                 addAuthCodeInputField(phone)
+                loadingDialog.dismiss()
             },
             onError = {error ->
                 Log.i("폰 인증 페이지", error)
                 Toast.makeText(requireContext(), "이미 가입된 번호입니다.", Toast.LENGTH_SHORT).show()
+                loadingDialog.dismiss()
             })
 
     }
