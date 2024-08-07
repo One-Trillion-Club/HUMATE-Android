@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.Button xmlns:android="http://schemas.android.com/apk/res/android"
+                       android:id="@+id/mate_button_default"
+                       android:layout_width="66dp"
+                       android:layout_height="48dp"
+                       android:gravity="center"
+                       android:background="@drawable/chat_mate_button_default"
+                       android:padding="12dp"
+                       android:clickable="true"
+                       android:focusable="true"
+                       android:drawableLeft="@drawable/ic_logo_gray"
+                       android:drawablePadding="4dp"
+                       android:text="1"
+                       android:textColor="@color/bright_gray"
+                       android:textSize="12sp"/>

@@ -5,11 +5,11 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface ChatRoomService {
-    @GET("rooms/list/{memberId}")
-    fun getChatRoomList(@Path("memberId") memberId: String): Call<List<ChatRoomDetailDTO>>
+    @GET("rooms/list")
+    fun getChatRoomList(): Call<List<ChatRoomDetailDTO>>
 
-    @GET("rooms/list/pending/{memberId}")
-    fun getPendingChatRoomList(@Path("memberId") memberId: String): Call<List<ChatRoomDetailDTO>>
+    @GET("rooms/list/pending")
+    fun getPendingChatRoomList(): Call<List<ChatRoomDetailDTO>>
 }
 
 

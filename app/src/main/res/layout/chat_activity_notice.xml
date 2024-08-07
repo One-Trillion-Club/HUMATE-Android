@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                   android:layout_width="350dp"
+                                   android:layout_height="wrap_content"
+                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                   android:orientation="vertical"
+                                   app:cardCornerRadius="16dp"
+                                   app:cardElevation="4dp"
+                                   android:gravity="start"
+                                   android:padding="8dp"
+                                   app:cardBackgroundColor="@color/bright_gray">
+
+    <LinearLayout
+            android:id="@+id/ageLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+                android:layout_width="27dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:padding="3dp"
+                android:src="@drawable/chat_activity_notice"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+        />
+        <TextView
+                android:id="@+id/ageText"
+                android:layout_width="262dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="메이트와 함께한 활동 내역을 확인해보세요. \n우리의 특별한 순간들이 담겨 있어요. 지금 바로 보러가기!"
+                android:textSize="10sp"
+                android:textColor="@color/dark_gray"/>
+
+        <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="end|center"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/chat_activity_arrows"
+                android:layout_marginRight="10dp"
+                android:background="@null"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,5 +1,7 @@
 package com.otclub.humate.chat.adapter
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -88,15 +90,21 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
                 textView.text = message.content
                 dateView.text = formatDate(message.createdAt)
 
-                // 프로필 이미지 설정
-                Glide.with(itemView.context) // Context는 itemView의 Context를 사용합니다.
-                    .load(message.imgUrl) // URL을 message.profileImgUrl로 설정합니다.
-                    .apply(
-                        RequestOptions()
-                            .circleCrop()
-                            .placeholder(R.drawable.ic_member_profile_default)
-                    )
-                    .into(profileImage) // profileImage ImageView에 로드
+                val imgUrl = message.imgUrl
+                if (imgUrl != null) {
+                    Log.d("[ReceivedMessageViewHolder]", imgUrl)
+                    Glide.with(profileImage) // Context는 itemView의 Context를 사용합니다.
+                        .load(message.imgUrl) // URL을 message.imgUrl로 설정합니다.
+                        .apply(
+                            RequestOptions()
+                                .circleCrop()
+                                .placeholder(R.drawable.ic_member_profile_default)
+                        )
+                        .placeholder(R.drawable.ic_member_profile_default)
+                        .into(profileImage)
+                } else {
+                    Log.d("[ReceivedMessageViewHolder]", "Image URL is null")
+                }
             }
         }
 
@@ -112,9 +120,14 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
 
         inner class NoticeMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
             private val textView: TextView = itemView.findViewById(R.id.message_notice)
-
-            fun bind(message: ChatMessageResponseDTO){
-                textView.text = "${message.participateId} 님이 ${message.content}"
+            fun bind(message: ChatMessageResponseDTO) {
+                val context = itemView.context
+                val str = when (message.messageType) {
+                    MessageType.MATE_ACTIVE -> context.getString(R.string.chat_mate_active_message)
+                    MessageType.MATE_INACTIVE -> context.getString(R.string.chat_mate_inactive_message)
+                    else -> ""
+                }
+                textView.text = "${message.participateId} 님이 $str"
             }
         }
 
