@@ -1,5 +1,6 @@
 package com.otclub.humate.chat.adapter
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.otclub.humate.R
-import com.otclub.humate.chat.data.ChatMessageResponseDTO
+import com.otclub.humate.chat.data.ChatMessage
+import com.otclub.humate.chat.data.ChatMessageWebSocketResponseDTO
+import com.otclub.humate.chat.data.ChatRoomDetailDTO
 import com.otclub.humate.chat.data.MessageType
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
-class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, private val participateId: String?, private val onMateClick: (String) -> Unit) :
+class ChatAdapter(private val messages: MutableList<ChatMessage>, private var chatRoomDetailDTO: ChatRoomDetailDTO?, private val onMateClick: (String) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -58,7 +60,7 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
                 TYPE_MESSAGE_NOTICE
             }
             else{
-                if (message.participateId.equals(participateId)) {
+                if (message.participateId.equals(chatRoomDetailDTO?.participateId)) {
                     TYPE_MESSAGE_SENT
                 } else {
                     TYPE_MESSAGE_RECEIVED
@@ -68,35 +70,47 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
 
         override fun getItemCount(): Int = messages.size
 
-        fun addMessage(message: ChatMessageResponseDTO) {
-            messages.add(message)
+        fun addMessage(chatMessageWebSocketResponseDTO: ChatMessageWebSocketResponseDTO) {
+            messages.add(chatMessageWebSocketResponseDTO.chatMessage)
+
+            chatRoomDetailDTO = chatMessageWebSocketResponseDTO.chatRoomDetailDTO // 지울거면 이거
+
             notifyItemInserted(messages.size - 1)
         }
 
-        fun updateMessages(newMessages: List<ChatMessageResponseDTO>) {
+        fun updateMessages(newMessages: List<ChatMessage>, detailDTO: ChatRoomDetailDTO? ) {
             messages.clear()
             messages.addAll(newMessages)
+
+            chatRoomDetailDTO = detailDTO
             notifyDataSetChanged()
         }
+
+//        fun updateMessages(newMessages: List<ChatMessage>, chatRoomDetailDTO: ChatRoomDetailDTO? ) {
+//            messages.clear()
+//            messages.addAll(newMessages)
+//            notifyDataSetChanged()
+//        }
+
 
         inner class ReceivedMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             private val textView: TextView = itemView.findViewById(R.id.message_text)
             private val dateView: TextView = itemView.findViewById(R.id.message_time)
             private val profileImage: ImageView = itemView.findViewById(R.id.profile_image)
 
-            fun bind(message: ChatMessageResponseDTO) {
+            fun bind(message: ChatMessage) {
                 textView.text = message.content
                 dateView.text = formatDate(message.createdAt)
 
                 profileImage.setOnClickListener {
-                    onMateClick("K_1")
+                    onMateClick(chatRoomDetailDTO?.targetMemberId!!)
                 }
 
-                val imgUrl = message.imgUrl
+                val imgUrl = chatRoomDetailDTO?.targetProfileImgUrl
                 if (imgUrl != null) {
-                    Log.d("[ReceivedMessageViewHolder]", imgUrl)
+                    Log.d("[ReceivedMessageViewHolder]", chatRoomDetailDTO?.targetProfileImgUrl.toString())
                     Glide.with(profileImage) // Context는 itemView의 Context를 사용합니다.
-                        .load(message.imgUrl) // URL을 message.imgUrl로 설정합니다.
+                        .load(chatRoomDetailDTO?.targetProfileImgUrl) // URL을 message.imgUrl로 설정합니다.
                         .apply(
                             RequestOptions()
                                 .circleCrop()
@@ -114,7 +128,7 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
             private val textView: TextView = itemView.findViewById(R.id.message_text)
             private val dateView: TextView = itemView.findViewById(R.id.message_time)
 
-            fun bind(message: ChatMessageResponseDTO) {
+            fun bind(message: ChatMessage) {
                 textView.text = "${message.content}"
                 dateView.text = formatDate(message.createdAt)
             }
@@ -122,14 +136,14 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
 
         inner class NoticeMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
             private val textView: TextView = itemView.findViewById(R.id.message_notice)
-            fun bind(message: ChatMessageResponseDTO) {
+            fun bind(message: ChatMessage) {
                 val context = itemView.context
                 val str = when (message.messageType) {
                     MessageType.MATE_ACTIVE -> context.getString(R.string.chat_mate_active_message)
                     MessageType.MATE_INACTIVE -> context.getString(R.string.chat_mate_inactive_message)
                     else -> ""
                 }
-                textView.text = "${message.participateId} 님이 $str"
+                textView.text = "${message.content} $str"
             }
         }
 
@@ -155,7 +169,6 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
             return false;
         return true;
     }
-
 
 
 }

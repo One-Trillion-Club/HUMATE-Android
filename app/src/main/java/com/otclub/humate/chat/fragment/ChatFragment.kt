@@ -64,7 +64,6 @@ class ChatFragment : Fragment() {
         }
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -78,7 +77,7 @@ class ChatFragment : Fragment() {
         chatRoomDetailDTO = currentDetail
 
         // RecyclerView 설정
-        chatAdapter = ChatAdapter(mutableListOf(), chatRoomDetailDTO?.participateId.toString(), onMateClick = { memberId ->
+        chatAdapter = ChatAdapter(mutableListOf(), chatRoomDetailDTO, onMateClick = { memberId ->
             // 카드 뷰 클릭 시 모달 창 띄우기
             memberViewModel.getOtherMemberProfile(
                 memberId = memberId,
@@ -104,13 +103,10 @@ class ChatFragment : Fragment() {
         bindChatDetails()
         setupSendButton()
 
-        val loadingDialog = LoadingDialog(requireContext())
-        loadingDialog.show()
-
         // ViewModel에서 데이터 관찰
         chatViewModel.chatHistoryList.observe(viewLifecycleOwner) { response ->
             response?.let {
-                chatAdapter.updateMessages(it)
+                chatAdapter.updateMessages(it, chatRoomDetailDTO)
                 Log.i("adapter : ", it.toString())
                 mBinding?.chatDisplay?.adapter = chatAdapter
                 scrollToBottom()
@@ -135,20 +131,19 @@ class ChatFragment : Fragment() {
             }
         }
 
-        // 동행 Open Dialog
-        chatViewModel.shouldShowNotice.observe(viewLifecycleOwner) { notice ->
-            if (notice) {
-                Log.d("[shouldShowNotice]", (chatRoomDetailDTO?.isMatched == 1).toString() )
-                updateNoticeVisibility()
-                chatViewModel.setTabSelect(0)
-            }
-        }
+//        // 동행 Open Dialog
+//        chatViewModel.shouldShowNotice.observe(viewLifecycleOwner) { notice ->
+//            if (notice) {
+//                Log.d("[shouldShowNotice]", (chatRoomDetailDTO?.isMatched == 1).toString() )
+//                updateNoticeVisibility()
+//                chatViewModel.setTabSelect(0)
+//            }
+//        }
 
         // 비동기적으로 과거 채팅 내역 로드 및 웹소켓 시작
         lifecycleScope.launch {
             loadChatHistory() // 과거 채팅 내역 로드
             handler.post(reconnectRunnable) // 웹소켓 시작
-            loadingDialog.dismiss()
         }
     }
 
@@ -161,9 +156,9 @@ class ChatFragment : Fragment() {
     }
 
     private fun sendMessage(content: String) {
-        val messageRequest = ChatMessageRequestDTO(
+        val messageRequest = ChatSendMessageRequestDTO(
             chatRoomId = chatRoomDetailDTO?.chatRoomId.toString(),
-            participateId = chatRoomDetailDTO?.participateId, // 실제 사용자 ID로 변경 //
+            participateId = chatRoomDetailDTO?.participateId,
             content = content,
             messageType = MessageType.TEXT
         )
@@ -173,7 +168,7 @@ class ChatFragment : Fragment() {
         webSocket?.send(messageJson)
     }
 
-    fun updateChat(message: ChatMessageResponseDTO) {
+    fun updateChat(message: ChatMessageWebSocketResponseDTO) { // 고쳐야함
         chatAdapter.addMessage(message)
         scrollToBottom()
     }

@@ -1,6 +1,6 @@
 package com.otclub.humate.chat.data
 
-data class ChatMessageRequestDTO(
+data class ChatSendMessageRequestDTO(
     val chatRoomId : String?,
     val participateId : String?,
     val content : String?,

@@ -1,8 +1,6 @@
 package com.otclub.humate.chat.data
 
-import java.util.*
-
-data class ChatMessageResponseDTO(
+data class ChatMessage(
     val chatRoomId : String,
     val participateId : String?,
     val content : String,

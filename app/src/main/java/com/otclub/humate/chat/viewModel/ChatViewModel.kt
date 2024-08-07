@@ -18,7 +18,7 @@ class ChatViewModel : ViewModel() {
     private val chatRoomService : ChatRoomService = RetrofitConnection.getInstance().create(ChatRoomService::class.java)
     private val chatService : ChatService = RetrofitConnection.getInstance().create(ChatService::class.java)
     val chatRoomDetailDTOList = MutableLiveData<List<ChatRoomDetailDTO>>()
-    val chatHistoryList = MutableLiveData<List<ChatMessageResponseDTO>>()
+    val chatHistoryList = MutableLiveData<List<ChatMessage>>()
     val latestChatRoomDetailDTO = MutableLiveData<ChatRoomDetailDTO>()
     val tabSelect = MutableLiveData<Int>()
     private val _navigateToChatFragment = MutableLiveData<Boolean>()
@@ -40,10 +40,10 @@ class ChatViewModel : ViewModel() {
     fun fetchChatHistoryList(chatRoomId: String?)  {
 
         chatService.getChatHistoryList(chatRoomId!!).enqueue(object :
-            Callback<List<ChatMessageResponseDTO>> {
+            Callback<List<ChatMessage>> {
             override fun onResponse(
-                call: Call<List<ChatMessageResponseDTO>>,
-                response: Response<List<ChatMessageResponseDTO>>
+                call: Call<List<ChatMessage>>,
+                response: Response<List<ChatMessage>>
             ) {
                 if (response.isSuccessful && response.body() != null) {
                     Log.i("chatHistoryList : ", response.body().toString())
@@ -51,7 +51,7 @@ class ChatViewModel : ViewModel() {
                 }
             }
 
-            override fun onFailure(call: Call<List<ChatMessageResponseDTO>>, t: Throwable) {
+            override fun onFailure(call: Call<List<ChatMessage>>, t: Throwable) {
                 Log.e("채팅 목록 페이지 응답 실패 ", t.toString())
             }
         })
