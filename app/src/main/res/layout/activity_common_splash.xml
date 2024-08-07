@@ -1,0 +1,150 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".CommonSplashActivity">
+
+    <ImageView
+            android:id="@+id/ic1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_start_1"
+            android:translationX="30dp"
+            android:translationY="90dp"
+            tools:ignore="MissingConstraints"/>
+
+    <ImageView
+            android:id="@+id/ic2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_start_2"
+            android:translationX="250dp"
+            android:translationY="150dp"
+            tools:ignore="MissingConstraints"/>
+
+    <ImageView
+            android:id="@+id/ic3"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_start_3"
+            android:translationX="140dp"
+            android:translationY="160dp"
+            tools:ignore="MissingConstraints"/>
+
+    <ImageView
+            android:id="@+id/ic4"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_start_4"
+            android:translationX="20dp"
+            android:translationY="350dp"
+            tools:ignore="MissingConstraints"/>
+
+    <ImageView
+            android:id="@+id/ic5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_start_5"
+            android:translationX="200dp"
+            android:translationY="420dp"
+            tools:ignore="MissingConstraints"/>
+
+    <ImageView
+            android:id="@+id/ic6"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_start_6"
+            android:translationX="310dp"
+            android:translationY="370dp"
+            tools:ignore="MissingConstraints"/>
+
+    <ImageView
+            android:id="@+id/logoView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/ic_logo_purple"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="220dp"
+            android:visibility="invisible"
+            tools:ignore="MissingConstraints"/>
+
+    <TextView
+            android:id="@+id/humateView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HUMATE"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logoView"
+            android:visibility="invisible"
+            tools:ignore="MissingConstraints"/>
+
+    <ImageView
+            android:id="@+id/leftIconView"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:src="@drawable/start_left_circle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="100dp"
+            android:translationX="-100dp"
+            tools:ignore="MissingConstraints"/>
+
+    <View
+            android:id="@+id/leftCoverView"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:background="@android:color/white"
+            android:layout_centerInParent="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="100dp"
+            android:translationX="-100dp"
+            tools:ignore="MissingConstraints"
+            android:visibility="visible"/>
+
+    <ImageView
+            android:id="@+id/rightIconView"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:src="@drawable/start_right_circle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="180dp"
+            android:translationX="100dp"
+            tools:ignore="MissingConstraints"/>
+
+    <View
+            android:id="@+id/rightCoverView"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:background="@android:color/white"
+            android:layout_centerInParent="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="180dp"
+            android:translationX="100dp"
+            tools:ignore="MissingConstraints"
+            android:visibility="visible"/>
+
+    <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/splash"
+            android:textSize="17sp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

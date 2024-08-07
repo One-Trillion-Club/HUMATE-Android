@@ -153,4 +153,6 @@
     <string name="chat_dialog_cancel_button">cancel</string>
     <string name="review_score_failed">"Please leave a review "</string>
     <string name="toast_signup_invalid_id_password">Invalid Id or password</string>
+
+    <string name="splash">A Special Korean Journey\nwith Your Global Mate</string>
 </resources>
