@@ -1,8 +1,5 @@
 package com.otclub.humate.mission.fragment
 
-import android.content.Context
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,15 +10,11 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.FragmentClearedMissionBinding

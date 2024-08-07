@@ -36,11 +36,11 @@ class ClearedMissionAdapter(
             text = when (mission.status) {
                 0 -> {
                     setBackgroundResource(R.drawable.mission_pending)
-                    context.getString(R.string.mission_pending)
+                    context.getString(R.string.status_ongoing)
                 }
                 else -> {
                     setBackgroundResource(R.drawable.mission_completed)
-                    context.getString(R.string.mission_finished)
+                    context.getString(R.string.status_completed)
                 }
             }
         }
