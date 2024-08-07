@@ -19,7 +19,9 @@ import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.MateFragmentPostListFilterBinding
 import com.otclub.humate.mate.adapter.PostListAdapter
+import com.otclub.humate.mate.data.LocalizedBranch
 import com.otclub.humate.mate.viewmodel.PostViewModel
+import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,7 +37,8 @@ class PostListFilterFragment : Fragment() {
     private var selectedLanguageButton = mutableSetOf<Button>()
 
     private var selectedDate: String? = null
-    private val selectedBranches = mutableSetOf<String>()
+    private val selectedBranchesId = mutableSetOf<Int>()
+    private val selectedBranchesName = mutableSetOf<String>()
     private var selectedGender: String? = null
     private var selectedLanguage = mutableSetOf<String>()
 
@@ -44,6 +47,8 @@ class PostListFilterFragment : Fragment() {
         "memberId" to "K_1"
         // 초기 필터 값 설정
     )
+
+    private lateinit var sharedPreferencesManager: SharedPreferencesManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,6 +60,8 @@ class PostListFilterFragment : Fragment() {
         // ViewModel 초기화
         postViewModel = ViewModelProvider(requireActivity()).get(PostViewModel::class.java)
 
+        sharedPreferencesManager = SharedPreferencesManager(requireContext())
+
         mBinding = binding
 
         return mBinding?.root
@@ -62,6 +69,7 @@ class PostListFilterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val currentLanguage = sharedPreferencesManager.getLanguage()
 
         // ViewModel의 데이터 사용
         postViewModel.filterData?.let { filterData ->
@@ -95,7 +103,7 @@ class PostListFilterFragment : Fragment() {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
             val title: TextView = toolbar.findViewById(R.id.toolbar_title)
-            title.setText("필터 설정")
+            title.setText(R.string.filter)
 
             // 버튼의 가시성 설정
             val showLeftButton = true
@@ -105,11 +113,19 @@ class PostListFilterFragment : Fragment() {
 
             // 확인 버튼 이벤트 처리
             rightButton.setOnClickListener {
+                for (branchId in selectedBranchesId) {
+                    val branch = LocalizedBranch.fromId(branchId)
+                    branch?.let {
+                        val name = it.koreanName
+                        selectedBranchesName.add(name)
+                    }
+                }
+
                 val keyword = postViewModel.filterData?.keyword
                 val tagName = postViewModel.filterData?.tagName
                 postViewModel.updateFilterData(
                     matchDate = selectedDate.takeIf { !it.isNullOrBlank()},
-                    matchBranch = selectedBranches,
+                    matchBranch = selectedBranchesName,
                     matchGender = selectedGender,
                     matchLanguage = selectedLanguage,
                     keyword = keyword.takeIf { !it.isNullOrBlank() },
@@ -127,42 +143,63 @@ class PostListFilterFragment : Fragment() {
         // buttonContainer 레이아웃을 가져오기
         val buttonContainer = binding.branchSelectionsContainer
 
-        // 동적으로 버튼 추가
-        val buttonsData = listOf("더현대 서울", "더현대 대구", "압구정본점", "무역센터점", "천호점", "신촌점", "미아점",
-                                "목동점", "중동점", "킨텍스점", "디큐브시티", "판교점", "부산점", "울산점", "울산동구점", "충청점") // 서버나 데이터베이스에서 가져온 데이터
+        // 지점 데이터 설정
+        val branches = listOf(
+            LocalizedBranch.THE_HYUNDAI_SEOUL,
+            LocalizedBranch.THE_HYUNDAI_DAEGU,
+            LocalizedBranch.APGUJEONG,
+            LocalizedBranch.TRADE_CENTER,
+            LocalizedBranch.CHEONHO,
+            LocalizedBranch.SINCHON,
+            LocalizedBranch.MIA,
+            LocalizedBranch.MOKDONG,
+            LocalizedBranch.JUNGDONG,
+            LocalizedBranch.KINTEX,
+            LocalizedBranch.D_CUBE,
+            LocalizedBranch.PANGYO,
+            LocalizedBranch.BUSAN,
+            LocalizedBranch.ULSAN,
+            LocalizedBranch.ULSAN_DONG_GU,
+            LocalizedBranch.CHUNGCHEONG
+        )
 
+        for (branch in branches) {
+            val buttonTextLocalized = branch.getName(currentLanguage).replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
 
-        for (buttonText in buttonsData) {
-            val button = Button(ContextThemeWrapper(requireContext(), R.style.MatchBranchFilterUnselected), null, R.style.MatchBranchFilterUnselected)
-            button.text = buttonText
+            Log.i("지점 변경", "buttonTextLocalized -> $buttonTextLocalized")
 
-            // 텍스트의 실제 너비 측정
-            val paint = Paint()
-            paint.textSize = button.textSize
-            val textWidth = paint.measureText(buttonText)
+            val button = Button(ContextThemeWrapper(requireContext(), R.style.MatchBranchFilterUnselected), null, R.style.MatchBranchFilterUnselected).apply {
+                text = buttonTextLocalized
 
-            // 여유 공간(패딩)을 포함한 버튼 너비 계산
-            val padding = 100 // 좌우 패딩 (예: 32dp * 2)
-            val buttonWidth = textWidth.toInt() + padding
+                // 텍스트의 실제 너비 측정
+                val paint = Paint()
+                paint.textSize = this.textSize
+                val textWidth = paint.measureText(buttonTextLocalized)
 
-            val params = LinearLayout.LayoutParams(
-                buttonWidth,
-                90
-            )
-            // 버튼 간의 간격을 설정
-            params.setMargins(12, 0, 12, 0)
-            button.layoutParams = params
-            button.gravity = Gravity.CENTER
-            button.setPadding(16, 8, 16, 8)
-            button.setBackgroundResource(R.drawable.ic_tag_choice_long)
-            button.setTextColor(resources.getColor(R.color.filter_tag_text, null))
+                // 여유 공간(패딩)을 포함한 버튼 너비 계산
+                val padding = 100 // 좌우 패딩 (예: 32dp * 2)
+                val buttonWidth = textWidth.toInt() + padding
+
+                val params = LinearLayout.LayoutParams(
+                    buttonWidth,
+                    90
+                )
+
+                // 버튼 간의 간격을 설정
+                params.setMargins(12, 0, 12, 0)
+                layoutParams = params
+                gravity = Gravity.CENTER
+                setPadding(16, 8, 16, 8)
+                setBackgroundResource(R.drawable.ic_tag_choice_long)
+                setTextColor(resources.getColor(R.color.filter_tag_text, null))
+            }
+
+            buttonContainer.addView(button)
 
             // 버튼 클릭 이벤트 설정
             button.setOnClickListener {
                 handleButtonClick(button)
             }
-
-            buttonContainer.addView(button)
         }
 
         // 날짜 선택 버튼 클릭 이벤트 설정
@@ -206,6 +243,15 @@ class PostListFilterFragment : Fragment() {
 
     }
 
+    private fun getBranchIdByName(branchName: String, currentLanguage: Int): Int? {
+        return LocalizedBranch.values().firstOrNull {
+            when (currentLanguage) {
+                1 -> it.koreanName == branchName // 한국어 설정
+                else -> it.englishName == branchName // 영어 설정
+            }
+        }?.id
+    }
+
     // 초기화
     private fun initializeFilters() {
         // 날짜 초기화
@@ -223,9 +269,13 @@ class PostListFilterFragment : Fragment() {
 
         // 지점 초기화
         filters["matchBranch"]?.let { matchBranch ->
-            selectedBranches.clear()
+            val currentLanguage = sharedPreferencesManager.getLanguage()
+            val branchId = getBranchIdByName(matchBranch, currentLanguage)
+            selectedBranchesId.clear()
             matchBranch.split(", ").forEach { branch ->
-                selectedBranches.add(branch)
+                if (branchId != null) {
+                    selectedBranchesId.add(branchId)
+                }
                 // 선택된 버튼 스타일 적용
                 setButtonSelectedState(branch, true)
             }
@@ -347,31 +397,42 @@ class PostListFilterFragment : Fragment() {
 
     // 지점 선택
     private fun handleButtonClick(clickedButton: Button) {
+        val currentLanguage = sharedPreferencesManager.getLanguage()
+        val branchName = clickedButton.text.toString()
+        val branchId = getBranchIdByName(branchName, currentLanguage)
+        Log.i("지점 등록 확인", "branchName -> $branchName, branchId -> $branchId")
+
         // 버튼 스타일 변경
-        if (selectedBranches.contains(clickedButton.text.toString())) {
+        if (selectedBranchesId.contains(branchId)) {
             // 이미 선택된 버튼이면 선택 해제
             clickedButton.setBackgroundResource(R.drawable.ic_tag_choice_long)
             clickedButton.setTextColor(resources.getColor(R.color.filter_tag_text, null))
-            selectedBranches.remove(clickedButton.text.toString())
+            selectedBranchesId.remove(branchId)
         } else {
             // 새로 선택된 버튼이면 강조
             clickedButton.setBackgroundResource(R.drawable.ic_tag_choice_long_selected)
             clickedButton.setTextColor(resources.getColor(R.color.white, null))
-            selectedBranches.add(clickedButton.text.toString())
+            if (branchId != null) {
+                selectedBranchesId.add(branchId)
+            }
         }
     }
 
     // 지점 초기화
     private fun resetBranchSelection() {
+        val currentLanguage = sharedPreferencesManager.getLanguage()
+
         // 버튼 컨테이너에서 모든 버튼을 가져옴
         val buttonContainer = mBinding?.branchSelectionsContainer
         val buttons = buttonContainer?.children?.filterIsInstance<Button>() ?: return
 
         // 모든 버튼의 배경과 텍스트 색상 초기화
         buttons.forEach { button ->
+            val branchName = button.text.toString()
+            val branchId = getBranchIdByName(branchName, currentLanguage)
             button.setBackgroundResource(R.drawable.ic_tag_choice_long)
             button.setTextColor(resources.getColor(R.color.filter_tag_text, null))
-            selectedBranches.remove(button.text.toString())
+            selectedBranchesId.remove(branchId)
         }
     }
 

@@ -13,19 +13,11 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
-import com.google.gson.reflect.TypeToken
-import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.MateFragmentPostWriteBinding
-import com.otclub.humate.mate.adapter.PostListAdapter
-import com.otclub.humate.mate.data.PostWritePlaceRequestDTO
-import com.otclub.humate.mate.data.PostWriteRequestDTO
-import com.otclub.humate.mate.data.PostWriteTagRequestDTO
-import com.otclub.humate.mate.data.Tag
+import com.otclub.humate.mate.data.*
 import com.otclub.humate.mate.viewmodel.PostWriteViewModel
-import java.text.SimpleDateFormat
+import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 import java.util.*
 
 class PostWriteFragment : Fragment()  {
@@ -43,8 +35,6 @@ class PostWriteFragment : Fragment()  {
         // 초기 요청 값 설정
     )
 
-    private var tagIdMap = mapOf<String, Int>()
-
     private lateinit var placeItemsContainer: List<PostWritePlaceRequestDTO>
 
     private lateinit var titleInput: EditText
@@ -52,6 +42,9 @@ class PostWriteFragment : Fragment()  {
 
     private val selectedButtons = mutableSetOf<Button>() // 현재 선택된 버튼들을 추적
     private val selectedTags = mutableMapOf<String, Int>()
+
+
+    private lateinit var sharedPreferencesManager: SharedPreferencesManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,6 +55,8 @@ class PostWriteFragment : Fragment()  {
 
         // ViewModel 초기화
         postWriteViewModel = ViewModelProvider(requireActivity()).get(PostWriteViewModel::class.java)
+
+        sharedPreferencesManager = SharedPreferencesManager(requireContext())
 
         mBinding = binding
 
@@ -115,7 +110,7 @@ class PostWriteFragment : Fragment()  {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
             val title: TextView = toolbar.findViewById(R.id.toolbar_title)
-            title.setText("매칭글 작성")
+            title.setText(R.string.write)
 
             // 버튼의 가시성 설정
             val showLeftButton = true
@@ -172,36 +167,39 @@ class PostWriteFragment : Fragment()  {
 
         // 태그 데이터 설정
         val tags = listOf(
+            // 쇼핑
             Tag(
                 iconResId = R.drawable.mate_shopping,
-                title = "쇼핑",
-                buttons = listOf("의류", "뷰티", "악세서리", "신발류")
+                titleResId = R.string.shopping,
+                buttons = listOf(
+                    LocalizedTag.CLOTHING,
+                    LocalizedTag.BEAUTY,
+                    LocalizedTag.ACCESSORY,
+                    LocalizedTag.FOOTWEAR
+                )
             ),
+            // 식사
             Tag(
                 iconResId = R.drawable.mate_food,
-                title = "식사",
-                buttons = listOf("한식", "일식", "양식", "중식", "분식")
+                titleResId = R.string.meal,
+                buttons = listOf(
+                    LocalizedTag.KOREAN_FOOD,
+                    LocalizedTag.JAPANESE_FOOD,
+                    LocalizedTag.WESTERN_FOOD,
+                    LocalizedTag.CHINESE_FOOD,
+                    LocalizedTag.SNACK
+                )
             ),
+            // 행사
             Tag(
                 iconResId = R.drawable.mate_event,
-                title = "행사",
-                buttons = listOf("팝업스토어", "전시", "공연")
+                titleResId = R.string.event,
+                buttons = listOf(
+                    LocalizedTag.POPUP_STORE,
+                    LocalizedTag.EXHIBITION,
+                    LocalizedTag.PERFORMANCE
+                )
             )
-        )
-
-        tagIdMap = mapOf(
-            "의류" to 1,
-            "뷰티" to 2,
-            "악세서리" to 3,
-            "신발류" to 4,
-            "한식" to 5,
-            "일식" to 6,
-            "양식" to 7,
-            "중식" to 8,
-            "분식" to 9,
-            "팝업스토어" to 10,
-            "전시" to 11,
-            "공연" to 12
         )
 
         tags.forEach { tag ->
@@ -222,6 +220,15 @@ class PostWriteFragment : Fragment()  {
 
         initialize()
 
+    }
+
+    private fun getTagIdByName(tagName: String, currentLanguage: Int): Int? {
+        return LocalizedTag.values().firstOrNull {
+            when (currentLanguage) {
+                1 -> it.koreanName == tagName // 한국어 설정
+                else -> it.englishName == tagName // 영어 설정
+            }
+        }?.id
     }
 
     private fun parsePostWritePlaceRequestDTO(data: String): List<PostWritePlaceRequestDTO> {
@@ -292,6 +299,9 @@ class PostWriteFragment : Fragment()  {
                 PostWriteTagRequestDTO(tagId = tagId)
             }
         )
+
+
+        Log.i("태그 등록 확인", "$selectedTags")
     }
 
     // 매칭글 작성 정보 저장하기
@@ -323,31 +333,67 @@ class PostWriteFragment : Fragment()  {
 
     // 2. 매칭 정보 선택
     private fun updateCardViews() {
+        val currentLanguage = sharedPreferencesManager.getLanguage()
+
         postWriteViewModel.optionData?.let { optionData ->
             // 날짜 카드뷰 업데이트
-            binding.card1.findViewById<TextView>(R.id.card1_text).text = optionData.matchDate ?: "선택 안함"
+            binding.card1.findViewById<TextView>(R.id.card1_text).text = optionData.matchDate ?: "-"
 
             // 지점 카드뷰 업데이트
-            binding.card2.findViewById<TextView>(R.id.card2_text).text = optionData.matchBranch ?: "선택 안함"
+            val matchBranchText = optionData.matchBranch?.let { koreanName ->
+                val branch = LocalizedBranch.values().find { it.koreanName == koreanName }
+                branch?.let {
+                    if (currentLanguage == 1) {
+                        it.koreanName // 한국어 이름을 반환
+                    } else {
+                        it.englishName // 영어 이름을 반환
+                    }
+                } ?: "-"
+            } ?: "-"
+            binding.card2.findViewById<TextView>(R.id.card2_text).text = matchBranchText
 
             // 성별 카드뷰 업데이트
             binding.card3.findViewById<TextView>(R.id.card3_text).text = optionData.matchGender?.let {
                 when (it) {
-                    1 -> "동성"
-                    2 -> "상관 없음"
-                    else -> "선택 안함"
+                    1 -> context?.getString(R.string.same_gender)
+                    2 -> context?.getString(R.string.both_gender)
+                    else -> "-"
                 }
-            } ?: "선택 안함"
+            } ?: "-"
 
             // 언어 카드뷰 업데이트
-            binding.card4.findViewById<TextView>(R.id.card4_text).text = optionData.matchLanguage ?: "선택 안함"
+            val matchLanguageText = optionData.matchLanguage ?: "-"
+
+            val selectedLanguage = matchLanguageText.split(", ") ?: emptyList()
+            val englishLanguage = selectedLanguage.map { getEnglishLanguageName(it) }
+            val englishLanguageText = if (englishLanguage.isNotEmpty()) {
+                englishLanguage.joinToString(", ")
+            } else {
+                "-"
+            }
+            binding.card4.findViewById<TextView>(R.id.card4_text).text =
+                if (currentLanguage == 1) { matchLanguageText }
+                else { englishLanguageText }
+        }
+
+    }
+
+    fun getEnglishLanguageName(language: String): String {
+        return when (language) {
+            "한국어" -> "Korean"
+            "영어" -> "English"
+            "중국어" -> "Chinese"
+            "일본어" -> "Japanese"
+            else -> language
         }
     }
 
     // 3. 매장 및 팝업스토어 설정
 
-    // 4. 태그 선택
+    // 4. 태그 설정
     private fun addTagToLayout(tag: Tag) {
+        val currentLanguage = sharedPreferencesManager.getLanguage()
+        Log.i("태그 언어 변경", "$currentLanguage")
         val container = binding.tagContainer
         val postTags = requests["postTags"]?.let { parsePostWriteTagRequestDTO(it) }
 
@@ -377,16 +423,24 @@ class PostWriteFragment : Fragment()  {
 
         // 제목을 위한 TextView 생성
         val title = TextView(context).apply {
-            text = tag.title
+            text = context.getString(tag.titleResId)
             textSize = 13f
             setTextColor(resources.getColor(R.color.black, null))
             typeface = Typeface.DEFAULT_BOLD
+
+            // 텍스트의 폭을 측정
+            val textPaint = paint
+            val textWidth = textPaint.measureText(text.toString())
+
+            // 패딩을 포함한 최종 너비 계산
+            val finalWidth = textWidth.toInt() + 40
+
             layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
+                finalWidth,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
                 weight = 1f
-                setMargins(0, 0, 8.dpToPx(), 0)
+                setMargins(0, 0, 4.dpToPx(), 0)
             }
         }
 
@@ -402,22 +456,29 @@ class PostWriteFragment : Fragment()  {
             )
         }
 
-        for (buttonText in tag.buttons) {
+        for (localizedTag in tag.buttons) {
+            val buttonTextLocalized = localizedTag.getName(currentLanguage).lowercase()
+
+            Log.i("태그 언어 변경", "buttonTextLocalized -> $buttonTextLocalized")
+
             val button = Button(ContextThemeWrapper(requireContext(), R.style.TagButtonUnselected), null, R.style.TagButtonUnselected).apply {
-                text = buttonText
+                text = buttonTextLocalized
+                isAllCaps = false
+
+                textSize = 11f
 
                 // 텍스트의 실제 너비 측정
                 val paint = Paint()
                 paint.textSize = this.textSize
-                val textWidth = paint.measureText(buttonText)
+                val textWidth = paint.measureText(buttonTextLocalized)
 
                 // 여유 공간(패딩)을 포함한 버튼 너비 계산
-                val padding = 100 // 좌우 패딩 (예: 32dp * 2)
+                val padding = 120 // 좌우 패딩
                 val buttonWidth = textWidth.toInt() + padding
 
                 val params = LinearLayout.LayoutParams(
                     buttonWidth,
-                    80
+                    100
                 ).apply {
                     setMargins(14, 0, 14,0)
                 }
@@ -438,7 +499,7 @@ class PostWriteFragment : Fragment()  {
             // postTags
             if (postTags != null) {
                 for (postTag in postTags) {
-                    if (postTag.tagId == tagIdMap[buttonText]) {
+                    if (postTag.tagId == getTagIdByName(buttonTextLocalized, currentLanguage)) {
                         Log.i("PostTag", "버튼 나타내기 postTag -> $postTag")
                         button.setBackgroundResource(R.drawable.tag_button_selected)
                         button.setTextColor(resources.getColor(R.color.white, null))
@@ -470,8 +531,10 @@ class PostWriteFragment : Fragment()  {
 
     // 태그 버튼 클릭 시
     fun handleButtonClick(button: Button) {
+        val currentLanguage = sharedPreferencesManager.getLanguage()
         val tagName = button.text.toString()
-        val tagId = tagIdMap[tagName] ?: return // tagId를 가져옴
+        val tagId = getTagIdByName(tagName, currentLanguage)
+        Log.i("태그 등록 확인", "tagName -> $tagName, tagId -> $tagId")
 
         if (selectedButtons.contains(button)) {
             // 이미 선택된 태그인 경우
@@ -482,7 +545,7 @@ class PostWriteFragment : Fragment()  {
         } else {
             // 선택되지 않은 태그인 경우
             selectedButtons.add(button)
-            selectedTags[tagName] = tagId
+            tagId?.let { selectedTags[tagName] = tagId }
             button.setBackgroundResource(R.drawable.tag_button_selected)
             button.setTextColor(resources.getColor(R.color.white, null))
         }
@@ -503,14 +566,14 @@ class PostWriteFragment : Fragment()  {
         contentInput.setText(place.name)
 
         // Spinner의 항목 설정
-        val options = arrayOf("매장", "팝업")
+        val options = arrayOf(getString(R.string.store), getString(R.string.pop_up))
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, options)
         spinner.adapter = adapter
 
         // 선택 항목 설정
         textView.text = when (place.type) {
-            1 -> "매장"
-            2 -> "팝업"
+            1 -> getString(R.string.store)
+            2 -> getString(R.string.pop_up)
             else -> ""
         }
 
@@ -555,7 +618,7 @@ class PostWriteFragment : Fragment()  {
         })
 
         // Spinner의 항목 설정
-        val options = arrayOf("매장", "팝업")
+        val options = arrayOf(getString(R.string.store), getString(R.string.pop_up))
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, options)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         adapter.setDropDownViewResource(R.layout.mate_spinner_item)
@@ -568,8 +631,8 @@ class PostWriteFragment : Fragment()  {
                 textView.text = selectedItem
                 // new_place.type 설정
                 new_place.type = when (selectedItem) {
-                    "매장" -> 1
-                    "팝업" -> 2
+                    getString(R.string.store) -> 1
+                    getString(R.string.pop_up) -> 2
                     else -> 1
                 }
             }

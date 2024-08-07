@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -14,9 +13,8 @@ import com.otclub.humate.R
 import com.otclub.humate.chat.data.ChatMessageResponseDTO
 import com.otclub.humate.chat.data.MessageType
 import java.text.SimpleDateFormat
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, private val participateId: String?, private val onMateClick: (String) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -90,18 +88,24 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
                 textView.text = message.content
                 dateView.text = formatDate(message.createdAt)
 
-                // 프로필 이미지 설정
-                Glide.with(itemView.context) // Context는 itemView의 Context를 사용합니다.
-                    .load(message.imgUrl) // URL을 message.profileImgUrl로 설정합니다.
-                    .apply(
-                        RequestOptions()
-                            .circleCrop()
-                            .placeholder(R.drawable.ic_member_profile_default)
-                    )
-                    .into(profileImage) // profileImage ImageView에 로드
-
                 profileImage.setOnClickListener {
                     onMateClick("K_1")
+                }
+
+                val imgUrl = message.imgUrl
+                if (imgUrl != null) {
+                    Log.d("[ReceivedMessageViewHolder]", imgUrl)
+                    Glide.with(profileImage) // Context는 itemView의 Context를 사용합니다.
+                        .load(message.imgUrl) // URL을 message.imgUrl로 설정합니다.
+                        .apply(
+                            RequestOptions()
+                                .circleCrop()
+                                .placeholder(R.drawable.ic_member_profile_default)
+                        )
+                        .placeholder(R.drawable.ic_member_profile_default)
+                        .into(profileImage)
+                } else {
+                    Log.d("[ReceivedMessageViewHolder]", "Image URL is null")
                 }
             }
         }
@@ -118,9 +122,14 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
 
         inner class NoticeMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
             private val textView: TextView = itemView.findViewById(R.id.message_notice)
-
-            fun bind(message: ChatMessageResponseDTO){
-                textView.text = "${message.participateId} 님이 ${message.content}"
+            fun bind(message: ChatMessageResponseDTO) {
+                val context = itemView.context
+                val str = when (message.messageType) {
+                    MessageType.MATE_ACTIVE -> context.getString(R.string.chat_mate_active_message)
+                    MessageType.MATE_INACTIVE -> context.getString(R.string.chat_mate_inactive_message)
+                    else -> ""
+                }
+                textView.text = "${message.participateId} 님이 $str"
             }
         }
 

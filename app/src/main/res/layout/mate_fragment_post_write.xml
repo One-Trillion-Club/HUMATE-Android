@@ -53,7 +53,7 @@
                             android:id="@+id/title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="제목"
+                            android:text="@string/title"
                             android:textSize="15sp"
                             android:textStyle="bold"
                             android:textColor="@color/black"
@@ -88,7 +88,7 @@
                             android:id="@+id/content"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="내용"
+                            android:text="@string/content"
                             android:textSize="15sp"
                             android:textStyle="bold"
                             android:textColor="@color/black"
@@ -128,7 +128,7 @@
                                 android:id="@+id/match_info"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="매칭 정보 선택"
+                                android:text="@string/write_option"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
                                 android:textColor="@color/black"
@@ -141,7 +141,8 @@
                                 android:id="@+id/match_info_button"
                                 android:layout_width="80dp"
                                 android:layout_height="27dp"
-                                android:text="선택"
+                                android:text="@string/write_select"
+                                android:textAllCaps="false"
                                 android:textStyle="bold"
                                 android:textSize="13sp"
                                 android:paddingRight="20dp"
@@ -162,15 +163,16 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/card_container"
                             android:layout_width="match_parent"
-                            android:layout_height="130dp"
+                            android:layout_height="140dp"
                             android:layout_marginTop="15dp"
                             android:layout_gravity="center">
+
 
                         <!-- 카드 1 -->
                         <androidx.cardview.widget.CardView
                                 android:id="@+id/card1"
                                 android:layout_width="0dp"
-                                android:layout_height="120dp"
+                                android:layout_height="130dp"
                                 app:layout_constraintWidth_percent="0.23"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -179,46 +181,60 @@
                                 app:cardElevation="4dp">
 
                             <!-- 카드 내용 -->
-                            <LinearLayout
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:gravity="center">
+                                    android:orientation="vertical">
 
                                 <!-- 아이콘 -->
                                 <ImageView
+                                        android:id="@+id/card1_ic"
                                         android:layout_width="30dp"
                                         android:layout_height="35dp"
                                         android:src="@drawable/ic_match_date_purple"
-                                        android:contentDescription="날짜" />
+                                        android:contentDescription="날짜"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        android:layout_marginTop="10dp"/>
 
                                 <!-- 날짜 -->
                                 <TextView
+                                        android:id="@+id/card1_date"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="날짜"
+                                        android:text="@string/date"
                                         android:textSize="13sp"
                                         android:textStyle="bold"
                                         android:textColor="@android:color/black"
-                                        android:layout_marginTop="5dp"/>
+                                        android:layout_marginBottom="10dp"
+                                        app:layout_constraintTop_toBottomOf="@id/card1_ic"
+                                        app:layout_constraintBottom_toTopOf="@id/card1_text"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"/>
 
                                 <!-- 내용 -->
                                 <TextView
                                         android:id="@+id/card1_text"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="매칭 날짜"
+                                        android:layout_height="0dp"
+                                        android:text="-"
                                         android:textSize="11sp"
                                         android:textColor="@android:color/black"
-                                        android:layout_marginTop="20dp"/>
-                            </LinearLayout>
+                                        app:layout_constraintTop_toBottomOf="@id/card1_date"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        android:layout_marginBottom="10dp"
+                                        android:gravity="center"/>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
                         </androidx.cardview.widget.CardView>
 
                         <!-- 카드 2 -->
                         <androidx.cardview.widget.CardView
                                 android:id="@+id/card2"
                                 android:layout_width="0dp"
-                                android:layout_height="120dp"
+                                android:layout_height="130dp"
                                 app:layout_constraintWidth_percent="0.23"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -227,46 +243,60 @@
                                 app:cardElevation="4dp">
 
                             <!-- 카드 내용 -->
-                            <LinearLayout
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:gravity="center">
+                                    android:orientation="vertical">
 
                                 <!-- 아이콘 -->
                                 <ImageView
+                                        android:id="@+id/card2_ic"
                                         android:layout_width="30dp"
                                         android:layout_height="35dp"
                                         android:src="@drawable/ic_match_branch_purple"
-                                        android:contentDescription="장소"/>
+                                        android:contentDescription="장소"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        android:layout_marginTop="10dp"/>
 
                                 <!-- 장소 -->
                                 <TextView
+                                        android:id="@+id/card2_location"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="장소"
+                                        android:text="@string/location"
                                         android:textSize="13sp"
                                         android:textStyle="bold"
                                         android:textColor="@android:color/black"
-                                        android:layout_marginTop="5dp"/>
+                                        android:layout_marginBottom="10dp"
+                                        app:layout_constraintTop_toBottomOf="@id/card2_ic"
+                                        app:layout_constraintBottom_toTopOf="@id/card2_text"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"/>
 
                                 <!-- 내용 -->
                                 <TextView
                                         android:id="@+id/card2_text"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="매칭 장소"
-                                        android:textSize="10sp"
+                                        android:layout_height="0dp"
+                                        android:text="-"
+                                        android:textSize="11sp"
                                         android:textColor="@android:color/black"
-                                        android:layout_marginTop="20dp"/>
-                            </LinearLayout>
+                                        app:layout_constraintTop_toBottomOf="@id/card2_location"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        android:layout_marginBottom="10dp"
+                                        android:gravity="center"/>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
                         </androidx.cardview.widget.CardView>
 
                         <!-- 카드 3 -->
                         <androidx.cardview.widget.CardView
                                 android:id="@+id/card3"
                                 android:layout_width="0dp"
-                                android:layout_height="120dp"
+                                android:layout_height="130dp"
                                 app:layout_constraintWidth_percent="0.23"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -275,46 +305,60 @@
                                 app:cardElevation="4dp">
 
                             <!-- 카드 내용 -->
-                            <LinearLayout
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:gravity="center">
+                                    android:orientation="vertical">
 
                                 <!-- 아이콘 -->
                                 <ImageView
+                                        android:id="@+id/card3_ic"
                                         android:layout_width="30dp"
                                         android:layout_height="35dp"
                                         android:src="@drawable/ic_match_gender_purple"
-                                        android:contentDescription="성별" />
+                                        android:contentDescription="성별"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        android:layout_marginTop="10dp"/>
 
                                 <!-- 성별 -->
                                 <TextView
+                                        android:id="@+id/card3_gender"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="성별"
+                                        android:text="@string/gender"
                                         android:textSize="13sp"
                                         android:textStyle="bold"
                                         android:textColor="@android:color/black"
-                                        android:layout_marginTop="5dp"/>
+                                        android:layout_marginBottom="10dp"
+                                        app:layout_constraintTop_toBottomOf="@id/card3_ic"
+                                        app:layout_constraintBottom_toTopOf="@id/card3_text"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"/>
 
                                 <!-- 내용 -->
                                 <TextView
                                         android:id="@+id/card3_text"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="매칭 성별"
-                                        android:textSize="10sp"
+                                        android:layout_height="0dp"
+                                        android:text="-"
+                                        android:textSize="11sp"
                                         android:textColor="@android:color/black"
-                                        android:layout_marginTop="20dp"/>
-                            </LinearLayout>
+                                        app:layout_constraintTop_toBottomOf="@id/card3_gender"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        android:layout_marginBottom="10dp"
+                                        android:gravity="center"/>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
                         </androidx.cardview.widget.CardView>
 
                         <!-- 카드 4 -->
                         <androidx.cardview.widget.CardView
                                 android:id="@+id/card4"
                                 android:layout_width="0dp"
-                                android:layout_height="120dp"
+                                android:layout_height="130dp"
                                 app:layout_constraintWidth_percent="0.23"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -323,39 +367,53 @@
                                 app:cardElevation="4dp">
 
                             <!-- 카드 내용 -->
-                            <LinearLayout
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:orientation="vertical"
-                                    android:gravity="center">
+                                    android:orientation="vertical">
 
                                 <!-- 아이콘 -->
                                 <ImageView
+                                        android:id="@+id/card4_ic"
                                         android:layout_width="30dp"
                                         android:layout_height="35dp"
                                         android:src="@drawable/ic_match_language_purple"
-                                        android:contentDescription="언어" />
+                                        android:contentDescription="언어"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        android:layout_marginTop="10dp"/>
 
                                 <!-- 언어 -->
                                 <TextView
+                                        android:id="@+id/card4_language"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="언어"
+                                        android:text="@string/language"
                                         android:textSize="13sp"
                                         android:textStyle="bold"
                                         android:textColor="@android:color/black"
-                                        android:layout_marginTop="5dp"/>
+                                        android:layout_marginBottom="10dp"
+                                        app:layout_constraintTop_toBottomOf="@id/card4_ic"
+                                        app:layout_constraintBottom_toTopOf="@id/card4_text"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"/>
 
                                 <!-- 내용 -->
                                 <TextView
                                         android:id="@+id/card4_text"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="매칭 언어"
-                                        android:textSize="10sp"
+                                        android:layout_height="0dp"
+                                        android:text="-"
+                                        android:textSize="11sp"
                                         android:textColor="@android:color/black"
-                                        android:layout_marginTop="20dp"/>
-                            </LinearLayout>
+                                        app:layout_constraintTop_toBottomOf="@id/card4_language"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        android:layout_marginBottom="10dp"
+                                        android:gravity="center"/>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
                         </androidx.cardview.widget.CardView>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -384,8 +442,8 @@
                                 android:id="@+id/store"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="매장 및 팝업스토어 설정"
-                                android:textSize="16sp"
+                                android:text="@string/write_store"
+                                android:textSize="15sp"
                                 android:textStyle="bold"
                                 android:textColor="@color/black"
                                 android:layout_marginEnd="10dp"
@@ -397,7 +455,8 @@
                                 android:id="@+id/add_store_button"
                                 android:layout_width="80dp"
                                 android:layout_height="27dp"
-                                android:text="추가"
+                                android:text="@string/add_store"
+                                android:textAllCaps="false"
                                 android:textStyle="bold"
                                 android:textSize="13sp"
                                 android:paddingRight="20dp"
@@ -442,8 +501,8 @@
                             android:id="@+id/tag"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="태그 선택"
-                            android:textSize="16sp"
+                            android:text="@string/write_tag"
+                            android:textSize="15sp"
                             android:textStyle="bold"
                             android:textColor="@color/black"
                             android:layout_marginBottom="10dp"/>
@@ -490,9 +549,9 @@
                         android:id="@+id/post_save_image"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="8dp"
                         android:src="@drawable/ic_mate_save"
-                        android:contentDescription="TODO"
+                        android:contentDescription="save"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -505,7 +564,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:text="등록"
+                        android:text="@string/post"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         android:textColor="@color/white"
