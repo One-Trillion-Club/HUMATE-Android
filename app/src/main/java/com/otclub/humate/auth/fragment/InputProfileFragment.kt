@@ -20,6 +20,7 @@ import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.auth.data.LoginRequestDTO
 import com.otclub.humate.auth.viewmodel.AuthViewModel
+import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.AuthFragmentInputProfileBinding
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -163,6 +164,9 @@ class InputProfileFragment : Fragment() {
 
         Log.i("여기***", viewModel.signUpRequestDTO.toString())
 
+        val loadingDialog = LoadingDialog(requireContext())
+        loadingDialog.show()
+
         viewModel.signUp(viewModel.signUpRequestDTO, imageFile,
             onSuccess = { response ->
                 Toast.makeText(requireContext(), R.string.toast_signup_success_signup, Toast.LENGTH_SHORT).show()
@@ -171,18 +175,21 @@ class InputProfileFragment : Fragment() {
                     LoginRequestDTO(viewModel.signUpRequestDTO.loginId!!, viewModel.signUpRequestDTO.password!!),
                     onSuccess = {response ->
                         activity?.let {
+                            loadingDialog.dismiss()
                             startActivity(Intent(it, MainActivity::class.java))
                             it.finish()
                         }
                     },
                     onError = {error ->
                         Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+                        loadingDialog.dismiss()
                     }
                 )
             },
             onError = { error ->
                 Log.e("회원가입 실패", error)
                 Toast.makeText(requireContext(), R.string.toast_please_one_more_time, Toast.LENGTH_SHORT).show()
+                loadingDialog.dismiss()
             }
         )
 

@@ -20,6 +20,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.otclub.humate.MainActivity
+import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.FragmentMissionUploadBinding
 import com.otclub.humate.mission.adapter.UploadMissionAdapter
 import com.otclub.humate.mission.api.MissionService
@@ -142,6 +143,8 @@ class MissionUploadFragment : Fragment() {
     }
 
     private fun uploadImages() {
+        val loadingDialog = LoadingDialog(requireContext())
+        loadingDialog.show()
         val companionId = missionViewModel.lastCompanionId
         val activityId = missionViewModel.lastActivityId
 
@@ -181,6 +184,7 @@ class MissionUploadFragment : Fragment() {
                 response: Response<CommonResponseDTO>
             ) {
                 if (response.isSuccessful) {
+                    loadingDialog.dismiss()
                     Toast.makeText(
                         requireContext(),
                         getString(com.otclub.humate.R.string.upload_success),
@@ -189,6 +193,7 @@ class MissionUploadFragment : Fragment() {
                     missionViewModel.lastCompanionId?.let { missionViewModel.fetchMission(it) }
                     findNavController().navigate(com.otclub.humate.R.id.action_missionUploadFragment_to_missionFragment)
                 } else {
+                    loadingDialog.dismiss()
                     Toast.makeText(
                         requireContext(),
                         getString(com.otclub.humate.R.string.upload_failed),
