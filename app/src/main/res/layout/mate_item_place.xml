@@ -18,7 +18,6 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:textSize="8sp"
-            android:text="팝업스토어"
             android:textStyle="bold"
             android:textColor="@android:color/white"/>
 
@@ -31,7 +30,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/place_name"
             android:textSize="11sp"
-            android:text="명탐정 코난"
             android:textStyle="bold"
             android:textColor="@android:color/black"
             android:layout_marginTop="6dp"/>

@@ -21,8 +21,11 @@ import com.otclub.humate.R
 import com.otclub.humate.databinding.MateFragmentPostDetailBinding
 import com.otclub.humate.mate.adapter.PostDetailAdapter
 import com.otclub.humate.mate.adapter.PostListAdapter
+import com.otclub.humate.mate.data.LocalizedBranch
+import com.otclub.humate.mate.data.LocalizedTag
 import com.otclub.humate.mate.data.PostDetailResponseDTO
 import com.otclub.humate.mate.viewmodel.PostDetailViewModel
+import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 
 class PostDetailFragment : Fragment() {
 
@@ -33,6 +36,8 @@ class PostDetailFragment : Fragment() {
     private lateinit var postDetailViewModel: PostDetailViewModel
     private lateinit var postDetailAdapter: PostDetailAdapter
 
+    private lateinit var sharedPreferencesManager: SharedPreferencesManager
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,6 +47,8 @@ class PostDetailFragment : Fragment() {
 
         // ViewModel 초기화
         postDetailViewModel = ViewModelProvider(requireActivity()).get(PostDetailViewModel::class.java)
+
+        sharedPreferencesManager = SharedPreferencesManager(requireContext())
 
         mBinding = binding
 
@@ -58,7 +65,7 @@ class PostDetailFragment : Fragment() {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
             val title: TextView = toolbar.findViewById(R.id.toolbar_title)
-            title.setText("매칭글 정보")
+            title.setText(R.string.detail)
 
             // 버튼의 가시성 설정
             val showLeftButton = true
@@ -83,7 +90,19 @@ class PostDetailFragment : Fragment() {
         })
     }
 
+    private fun getEnglishLanguageName(language: String): String {
+        return when (language) {
+            "한국어" -> "Korean"
+            "영어" -> "English"
+            "중국어" -> "Chinese"
+            "일본어" -> "Japanese"
+            else -> language
+        }
+    }
+
     private fun updateUI(postDetail: PostDetailResponseDTO) {
+        val currentLanguage = sharedPreferencesManager.getLanguage()
+
         // 프로필 이미지 설정
         Glide.with(this)
             .load(postDetail.profileImgUrl) // URL
@@ -98,18 +117,51 @@ class PostDetailFragment : Fragment() {
         binding.postContent.text = postDetail.content
 
         // 매칭 정보 업데이트 (CardView의 내용)
-        val matchDateText = postDetail.matchDate ?: "상관 없음"
-        val matchBranchText = postDetail.matchBranch ?: "상관 없음"
-        val matchLanguageText = postDetail.matchLanguage ?: "상관 없음"
+        val matchDateText = postDetail.matchDate ?: "-"
+        val matchBranchText = postDetail.matchBranch?.let { koreanName ->
+            val branch = LocalizedBranch.values().find { it.koreanName == koreanName }
+            branch?.let {
+                if (currentLanguage == 1) {
+                    it.koreanName // 한국어 이름을 반환
+                } else {
+                    it.englishName // 영어 이름을 반환
+                }
+            } ?: "-"
+        } ?: "-"
+        val matchLanguageText = postDetail.matchLanguage ?: "-"
+
+        val selectedLanguage = matchLanguageText.split(", ") ?: emptyList()
+        val englishLanguage = selectedLanguage.map { getEnglishLanguageName(it) }
+        val englishLanguageText = if (englishLanguage.isNotEmpty()) {
+            englishLanguage.joinToString(", ")
+        } else {
+            "-"
+        }
+
         val matchGenderText = when (postDetail.matchGender) {
-            1 -> "나와 같은 성별"
-            2 -> "상관 없음"
-            else -> "상관 없음"
+            1 -> context?.getString(R.string.same_gender)
+            2 -> context?.getString(R.string.both_gender)
+            else -> context?.getString(R.string.both_gender)
         }
         binding.card1.findViewById<TextView>(R.id.card1_text).text = matchDateText
         binding.card2.findViewById<TextView>(R.id.card2_text).text = matchBranchText
         binding.card3.findViewById<TextView>(R.id.card3_text).text = matchGenderText
-        binding.card4.findViewById<TextView>(R.id.card4_text).text = matchLanguageText
+        binding.card4.findViewById<TextView>(R.id.card4_text).text =
+            if (currentLanguage == 1) { matchLanguageText }
+            else { englishLanguageText }
+
+        fun adjustTextSize(textView: TextView) {
+            textView.textSize = if (currentLanguage != 1) {
+                9f // 필요에 따라 조정 (단위: sp)
+            } else {
+                11f // 기본 텍스트 사이즈 (단위: sp)
+            }
+        }
+
+        adjustTextSize(binding.card1.findViewById(R.id.card1_text))
+        adjustTextSize(binding.card2.findViewById(R.id.card2_text))
+        adjustTextSize(binding.card3.findViewById(R.id.card3_text))
+        adjustTextSize(binding.card4.findViewById(R.id.card4_text))
 
         // 매장 및 팝업스토어 업데이트
         val placeContainerLayout: LinearLayout = binding.placeContainerLayout
@@ -118,12 +170,15 @@ class PostDetailFragment : Fragment() {
         postDetail.postPlaces.forEach { place ->
             val placeView = LayoutInflater.from(context).inflate(R.layout.mate_item_place, placeContainerLayout, false)
 
+
+            val context = placeView.context
+
             val typeText = when (place.type) {
-                1 -> "매장"
-                2 -> "팝업스토어"
-                else -> "알 수 없음"
+                1 -> context.getString(R.string.store)   // 매장
+                2 -> context.getString(R.string.pop_up)  // 팝업스토어
+                else -> "-"    // 알 수 없음
             }
-            val nameText = place.name ?: "알 수 없음"
+            val nameText = place.name ?: "-"
 
             val placeType: TextView = placeView.findViewById<TextView>(R.id.place_type)
             val placeName: TextView = placeView.findViewById<TextView>(R.id.place_name)
@@ -140,7 +195,14 @@ class PostDetailFragment : Fragment() {
 
         postDetail.postTags.forEach { tag ->
             val tagView = TextView(context).apply {
-                text = tag.name
+                val displayText = if (currentLanguage != 1) {
+                    val localizedTag = LocalizedTag.values().find { it.koreanName == tag.name }
+                    localizedTag?.englishName ?: tag
+                } else {
+                    tag.name
+                }
+
+                text = displayText.toString()
                 textSize = 10f
                 setPadding(40, 8, 40, 8) // 패딩을 추가하여 양 끝 여백을 확보
                 setBackgroundResource(R.drawable.mate_post_detail_tag_background)

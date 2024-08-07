@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.otclub.humate.auth.data.VerifyPassportRequestDTO
 import com.otclub.humate.auth.viewmodel.AuthViewModel
+import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.AuthFragmentVerifyPassportBinding
 
 class VerifyPassportFragment : Fragment() {
@@ -121,6 +122,10 @@ class VerifyPassportFragment : Fragment() {
             country,
             inputPassportNo
         )
+
+        val loadingDialog = LoadingDialog(requireContext())
+        loadingDialog.show()
+
         viewModel.fetchVerifyPassport(
             verifyPassportRequestDTO,
             onSuccess = { response ->
@@ -128,6 +133,7 @@ class VerifyPassportFragment : Fragment() {
                 viewModel.signUpRequestDTO.passportNo = inputPassportNo
                 viewModel.signUpRequestDTO.verifyCode = response.message
                 viewModel.signUpRequestDTO.birthdate = "${year}-${month}-${day}"
+                loadingDialog.dismiss()
                 parentFragmentManager.beginTransaction()
                     .replace(com.otclub.humate.R.id.authFragment, InputIdPasswordFragment())
                     .addToBackStack(null)
@@ -135,6 +141,7 @@ class VerifyPassportFragment : Fragment() {
             },
             onError = { error ->
                 Toast.makeText(requireContext(), "Incorrect Passport Info", Toast.LENGTH_SHORT).show()
+                loadingDialog.dismiss()
             })
 
     }

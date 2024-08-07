@@ -14,6 +14,7 @@ import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.chat.adapter.ChatRoomAdapter
 import com.otclub.humate.chat.viewModel.ChatViewModel
+import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.ChatRoomFragmentBinding
 
 class ChatRoomFragment  : Fragment()  {

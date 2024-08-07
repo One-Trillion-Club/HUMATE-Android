@@ -9,7 +9,7 @@
             android:id="@+id/customDialogTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="매칭글 작성"
+            android:text="@string/write"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -19,7 +19,7 @@
             android:id="@+id/customDialogContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="매칭글 작성이 완료되었습니다."
+            android:text="@string/write_completed"
             android:textSize="12sp"
             android:textColor="@color/black"/>
 </LinearLayout>
