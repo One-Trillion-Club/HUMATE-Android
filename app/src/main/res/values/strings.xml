@@ -155,5 +155,6 @@
     <string name="chat_dialog_confirmed">메이트 활동 시작하기</string>
     <string name="chat_dialog_confirmed_content">메이트 맺기에 성공하여 함께 활동을 \n수행할 수 있습니다</string>
     <string name="chat_dialog_confirm_button">확인</string>
+    <string name="chat_dialog_cancel_button">취소</string>
 
 </resources>
