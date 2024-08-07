@@ -1,19 +1,11 @@
 package com.otclub.humate.member.fragment
 
-//import com.otclub.humate.member.adapter.MateListAdapter
-import android.app.AlertDialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -21,17 +13,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
+import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.MemberFragmentMyMatesBinding
 import com.otclub.humate.mate.data.MateDetailResponseDTO
 import com.otclub.humate.member.adapter.MateListAdapter
-import com.otclub.humate.member.data.ProfileResponseDTO
 import com.otclub.humate.member.viewmodel.MemberViewModel
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 
 class MyMatesFragment: Fragment() {
     private val viewModel: MemberViewModel by activityViewModels()
@@ -89,7 +77,8 @@ class MyMatesFragment: Fragment() {
                     viewModel.getOtherMemberProfile(
                         memberId = memberId,
                         onSuccess = { profile ->
-                            showMateDetailPopup(profile)
+                            val loadingDialog = LoadingDialog(requireContext())
+                            loadingDialog.showMateDetailPopup(profile)
                         },
                         onError = { error ->
                             Toast.makeText(context, R.string.toast_please_one_more_time, Toast.LENGTH_SHORT).show()
@@ -108,62 +97,5 @@ class MyMatesFragment: Fragment() {
         mBinding = null
         super.onDestroyView()
         (activity as? MainActivity)?.showBottomNavigationBar()
-    }
-
-    private fun showMateDetailPopup(profile: ProfileResponseDTO) {
-        // 팝업 창
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.member_dialog_mate_detail, null)
-        val dialogBuilder = AlertDialog.Builder(requireContext())
-        dialogBuilder.setView(dialogView)
-
-        val nicknameTextView: TextView = dialogView.findViewById(R.id.nickname)
-        val mannerTextView: TextView = dialogView.findViewById(R.id.mannerText)
-        val profileImageView: ImageView = dialogView.findViewById(R.id.profileImage)
-        val genderTextView: TextView = dialogView.findViewById(R.id.genderText)
-        val ageTextView: TextView = dialogView.findViewById(R.id.ageText)
-        val closeButton: ImageButton = dialogView.findViewById(R.id.close_button)
-        val progressBar: ProgressBar = dialogView.findViewById(R.id.mannerBar)
-
-        nicknameTextView.text = profile.nickname
-        mannerTextView.text = "${profile.manner}°C"
-        genderTextView.text = if (profile.gender == "m")
-            getString(R.string.member_mymate_gender_male)
-            else getString(R.string.member_mymate_gender_female)
-        ageTextView.text = "${calculateAge(profile.birthdate)}${getString(R.string.member_mymate_postage)}"
-        progressBar.progress = profile.manner.toInt()
-
-        Glide.with(this)
-            .load(profile.profileImgUrl)
-            .into(profileImageView)
-
-        val dialog = dialogBuilder.create()
-
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
-
-        closeButton.setOnClickListener {
-            dialog.dismiss()
-        }
-
-
-        dialog.setCancelable(true)
-        dialog.show()
-    }
-
-    fun calculateAge(birthdate: String): Int {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        val birthDate = LocalDate.parse(birthdate, formatter)
-        val currentDate = LocalDate.now()
-
-        // 만 나이 계산
-        var age = ChronoUnit.YEARS.between(birthDate, currentDate)
-        val birthdayThisYear = birthDate.plusYears(age)
-
-        // 생일이 지나지 않았을 경우
-        if (birthdayThisYear.isAfter(currentDate)) {
-            age -= 1
-        }
-
-        return age.toInt()
     }
 }

@@ -1,10 +1,12 @@
 package com.otclub.humate.chat.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -16,7 +18,7 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, private val participateId: String?) :
+class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, private val participateId: String?, private val onMateClick: (String) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -97,6 +99,10 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
                             .placeholder(R.drawable.ic_member_profile_default)
                     )
                     .into(profileImage) // profileImage ImageView에 로드
+
+                profileImage.setOnClickListener {
+                    onMateClick("K_1")
+                }
             }
         }
 
