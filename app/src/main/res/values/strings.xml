@@ -141,4 +141,6 @@
     <string name="chat_pending_list">" 대기"</string>
     <string name="review_score_failed">평가를 남겨주세요</string>
     <string name="toast_signup_invalid_id_password">아이디나 비밀번호를 확인해주세요</string>
+
+    <string name="splash">글로벌 메이트와 함께하는\n특별한 현대백화점 추억 만들기</string>
 </resources>
