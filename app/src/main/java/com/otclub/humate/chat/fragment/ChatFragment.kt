@@ -10,6 +10,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
 import android.view.Window
 import android.widget.*
 import androidx.appcompat.widget.PopupMenu
@@ -21,13 +24,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
-import com.otclub.humate.BuildConfig.*
+import com.otclub.humate.BuildConfig.WEBSOCKET_URL
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.chat.adapter.ChatAdapter
 import com.otclub.humate.chat.data.*
 import com.otclub.humate.chat.viewModel.ChatViewModel
+import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.ChatFragmentBinding
+import com.otclub.humate.member.viewmodel.MemberViewModel
 import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,6 +52,7 @@ class ChatFragment : Fragment() {
     private lateinit var chatAdapter: ChatAdapter
     private var webSocket : WebSocket ?= null
     private val handler = Handler(Looper.getMainLooper())
+    private val memberViewModel: MemberViewModel by activityViewModels()
     private val reconnectRunnable = object : Runnable {
         override fun run() {
             if (webSocket == null) {
@@ -63,7 +69,7 @@ class ChatFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
-
+        sharedPreferencesManager = SharedPreferencesManager(requireContext())
 
         val binding = ChatFragmentBinding.inflate(inflater, container, false)
         mBinding = binding
@@ -71,10 +77,20 @@ class ChatFragment : Fragment() {
         val currentDetail = chatViewModel.latestChatRoomDetailDTO.value
         chatRoomDetailDTO = currentDetail
 
-        sharedPreferencesManager = SharedPreferencesManager(requireContext())
-
         // RecyclerView 설정
-        chatAdapter = ChatAdapter(mutableListOf(), chatRoomDetailDTO?.participateId) //
+        chatAdapter = ChatAdapter(mutableListOf(), chatRoomDetailDTO?.participateId.toString(), onMateClick = { memberId ->
+            // 카드 뷰 클릭 시 모달 창 띄우기
+            memberViewModel.getOtherMemberProfile(
+                memberId = memberId,
+                onSuccess = { profile ->
+                    val loadingDialog = LoadingDialog(requireContext())
+                    loadingDialog.showMateDetailPopup(profile)
+                },
+                onError = { error ->
+                    Toast.makeText(context, R.string.toast_please_one_more_time, Toast.LENGTH_SHORT).show()
+                }
+            )
+        })
         mBinding?.chatDisplay?.adapter = chatAdapter
         mBinding?.chatDisplay?.layoutManager = LinearLayoutManager(requireContext())
         scrollToBottom()
@@ -87,6 +103,9 @@ class ChatFragment : Fragment() {
         setupToolbar()
         bindChatDetails()
         setupSendButton()
+
+        val loadingDialog = LoadingDialog(requireContext())
+        loadingDialog.show()
 
         // ViewModel에서 데이터 관찰
         chatViewModel.chatHistoryList.observe(viewLifecycleOwner) { response ->
@@ -129,6 +148,7 @@ class ChatFragment : Fragment() {
         lifecycleScope.launch {
             loadChatHistory() // 과거 채팅 내역 로드
             handler.post(reconnectRunnable) // 웹소켓 시작
+            loadingDialog.dismiss()
         }
     }
 

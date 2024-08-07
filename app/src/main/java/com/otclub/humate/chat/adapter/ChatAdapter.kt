@@ -1,6 +1,5 @@
 package com.otclub.humate.chat.adapter
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +13,10 @@ import com.otclub.humate.R
 import com.otclub.humate.chat.data.ChatMessageResponseDTO
 import com.otclub.humate.chat.data.MessageType
 import java.text.SimpleDateFormat
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
-class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, private val participateId: String?) :
+class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, private val participateId: String?, private val onMateClick: (String) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -89,6 +87,10 @@ class ChatAdapter(private val messages: MutableList<ChatMessageResponseDTO>, pri
             fun bind(message: ChatMessageResponseDTO) {
                 textView.text = message.content
                 dateView.text = formatDate(message.createdAt)
+
+                profileImage.setOnClickListener {
+                    onMateClick("K_1")
+                }
 
                 val imgUrl = message.imgUrl
                 if (imgUrl != null) {
