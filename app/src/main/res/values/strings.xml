@@ -139,5 +139,6 @@
 
     <string name="chat_mate_list">메이트 채팅</string>
     <string name="chat_pending_list">" 대기"</string>
+    <string name="review_score_failed">평가를 남겨주세요</string>
     <string name="toast_signup_invalid_id_password">아이디나 비밀번호를 확인해주세요</string>
 </resources>

@@ -141,6 +141,11 @@ class ReviewFragment : Fragment() {
     }
 
     private fun submitReview() {
+        if (selectedScore == 0.0) {
+            Toast.makeText(requireContext(), getString(R.string.review_score_failed), Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val content = mBinding?.inputBox?.text.toString()
         val companionId = missionViewModel.lastCompanionId ?: return
 
