@@ -2,7 +2,8 @@ package com.otclub.humate.chat.data
 
 data class ChatRoomDetailDTO(
     val chatRoomId : String,
-    val participateId : Int,
+    val participateId : String,
+    val memberId : String,
     val postId : String,
     val postTitle : String,
     val matchDate : String,
@@ -10,7 +11,8 @@ data class ChatRoomDetailDTO(
     val isClicked : Int,
     val isMatched : Int,
     val targetNickname : String,
+    val targetMemberId : String,
     val targetParticipateId : String,
-    val targetProfileImgUrl : String,
+    val targetProfileImgUrl : String? = null,
     val targetIsClicked : Int
 )

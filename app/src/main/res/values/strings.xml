@@ -142,5 +142,18 @@
     <string name="review_score_failed">평가를 남겨주세요</string>
     <string name="toast_signup_invalid_id_password">아이디나 비밀번호를 확인해주세요</string>
 
+
     <string name="splash">글로벌 메이트와 함께하는\n특별한 현대백화점 추억 만들기</string>
+
+    <string name="chat_mate_active_message">님이 메이트 신청을 했습니다.</string>
+    <string name="chat_mate_inactive_message">님이 메이트 신청을 취소했습니다.</string>
+    <string name="chat_default_message"></string>
+    <string name="chat_dialog_title_mate_apply">메이트 맺기</string>
+    <string name="chat_dialog_title_mate_cancel">메이트 취소</string>
+    <string name="chat_dialog_content_mate_apply">메이트를 맺으면 함께 동행하여 \n다양한 활동을 수행할 수 있습니다.</string>
+    <string name="chat_dialog_content_mate_cancel">메이트를 취소하면 해당 메이트와는 \n함께할 수 없게 됩니다.</string>
+    <string name="chat_dialog_confirmed">메이트 활동 시작하기</string>
+    <string name="chat_dialog_confirmed_content">메이트 맺기에 성공하여 함께 활동을 \n수행할 수 있습니다</string>
+    <string name="chat_dialog_confirm_button">확인</string>
+
 </resources>

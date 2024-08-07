@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.otclub.humate.R
 import com.otclub.humate.chat.data.ChatRoomDetailDTO
 
@@ -45,6 +46,11 @@ class ChatRoomAdapter(private val roomList: List<ChatRoomDetailDTO>,
         // 프로필 이미지 세팅
         Glide.with(holder.profileImage.context)
             .load(room.targetProfileImgUrl)
+            .apply(
+                RequestOptions()
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_member_profile_default)
+            )
             .placeholder(R.drawable.ic_member_profile_default)
             .into(holder.profileImage)
 

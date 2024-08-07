@@ -26,4 +26,8 @@
     <color name="bright_gray">#F2F3F6</color>
     <color name="light_lavender">#D0BEDA</color>
     <color name="scarlet_red">#FF2D55</color>
+    <color name="chat_dialog_button_default_color">#FFFFFF</color> <!-- 기본 색상 -->
+    <color name="chat_dialog_button_pressed_color">#ECEAF1</color> <!-- 클릭 시 색상 -->
+    <color name="chat_dialog_button_focused_color">#ECEAF1</color> <!-- 포커스 상태 색상 -->
+    <color name="chat_dialog_button_text">#65558F</color>
 </resources>
