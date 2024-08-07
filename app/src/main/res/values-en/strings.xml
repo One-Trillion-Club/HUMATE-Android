@@ -140,6 +140,17 @@
 
     <string name="chat_mate_list">Chat</string>
     <string name="chat_pending_list">Pending</string>
+    <string name="chat_mate_active_message">" applied for a companion"</string>
+    <string name="chat_mate_inactive_message">" canceled to be companion"</string>
+    <string name="chat_default_message">" "</string>
+    <string name="chat_dialog_title_mate_apply">Apply for companion</string>
+    <string name="chat_dialog_title_mate_cancel">Cancel for companion</string>
+    <string name="chat_dialog_content_mate_apply">You can accompany with mate \nand do various activities</string>
+    <string name="chat_dialog_content_mate_cancel">If you cancel your mate, \nyou will not be able to join him.</string>
+    <string name="chat_dialog_confirmed">Succesfully formed</string>
+    <string name="chat_dialog_confirmed_content">Start the activities with your mate</string>
+    <string name="chat_dialog_confirm_button">confirm</string>
+    <string name="chat_dialog_cancel_button">cancel</string>
     <string name="review_score_failed">"Please leave a review "</string>
     <string name="toast_signup_invalid_id_password">Invalid Id or password</string>
 </resources>

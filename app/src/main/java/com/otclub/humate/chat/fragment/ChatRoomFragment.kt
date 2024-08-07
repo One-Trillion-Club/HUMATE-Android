@@ -46,14 +46,14 @@ class ChatRoomFragment  : Fragment()  {
                     0 -> {
                         // "채팅방 리스트" 탭 선택 시
                         chatViewModel.setChatRoomList(emptyList())
-                        chatViewModel.fetchChatRoomList("K_1")
+                        chatViewModel.fetchChatRoomList()
                         chatViewModel.setTabSelect(tab?.position!!)
                         //chatRoomViewModel.setSelectedButton(R.id.mateListButton)
                     }
                     1 -> {
                         // "대기 중인 채팅방 리스트" 탭 선택 시
                         chatViewModel.setChatRoomList(emptyList())
-                        chatViewModel.fetchPendingChatRoomList("K_1")
+                        chatViewModel.fetchPendingChatRoomList()
                         chatViewModel.setTabSelect(tab?.position!!)
                         //chatRoomViewModel.setSelectedButton(R.id.pendingListButton)
                     }
