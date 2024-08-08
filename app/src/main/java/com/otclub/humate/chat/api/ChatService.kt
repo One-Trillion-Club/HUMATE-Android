@@ -1,6 +1,6 @@
 package com.otclub.humate.chat.api
 
-import com.otclub.humate.chat.data.ChatCreateCompanionRequestDTO
+import com.otclub.humate.chat.data.CompanionCreateRequestDTO
 import com.otclub.humate.chat.data.Message
 import com.otclub.humate.chat.data.MessageWebSocketResponseDTO
 import com.otclub.humate.chat.data.MateUpdateRequestDTO
@@ -20,5 +20,5 @@ interface ChatService {
     fun updateMateState(@Body request: MateUpdateRequestDTO): Call<CommonResponseDTO>
 
     @POST("companions/start")
-    fun companionStart(@Body request: ChatCreateCompanionRequestDTO): Call<CommonResponseDTO>
+    fun companionStart(@Body request: CompanionCreateRequestDTO): Call<CommonResponseDTO>
 }

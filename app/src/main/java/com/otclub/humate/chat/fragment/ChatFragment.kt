@@ -155,7 +155,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun sendMessage(content: String) {
-        val messageRequest = ChatSendMessageRequestDTO(
+        val messageRequest = MessageRequestDTO(
             chatRoomId = roomDetailDTO?.chatRoomId.toString(),
             participateId = roomDetailDTO?.participateId,
             content = content,
@@ -287,7 +287,7 @@ class ChatFragment : Fragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
 
-        val requestDTO = ChatCreateCompanionRequestDTO(
+        val requestDTO = CompanionCreateRequestDTO(
             chatRoomId = roomDetailDTO?.chatRoomId
         )
 

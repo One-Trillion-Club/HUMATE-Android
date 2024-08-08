@@ -129,7 +129,7 @@ class ChatViewModel : ViewModel() {
         })
     }
 
-    fun companionStart(@Body requestDTO: ChatCreateCompanionRequestDTO){
+    fun companionStart(@Body requestDTO: CompanionCreateRequestDTO){
 
         chatService.companionStart(requestDTO).enqueue(object : Callback<CommonResponseDTO> {
             override fun onResponse(

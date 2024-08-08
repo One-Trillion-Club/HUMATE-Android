@@ -1,5 +1,5 @@
 package com.otclub.humate.chat.data
 
-data class ChatCreateCompanionRequestDTO(
+data class CompanionCreateRequestDTO(
     var chatRoomId: String? = null
 )
