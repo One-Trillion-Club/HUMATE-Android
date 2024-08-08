@@ -4,8 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import com.google.gson.Gson
-import com.otclub.humate.chat.data.ChatMessage
-import com.otclub.humate.chat.data.ChatMessageWebSocketResponseDTO
+import com.otclub.humate.chat.data.MessageWebSocketResponseDTO
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
@@ -42,7 +41,7 @@ class ChatWebSocketListener(private val fragment: ChatFragment) : WebSocketListe
     override fun onMessage(webSocket: WebSocket, text: String) {
         super.onMessage(webSocket, text)
         Log.d("WebSocket", "onMessage 수신된 메시지: $text")
-        val response = gson.fromJson(text, ChatMessageWebSocketResponseDTO::class.java)
+        val response = gson.fromJson(text, MessageWebSocketResponseDTO::class.java)
         handler.post {
             fragment.updateChat(response)
         }

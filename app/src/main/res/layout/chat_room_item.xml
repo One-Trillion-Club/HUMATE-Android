@@ -112,7 +112,7 @@
                     android:layout_marginBottom="10dp"
                     android:textSize="13sp"
                     android:textColor="@color/black"
-                    android:text="Let’s hang out together~ :) "
+                    android:text="Hi~"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
         </LinearLayout>
@@ -135,7 +135,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="10sp"
                         android:textColor="@color/brown_gray"
-                        android:text="1일전"
+                        android:text="09:39 pm"
                         android:gravity="center"
                         android:layout_gravity="center"
                         app:layout_constraintTop_toBottomOf="@id/match_date"
@@ -148,7 +148,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="10sp"
                         android:textColor="@android:color/white"
-                        android:text="3"
+                        android:text="1"
                         android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:layout_gravity="center"

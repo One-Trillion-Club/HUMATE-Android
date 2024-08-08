@@ -17,9 +17,9 @@ import retrofit2.http.Body
 class ChatViewModel : ViewModel() {
     private val chatRoomService : ChatRoomService = RetrofitConnection.getInstance().create(ChatRoomService::class.java)
     private val chatService : ChatService = RetrofitConnection.getInstance().create(ChatService::class.java)
-    val chatRoomDetailDTOList = MutableLiveData<List<ChatRoomDetailDTO>>()
-    val chatHistoryList = MutableLiveData<List<ChatMessage>>()
-    val latestChatRoomDetailDTO = MutableLiveData<ChatRoomDetailDTO>()
+    val roomDetailDTOList = MutableLiveData<List<RoomDetailDTO>>()
+    val chatHistoryList = MutableLiveData<List<Message>>()
+    val latestRoomDetailDTO = MutableLiveData<RoomDetailDTO>()
     val tabSelect = MutableLiveData<Int>()
     private val _navigateToChatFragment = MutableLiveData<Boolean>()
     val navigateToChatFragment: LiveData<Boolean> get() = _navigateToChatFragment
@@ -33,17 +33,17 @@ class ChatViewModel : ViewModel() {
     }
 
     // 채팅 메시지 리스트를 업데이트
-    fun setChatRoomList(roomList: List<ChatRoomDetailDTO>) {
-        chatRoomDetailDTOList.value = roomList
+    fun setChatRoomList(roomList: List<RoomDetailDTO>) {
+        roomDetailDTOList.value = roomList
     }
 
     fun fetchChatHistoryList(chatRoomId: String?)  {
 
         chatService.getChatHistoryList(chatRoomId!!).enqueue(object :
-            Callback<List<ChatMessage>> {
+            Callback<List<Message>> {
             override fun onResponse(
-                call: Call<List<ChatMessage>>,
-                response: Response<List<ChatMessage>>
+                call: Call<List<Message>>,
+                response: Response<List<Message>>
             ) {
                 if (response.isSuccessful && response.body() != null) {
                     Log.i("chatHistoryList : ", response.body().toString())
@@ -51,7 +51,7 @@ class ChatViewModel : ViewModel() {
                 }
             }
 
-            override fun onFailure(call: Call<List<ChatMessage>>, t: Throwable) {
+            override fun onFailure(call: Call<List<Message>>, t: Throwable) {
                 Log.e("채팅 목록 페이지 응답 실패 ", t.toString())
             }
         })
@@ -60,18 +60,18 @@ class ChatViewModel : ViewModel() {
     fun fetchChatRoomList()  {
 
         chatRoomService.getChatRoomList().enqueue(object :
-            Callback<List<ChatRoomDetailDTO>> {
+            Callback<List<RoomDetailDTO>> {
             override fun onResponse(
-                call: Call<List<ChatRoomDetailDTO>>,
-                response: Response<List<ChatRoomDetailDTO>>
+                call: Call<List<RoomDetailDTO>>,
+                response: Response<List<RoomDetailDTO>>
             ) {
                 if (response.isSuccessful && response.body() != null) {
                     Log.i("chatRoomListResponse : ", response.body().toString())
-                    chatRoomDetailDTOList.value = response.body();
+                    roomDetailDTOList.value = response.body();
                 }
             }
 
-            override fun onFailure(call: Call<List<ChatRoomDetailDTO>>, t: Throwable) {
+            override fun onFailure(call: Call<List<RoomDetailDTO>>, t: Throwable) {
                 Log.e("채팅 목록 페이지 응답 실패 ", t.toString())
             }
         })
@@ -80,18 +80,18 @@ class ChatViewModel : ViewModel() {
     fun fetchPendingChatRoomList()  {
 
         chatRoomService.getPendingChatRoomList().enqueue(object :
-            Callback<List<ChatRoomDetailDTO>> {
+            Callback<List<RoomDetailDTO>> {
             override fun onResponse(
-                call: Call<List<ChatRoomDetailDTO>>,
-                response: Response<List<ChatRoomDetailDTO>>
+                call: Call<List<RoomDetailDTO>>,
+                response: Response<List<RoomDetailDTO>>
             ) {
                 if (response.isSuccessful && response.body() != null) {
                     Log.i("chatRoomListResponse : ", response.body().toString())
-                    chatRoomDetailDTOList.value = response.body();
+                    roomDetailDTOList.value = response.body();
                 }
             }
 
-            override fun onFailure(call: Call<List<ChatRoomDetailDTO>>, t: Throwable) {
+            override fun onFailure(call: Call<List<RoomDetailDTO>>, t: Throwable) {
                 Log.e("채팅 목록 페이지 응답 실패 ", t.toString())
             }
         })
@@ -105,8 +105,8 @@ class ChatViewModel : ViewModel() {
                 response: Response<CommonResponseDTO>
             ) {
                 if (response.body()?.success == true) {
-                    latestChatRoomDetailDTO.value?.let { currentDetail ->
-                        latestChatRoomDetailDTO.value = currentDetail.copy(
+                    latestRoomDetailDTO.value?.let { currentDetail ->
+                        latestRoomDetailDTO.value = currentDetail.copy(
                             isClicked = if (currentDetail.isClicked == 1) 0 else 1
                         )
 
@@ -117,7 +117,7 @@ class ChatViewModel : ViewModel() {
                         }
                     }
 
-                    Log.d("latestChatRoomDetailDTO : ", latestChatRoomDetailDTO.toString())
+                    Log.d("latestChatRoomDetailDTO : ", latestRoomDetailDTO.toString())
                     // 네비게이션 이벤트 발생
                     _navigateToChatFragment.value = true
                 }
@@ -138,8 +138,8 @@ class ChatViewModel : ViewModel() {
             ) {
                 Log.d("[shouldShowNotice 1]", response.body().toString())
                 if (response.body()?.success == true) {
-                    latestChatRoomDetailDTO.value?.let { currentDetail ->
-                        latestChatRoomDetailDTO.value = currentDetail.copy(
+                    latestRoomDetailDTO.value?.let { currentDetail ->
+                        latestRoomDetailDTO.value = currentDetail.copy(
                             isMatched = 1
                         )
                         Log.d("[shouldShowNotice 2]", (currentDetail?.isMatched == 1).toString() )
@@ -163,7 +163,7 @@ class ChatViewModel : ViewModel() {
         _shouldOpenCompanionConfirmDialog.value = false
     }
 
-    fun setChatDetailDTO(chatRoomDetailDTO: ChatRoomDetailDTO) {
-        latestChatRoomDetailDTO.value = chatRoomDetailDTO
+    fun setChatDetailDTO(roomDetailDTO: RoomDetailDTO) {
+        latestRoomDetailDTO.value = roomDetailDTO
     }
 }

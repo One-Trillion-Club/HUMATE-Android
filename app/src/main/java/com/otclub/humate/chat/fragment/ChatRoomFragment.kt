@@ -12,9 +12,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
-import com.otclub.humate.chat.adapter.ChatRoomAdapter
+import com.otclub.humate.chat.adapter.RoomAdapter
 import com.otclub.humate.chat.viewModel.ChatViewModel
-import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.ChatRoomFragmentBinding
 
 class ChatRoomFragment  : Fragment()  {
@@ -72,7 +71,7 @@ class ChatRoomFragment  : Fragment()  {
         // RecyclerView 설정
         mBinding?.chatRoomRecyclerView?.apply {
             layoutManager = GridLayoutManager(context, 1)
-            adapter = ChatRoomAdapter(emptyList()) { chatRoom ->
+            adapter = RoomAdapter(emptyList()) { chatRoom ->
                 // 아이템 클릭 시 ChatFragment로 이동 -> 설정해줘야 함
                 chatViewModel.setChatDetailDTO(chatRoom)
                 findNavController().navigate(
@@ -82,9 +81,9 @@ class ChatRoomFragment  : Fragment()  {
         }
 
         // ViewModel에서 데이터 관찰
-        chatViewModel.chatRoomDetailDTOList.observe(viewLifecycleOwner) { response ->
+        chatViewModel.roomDetailDTOList.observe(viewLifecycleOwner) { response ->
             response?.let {
-                val adapter = ChatRoomAdapter(it) { chatRoom ->
+                val adapter = RoomAdapter(it) { chatRoom ->
                     // Navigation Bar 숨기기
                     (activity as? MainActivity)?.hideBottomNavigationBar()
                     chatViewModel.setChatDetailDTO(chatRoom)

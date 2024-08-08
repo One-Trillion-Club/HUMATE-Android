@@ -16,6 +16,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.otclub.humate.BuildConfig.GENDER
+import com.otclub.humate.BuildConfig.TEST_MEMBER
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.MateFragmentPostListBinding
@@ -49,8 +51,8 @@ class PostListFragment : Fragment() {
     private lateinit var searchButton: ImageButton
 
     private var filters = mutableMapOf(
-        "gender" to "m",
-        "memberId" to "F_1"
+        "gender" to GENDER,
+        "memberId" to TEST_MEMBER
         // 초기 필터 값 설정
     )
 

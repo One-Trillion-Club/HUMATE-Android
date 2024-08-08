@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.otclub.humate.BuildConfig.TEST_MEMBER
 import com.otclub.humate.R
 import com.otclub.humate.databinding.MateFragmentPostWriteBinding
 import com.otclub.humate.mate.data.*
@@ -31,7 +32,7 @@ class PostWriteFragment : Fragment()  {
     private lateinit var addStoreButton: Button
 
     private var requests = mutableMapOf(
-        "memberId" to "K_11"
+        "memberId" to TEST_MEMBER
         // 초기 요청 값 설정
     )
 

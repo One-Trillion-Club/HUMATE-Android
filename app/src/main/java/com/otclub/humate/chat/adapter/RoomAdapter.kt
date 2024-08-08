@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.otclub.humate.R
-import com.otclub.humate.chat.data.ChatRoomDetailDTO
+import com.otclub.humate.chat.data.RoomDetailDTO
 
-class ChatRoomAdapter(private val roomList: List<ChatRoomDetailDTO>,
-                      private val onItemClick: (ChatRoomDetailDTO) -> Unit
-) : RecyclerView.Adapter<ChatRoomAdapter.ChatRoomViewHolder>() {
+class RoomAdapter(private val roomList: List<RoomDetailDTO>,
+                  private val onItemClick: (RoomDetailDTO) -> Unit
+) : RecyclerView.Adapter<RoomAdapter.ChatRoomViewHolder>() {
 
     class ChatRoomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val profileImage: ImageView = itemView.findViewById(R.id.profile_image)
@@ -39,7 +39,7 @@ class ChatRoomAdapter(private val roomList: List<ChatRoomDetailDTO>,
         holder.title.text = room.postTitle
         //holder.latestChat.text = room.latestChat.toString()
         //holder.latestTime.text = room.latestTime?.takeIf { it.isNotBlank() } ?: "상관 없음"
-        holder.unreadCnt.text = "3"
+        holder.unreadCnt.text = "1"
         Log.d("[onBindViewHolder] room : " , room.toString())
         Log.d("[onBindViewHolder] holder : " , holder.toString())
 

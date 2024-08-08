@@ -14,4 +14,10 @@ enum class MessageType(val type: Int, val resId: Int) {
     fun getMessage(context: Context): String {
         return context.getString(resId)
     }
+
+    companion object {
+        fun fromType(type: Int): MessageType? {
+            return values().find { it.type == type }
+        }
+    }
 }
