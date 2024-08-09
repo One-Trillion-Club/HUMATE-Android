@@ -4,17 +4,28 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
+/**
+ * 앱 접속 첫 화면 Activity
+ * @author 김지현
+ * @since 2024.08.07
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.07  	김지현        최초 생성
+ * </pre>
+ */
 @SuppressLint("CustomSplashScreen")
 class CommonSplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_common_splash)
+        setContentView(R.layout.common_splash)
 
         val leftCoverView = findViewById<View>(R.id.leftCoverView)
         val rightCoverView = findViewById<View>(R.id.rightCoverView)

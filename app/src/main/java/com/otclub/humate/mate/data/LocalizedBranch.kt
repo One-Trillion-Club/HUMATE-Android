@@ -1,7 +1,17 @@
 package com.otclub.humate.mate.data
 
-import java.util.*
-
+/**
+ * 매칭 장소(한-영) Enum
+ * @author 김지현
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.07   김지현        최초 생성
+ * </pre>
+ */
 enum class LocalizedBranch(val englishName: String, val koreanName: String, val id: Int)  {
     THE_HYUNDAI_SEOUL("The Hyundai Seoul", "더현대 서울", 1),
     THE_HYUNDAI_DAEGU("The Hyundai Daegu", "더현대 대구", 2),

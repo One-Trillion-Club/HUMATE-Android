@@ -1,28 +1,38 @@
 package com.otclub.humate.mate.data
 
-import java.util.Date
-
+/**
+ * 매칭글 조회 목록 Response DTO
+ * @author 김지현
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.02   김지현        최초 생성
+ * </pre>
+ */
 data class PostListResponseDTO(
+    // 매칭글 ID
     val postId: Int,
+    // 매칭글 작성자 닉네임
     val nickname: String,
+    // 매칭글 작성자 프로필 이미지
     val profileImgUrl: String,
+    // 매칭글 태그
     val tags: List<String>,
+    // 매칭글 제목
     val title: String,
+    // 매칭 날짜
     val matchDate: String,
+    // 매칭 지점
     val matchBranch: String,
+    // 매칭 성별
     val matchGender: Int,
+    // 매칭 언어
     val matchLanguage: String,
+    // 매칭글 작성 날짜
     val createdAt: String,
+    // 매칭 여부
     val isMatched: Int
 )
-
-/*
-프로필 사진 - ImageView, profile_image
-이름 - TextView, nickname
-게시글 제목 - TextView, title
-상태 - TextView, is_matched
-매칭 날짜 - TextView, match_date
-매칭 지점 - TextView, match_branch
-매칭 언어 - TextView, match_language
-태그 리스트 - LinearLayout, tag_list
- */

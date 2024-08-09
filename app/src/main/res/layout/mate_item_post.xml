@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ * 매칭글 item Layout
+ * @author 김지현
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ==========  =========    =========
+ * 2024.08.02  	김지현        최초 생성
+ * 2024.08.06   김지현        전체적인 UI 수정
+ * 2024.08.07   김지현        영어 버전 추가
+ * </pre>
+ -->
 <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"

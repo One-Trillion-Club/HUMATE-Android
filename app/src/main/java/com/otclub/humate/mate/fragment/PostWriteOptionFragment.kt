@@ -12,7 +12,6 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.MateFragmentPostWriteOptionBinding
 import com.otclub.humate.mate.data.LocalizedBranch
@@ -22,6 +21,20 @@ import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * 매칭글 작성 시 옵션 선택 Adapter
+ * @author 김지현
+ * @since 2024.08.04
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.04  	김지현        최초 생성
+ * 2024.08.05   김지현        상단바 수정
+ * 2024.08.07   김지현        영어 버전 추가
+ * </pre>
+ */
 class PostWriteOptionFragment : Fragment() {
 
     private var mBinding : MateFragmentPostWriteOptionBinding? = null
@@ -238,11 +251,12 @@ class PostWriteOptionFragment : Fragment() {
         initializeOptions()
     }
 
-    // 초기화
+    /**
+     * 선택한 옵션 불러오기
+     */
     private fun initializeOptions() {
         val currentLanguage = sharedPreferencesManager.getLanguage()
 
-        Log.i("haha", "초기화")
         // 날짜 초기화
         options["matchDate"]?.let { matchDate ->
             selectedDate = matchDate
@@ -298,6 +312,9 @@ class PostWriteOptionFragment : Fragment() {
         }
     }
 
+    /**
+     * 매칭 성별 상태 변경
+     */
     private fun setButtonSelectedState(branch: String, isSelected: Boolean) {
         val currentLanguage = sharedPreferencesManager.getLanguage()
 
@@ -327,6 +344,9 @@ class PostWriteOptionFragment : Fragment() {
         }
     }
 
+    /**
+     * 매칭 언어 클릭 시
+     */
     private fun setLanguageButtonSelectedState(language: String, isSelected: Boolean) {
         // 버튼을 찾아 상태를 설정
         val button = when (language) {
@@ -348,7 +368,9 @@ class PostWriteOptionFragment : Fragment() {
         }
     }
 
-    // 날짜 선택
+    /**
+     * 매칭 날짜 상태 변경
+     */
     private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -384,7 +406,9 @@ class PostWriteOptionFragment : Fragment() {
         datePickerDialog.show()
     }
 
-    // 날짜 초기화
+    /**
+     * 매칭 날짜 초기화
+     */
     private fun resetDateSelection() {
         // 선택한 날짜 없애고 기본 텍스트 출력
         val defaultDate = "날짜를 선택해주세요" // 기본 텍스트
@@ -398,6 +422,9 @@ class PostWriteOptionFragment : Fragment() {
         selectedDate = null
     }
 
+    /**
+     * 매칭 자점 이름으로 ID 조회
+     */
     private fun getBranchIdByName(branchName: String, currentLanguage: Int): Int? {
         return LocalizedBranch.values().firstOrNull {
             when (currentLanguage) {
@@ -407,7 +434,9 @@ class PostWriteOptionFragment : Fragment() {
         }?.id
     }
 
-    // 지점 선택
+    /**
+     * 매칭 지점 클릭 시
+     */
     private fun handleButtonClick(clickedButton: Button) {
         val currentLanguage = sharedPreferencesManager.getLanguage()
         val branchName = clickedButton.text.toString()
@@ -430,7 +459,9 @@ class PostWriteOptionFragment : Fragment() {
         }
     }
 
-    // 지점 초기화
+    /**
+     * 매칭 지점 초기화
+     */
     private fun resetBranchSelection() {
         val currentLanguage = sharedPreferencesManager.getLanguage()
 
@@ -448,7 +479,9 @@ class PostWriteOptionFragment : Fragment() {
         }
     }
 
-    // 성별 선택
+    /**
+     * 매칭 성별 클릭 시
+     */
     private fun setupGenderButtons() {
         val gender1: CardView = mBinding?.gender1 ?: return
         val gender2: CardView = mBinding?.gender2 ?: return
@@ -462,6 +495,9 @@ class PostWriteOptionFragment : Fragment() {
         }
     }
 
+    /**
+     * 매칭 성별 상태 변경
+     */
     private fun updateGenderButtonStates(selectedCard: CardView, gender: String) {
         val gender1: CardView = mBinding?.gender1 ?: return
         val gender2: CardView = mBinding?.gender2 ?: return
@@ -479,7 +515,9 @@ class PostWriteOptionFragment : Fragment() {
         selectedGender = gender.toInt()
     }
 
-    // 성별 초기화
+    /**
+     * 매칭 성별 초기화
+     */
     private fun resetGenderSelection() {
         val gender1: CardView = mBinding?.gender1 ?: return
         val gender2: CardView = mBinding?.gender2 ?: return
@@ -492,7 +530,9 @@ class PostWriteOptionFragment : Fragment() {
         selectedGender = null
     }
 
-    // 언어 선택
+    /**
+     * 매칭 언어 선택 시
+     */
     private fun setupLanguageButtons() {
         val koreanButton: Button = mBinding?.koreanButton ?: return
         val englishButton: Button = mBinding?.englishButton ?: return
@@ -516,6 +556,9 @@ class PostWriteOptionFragment : Fragment() {
         }
     }
 
+    /**
+     * 매칭 언어 상태 변경
+     */
     private fun updateLanguageButtonStates(selectedButton: Button, language: String) {
         // 버튼이 이미 선택된 상태인지 확인
         val isAlreadySelected = selectedButton in selectedLanguageButton
@@ -560,7 +603,9 @@ class PostWriteOptionFragment : Fragment() {
         }
     }
 
-    // 언어 초기화
+    /**
+     * 매칭 언어 초기화
+     */
     private fun resetLanguageSelection() {
         // 버튼 컨테이너에서 모든 버튼을 가져옴
         val buttonContainer = mBinding?.languageButtonsContainer

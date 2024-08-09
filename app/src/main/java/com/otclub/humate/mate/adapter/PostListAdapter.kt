@@ -18,11 +18,28 @@ import com.otclub.humate.mate.data.LocalizedTag
 import com.otclub.humate.mate.data.PostListResponseDTO
 import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 
+/**
+ * 매칭글 조회 목록 Adapter
+ * @author 김지현
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.02  	김지현        최초 생성
+ * 2024.08.06   김지현        전체적인 UI 수정
+ * 2024.08.07   김지현        영어 버전 수정
+ * </pre>
+ */
 class PostListAdapter(
     private var posts: List<PostListResponseDTO>,
     private val onItemClick: (Int) -> Unit // 클릭된 아이템의 id를 전달하도록 수정
 ) : RecyclerView.Adapter<PostListAdapter.PostViewHolder>() {
 
+    /**
+     * 매칭글 목록 조회 ViewHolder
+     */
     inner class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val profileImage: ImageView = itemView.findViewById(R.id.profile_image)
         val nickname: TextView = itemView.findViewById(R.id.nickname)
@@ -37,6 +54,9 @@ class PostListAdapter(
         private var sharedPreferencesManager = SharedPreferencesManager(itemView.context)
         val currentLanguage = sharedPreferencesManager.getLanguage()
 
+        /**
+         * 매칭 언어 한국어-영어 변환
+         */
         private fun getEnglishLanguageName(language: String): String {
             return when (language) {
                 "한국어" -> "Korean"
@@ -47,6 +67,9 @@ class PostListAdapter(
             }
         }
 
+        /**
+         * 데이터 바인딩
+         */
         fun bind(post: PostListResponseDTO) {
             // 데이터를 각 뷰에 바인딩
             nickname.text = post.nickname
@@ -170,5 +193,8 @@ class PostListAdapter(
         holder.bind(post)
     }
 
+    /**
+     * 매칭글 개수 가져오기
+     */
     override fun getItemCount(): Int = posts.size
 }

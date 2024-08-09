@@ -1,9 +1,6 @@
 package com.otclub.humate.mate.viewmodel
 
 import android.util.Log
-import android.widget.LinearLayout
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.otclub.humate.mate.api.PostService
 import com.otclub.humate.mate.data.PostWriteOptionDTO
@@ -18,7 +15,20 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
+/**
+ * 매칭글 작성 ViewModel
+ * @author 김지현
+ * @since 2024.08.04
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------------------
+ * 2024.08.04  	김지현        최초 생성
+ * 2024.08.05   김지현        매칭글 작성 및 옵션 데이터 업데이트 메서드 추가
+ * 2024.08.08   김지현        memberId 가져오는 메서드 추가
+ * </pre>
+ */
 class PostWriteViewModel: ViewModel() {
     private val postService: PostService = RetrofitConnection.getInstance().create(PostService::class.java)
     private val memberService: MemberService = RetrofitConnection.getInstance().create(MemberService::class.java)
@@ -29,6 +39,9 @@ class PostWriteViewModel: ViewModel() {
     // 게시글 작성 요청 데이터
     var requestData: PostWriteRequestDTO? =  null
 
+    /**
+     * memberId 서버로부터 가져오기
+     */
     fun fetchMemberId(onSuccess: (String) -> Unit, onError: (String) -> Unit) {
         memberService.getMyProfile().enqueue(object : Callback<ProfileResponseDTO> {
             override fun onResponse(call: Call<ProfileResponseDTO>, response: Response<ProfileResponseDTO>) {
@@ -47,7 +60,9 @@ class PostWriteViewModel: ViewModel() {
         })
     }
 
-    // 게시글 작성하는 함수
+    /**
+     * 매칭글 작성
+     */
     fun writePost(onSuccess: (Int) -> Unit, onError: (String) -> Unit) {
         postService.postAdd(requestData!!).enqueue(object : Callback<Int> {
             override fun onResponse(call: Call<Int>, response: Response<Int>) {
@@ -70,7 +85,9 @@ class PostWriteViewModel: ViewModel() {
         })
     }
 
-    // 선택 옵션(매칭 정보) 업데이트
+    /**
+     * 선택 옵션(매칭 정보) 업데이트
+     */
     fun updateOptionData(
         matchDate: String?,
         matchBranch: Set<String>,
@@ -91,7 +108,9 @@ class PostWriteViewModel: ViewModel() {
         optionData = updatedOptionData
     }
 
-    // requestDTO 업데이트
+    /**
+     * requestDTO 업데이트
+     */
     fun updateRequestData(
         memberId: String?,
         title: String?,

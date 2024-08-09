@@ -1,11 +1,8 @@
 package com.otclub.humate.mate.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.otclub.humate.mate.api.PostService
-import com.otclub.humate.mate.data.PostDetailResponseDTO
 import com.otclub.humate.mate.data.PostListFilterDTO
 import com.otclub.humate.mate.data.PostListResponseDTO
 import com.otclub.humate.member.api.MemberService
@@ -16,6 +13,20 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * 매칭글 전체 조회 ViewModel
+ * @author 김지현
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.02  	김지현        최초 생성
+ * 2024.08.03   김지현        필터 내용 업데이트 메서드 추가
+ * 2024.08.08   김지현        memberId 가져오는 메서드 추가
+ * </pre>
+ */
 class PostViewModel: ViewModel() {
     private val postService: PostService = RetrofitConnection.getInstance().create(PostService::class.java)
     private val memberService: MemberService = RetrofitConnection.getInstance().create(MemberService::class.java)
@@ -23,7 +34,9 @@ class PostViewModel: ViewModel() {
     // 필터 데이터
     var filterData: PostListFilterDTO? = null
 
-
+    /**
+     * memberId 서버로부터 가져오기
+     */
     fun fetchMemberId(onSuccess: (String) -> Unit, onError: (String) -> Unit) {
         memberService.getMyProfile().enqueue(object : Callback<ProfileResponseDTO> {
             override fun onResponse(call: Call<ProfileResponseDTO>, response: Response<ProfileResponseDTO>) {
@@ -42,7 +55,9 @@ class PostViewModel: ViewModel() {
         })
     }
 
-    // 게시글 리스트를 가져오는 함수
+    /**
+     * 매칭글 전체 조회 리스트 가져오기
+     */
     fun getPostList(filters: Map<String, String>, onSuccess: (List<PostListResponseDTO>) -> Unit, onError: (String) -> Unit) {
 
         postService.postList(filters).enqueue(object : Callback<List<PostListResponseDTO>> {
@@ -66,7 +81,9 @@ class PostViewModel: ViewModel() {
         })
     }
 
-    // 필터 데이터 업데이트
+    /**
+     * 필터링 데이터 업데이트
+     */
     fun updateFilterData(
         keyword: String?,
         tagName: String?,
