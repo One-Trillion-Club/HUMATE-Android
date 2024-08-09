@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
-import com.otclub.humate.databinding.FragmentClearedMissionBinding
+import com.otclub.humate.databinding.MissionClearedFragmentBinding
 import com.otclub.humate.mission.adapter.ClearedMissionAdapter
 import com.otclub.humate.mission.api.MissionService
 import com.otclub.humate.mission.data.CommonResponseDTO
@@ -44,7 +44,7 @@ import retrofit2.Response
 class ClearedMissionFragment : Fragment() {
 
     private val missionViewModel: MissionViewModel by activityViewModels()
-    private var mBinding : FragmentClearedMissionBinding? = null
+    private var mBinding : MissionClearedFragmentBinding? = null
     private var selectedButton: Button? = null
 
     override fun onCreateView(
@@ -52,7 +52,7 @@ class ClearedMissionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
-        val binding = FragmentClearedMissionBinding.inflate(inflater, container, false)
+        val binding = MissionClearedFragmentBinding.inflate(inflater, container, false)
 
         mBinding = binding
 

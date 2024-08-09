@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
-import com.otclub.humate.databinding.FragmentNewMissionBinding
+import com.otclub.humate.databinding.MissionNewFragmentBinding
 import com.otclub.humate.mission.api.MissionService
 import com.otclub.humate.mission.data.CommonResponseDTO
 import com.otclub.humate.mission.viewModel.MissionViewModel
@@ -42,7 +42,7 @@ import retrofit2.Response
  */
 class NewMissionFragment : Fragment() {
     private val missionViewModel: MissionViewModel by activityViewModels()
-    private var mBinding: FragmentNewMissionBinding? = null
+    private var mBinding: MissionNewFragmentBinding? = null
     private var selectedButton: Button? = null
 
     override fun onCreateView(
@@ -50,7 +50,7 @@ class NewMissionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentNewMissionBinding.inflate(inflater, container, false)
+        val binding = MissionNewFragmentBinding.inflate(inflater, container, false)
         mBinding = binding
         return mBinding?.root
     }

@@ -11,7 +11,8 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
-import com.otclub.humate.databinding.FragmentNewMissionDetailsBinding
+import com.otclub.humate.databinding.MissionNewDetailsFragmentBinding
+import com.otclub.humate.databinding.MissionNewFragmentBinding
 import com.otclub.humate.mission.data.NewMissionDetailsDTO
 import com.otclub.humate.mission.viewModel.MissionViewModel
 
@@ -32,14 +33,14 @@ import com.otclub.humate.mission.viewModel.MissionViewModel
 class NewMissionDetailsFragment : Fragment() {
 
     private val viewModel: MissionViewModel by activityViewModels()
-    private var mBinding: FragmentNewMissionDetailsBinding? = null
+    private var mBinding: MissionNewDetailsFragmentBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentNewMissionDetailsBinding.inflate(inflater, container, false)
+        val binding = MissionNewDetailsFragmentBinding.inflate(inflater, container, false)
 
         mBinding = binding
         return mBinding?.root
