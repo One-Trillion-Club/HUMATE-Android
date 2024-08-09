@@ -3,6 +3,20 @@ package com.otclub.humate.sharedpreferences
 import android.content.Context
 import android.content.SharedPreferences
 
+/**
+ * 전역 SharedPreference Manager
+ * @author 조영욱
+ * @since 2024.08.03
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.03  	조영욱        최초 생성
+ * 2024.08.04   조영욱        로그인 토큰 추가
+ * 2024.08.06  	조영욱        언어 추가
+ * </pre>
+ */
 class SharedPreferencesManager(context: Context) {
     private val authSharedPreferences: SharedPreferences =
         context.getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE)

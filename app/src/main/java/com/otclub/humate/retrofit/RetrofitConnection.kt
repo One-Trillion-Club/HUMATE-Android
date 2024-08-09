@@ -11,6 +11,20 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.CookieManager
 
+/**
+ * 서버 연동을 위한 Retrofit Connection 클래스
+ * @author 조영욱
+ * @since 2024.08.01
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.01  	조영욱        최초 생성
+ * 2024.08.04  	조영욱        SharedPreferencesManager 추가
+ * 2024.08.04  	조영욱        로그인 유지를 위한 인터셉터 추가
+ * </pre>
+ */
 class RetrofitConnection {
 
     // 싱글턴 패턴 적용

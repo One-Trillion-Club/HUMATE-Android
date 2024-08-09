@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ * 마이 페이지 Layout
+ * @author 조영욱
+ * @since 2024.08.03
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ==========  =========    =========
+ * 2024.08.03  	조영욱        최초 생성
+ * 2024.08.05  	조영욱        내 프로필, 매너 온도 조회 추가
+ * 2024.08.06  	조영욱        로그아웃 아이콘 변경
+ * </pre>
+ -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

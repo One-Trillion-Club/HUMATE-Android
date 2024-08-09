@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.otclub.humate.R
 import com.otclub.humate.auth.viewmodel.AuthViewModel
-import com.otclub.humate.databinding.FragmentInputIdPasswordBinding
+import com.otclub.humate.databinding.AuthFragmentInputIdPasswordBinding
 import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 
 /**
@@ -28,7 +28,7 @@ import com.otclub.humate.sharedpreferences.SharedPreferencesManager
  */
 class InputIdPasswordFragment : Fragment() {
     private val viewModel: AuthViewModel by activityViewModels()
-    private var mBinding : FragmentInputIdPasswordBinding? = null
+    private var mBinding : AuthFragmentInputIdPasswordBinding? = null
     private val binding get() = mBinding!!
 
     override fun onCreateView(
@@ -36,7 +36,7 @@ class InputIdPasswordFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentInputIdPasswordBinding.inflate(inflater, container, false)
+        val binding = AuthFragmentInputIdPasswordBinding.inflate(inflater, container, false)
         mBinding = binding
         return mBinding?.root
     }
