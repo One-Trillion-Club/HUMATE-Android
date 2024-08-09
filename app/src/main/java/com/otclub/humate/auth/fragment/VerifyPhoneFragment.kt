@@ -16,6 +16,18 @@ import com.otclub.humate.auth.viewmodel.AuthViewModel
 import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.AuthFragmentVerifyPhoneBinding
 
+/**
+ * 한국인 회원가입 시 휴대전화 인증 Fragment
+ * @author 조영욱
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.02  	조영욱        최초 생성
+ * </pre>
+ */
 class VerifyPhoneFragment : Fragment() {
     private val viewModel: AuthViewModel by activityViewModels()
     private var mBinding : AuthFragmentVerifyPhoneBinding? = null
@@ -44,6 +56,9 @@ class VerifyPhoneFragment : Fragment() {
         super.onDestroyView()
     }
 
+    /**
+     * 인증번호 전송 버튼 클릭 시
+     */
     private fun handleSendAuthCodeClick() {
         val phone: String = binding.inputPhone.text.toString()
         if (phone.length < 11) {
@@ -68,6 +83,9 @@ class VerifyPhoneFragment : Fragment() {
 
     }
 
+    /**
+     * 인증번호 전송 시 인증번호 입력 필드 추가
+     */
     private fun addAuthCodeInputField(phone: String) {
         val authCodeInput: EditText = binding.inputCode
 
@@ -81,6 +99,9 @@ class VerifyPhoneFragment : Fragment() {
         }
     }
 
+    /**
+     * 인증 코드 전송
+     */
     private fun sendPhoneVerifyCode(phone: String) {
         val code = binding.inputCode.text.toString()
         if (code.length < 6) {
@@ -107,8 +128,5 @@ class VerifyPhoneFragment : Fragment() {
                 Toast.makeText(requireContext(), "인증번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show()
                 loadingDialog.dismiss()
             })
-
-
     }
-
 }

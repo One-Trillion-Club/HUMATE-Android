@@ -1,11 +1,9 @@
 package com.otclub.humate.member.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.otclub.humate.R
 import com.otclub.humate.databinding.MemberItemMateBinding
 import com.otclub.humate.mate.data.MateDetailResponseDTO
 
