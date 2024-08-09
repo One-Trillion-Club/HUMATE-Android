@@ -1,7 +1,5 @@
 package com.otclub.humate.auth.fragment
 
-import android.app.Application
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +16,18 @@ import com.otclub.humate.auth.viewmodel.AuthViewModel
 import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.AuthFragmentSignInBinding
 
+/**
+ * 회원가입/로그인 Fragment
+ * @author 조영욱
+ * @since 2024.08.01
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.01  	조영욱        최초 생성
+ * </pre>
+ */
 class SignInFragment : Fragment() {
     private val viewModel: AuthViewModel by activityViewModels()
     private var mBinding : AuthFragmentSignInBinding? = null
@@ -55,6 +65,9 @@ class SignInFragment : Fragment() {
         super.onDestroyView()
     }
 
+    /**
+     * 회원 로그인
+     */
     private fun logIn(loginId: String, password: String) {
         Log.i("sign in btn click", "loginId:${loginId}, password:${password}")
         val loadingDialog = LoadingDialog(requireContext())

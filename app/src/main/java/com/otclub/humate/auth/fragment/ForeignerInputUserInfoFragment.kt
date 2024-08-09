@@ -12,8 +12,19 @@ import androidx.fragment.app.activityViewModels
 import com.otclub.humate.R
 import com.otclub.humate.auth.viewmodel.AuthViewModel
 import com.otclub.humate.databinding.AuthFragmentForeignerInputUserInfoBinding
-import com.otclub.humate.databinding.FragmentInputIdPasswordBinding
 
+/**
+ * 외국인 회원가입 시 개인 상세정보 입력 Fragment
+ * @author 조영욱
+ * @since 2024.08.06
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.06  	조영욱        최초 생성
+ * </pre>
+ */
 class ForeignerInputUserInfoFragment : Fragment() {
     private val viewModel: AuthViewModel by activityViewModels()
     private var mBinding : AuthFragmentForeignerInputUserInfoBinding? = null
@@ -68,6 +79,9 @@ class ForeignerInputUserInfoFragment : Fragment() {
         super.onDestroyView()
     }
 
+    /**
+     * Next 버튼 클릭 시
+     */
     private fun handleNextButtonClick() {
         if (selectedGenderButton == null) {
             Toast.makeText(requireContext(), "Select your gender", Toast.LENGTH_SHORT).show()
@@ -103,6 +117,9 @@ class ForeignerInputUserInfoFragment : Fragment() {
             .commit()
     }
 
+    /**
+     * 성별 선택 버튼 클릭 시
+     */
     private fun handleGenderButtonClick(button: View) {
         if (selectedGenderButton == button) {
             resetButtonStyle(button)
@@ -114,6 +131,9 @@ class ForeignerInputUserInfoFragment : Fragment() {
         }
     }
 
+    /**
+     * 언어 선택 버튼 클릭 시
+     */
     private fun handleLanguageButtonClick(button: View) {
         if (button.isSelected) {
             resetButtonStyle(button)
@@ -124,6 +144,9 @@ class ForeignerInputUserInfoFragment : Fragment() {
         }
     }
 
+    /**
+     * 버튼 스타일 업데이트
+     */
     private fun updateButtonStyle(button: View) {
         button.apply {
             (this as? android.widget.Button)?.apply {
@@ -135,6 +158,9 @@ class ForeignerInputUserInfoFragment : Fragment() {
         }
     }
 
+    /**
+     * 버튼 스타일 원래대로 돌림
+     */
     private fun resetButtonStyle(button: View) {
         button.apply {
             (this as? android.widget.Button)?.apply {

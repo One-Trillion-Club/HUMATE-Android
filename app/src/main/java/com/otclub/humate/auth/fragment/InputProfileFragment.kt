@@ -26,6 +26,18 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
+/**
+ * 회원가입 시 회원 프로필 입력 Fragment
+ * @author 조영욱
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.02  	조영욱        최초 생성
+ * </pre>
+ */
 class InputProfileFragment : Fragment() {
     private val viewModel: AuthViewModel by activityViewModels()
     private var mBinding : AuthFragmentInputProfileBinding? = null
@@ -74,11 +86,17 @@ class InputProfileFragment : Fragment() {
         super.onDestroyView()
     }
 
+    /**
+     * 이미지 업로드 창 열기
+     */
     private fun openImagePicker() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         pickImageLauncher.launch(intent)
     }
 
+    /**
+     * 이미지 유효성 검증 후 클래스 필드의 selectedImageUri 설정
+     */
     private fun handleImageUri(uri: Uri) {
         try {
             requireContext().contentResolver.openInputStream(uri)?.use { inputStream ->
@@ -100,6 +118,9 @@ class InputProfileFragment : Fragment() {
         }
     }
 
+    /**
+     * 닉네임 중복 버튼 클릭 시
+     */
     private fun handleCheckNicknameButtonClick() {
         val inputNickname: String = binding.inputNickname.text.toString()
         val guideCheckNickname: TextView = binding.guideCheckNickname
@@ -126,6 +147,9 @@ class InputProfileFragment : Fragment() {
         )
     }
 
+    /**
+     * 완료 버튼 클릭 시
+     */
     private fun handleFinishButtonClick() {
 
         if (viewModel.signUpRequestDTO.nickname == null) {
@@ -162,7 +186,7 @@ class InputProfileFragment : Fragment() {
             }
         }
 
-        Log.i("여기***", viewModel.signUpRequestDTO.toString())
+        Log.i("회원가입 요청", viewModel.signUpRequestDTO.toString())
 
         val loadingDialog = LoadingDialog(requireContext())
         loadingDialog.show()

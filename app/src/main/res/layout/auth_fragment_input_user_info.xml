@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ * 한국인 회원가입 시 회원 세부정보 입력 Layout
+ * @author 조영욱
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ==========  =========    =========
+ * 2024.08.02  	조영욱        최초 생성
+ * </pre>
+ -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 

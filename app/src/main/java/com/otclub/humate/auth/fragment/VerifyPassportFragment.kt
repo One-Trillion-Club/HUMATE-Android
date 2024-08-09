@@ -16,6 +16,18 @@ import com.otclub.humate.auth.viewmodel.AuthViewModel
 import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.AuthFragmentVerifyPassportBinding
 
+/**
+ * 외국인 회원가입 시 여권 인증 Fragment
+ * @author 조영욱
+ * @since 2024.08.06
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.06  	조영욱        최초 생성
+ * </pre>
+ */
 class VerifyPassportFragment : Fragment() {
     private val viewModel: AuthViewModel by activityViewModels()
     private var mBinding : AuthFragmentVerifyPassportBinding? = null
@@ -68,6 +80,9 @@ class VerifyPassportFragment : Fragment() {
         super.onDestroyView()
     }
 
+    /**
+     * 다음 버튼 클릭 시 (여권 인증)
+     */
     private fun handleNextButtonClick() {
         val year = binding.inputYear.text.toString()
         val month = binding.inputMonth.text.toString()
