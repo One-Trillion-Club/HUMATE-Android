@@ -10,6 +10,8 @@ import com.otclub.humate.mate.data.PostWriteOptionDTO
 import com.otclub.humate.mate.data.PostWritePlaceRequestDTO
 import com.otclub.humate.mate.data.PostWriteRequestDTO
 import com.otclub.humate.mate.data.PostWriteTagRequestDTO
+import com.otclub.humate.member.api.MemberService
+import com.otclub.humate.member.data.ProfileResponseDTO
 import com.otclub.humate.retrofit.RetrofitConnection
 
 import retrofit2.Call
@@ -19,12 +21,31 @@ import retrofit2.Response
 
 class PostWriteViewModel: ViewModel() {
     private val postService: PostService = RetrofitConnection.getInstance().create(PostService::class.java)
+    private val memberService: MemberService = RetrofitConnection.getInstance().create(MemberService::class.java)
 
     // 옵션 데이터
     var optionData: PostWriteOptionDTO? = null
 
     // 게시글 작성 요청 데이터
     var requestData: PostWriteRequestDTO? =  null
+
+    fun fetchMemberId(onSuccess: (String) -> Unit, onError: (String) -> Unit) {
+        memberService.getMyProfile().enqueue(object : Callback<ProfileResponseDTO> {
+            override fun onResponse(call: Call<ProfileResponseDTO>, response: Response<ProfileResponseDTO>) {
+                if (response.isSuccessful) {
+                    response.body()?.memberId?.let {
+                        onSuccess(it)
+                    } ?: onError("memberId를 가져올 수 없습니다.")
+                } else {
+                    onError("서버 오류: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ProfileResponseDTO>, t: Throwable) {
+                onError(t.message ?: "네트워크 오류")
+            }
+        })
+    }
 
     // 게시글 작성하는 함수
     fun writePost(onSuccess: (Int) -> Unit, onError: (String) -> Unit) {

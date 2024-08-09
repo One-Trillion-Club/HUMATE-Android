@@ -49,8 +49,7 @@ class PostListFragment : Fragment() {
     private lateinit var searchButton: ImageButton
 
     private var filters = mutableMapOf(
-        "gender" to "m",
-        "memberId" to "F_1"
+        "gender" to "m"
         // 초기 필터 값 설정
     )
 
@@ -74,11 +73,35 @@ class PostListFragment : Fragment() {
         searchInput = binding.searchInput
         searchButton = binding.searchButton
 
+        // memberId 가져오기
+        postViewModel.fetchMemberId(
+            onSuccess = { memberId ->
+                filters["memberId"] = memberId
+                Log.i("memberId", memberId)
+            },
+            onError = { errorMessage ->
+                // 오류 메시지를 표시하거나 로그로 남길 수 있습니다.
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        )
+
         return mBinding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // memberId 가져오기
+        postViewModel.fetchMemberId(
+            onSuccess = { memberId ->
+                filters["memberId"] = memberId
+                Log.i("memberId", memberId)
+            },
+            onError = { errorMessage ->
+                // 오류 메시지를 표시하거나 로그로 남길 수 있습니다.
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        )
 
         sharedPreferencesManager = SharedPreferencesManager(requireContext())
         val currentLanguage = sharedPreferencesManager.getLanguage()

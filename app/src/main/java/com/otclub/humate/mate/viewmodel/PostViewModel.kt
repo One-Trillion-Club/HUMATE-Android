@@ -8,6 +8,8 @@ import com.otclub.humate.mate.api.PostService
 import com.otclub.humate.mate.data.PostDetailResponseDTO
 import com.otclub.humate.mate.data.PostListFilterDTO
 import com.otclub.humate.mate.data.PostListResponseDTO
+import com.otclub.humate.member.api.MemberService
+import com.otclub.humate.member.data.ProfileResponseDTO
 import com.otclub.humate.retrofit.RetrofitConnection
 
 import retrofit2.Call
@@ -16,12 +18,29 @@ import retrofit2.Response
 
 class PostViewModel: ViewModel() {
     private val postService: PostService = RetrofitConnection.getInstance().create(PostService::class.java)
-
-    // 결과에 대해 상태를 저장해야 할 경우 사용
-    // val logInResponseDTO = MutableLiveData<LogInResponseDTO>()
+    private val memberService: MemberService = RetrofitConnection.getInstance().create(MemberService::class.java)
 
     // 필터 데이터
     var filterData: PostListFilterDTO? = null
+
+
+    fun fetchMemberId(onSuccess: (String) -> Unit, onError: (String) -> Unit) {
+        memberService.getMyProfile().enqueue(object : Callback<ProfileResponseDTO> {
+            override fun onResponse(call: Call<ProfileResponseDTO>, response: Response<ProfileResponseDTO>) {
+                if (response.isSuccessful) {
+                    response.body()?.memberId?.let {
+                        onSuccess(it)
+                    } ?: onError("memberId를 가져올 수 없습니다.")
+                } else {
+                    onError("서버 오류: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ProfileResponseDTO>, t: Throwable) {
+                onError(t.message ?: "네트워크 오류")
+            }
+        })
+    }
 
     // 게시글 리스트를 가져오는 함수
     fun getPostList(filters: Map<String, String>, onSuccess: (List<PostListResponseDTO>) -> Unit, onError: (String) -> Unit) {

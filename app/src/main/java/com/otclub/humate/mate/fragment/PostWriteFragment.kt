@@ -31,7 +31,7 @@ class PostWriteFragment : Fragment()  {
     private lateinit var addStoreButton: Button
 
     private var requests = mutableMapOf(
-        "memberId" to "K_11"
+        "memberId" to "0"
         // 초기 요청 값 설정
     )
 
@@ -60,12 +60,35 @@ class PostWriteFragment : Fragment()  {
 
         mBinding = binding
 
+        // memberId 가져오기
+        postWriteViewModel.fetchMemberId(
+            onSuccess = { memberId ->
+                requests["memberId"] = memberId
+                Log.i("memberId", memberId)
+            },
+            onError = { errorMessage ->
+                // 오류 메시지를 표시하거나 로그로 남길 수 있습니다.
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        )
+
         return mBinding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // memberId 가져오기
+        postWriteViewModel.fetchMemberId(
+            onSuccess = { memberId ->
+                requests["memberId"] = memberId
+                Log.i("memberId", memberId)
+            },
+            onError = { errorMessage ->
+                // 오류 메시지를 표시하거나 로그로 남길 수 있습니다.
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        )
 
         // ViewModel의 데이터 사용
         postWriteViewModel.optionData?.let { optionData ->
