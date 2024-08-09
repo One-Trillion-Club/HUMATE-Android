@@ -17,6 +17,21 @@ import com.otclub.humate.chat.data.MessageType
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * 채팅 메세지 Adapter
+ *
+ * @author 최유경
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.02  	최유경        최초 생성
+ * 2024.08.05   최유경        공지 추가
+ * 2024.08.07   최유경        프로필 관련 추가
+ * </pre>
+ */
 class MessageAdapter(private val messages: MutableList<Message>, private var roomDetailDTO: RoomDetailDTO?, private val onMateClick: (String) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -26,7 +41,10 @@ class MessageAdapter(private val messages: MutableList<Message>, private var roo
         private const val TYPE_MESSAGE_NOTICE = 2
     }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    /**
+     * viewHolder 생성
+     */
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             return when (viewType) {
                 TYPE_MESSAGE_RECEIVED -> {
                     val view = LayoutInflater.from(parent.context).inflate(R.layout.chat_message_received, parent, false)
@@ -44,6 +62,9 @@ class MessageAdapter(private val messages: MutableList<Message>, private var roo
             }
         }
 
+        /**
+         * ViewHolder 구성해주는 메서드
+         */
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val message = messages[position]
             when (holder) {
@@ -53,6 +74,9 @@ class MessageAdapter(private val messages: MutableList<Message>, private var roo
             }
         }
 
+        /**
+         * 메세지 타입을 구분하는 메서드
+         */
         override fun getItemViewType(position: Int): Int {
             val message = messages[position]
             return if(isNotice(message.messageType)){
@@ -69,6 +93,9 @@ class MessageAdapter(private val messages: MutableList<Message>, private var roo
 
         override fun getItemCount(): Int = messages.size
 
+        /**
+         * 웹소켓으로 메세지 받으면 view 맨 앞에 추가
+         */
         fun addMessage(messageWebSocketResponseDTO: MessageWebSocketResponseDTO) {
             messages.add(messageWebSocketResponseDTO.message)
 
@@ -77,6 +104,9 @@ class MessageAdapter(private val messages: MutableList<Message>, private var roo
             notifyItemInserted(messages.size - 1)
         }
 
+        /**
+         * 채팅 내역 리스트 업데이트
+         */
         fun updateMessages(newMessages: List<Message>, detailDTO: RoomDetailDTO? ) {
             messages.clear()
             messages.addAll(newMessages)
@@ -85,13 +115,9 @@ class MessageAdapter(private val messages: MutableList<Message>, private var roo
             notifyDataSetChanged()
         }
 
-//        fun updateMessages(newMessages: List<ChatMessage>, chatRoomDetailDTO: ChatRoomDetailDTO? ) {
-//            messages.clear()
-//            messages.addAll(newMessages)
-//            notifyDataSetChanged()
-//        }
-
-
+        /**
+         * 수신 받은 메세지에 대한 view Holder
+         */
         inner class ReceivedMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             private val textView: TextView = itemView.findViewById(R.id.message_text)
             private val dateView: TextView = itemView.findViewById(R.id.message_time)
@@ -122,7 +148,10 @@ class MessageAdapter(private val messages: MutableList<Message>, private var roo
             }
         }
 
-        inner class SentMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    /**
+     * 전송한 메세지에 대한 view Holder
+     */
+    inner class SentMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             private val textView: TextView = itemView.findViewById(R.id.message_text)
             private val dateView: TextView = itemView.findViewById(R.id.message_time)
 
@@ -132,7 +161,10 @@ class MessageAdapter(private val messages: MutableList<Message>, private var roo
             }
         }
 
-        inner class NoticeMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    /**
+     * 공지 메세지 view Holder
+     */
+    inner class NoticeMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
             private val textView: TextView = itemView.findViewById(R.id.message_notice)
             fun bind(message: Message) {
                 val context = itemView.context
@@ -145,13 +177,15 @@ class MessageAdapter(private val messages: MutableList<Message>, private var roo
             }
         }
 
-    // 날짜 형식 변환을 위한 메서드
+    /**
+     * 날짜 형식 변환을 위한 메서드
+     */
     private fun formatDate(createdAt: String): String {
-        // Step 1: 입력 문자열을 "yyyy-MM-dd HH:mm:ss" 형식으로 파싱
+        // 입력 문자열을 "yyyy-MM-dd HH:mm:ss" 형식으로 파싱
         val sourceFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val date: Date = sourceFormat.parse(createdAt)
 
-        // Step 2: Date 객체를 원하는 형식의 문자열로 변환
+        // Date 객체를 원하는 형식의 문자열로 변환
         val targetFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
         val formattedDate: String = targetFormat.format(date)
 
@@ -159,6 +193,9 @@ class MessageAdapter(private val messages: MutableList<Message>, private var roo
         return formattedDate.toLowerCase(Locale.getDefault())
     }
 
+    /**
+     * 공지인지 확인하는 메서드
+     */
     private fun isNotice(msgType : MessageType) : Boolean {
         if(MessageType.TEXT == msgType || MessageType.IMAGE == msgType)
             return false;

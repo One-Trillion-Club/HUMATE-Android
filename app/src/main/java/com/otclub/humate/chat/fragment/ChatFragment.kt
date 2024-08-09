@@ -41,6 +41,23 @@ import okhttp3.Request
 import okhttp3.WebSocket
 import java.util.concurrent.TimeUnit
 
+/**
+ * 1:1 채팅 Fragment
+ * @author 최유경
+ * @since 2024.08.01
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.01   손승완        최초 생성
+ * 2024.08.01   최유경        웹소켓 연결
+ * 2024.08.02   최유경        메세지 전송
+ * 2024.08.04   최유경        과거 채팅 내역 조회, 화면 구성
+ * 2024.08.05   최유경        채팅 툴바
+ * 2024.08.07   최유경        채팅 상단 매칭글 정보 구성, 메이트 맺기 버튼, 다이얼 기능 추가
+ * </pre>
+ */
 class ChatFragment : Fragment() {
     private lateinit var sharedPreferencesManager : SharedPreferencesManager
     private var roomDetailDTO: RoomDetailDTO? = null
@@ -53,6 +70,10 @@ class ChatFragment : Fragment() {
     private lateinit var client: OkHttpClient
     private var webSocket : WebSocket ?= null
     private val handler = Handler(Looper.getMainLooper())
+
+    /**
+     * 웹소켓 재연결 Runnable
+     */
     private val reconnectRunnable = object : Runnable {
         override fun run() {
             if (webSocket == null) {
@@ -64,6 +85,9 @@ class ChatFragment : Fragment() {
         }
     }
 
+    /**
+     * 1:1 채팅방 View 생성
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -101,6 +125,9 @@ class ChatFragment : Fragment() {
         return mBinding?.root
     }
 
+    /**
+     * View 생성 후 화면 구성
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar() // 툴바 설정
@@ -151,7 +178,9 @@ class ChatFragment : Fragment() {
         }
     }
 
-    // 채팅 관련 메서드
+    /**
+     * 채팅 과거 내역 조회 화면 구성
+     */
     private suspend fun loadChatHistory() {
         withContext(Dispatchers.IO) {
             chatViewModel.fetchChatHistoryList(roomDetailDTO?.chatRoomId.toString())
@@ -159,25 +188,9 @@ class ChatFragment : Fragment() {
         }
     }
 
-    private fun sendMessage(content: String) {
-        val messageRequest = MessageRequestDTO(
-            chatRoomId = roomDetailDTO?.chatRoomId.toString(),
-            participateId = roomDetailDTO?.participateId,
-            content = content,
-            messageType = MessageType.TEXT
-        )
-
-        val gson = Gson()
-        val messageJson = gson.toJson(messageRequest)
-        webSocket?.send(messageJson)
-    }
-
-    fun updateChat(message: MessageWebSocketResponseDTO) { // 고쳐야함
-        messageAdapter.addMessage(message)
-        scrollToBottom()
-    }
-
-    // 웹 소켓 관련 메서드
+    /**
+     * 웹 소켓 시작하는 메서드
+     */
     private fun startWebSocket(){
         val (ajt, rjt) = sharedPreferencesManager.getLoginToken()
 
@@ -195,12 +208,17 @@ class ChatFragment : Fragment() {
         webSocket = client.newWebSocket(request, webSocketListener)
     }
 
+    /**
+     * 웹소켓 연결 해제 메서드
+     */
     private fun closeWebSocket() {
         webSocket?.close(1000, "[closeWebSocket] - Fragment is pausing")
         webSocket = null
     }
 
-
+    /**
+     * 매칭글 정보 배치
+     */
     private fun bindChatDetails() {
         mBinding?.postTitle?.text = roomDetailDTO?.postTitle.toString()
         mBinding?.matchDate?.text = roomDetailDTO?.matchDate.toString()
@@ -246,6 +264,9 @@ class ChatFragment : Fragment() {
 
     }
 
+    /**
+     * 메이트 맺기 버튼 클릭 시 보여지는 다이얼
+     */
     private fun showPopupMateUpdate() {
         // 팝업 창 레이아웃 선택
         val layoutResId = if (roomDetailDTO?.isClicked == 1) {
@@ -280,6 +301,9 @@ class ChatFragment : Fragment() {
         dialog.show()
     }
 
+    /**
+     * 쌍방 메이트 맺기 클릭 후 보여지는 메이트 확정 다이얼
+     */
     private fun showMateDialogConfirmed() {
         // 팝업 창
         val dialogView = LayoutInflater.from(context).inflate(R.layout.chat_dialog_confirmed, null)
@@ -305,6 +329,9 @@ class ChatFragment : Fragment() {
         dialog.show()
     }
 
+    /**
+     * 1:1 채팅방 toolbar 설정
+     */
     private fun setupToolbar() {
         val toolbar = mBinding?.toolbar?.chatToolbar
         toolbar?.let {
@@ -333,6 +360,9 @@ class ChatFragment : Fragment() {
         }
     }
 
+    /**
+     * 상단 점 3개 버튼 클릭 시 보여지는 menu bar
+     */
     private fun showPopupMenu(view: View) {
         val popupMenu = PopupMenu(requireContext(), view)
         val inflater = popupMenu.menuInflater
@@ -357,7 +387,9 @@ class ChatFragment : Fragment() {
         popupMenu.show()
     }
 
-
+    /**
+     * 메세지 버튼 전송 onClick 설정
+     */
     private fun setupSendButton() {
         mBinding?.sendButton?.setOnClickListener {
             val message = mBinding?.messageInput?.text.toString()
@@ -368,10 +400,40 @@ class ChatFragment : Fragment() {
         }
     }
 
+    /**
+     * 메세지 전송 메서드
+     */
+    private fun sendMessage(content: String) {
+        val messageRequest = MessageRequestDTO(
+            chatRoomId = roomDetailDTO?.chatRoomId.toString(),
+            participateId = roomDetailDTO?.participateId,
+            content = content,
+            messageType = MessageType.TEXT
+        )
+
+        val gson = Gson()
+        val messageJson = gson.toJson(messageRequest)
+        webSocket?.send(messageJson)
+    }
+
+    /**
+     * 채팅 view에 새로운 메세지 추가
+     */
+    fun updateChat(message: MessageWebSocketResponseDTO) { // 고쳐야함
+        messageAdapter.addMessage(message)
+        scrollToBottom()
+    }
+
+    /**
+     * 채팅 기본값으로 하단 보여주는 메서드
+     */
     private fun scrollToBottom() {
         mBinding?.chatRecyclerView?.scrollToPosition(messageAdapter.itemCount - 1)
     }
 
+    /**
+     * 메이트 맺기 버튼 클릭 시 동작
+     */
     private fun updateMate() {
         val requestDTO = MateUpdateRequestDTO(
             chatRoomId = roomDetailDTO?.chatRoomId,
@@ -386,6 +448,9 @@ class ChatFragment : Fragment() {
     }
 
 
+    /**
+     * 활동 공지 활성화/비활성화 처리
+     */
     private fun updateNoticeVisibility() {
         val chatActivityNoticeContainer = mBinding?.chatActivityNoticeContainer
 
@@ -396,6 +461,9 @@ class ChatFragment : Fragment() {
         }
     }
 
+    /**
+     * ChatFragment 시작
+     */
     override fun onResume() {
         super.onResume()
         Log.d("[onResume]","다시 시작")
@@ -404,6 +472,9 @@ class ChatFragment : Fragment() {
             updateNoticeVisibility()
     }
 
+    /**
+     * ChatFragment 일시정지
+     */
     override fun onPause() {
         super.onPause()
         Log.d("[onPause]","일시정지")
@@ -411,6 +482,9 @@ class ChatFragment : Fragment() {
         closeWebSocket()
     }
 
+    /**
+     * ChatFragment 종료
+     */
     override fun onDestroyView() {
         mBinding = null
 

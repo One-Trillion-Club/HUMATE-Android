@@ -14,6 +14,21 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.http.Body
 
+/**
+ * 채팅 관련 ViewModel
+ * @author 최유경
+ * @since 2024.08.04
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.04   최유경        최초 생성
+ * 2024.08.06   최유경        채팅방 리스트 조회
+ * 2024.08.07   최유경        메이트 맺기/신청, 동행 시작
+ * 2024.08.08   최유경        채팅방 생성 추가
+ * </pre>
+ */
 class ChatViewModel : ViewModel() {
     private val chatMainService : ChatMainService = RetrofitConnection.getInstance().create(ChatMainService::class.java)
     private val chatService : ChatService = RetrofitConnection.getInstance().create(ChatService::class.java)
@@ -32,12 +47,16 @@ class ChatViewModel : ViewModel() {
         tabSelect.value = tab
     }
 
-    // 채팅 메시지 리스트를 업데이트
+    /**
+     * 채팅 메시지 리스트를 업데이트
+     */
     fun setChatRoomList(roomList: List<RoomDetailDTO>) {
         roomDetailDTOList.value = roomList
     }
 
-    // 채팅 과거 내역 불러오는 API 호출
+    /**
+     * 채팅 과거 내역 불러오는 API 호출
+     */
     fun fetchChatHistoryList(chatRoomId: String?)  {
 
         chatService.getChatHistoryList(chatRoomId!!).enqueue(object :
@@ -58,6 +77,9 @@ class ChatViewModel : ViewModel() {
         })
     }
 
+    /**
+     * 전체 채팅방 내역 리스트 조회
+     */
     fun fetchChatRoomList()  {
 
         chatMainService.getChatRoomList().enqueue(object :
@@ -78,6 +100,9 @@ class ChatViewModel : ViewModel() {
         })
     }
 
+    /**
+     * 전체 대기 채팅방 내역 리스트 조회
+     */
     fun fetchPendingChatRoomList()  {
 
         chatMainService.getPendingChatRoomList().enqueue(object :
@@ -98,7 +123,9 @@ class ChatViewModel : ViewModel() {
         })
     }
 
-
+    /**
+     * 메이트 맺기 신청/취소 요청
+     */
     fun updateMateState(@Body requestDTO: MateUpdateRequestDTO){
         chatService.updateMateState(requestDTO).enqueue(object : Callback<CommonResponseDTO> {
             override fun onResponse(
@@ -130,6 +157,9 @@ class ChatViewModel : ViewModel() {
         })
     }
 
+    /**
+     * 동행 시작 요청
+     */
     fun companionStart(@Body requestDTO: CompanionCreateRequestDTO){
 
         chatService.companionStart(requestDTO).enqueue(object : Callback<CommonResponseDTO> {
@@ -156,7 +186,9 @@ class ChatViewModel : ViewModel() {
         })
     }
 
-
+    /**
+     * 채팅방 생성 요청
+     */
     fun createChatRoom(@Body requestDTO: RoomCreateRequestDTO){
         chatMainService.createChatRoom(requestDTO).enqueue(object : Callback<RoomCreateResponseDTO> {
             override fun onResponse(
@@ -175,14 +207,23 @@ class ChatViewModel : ViewModel() {
         })
     }
 
+    /**
+     * ChatFragment 재로딩
+     */
     fun resetNavigation() {
         _navigateToChatFragment.value = false
     }
 
+    /**
+     * 메이트 확정 dialog를 열기 위한 재로딩
+     */
     fun resetDialog() {
         _shouldOpenCompanionConfirmDialog.value = false
     }
 
+    /**
+     * detailDTO 설정
+     */
     fun setChatDetailDTO(roomDetailDTO: RoomDetailDTO) {
         latestRoomDetailDTO.value = roomDetailDTO
     }

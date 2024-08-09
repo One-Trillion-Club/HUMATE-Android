@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ * 채팅방 아이템 Layout
+ * @author 최유경
+ * @since 2024.08.04
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ==========  ========    =============================
+ * 2024.08.04   최유경        최초 생성
+ * 2024.08.06   최유경        제목 길 경우 한 줄 처리
+ * </pre>
+-->
 <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"

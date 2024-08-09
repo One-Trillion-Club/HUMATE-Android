@@ -12,6 +12,20 @@ import com.bumptech.glide.request.RequestOptions
 import com.otclub.humate.R
 import com.otclub.humate.chat.data.RoomDetailDTO
 
+/**
+ * 채팅방 Adapter
+ *
+ * @author 최유경
+ * @since 2024.08.04
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.04  	최유경        최초 생성
+ * 2024.08.07   최유경        프로필 기능 추가
+ * </pre>
+ */
 class RoomAdapter(private val roomList: List<RoomDetailDTO>,
                   private val onItemClick: (RoomDetailDTO) -> Unit
 ) : RecyclerView.Adapter<RoomAdapter.ChatRoomViewHolder>() {
@@ -26,11 +40,17 @@ class RoomAdapter(private val roomList: List<RoomDetailDTO>,
     }
 
 
+    /**
+     * viewHolder 생성
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatRoomViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.chat_main_item, parent, false)
         return ChatRoomViewHolder(view)
     }
 
+    /**
+     * viewHolder 구성해주는 메서드
+     */
     override fun onBindViewHolder(holder: ChatRoomViewHolder, position: Int) {
         val room = roomList[position]
 
