@@ -3,7 +3,7 @@ package com.otclub.humate.mate.data
 /**
  * 매칭 태그(한-영) Enum
  * @author 김지현
- * @since 2024.08.02
+ * @since 2024.08.07
  * @version 1.0
  *
  * <pre>

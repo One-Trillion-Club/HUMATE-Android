@@ -9,7 +9,7 @@ package com.otclub.humate.mate.data
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.08.03   김지         최초 생성
+ * 2024.08.03   김지현        최초 생성
  * </pre>
  */
 data class PostDetailResponseDTO(
