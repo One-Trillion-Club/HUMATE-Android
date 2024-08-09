@@ -14,6 +14,8 @@ package com.otclub.humate.member.data
  * </pre>
  */
 data class ModifyProfileRequestDTO (
+    // 닉네임
     var nickname: String?,
+    // 한 줄 소개
     var introduction: String?
 )
