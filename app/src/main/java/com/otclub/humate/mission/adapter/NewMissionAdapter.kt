@@ -6,12 +6,25 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.otclub.humate.R
-import com.otclub.humate.mission.data.NewMission
+import com.otclub.humate.mission.data.NewMissionDetailsDTO
 
+/**
+ * 새로운 활동 Adapter
+ * @author 손승완
+ * @since 2024.08.01
+ * @version 1.1
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.01 	손승완        최초 생성
+ * 2024.08.06   손승완        다국어 처리
+ * </pre>
+ */
 class NewMissionAdapter(
-    private val newMissionList: List<NewMission>,
+    private val newMissionList: List<NewMissionDetailsDTO>,
     private val languageCode: Int,
-    private val onItemClick: (NewMission) -> Unit
+    private val onItemClick: (NewMissionDetailsDTO) -> Unit
 ) : RecyclerView.Adapter<NewMissionAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -15,6 +15,19 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * 활동 관련 ViewModel
+ * @author 손승완
+ * @since 2024.08.01
+ * @version 1.1
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.01 	손승완        최초 생성
+ * 2024.08.03 	손승완        활동 관련 변수 추가, 활동 상세, 동행 목록 조회 기능 추가
+ * </pre>
+ */
 class MissionViewModel(application: Application) : AndroidViewModel(application) {
     private val missionService: MissionService =
         RetrofitConnection.getInstance().create(MissionService::class.java)

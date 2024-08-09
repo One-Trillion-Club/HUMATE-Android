@@ -11,6 +11,18 @@ import com.bumptech.glide.Glide
 import com.otclub.humate.R
 import com.otclub.humate.mission.data.MatchingResponseDTO
 
+/**
+ * 매칭 Adapter
+ * @author 손승완
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.02 	손승완        최초 생성
+ * </pre>
+ */
 class MatchingAdapter(
     private var matchings: List<MatchingResponseDTO>,
     private val onItemClick: (MatchingResponseDTO) -> Unit

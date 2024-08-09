@@ -27,6 +27,20 @@ import com.otclub.humate.retrofit.RetrofitConnection
 import retrofit2.Call
 import retrofit2.Response
 
+/**
+ * 완료된 활동 목록 Fragment
+ * @author 손승완
+ * @since 2024.08.01
+ * @version 1.2
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.01 	손승완        최초 생성
+ * 2024.08.03 	손승완        동행 종료 기능 추가, 팝업 기능 추가
+ * 2024.08.05 	손승완        TabLayout 적용
+ * </pre>
+ */
 class ClearedMissionFragment : Fragment() {
 
     private val missionViewModel: MissionViewModel by activityViewModels()
@@ -66,8 +80,6 @@ class ClearedMissionFragment : Fragment() {
             }
         })
 
-
-        // RecyclerView 설정
         mBinding?.recyclerView?.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = ClearedMissionAdapter(emptyList(), missionViewModel.sharedPreferencesManager.getLanguage()) {
@@ -79,7 +91,6 @@ class ClearedMissionFragment : Fragment() {
             }
         }
 
-        // ViewModel에서 데이터 관찰
         missionViewModel.missionResponseDTO.observe(viewLifecycleOwner) { response ->
             response?.let {
                 val adapter = ClearedMissionAdapter(it.clearedMissionList, missionViewModel.sharedPreferencesManager.getLanguage()) { mission ->
@@ -105,6 +116,9 @@ class ClearedMissionFragment : Fragment() {
 
     }
 
+    /**
+     * 완료된 활동 목록이 없을 경우 메시지 활성화
+     */
     private fun updateEmptyTitle(response: MissionResponseDTO) {
         val clearedMissionList = response.clearedMissionList
 
@@ -113,10 +127,6 @@ class ClearedMissionFragment : Fragment() {
         mBinding?.emptyMessage?.visibility = if (isListEmpty) View.VISIBLE else View.GONE
     }
 
-    override fun onDestroyView() {
-        mBinding = null
-        super.onDestroyView()
-    }
 
     private fun setupToolbar(postTitle: String) {
         val toolbar = mBinding?.toolbar?.missionToolbar
@@ -126,7 +136,6 @@ class ClearedMissionFragment : Fragment() {
             val title: TextView = it.findViewById(R.id.mission_toolbar_title)
             title.text = postTitle
 
-            // 버튼의 가시성 설정
             val showLeftButton = true
             val showRightButton = true
             leftButton.visibility = if (showLeftButton) View.VISIBLE else View.GONE
@@ -143,6 +152,9 @@ class ClearedMissionFragment : Fragment() {
         }
     }
 
+    /**
+     * 동행 종료 및 후기 남기기 팝업
+     */
     private fun showMissionPopupMenu(view: View) {
         val popupMenu = PopupMenu(requireContext(), view)
         val inflater = popupMenu.menuInflater
@@ -172,6 +184,9 @@ class ClearedMissionFragment : Fragment() {
         popupMenu.show()
     }
 
+    /**
+     * 동행 종료하기
+     */
     private fun finishCompanion(companionId: Int) {
         val call = RetrofitConnection.getInstance().create(MissionService::class.java).finishCompanion(companionId)
         call.enqueue(object : retrofit2.Callback<CommonResponseDTO> {
@@ -199,5 +214,10 @@ class ClearedMissionFragment : Fragment() {
             override fun onFailure(call: Call<CommonResponseDTO>, t: Throwable) {
             }
         })
+    }
+
+    override fun onDestroyView() {
+        mBinding = null
+        super.onDestroyView()
     }
 }

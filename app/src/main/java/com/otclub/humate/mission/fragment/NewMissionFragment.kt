@@ -1,9 +1,6 @@
 package com.otclub.humate.mission.fragment
 
 import NewMissionAdapter
-import android.content.Context
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,8 +11,6 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -31,6 +26,20 @@ import com.otclub.humate.retrofit.RetrofitConnection
 import retrofit2.Call
 import retrofit2.Response
 
+/**
+ * 새로운 활동 목록 Fragment
+ * @author 손승완
+ * @since 2024.08.01
+ * @version 1.2
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.01 	손승완        최초 생성
+ * 2024.08.04 	손승완        toolbar 기능 추가
+ * 2024.08.05 	손승완        TabLayout 적용
+ * </pre>
+ */
 class NewMissionFragment : Fragment() {
     private val missionViewModel: MissionViewModel by activityViewModels()
     private var mBinding: FragmentNewMissionBinding? = null
@@ -96,6 +105,9 @@ class NewMissionFragment : Fragment() {
         }
     }
 
+    /**
+     * 상단 Toolbar 설정
+     */
     private fun setupToolbar(postTitle: String) {
         val toolbar = mBinding?.toolbar?.missionToolbar
         toolbar?.let {
@@ -121,6 +133,9 @@ class NewMissionFragment : Fragment() {
         }
     }
 
+    /**
+     * 동행 종료 및 후기 남기기 팝업 활성화
+     */
     private fun showMissionPopupMenu(view: View) {
         val popupMenu = PopupMenu(requireContext(), view)
         val inflater = popupMenu.menuInflater
@@ -151,6 +166,9 @@ class NewMissionFragment : Fragment() {
         popupMenu.show()
     }
 
+    /**
+     * 동행 종료하기
+     */
     private fun finishCompanion(companionId: Int) {
         val call = RetrofitConnection.getInstance().create(MissionService::class.java).finishCompanion(companionId)
         call.enqueue(object : retrofit2.Callback<CommonResponseDTO> {
