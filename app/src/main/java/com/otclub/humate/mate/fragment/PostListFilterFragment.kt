@@ -7,25 +7,33 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.*
-import androidx.appcompat.widget.AppCompatImageButton
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.MateFragmentPostListFilterBinding
-import com.otclub.humate.mate.adapter.PostListAdapter
 import com.otclub.humate.mate.data.LocalizedBranch
 import com.otclub.humate.mate.viewmodel.PostViewModel
 import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+/**
+ * 매칭글 전체 조회 시 필터링 적용 Adapter
+ * @author 김지현
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.02  	김지현        최초 생성
+ * 2024.08.03   김지현        전체적인 UI 수정
+ * 2024.08.05   김지현        상단바 수정
+ * 2024.08.07   김지현        영어 버전 추가
+ * </pre>
+ */
 class PostListFilterFragment : Fragment() {
 
     private var mBinding : MateFragmentPostListFilterBinding? = null
@@ -60,6 +68,17 @@ class PostListFilterFragment : Fragment() {
         // ViewModel 초기화
         postViewModel = ViewModelProvider(requireActivity()).get(PostViewModel::class.java)
 
+        // memberId 가져오기
+        postViewModel.fetchMemberId(
+            onSuccess = { memberId ->
+                filters["memberId"] = memberId
+                Log.i("memberId", memberId)
+            },
+            onError = { errorMessage ->
+                // 오류 메시지를 표시하거나 로그로 남길 수 있습니다.
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        )
         sharedPreferencesManager = SharedPreferencesManager(requireContext())
 
         mBinding = binding
@@ -70,6 +89,18 @@ class PostListFilterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val currentLanguage = sharedPreferencesManager.getLanguage()
+
+        // memberId 가져오기
+        postViewModel.fetchMemberId(
+            onSuccess = { memberId ->
+                filters["memberId"] = memberId
+                Log.i("memberId", memberId)
+            },
+            onError = { errorMessage ->
+                // 오류 메시지를 표시하거나 로그로 남길 수 있습니다.
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        )
 
         // ViewModel의 데이터 사용
         postViewModel.filterData?.let { filterData ->
@@ -97,6 +128,7 @@ class PostListFilterFragment : Fragment() {
             Log.i("filter", "Updated filters: $filters")
         }
 
+        // 툴바 사용
         val toolbar = mBinding?.toolbar?.toolbar
 
         toolbar?.let {
@@ -243,6 +275,9 @@ class PostListFilterFragment : Fragment() {
 
     }
 
+    /**
+     * 이름으로 매칭 지점 ID 조회
+     */
     private fun getBranchIdByName(branchName: String, currentLanguage: Int): Int? {
         return LocalizedBranch.values().firstOrNull {
             when (currentLanguage) {
@@ -252,7 +287,9 @@ class PostListFilterFragment : Fragment() {
         }?.id
     }
 
-    // 초기화
+    /**
+     * 필터링 초기화
+     */
     private fun initializeFilters() {
         // 날짜 초기화
         filters["matchDate"]?.let { matchDate ->
@@ -308,6 +345,9 @@ class PostListFilterFragment : Fragment() {
         }
     }
 
+    /**
+     * 매칭 지점 버튼 선택 시
+     */
     private fun setButtonSelectedState(branch: String, isSelected: Boolean) {
         // 버튼 컨테이너에서 해당 지점 버튼을 찾아 상태를 설정
         val buttonContainer = mBinding?.branchSelectionsContainer
@@ -324,6 +364,9 @@ class PostListFilterFragment : Fragment() {
         }
     }
 
+    /**
+     * 매칭 언어 버튼 선택 시
+     */
     private fun setLanguageButtonSelectedState(language: String, isSelected: Boolean) {
         // 버튼을 찾아 상태를 설정
         val button = when (language) {
@@ -345,7 +388,9 @@ class PostListFilterFragment : Fragment() {
         }
     }
 
-    // 날짜 선택
+    /**
+     * 매칭 날짜 선택하기
+     */
     private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -381,7 +426,9 @@ class PostListFilterFragment : Fragment() {
         datePickerDialog.show()
     }
 
-    // 날짜 초기화
+    /**
+     * 매칭 날짜 초기화하기
+     */
     private fun resetDateSelection() {
         // 선택한 날짜 없애고 기본 텍스트 출력
         val defaultDate = "날짜를 선택해주세요" // 기본 텍스트
@@ -395,7 +442,9 @@ class PostListFilterFragment : Fragment() {
         selectedDate = null
     }
 
-    // 지점 선택
+    /**
+     * 매칭 지점 선택하기
+     */
     private fun handleButtonClick(clickedButton: Button) {
         val currentLanguage = sharedPreferencesManager.getLanguage()
         val branchName = clickedButton.text.toString()
@@ -418,7 +467,9 @@ class PostListFilterFragment : Fragment() {
         }
     }
 
-    // 지점 초기화
+    /**
+     * 매칭 지점 초기화하기
+     */
     private fun resetBranchSelection() {
         val currentLanguage = sharedPreferencesManager.getLanguage()
 
@@ -436,7 +487,9 @@ class PostListFilterFragment : Fragment() {
         }
     }
 
-    // 성별 선택
+    /**
+     * 매칭 성별 선택하기
+     */
     private fun setupGenderButtons() {
         val maleButton: Button = mBinding?.maleButton ?: return
         val femaleButton: Button = mBinding?.femaleButton ?: return
@@ -450,6 +503,9 @@ class PostListFilterFragment : Fragment() {
         }
     }
 
+    /**
+     * 매칭 성별 버튼 상태 업데이트하기
+     */
     private fun updateGenderButtonStates(selectedButton: Button, gender: String) {
         val maleButton: Button = mBinding?.maleButton ?: return
         val femaleButton: Button = mBinding?.femaleButton ?: return
@@ -470,7 +526,9 @@ class PostListFilterFragment : Fragment() {
         selectedGender = gender
     }
 
-    // 성별 초기화
+    /**
+     * 매칭 성별 초기화하기
+     */
     private fun resetGenderSelection() {
         val maleButton: Button = mBinding?.maleButton ?: return
         val femaleButton: Button = mBinding?.femaleButton ?: return
@@ -487,7 +545,9 @@ class PostListFilterFragment : Fragment() {
         selectedGender = null
     }
 
-    // 언어 선택
+    /**
+     * 매칭 언어 선택하기
+     */
     private fun setupLanguageButtons() {
         val koreanButton: Button = mBinding?.koreanButton ?: return
         val englishButton: Button = mBinding?.englishButton ?: return
@@ -511,6 +571,9 @@ class PostListFilterFragment : Fragment() {
         }
     }
 
+    /**
+     * 매칭 성별 초기화하기
+     */
     private fun updateLanguageButtonStates(selectedButton: Button, language: String) {
         // 버튼이 이미 선택된 상태인지 확인
         val isAlreadySelected = selectedButton in selectedLanguageButton
@@ -534,7 +597,9 @@ class PostListFilterFragment : Fragment() {
         }
     }
 
-    // 언어 초기화
+    /**
+     * 매칭 언어 초기화하기
+     */
     private fun resetLanguageSelection() {
         // 버튼 컨테이너에서 모든 버튼을 가져옴
         val buttonContainer = mBinding?.languageButtonsContainer

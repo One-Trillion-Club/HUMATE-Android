@@ -20,6 +20,19 @@ import com.otclub.humate.mate.viewmodel.PostWriteViewModel
 import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 import java.util.*
 
+/**
+ * 매칭글 작성 Adapter
+ * @author 김지현
+ * @since 2024.08.04
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.04  	김지현        최초 생성
+ * 2024.08.07   김지현        영어 버전 추가
+ * </pre>
+ */
 class PostWriteFragment : Fragment()  {
 
     private var mBinding : MateFragmentPostWriteBinding? = null
@@ -31,7 +44,7 @@ class PostWriteFragment : Fragment()  {
     private lateinit var addStoreButton: Button
 
     private var requests = mutableMapOf(
-        "memberId" to "K_11"
+        "memberId" to "0"
         // 초기 요청 값 설정
     )
 
@@ -60,12 +73,35 @@ class PostWriteFragment : Fragment()  {
 
         mBinding = binding
 
+        // memberId 가져오기
+        postWriteViewModel.fetchMemberId(
+            onSuccess = { memberId ->
+                requests["memberId"] = memberId
+                Log.i("memberId", memberId)
+            },
+            onError = { errorMessage ->
+                // 오류 메시지를 표시하거나 로그로 남길 수 있습니다.
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        )
+
         return mBinding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // memberId 가져오기
+        postWriteViewModel.fetchMemberId(
+            onSuccess = { memberId ->
+                requests["memberId"] = memberId
+                Log.i("memberId", memberId)
+            },
+            onError = { errorMessage ->
+                // 오류 메시지를 표시하거나 로그로 남길 수 있습니다.
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        )
 
         // ViewModel의 데이터 사용
         postWriteViewModel.optionData?.let { optionData ->
@@ -104,6 +140,7 @@ class PostWriteFragment : Fragment()  {
 
         Log.i("PostWriteFragment", "Received final data: $requests")
 
+        // 툴바 사용
         val toolbar = mBinding?.toolbar?.toolbar
 
         toolbar?.let {
@@ -222,6 +259,9 @@ class PostWriteFragment : Fragment()  {
 
     }
 
+    /**
+     * 이름으로 태그 ID 조회
+     */
     private fun getTagIdByName(tagName: String, currentLanguage: Int): Int? {
         return LocalizedTag.values().firstOrNull {
             when (currentLanguage) {
@@ -231,6 +271,9 @@ class PostWriteFragment : Fragment()  {
         }?.id
     }
 
+    /**
+     * 문자열 데이터를 파싱하여 매칭 장소 정보를 담은 PostWritePlaceRequestDTO 객체 리스트 생성
+     */
     private fun parsePostWritePlaceRequestDTO(data: String): List<PostWritePlaceRequestDTO> {
         val places = mutableListOf<PostWritePlaceRequestDTO>()
 
@@ -247,6 +290,9 @@ class PostWriteFragment : Fragment()  {
         return places
     }
 
+    /**
+     * 문자열 데이터를 파싱하여 매칭 태그 정보를 담은 PostWriteTagRequestDTO 객체 리스트 생성
+     */
     private fun parsePostWriteTagRequestDTO(data: String): List<PostWriteTagRequestDTO> {
         val tags = mutableListOf<PostWriteTagRequestDTO>()
 
@@ -262,7 +308,9 @@ class PostWriteFragment : Fragment()  {
         return tags
     }
 
-    // 페이지 초기화
+    /**
+     * 매칭글 작성 내역 세팅
+     */
     private fun initialize() {
         // 제목
         Log.i("initialize", "title -> " + requests["title"] )
@@ -283,7 +331,9 @@ class PostWriteFragment : Fragment()  {
         }
     }
 
-    // requestDTO 저장
+    /**
+     * 매칭글 작성 내역 viewModel에 저장
+     */
     private fun saveRequest() {
 
         postWriteViewModel.updateRequestData(
@@ -304,8 +354,10 @@ class PostWriteFragment : Fragment()  {
         Log.i("태그 등록 확인", "$selectedTags")
     }
 
-    // 매칭글 작성 정보 저장하기
-    // 1. 제목과 내용
+    /**
+     * 매칭글 작성 내역 requests 배열에 저장 후 화면에 출력
+     * - 제목, 내용
+     */
     private fun updateBasicInfo() {
         // 제목
         titleInput = binding.titleInput
@@ -331,7 +383,10 @@ class PostWriteFragment : Fragment()  {
 
     }
 
-    // 2. 매칭 정보 선택
+    /**
+     * 매칭글 작성 내역 requests 배열에 저장 후 화면에 출력
+     * - 매칭 정보 (날짜, 지점, 성별, 언어)
+     */
     private fun updateCardViews() {
         val currentLanguage = sharedPreferencesManager.getLanguage()
 
@@ -378,6 +433,9 @@ class PostWriteFragment : Fragment()  {
 
     }
 
+    /**
+     * 매칭 언어 한-영 변환
+     */
     fun getEnglishLanguageName(language: String): String {
         return when (language) {
             "한국어" -> "Korean"
@@ -388,9 +446,10 @@ class PostWriteFragment : Fragment()  {
         }
     }
 
-    // 3. 매장 및 팝업스토어 설정
-
-    // 4. 태그 설정
+    /**
+     * 매칭글 작성 내역 requests 배열에 저장 후 화면에 출력
+     * - 태그 내용
+     */
     private fun addTagToLayout(tag: Tag) {
         val currentLanguage = sharedPreferencesManager.getLanguage()
         Log.i("태그 언어 변경", "$currentLanguage")
@@ -529,7 +588,9 @@ class PostWriteFragment : Fragment()  {
         container.addView(horizontalScrollView)
     }
 
-    // 태그 버튼 클릭 시
+    /**
+     * 태그 버튼 클릭 시
+     */
     fun handleButtonClick(button: Button) {
         val currentLanguage = sharedPreferencesManager.getLanguage()
         val tagName = button.text.toString()
@@ -552,7 +613,9 @@ class PostWriteFragment : Fragment()  {
         Log.i("PostTag", "selectedTags -> $selectedTags")
     }
 
-    // 장소 및 팝업스토어 초기화할 때
+    /**
+     * 장소 및 팝업스토어 초기화
+     */
     private fun initStoreItems(place: PostWritePlaceRequestDTO) {
         val inflater = LayoutInflater.from(context)
         val itemView = inflater.inflate(R.layout.mate_item_store, storeItemsContainer, false)
@@ -593,7 +656,9 @@ class PostWriteFragment : Fragment()  {
         storeItemsContainer.addView(itemView)
     }
 
-    // 장소 및 팝업스토어 추가 버튼 눌렀을 때
+    /**
+     * 장소 및 팝업스토어 추가 버튼 클릭 시
+     */
     private fun addStoreItem() {
         val inflater = LayoutInflater.from(context)
         val itemView = inflater.inflate(R.layout.mate_item_store, storeItemsContainer, false)
@@ -669,6 +734,9 @@ class PostWriteFragment : Fragment()  {
         storeItemsContainer.addView(itemView)
     }
 
+    /**
+     * dp에서 px로 변경
+     */
     private fun Int.dpToPx(): Int {
         val density = resources.displayMetrics.density
         return (this * density).toInt()
@@ -678,7 +746,4 @@ class PostWriteFragment : Fragment()  {
         mBinding = null
         super.onDestroyView()
     }
-
-    // 작성 완료 버튼 클릭 시
-
 }

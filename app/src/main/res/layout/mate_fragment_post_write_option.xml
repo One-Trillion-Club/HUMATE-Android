@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ * 매칭글 작성 시 옵션 선택 Layout
+ * @author 김지현
+ * @since 2024.08.04
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ==========  =========    =========
+ * 2024.08.04  	김지현        최초 생성
+ * 2024.08.05   김지현        상단바 수정
+ * 2024.08.07   김지현        영어 버전 추가
+ * </pre>
+ -->
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
