@@ -14,11 +14,11 @@ import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.chat.adapter.RoomAdapter
 import com.otclub.humate.chat.viewModel.ChatViewModel
-import com.otclub.humate.databinding.ChatRoomFragmentBinding
+import com.otclub.humate.databinding.ChatMainFragmentBinding
 
 class ChatMainFragment  : Fragment()  {
     private val chatViewModel : ChatViewModel by activityViewModels()
-    private var mBinding: ChatRoomFragmentBinding? = null
+    private var mBinding: ChatMainFragmentBinding? = null
     var selectedTab : Int = 0
 
     override fun onCreateView(
@@ -26,18 +26,23 @@ class ChatMainFragment  : Fragment()  {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = ChatRoomFragmentBinding.inflate(inflater, container, false)
+        val binding = ChatMainFragmentBinding.inflate(inflater, container, false)
         mBinding = binding
         return mBinding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mBinding?.chatTabLayout?.addTab(mBinding!!.chatTabLayout.newTab().setText(getString(R.string.chat_mate_list)))
-        mBinding?.chatTabLayout?.addTab(mBinding!!.chatTabLayout.newTab().setText(getString(R.string.chat_pending_list)))
+//        mBinding?.chatTabLayout?.addTab(mBinding!!.chatTabLayout.newTab().setText(getString(R.string.chat_mate_list)))
+//        mBinding?.chatTabLayout?.addTab(mBinding!!.chatTabLayout.newTab().setText(getString(R.string.chat_pending_list)))
 
         selectedTab = chatViewModel.tabSelect.value ?: 0
-        mBinding?.chatTabLayout?.getTabAt(selectedTab)?.select()
+
+        // TabLayout에 탭 추가
+        mBinding?.chatTabLayout?.apply {
+            addTab(newTab().setText(getString(R.string.chat_mate_list)))
+            addTab(newTab().setText(getString(R.string.chat_pending_list)))
+        }
 
         mBinding?.chatTabLayout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -68,6 +73,16 @@ class ChatMainFragment  : Fragment()  {
             }
         })
 
+//        mBinding?.chatTabLayout?.getTabAt(selectedTab)?.select()
+        // 기본으로 첫 번째 탭 선택 및 API 호출
+        if (selectedTab == 0) {  // 첫 번째 탭이 선택된 경우
+            mBinding?.chatTabLayout?.getTabAt(0)?.select() // 첫 번째 탭 선택
+            chatViewModel.fetchChatRoomList() // 첫 번째 탭에 해당하는 API 호출
+        } else {  // 두 번째 탭이 선택된 경우
+            mBinding?.chatTabLayout?.getTabAt(1)?.select() // 두 번째 탭 선택
+            chatViewModel.fetchPendingChatRoomList() // 두 번째 탭에 해당하는 API 호출
+        }
+
         // RecyclerView 설정
         mBinding?.chatRoomRecyclerView?.apply {
             layoutManager = GridLayoutManager(context, 1)
@@ -75,7 +90,7 @@ class ChatMainFragment  : Fragment()  {
                 // 아이템 클릭 시 ChatFragment로 이동 -> 설정해줘야 함
                 chatViewModel.setChatDetailDTO(chatRoom)
                 findNavController().navigate(
-                    R.id.action_chatRoomFragment_to_chatFragment
+                    R.id.action_chatMainFragment_to_chatFragment
                 )
             }
         }
@@ -88,7 +103,7 @@ class ChatMainFragment  : Fragment()  {
                     (activity as? MainActivity)?.hideBottomNavigationBar()
                     chatViewModel.setChatDetailDTO(chatRoom)
                     findNavController().navigate(
-                        R.id.action_chatRoomFragment_to_chatFragment
+                        R.id.action_chatMainFragment_to_chatFragment
                     )
                 }
                 Log.i("adapter : ", adapter.toString())
@@ -104,7 +119,6 @@ class ChatMainFragment  : Fragment()  {
 
     override fun onDestroyView() {
         mBinding = null
-        //chatViewModel.setChatRoomList(emptyList())
         super.onDestroyView()
     }
 }

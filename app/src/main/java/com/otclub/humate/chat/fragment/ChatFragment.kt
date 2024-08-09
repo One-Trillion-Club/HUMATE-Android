@@ -110,6 +110,7 @@ class ChatFragment : Fragment() {
         // ViewModel에서 데이터 관찰
         chatViewModel.chatHistoryList.observe(viewLifecycleOwner) { response ->
             response?.let {
+                Log.d("chatHistoryList.observe",it.toString())
                 messageAdapter.updateMessages(it, roomDetailDTO)
                 mBinding?.chatRecyclerView?.adapter = messageAdapter
                 scrollToBottom()

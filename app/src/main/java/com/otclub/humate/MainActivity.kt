@@ -21,7 +21,6 @@ import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityMainBinding
-    private var defaultToolbar: Toolbar? = null
     private lateinit var memberViewModel: MemberViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,43 +76,8 @@ class MainActivity : AppCompatActivity() {
         if (navController != null) {
             NavigationUI.setupWithNavController(bottomNavigationView, navController)
         }
-
-        // 기본 Toolbar 설정
-//        setupDefaultToolbar()
     }
 
-    private fun setupDefaultToolbar() {
-        defaultToolbar = layoutInflater.inflate(R.layout.common_toolbar, null) as Toolbar
-        val toolbarContainer: FrameLayout = findViewById(R.id.toolbar_container)
-        toolbarContainer.addView(defaultToolbar)
-        setSupportActionBar(defaultToolbar)
-    }
-
-    fun setToolbarTitle(title: String) {
-        val toolbarTitle: TextView = findViewById(R.id.toolbar_title)
-        toolbarTitle.text = title
-    }
-
-    fun getToolbar(): Toolbar {
-        return defaultToolbar ?: findViewById(R.id.toolbar)
-    }
-
-    fun replaceToolbar(newToolbar: Toolbar) {
-        val toolbarContainer: FrameLayout = findViewById(R.id.toolbar_container)
-        toolbarContainer.removeAllViews()
-        toolbarContainer.addView(newToolbar)
-        setSupportActionBar(newToolbar)
-    }
-
-    fun restoreToolbar() {
-        val toolbarContainer: FrameLayout = findViewById(R.id.toolbar_container)
-        toolbarContainer.removeAllViews()
-
-        // 기존 Toolbar를 복구
-        defaultToolbar?.visibility = View.VISIBLE
-        toolbarContainer.addView(defaultToolbar)
-        setSupportActionBar(defaultToolbar)
-    }
 
     fun hideBottomNavigationBar() {
         val bottomNavigationView = mBinding.bottomNavigationView

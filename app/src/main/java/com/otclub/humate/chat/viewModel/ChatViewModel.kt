@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.otclub.humate.chat.api.ChatRoomService
+import com.otclub.humate.chat.api.ChatMainService
 import com.otclub.humate.chat.api.ChatService
 import com.otclub.humate.chat.data.*
 import com.otclub.humate.mission.data.CommonResponseDTO
@@ -15,7 +15,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 
 class ChatViewModel : ViewModel() {
-    private val chatRoomService : ChatRoomService = RetrofitConnection.getInstance().create(ChatRoomService::class.java)
+    private val chatMainService : ChatMainService = RetrofitConnection.getInstance().create(ChatMainService::class.java)
     private val chatService : ChatService = RetrofitConnection.getInstance().create(ChatService::class.java)
     val roomDetailDTOList = MutableLiveData<List<RoomDetailDTO>>()
     val chatHistoryList = MutableLiveData<List<Message>>()
@@ -60,7 +60,7 @@ class ChatViewModel : ViewModel() {
 
     fun fetchChatRoomList()  {
 
-        chatRoomService.getChatRoomList().enqueue(object :
+        chatMainService.getChatRoomList().enqueue(object :
             Callback<List<RoomDetailDTO>> {
             override fun onResponse(
                 call: Call<List<RoomDetailDTO>>,
@@ -80,7 +80,7 @@ class ChatViewModel : ViewModel() {
 
     fun fetchPendingChatRoomList()  {
 
-        chatRoomService.getPendingChatRoomList().enqueue(object :
+        chatMainService.getPendingChatRoomList().enqueue(object :
             Callback<List<RoomDetailDTO>> {
             override fun onResponse(
                 call: Call<List<RoomDetailDTO>>,
@@ -158,7 +158,7 @@ class ChatViewModel : ViewModel() {
 
 
     fun createChatRoom(@Body requestDTO: RoomCreateRequestDTO){
-        chatRoomService.createChatRoom(requestDTO).enqueue(object : Callback<RoomCreateResponseDTO> {
+        chatMainService.createChatRoom(requestDTO).enqueue(object : Callback<RoomCreateResponseDTO> {
             override fun onResponse(
                 call: Call<RoomCreateResponseDTO>,
                 response: Response<RoomCreateResponseDTO>

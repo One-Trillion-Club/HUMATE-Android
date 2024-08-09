@@ -6,7 +6,7 @@ import com.otclub.humate.chat.data.RoomDetailDTO
 import retrofit2.Call
 import retrofit2.http.*
 
-interface ChatRoomService {
+interface ChatMainService {
     @GET("rooms/list")
     fun getChatRoomList(): Call<List<RoomDetailDTO>>
 
