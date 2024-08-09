@@ -37,6 +37,7 @@ class ChatViewModel : ViewModel() {
         roomDetailDTOList.value = roomList
     }
 
+    // 채팅 과거 내역 불러오는 API 호출
     fun fetchChatHistoryList(chatRoomId: String?)  {
 
         chatService.getChatHistoryList(chatRoomId!!).enqueue(object :

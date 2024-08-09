@@ -16,7 +16,7 @@ import com.otclub.humate.chat.adapter.RoomAdapter
 import com.otclub.humate.chat.viewModel.ChatViewModel
 import com.otclub.humate.databinding.ChatRoomFragmentBinding
 
-class ChatRoomFragment  : Fragment()  {
+class ChatMainFragment  : Fragment()  {
     private val chatViewModel : ChatViewModel by activityViewModels()
     private var mBinding: ChatRoomFragmentBinding? = null
     var selectedTab : Int = 0

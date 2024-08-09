@@ -52,7 +52,7 @@
     </fragment>
     <fragment
             android:id="@+id/chatRoomFragment"
-            android:name="com.otclub.humate.chat.fragment.ChatRoomFragment"
+            android:name="com.otclub.humate.chat.fragment.ChatMainFragment"
             android:label="chat_room_fragment"
             tools:layout="@layout/chat_room_fragment">
         <action android:id="@+id/action_chatRoomFragment_to_chatFragment" app:destination="@id/chatFragment"/>

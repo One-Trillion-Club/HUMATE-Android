@@ -107,9 +107,8 @@ class MessageAdapter(private val messages: MutableList<Message>, private var roo
 
                 val imgUrl = roomDetailDTO?.targetProfileImgUrl
                 if (imgUrl != null) {
-                    Log.d("[ReceivedMessageViewHolder]", roomDetailDTO?.targetProfileImgUrl.toString())
-                    Glide.with(profileImage) // Context는 itemView의 Context를 사용합니다.
-                        .load(roomDetailDTO?.targetProfileImgUrl) // URL을 message.imgUrl로 설정합니다.
+                    Glide.with(profileImage)
+                        .load(roomDetailDTO?.targetProfileImgUrl)
                         .apply(
                             RequestOptions()
                                 .circleCrop()

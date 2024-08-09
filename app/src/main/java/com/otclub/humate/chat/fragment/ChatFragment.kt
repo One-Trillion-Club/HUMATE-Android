@@ -44,14 +44,15 @@ import java.util.concurrent.TimeUnit
 class ChatFragment : Fragment() {
     private lateinit var sharedPreferencesManager : SharedPreferencesManager
     private var roomDetailDTO: RoomDetailDTO? = null
+    private lateinit var messageAdapter: MessageAdapter
     private val chatViewModel : ChatViewModel by activityViewModels()
+    private val memberViewModel: MemberViewModel by activityViewModels()
     private var mBinding : ChatFragmentBinding? = null
+
     private lateinit var webSocketListener: ChatWebSocketListener
     private lateinit var client: OkHttpClient
-    private lateinit var messageAdapter: MessageAdapter
     private var webSocket : WebSocket ?= null
     private val handler = Handler(Looper.getMainLooper())
-    private val memberViewModel: MemberViewModel by activityViewModels()
     private val reconnectRunnable = object : Runnable {
         override fun run() {
             if (webSocket == null) {
@@ -72,8 +73,10 @@ class ChatFragment : Fragment() {
         val binding = ChatFragmentBinding.inflate(inflater, container, false)
         mBinding = binding
 
+
         val currentDetail = chatViewModel.latestRoomDetailDTO.value
         roomDetailDTO = currentDetail
+
 
         // RecyclerView 설정
         messageAdapter = MessageAdapter(mutableListOf(), roomDetailDTO, onMateClick = { memberId ->
@@ -89,8 +92,10 @@ class ChatFragment : Fragment() {
                 }
             )
         })
-        mBinding?.chatDisplay?.adapter = messageAdapter
-        mBinding?.chatDisplay?.layoutManager = LinearLayoutManager(requireContext())
+
+        // RecyclerView 설정
+        mBinding?.chatRecyclerView?.adapter = messageAdapter
+        mBinding?.chatRecyclerView?.layoutManager = LinearLayoutManager(requireContext())
         scrollToBottom()
 
         return mBinding?.root
@@ -98,16 +103,15 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupToolbar()
-        bindChatDetails()
-        setupSendButton()
+        setupToolbar() // 툴바 설정
+        bindChatDetails() // 채팅방 info 설정
+        setupSendButton() // 전송 버튼 설정
 
         // ViewModel에서 데이터 관찰
         chatViewModel.chatHistoryList.observe(viewLifecycleOwner) { response ->
             response?.let {
                 messageAdapter.updateMessages(it, roomDetailDTO)
-                Log.i("adapter : ", it.toString())
-                mBinding?.chatDisplay?.adapter = messageAdapter
+                mBinding?.chatRecyclerView?.adapter = messageAdapter
                 scrollToBottom()
             }
         }
@@ -364,7 +368,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun scrollToBottom() {
-        mBinding?.chatDisplay?.scrollToPosition(messageAdapter.itemCount - 1)
+        mBinding?.chatRecyclerView?.scrollToPosition(messageAdapter.itemCount - 1)
     }
 
     private fun updateMate() {
