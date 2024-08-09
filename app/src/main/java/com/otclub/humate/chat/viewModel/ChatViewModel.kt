@@ -156,6 +156,25 @@ class ChatViewModel : ViewModel() {
         })
     }
 
+
+    fun createChatRoom(@Body requestDTO: RoomCreateRequestDTO){
+        chatRoomService.createChatRoom(requestDTO).enqueue(object : Callback<RoomCreateResponseDTO> {
+            override fun onResponse(
+                call: Call<RoomCreateResponseDTO>,
+                response: Response<RoomCreateResponseDTO>
+            ) {
+                if (response.isSuccessful && response.body() != null) {
+                    Log.i("createChatRoom : ", response.body().toString())
+                }
+                // 네비게이션 이벤트 발생
+                _navigateToChatFragment.value = true
+            }
+            override fun onFailure(call: Call<RoomCreateResponseDTO>, t: Throwable) {
+                Log.e("채팅 목록 페이지 응답 실패 ", t.toString())
+            }
+        })
+    }
+
     fun resetNavigation() {
         _navigateToChatFragment.value = false
     }
