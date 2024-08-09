@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ * 1:1 채팅방 활동 관련 공지 Layout
+ * @author 최유경
+ * @since 2024.08.07
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ==========  ========    =============================
+ * 2024.08.07   최유경        최초 생성
+ * </pre>
+-->
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                                    android:layout_width="350dp"
                                    android:layout_height="wrap_content"
@@ -37,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:text="메이트와 함께한 활동 내역을 확인해보세요. \n우리의 특별한 순간들이 담겨 있어요. 지금 바로 보러가기!"
+                android:text="@string/chat_notice"
                 android:textSize="10sp"
                 android:textColor="@color/dark_gray"/>
 

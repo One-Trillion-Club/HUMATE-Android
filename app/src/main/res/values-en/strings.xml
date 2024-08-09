@@ -6,7 +6,7 @@
     <string name="status_completed">Done</string>
     <string name="mission_finished">Completed</string>
     <string name="mission_new">New</string>
-    <string name="mission_notice">Create new experiences together with your mate</string>
+    <string name="mission_notice">Create new experiences together</string>
     <string name="mission_pending">Pending</string>
     <string name="mission_completed_title">Completed Mission</string>
     <string name="mission_new_title">New Mission</string>
@@ -155,4 +155,5 @@
     <string name="toast_signup_invalid_id_password">Invalid Id or password</string>
 
     <string name="splash">A Special Korean Journey\nwith Your Global Mate</string>
+    <string name="chat_notice">Check out your activities with your mate.\nIt contains our special moments. Let\'s go check out!</string>
 </resources>

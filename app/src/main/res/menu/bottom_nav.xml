@@ -7,7 +7,7 @@
         android:title="@string/nav_mate" />
 
     <item
-        android:id="@+id/chatRoomFragment"
+        android:id="@+id/chatMainFragment"
         android:icon="@drawable/ic_chat_selector"
         android:title="@string/nav_chat" />
 

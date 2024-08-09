@@ -30,8 +30,8 @@ android {
     buildTypes {
         debug {
             buildConfigField("String", "WEBSOCKET_URL", "" + localProperties['WEBSOCKET_URL'] + "")
-            buildConfigField("String", "TEST_MEMBER_1", "" + localProperties['TEST_MEMBER_1'] + "")
-            buildConfigField("String", "TEST_MEMBER_2", "" + localProperties['TEST_MEMBER_2'] + "")
+            buildConfigField("String", "TEST_MEMBER", "" + localProperties['TEST_MEMBER'] + "")
+            buildConfigField("String", "GENDER", "" + localProperties['GENDER'] + "")
         }
         release {
             minifyEnabled false

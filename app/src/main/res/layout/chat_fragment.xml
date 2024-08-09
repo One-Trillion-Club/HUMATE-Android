@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ * 1:1 채팅방 Layout
+ * @author 최유경
+ * @since 2024.08.03
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ==========  ========    =============================
+ * 2024.08.03   최유경        최초 생성
+ * 2024.08.04   최유경        전송 버튼, 채팅 입력창 UI 변경, chat toolbar 적용
+ * 2024.08.06   최유경        닉네임 한줄 넘길 시 처리, UI 변경
+ * </pre>
+-->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -188,7 +202,7 @@
 
         <!-- RecyclerView for chat messages -->
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/chat_display"
+                android:id="@+id/chat_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

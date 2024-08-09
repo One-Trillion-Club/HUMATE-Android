@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ * 채팅방 아이템 Layout
+ * @author 최유경
+ * @since 2024.08.04
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ==========  ========    =============================
+ * 2024.08.04   최유경        최초 생성
+ * 2024.08.06   최유경        제목 길 경우 한 줄 처리
+ * </pre>
+-->
 <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -112,7 +125,7 @@
                     android:layout_marginBottom="10dp"
                     android:textSize="13sp"
                     android:textColor="@color/black"
-                    android:text="Let’s hang out together~ :) "
+                    android:text="Hi~"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
         </LinearLayout>
@@ -135,7 +148,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="10sp"
                         android:textColor="@color/brown_gray"
-                        android:text="1일전"
+                        android:text="09:39 pm"
                         android:gravity="center"
                         android:layout_gravity="center"
                         app:layout_constraintTop_toBottomOf="@id/match_date"
@@ -148,7 +161,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="10sp"
                         android:textColor="@android:color/white"
-                        android:text="3"
+                        android:text="1"
                         android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:layout_gravity="center"

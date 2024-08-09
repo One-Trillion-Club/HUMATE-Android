@@ -15,6 +15,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.otclub.humate.R
+import com.otclub.humate.chat.viewModel.ChatViewModel
 import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.MateFragmentPostDetailBinding
 import com.otclub.humate.mate.data.LocalizedBranch
@@ -49,6 +50,7 @@ class PostDetailFragment : Fragment() {
 
     private lateinit var sharedPreferencesManager: SharedPreferencesManager
     private val memberViewModel: MemberViewModel by activityViewModels()
+    private val chatViewModel : ChatViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,6 +61,8 @@ class PostDetailFragment : Fragment() {
 
         // ViewModel 초기화
         postDetailViewModel = ViewModelProvider(requireActivity()).get(PostDetailViewModel::class.java)
+
+        // ChatViewModel 초기화
 
         sharedPreferencesManager = SharedPreferencesManager(requireContext())
         mBinding = binding

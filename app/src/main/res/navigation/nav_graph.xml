@@ -51,11 +51,11 @@
                 app:destination="@id/postListFragment" />
     </fragment>
     <fragment
-            android:id="@+id/chatRoomFragment"
-            android:name="com.otclub.humate.chat.fragment.ChatRoomFragment"
-            android:label="chat_room_fragment"
-            tools:layout="@layout/chat_room_fragment">
-        <action android:id="@+id/action_chatRoomFragment_to_chatFragment" app:destination="@id/chatFragment"/>
+            android:id="@+id/chatMainFragment"
+            android:name="com.otclub.humate.chat.fragment.ChatMainFragment"
+            android:label="chat_main_fragment"
+            tools:layout="@layout/chat_main_fragment">
+        <action android:id="@+id/action_chatMainFragment_to_chatFragment" app:destination="@id/chatFragment"/>
     </fragment>
     <fragment
             android:id="@+id/postDetailFragment"

@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ * 1:1 채팅 메이트 신청 버튼 (누르기 전) Layout
+ * @author 최유경
+ * @since 2024.08.07
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ==========  ========    =============================
+ * 2024.08.07   최유경        최초 생성
+ * </pre>
+-->
 <android.widget.Button xmlns:android="http://schemas.android.com/apk/res/android"
                        android:id="@+id/mate_button_default"
                        android:layout_width="66dp"
