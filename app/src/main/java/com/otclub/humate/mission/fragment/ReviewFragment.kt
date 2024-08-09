@@ -13,7 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
-import com.otclub.humate.databinding.FragmentReviewBinding
+import com.otclub.humate.databinding.ReviewFragmentBinding
 import com.otclub.humate.mission.api.MissionService
 import com.otclub.humate.mission.data.CommonResponseDTO
 import com.otclub.humate.mission.data.ReviewRequestDTO
@@ -40,7 +40,7 @@ import retrofit2.Response
  */
 class ReviewFragment : Fragment() {
     private val missionViewModel: MissionViewModel by activityViewModels()
-    private var mBinding: FragmentReviewBinding? = null
+    private var mBinding: ReviewFragmentBinding? = null
     private var selectedButton: ImageButton? = null
     private var selectedScore: Double = 0.0
 
@@ -50,7 +50,7 @@ class ReviewFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentReviewBinding.inflate(inflater, container, false)
+        val binding = ReviewFragmentBinding.inflate(inflater, container, false)
         mBinding = binding
         return mBinding?.root
     }

@@ -12,7 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
-import com.otclub.humate.databinding.FragmentClearedMissionDetailsBinding
+import com.otclub.humate.databinding.MissionClearedDetailsFragmentBinding
 import com.otclub.humate.mission.adapter.ImagePagerAdapter
 import com.otclub.humate.mission.data.ClearedMissionDetailsDTO
 import com.otclub.humate.mission.viewModel.MissionViewModel
@@ -34,14 +34,14 @@ import com.otclub.humate.mission.viewModel.MissionViewModel
  */
 class ClearedMissionDetailsFragment : Fragment() {
     private val viewModel: MissionViewModel by activityViewModels()
-    private var mBinding: FragmentClearedMissionDetailsBinding? = null
+    private var mBinding: MissionClearedDetailsFragmentBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentClearedMissionDetailsBinding.inflate(inflater, container, false)
+        val binding = MissionClearedDetailsFragmentBinding.inflate(inflater, container, false)
         mBinding = binding
         return mBinding?.root
     }

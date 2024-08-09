@@ -21,7 +21,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.otclub.humate.MainActivity
 import com.otclub.humate.common.LoadingDialog
-import com.otclub.humate.databinding.FragmentMissionUploadBinding
+import com.otclub.humate.databinding.MissionUploadFragmentBinding
 import com.otclub.humate.mission.adapter.UploadMissionAdapter
 import com.otclub.humate.mission.api.MissionService
 import com.otclub.humate.mission.data.CommonResponseDTO
@@ -52,14 +52,14 @@ class MissionUploadFragment : Fragment() {
     private lateinit var imagesAdapter: UploadMissionAdapter
     private val imageFiles = ArrayList<Uri>()
     private val missionViewModel: MissionViewModel by activityViewModels()
-    private var mBinding: FragmentMissionUploadBinding? = null
+    private var mBinding: MissionUploadFragmentBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentMissionUploadBinding.inflate(inflater, container, false)
+        val binding = MissionUploadFragmentBinding.inflate(inflater, container, false)
         mBinding = binding
         return mBinding?.root
     }

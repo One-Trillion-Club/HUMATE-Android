@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
-import com.otclub.humate.databinding.FragmentMatchingBinding
+import com.otclub.humate.databinding.MatchingFragmentBinding
 import com.otclub.humate.mission.adapter.MatchingAdapter
 import com.otclub.humate.mission.viewModel.MissionViewModel
 
@@ -32,14 +32,14 @@ import com.otclub.humate.mission.viewModel.MissionViewModel
  */
 class MatchingFragment : Fragment() {
     private val matchingViewModel: MissionViewModel by activityViewModels()
-    private var mBinding: FragmentMatchingBinding? = null
+    private var mBinding: MatchingFragmentBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentMatchingBinding.inflate(inflater, container, false)
+        val binding = MatchingFragmentBinding.inflate(inflater, container, false)
         mBinding = binding
         return mBinding?.root
 
