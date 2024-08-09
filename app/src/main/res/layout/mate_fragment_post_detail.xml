@@ -576,6 +576,7 @@
                 android:onClick="onMateRequestButtonClick">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/requestMateBtn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/humate_main">

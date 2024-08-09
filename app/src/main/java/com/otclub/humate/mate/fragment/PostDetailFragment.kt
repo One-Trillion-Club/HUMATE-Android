@@ -126,6 +126,10 @@ class PostDetailFragment : Fragment() {
             onMateRequestButtonClick()
         }
 
+        binding.requestMateBtn.setOnClickListener {
+            handleRequestMateBtnClick()
+        }
+
     }
 
     /**
@@ -291,7 +295,11 @@ class PostDetailFragment : Fragment() {
             // LinearLayout에 추가
             tagContainerLayout.addView(tagView)
         }
+    }
 
+    private fun handleRequestMateBtnClick() {
+        chatViewModel.setTabSelect(1)
+        findNavController().navigate(R.id.action_postListFilterFragment_to_chatMainFragment)
 
     }
 }

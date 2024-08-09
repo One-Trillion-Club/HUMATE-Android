@@ -62,6 +62,9 @@
             android:name="com.otclub.humate.mate.fragment.PostDetailFragment"
             android:label="fragment_mate"
             tools:layout="@layout/mate_fragment_post_detail">
+        <action
+            android:id="@+id/action_postListFilterFragment_to_chatMainFragment"
+            app:destination="@id/chatMainFragment" />
         <argument
                 android:name="postId"
                 app:argType="integer" />
