@@ -142,6 +142,7 @@ class ChatMainFragment  : Fragment()  {
      */
     override fun onDestroyView() {
         mBinding = null
+        //chatViewModel.setChatRoomList(emptyList())
         super.onDestroyView()
     }
 }
