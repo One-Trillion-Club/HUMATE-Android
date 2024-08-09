@@ -20,6 +20,21 @@ import com.otclub.humate.auth.activity.AuthActivity
 import com.otclub.humate.databinding.MemberFragmentMyPageBinding
 import com.otclub.humate.member.viewmodel.MemberViewModel
 
+/**
+ * 마이 페이지 Fragment
+ * @author 조영욱
+ * @since 2024.08.03
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.03  	조영욱        최초 생성
+ * 2024.08.04  	조영욱        내 정보 조회 추가
+ * 2024.08.05  	조영욱        내 메이트 리스트 조회 버튼 추가
+ * 2024.08.06  	조영욱        로그아웃 아이콘 추가
+ * </pre>
+ */
 class MyPageFragment : Fragment() {
     private val viewModel: MemberViewModel by activityViewModels()
     private var mBinding : MemberFragmentMyPageBinding? = null
@@ -37,8 +52,8 @@ class MyPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // 툴바 설정
         val toolbar = binding.toolbar?.toolbar
-
         toolbar?.let {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
@@ -59,13 +74,8 @@ class MyPageFragment : Fragment() {
             }
         }
 
-
         // 서버 정보 받아서 프로필 업데이트
         updateProfile()
-
-//        binding.logoutText.setOnClickListener{
-//            logout()
-//        }
 
         binding.profileLayout.setOnClickListener {
             findNavController().navigate(R.id.action_myPageFragment_to_myProfileFragment)
@@ -82,8 +92,10 @@ class MyPageFragment : Fragment() {
         super.onDestroyView()
     }
 
+    /**
+     * 회원 로그아웃
+     */
     private fun logout() {
-        Log.i("마이페이지: 로그아웃", "로그아웃")
         viewModel.fetchLogout(
             onSuccess = {response ->
                 Toast.makeText(requireContext(), R.string.toast_member_logout_success, Toast.LENGTH_SHORT).show()
@@ -98,8 +110,11 @@ class MyPageFragment : Fragment() {
         )
     }
 
+    /**
+     * 내 정보 조회
+     */
     private fun updateProfile() {
-        Log.i("마이페이지", "마이페이지 업데이트프로필")
+        Log.i("마이페이지", "마이페이지 업데이트 프로필")
 
         viewModel.fetchGetMyProfile(
             onSuccess = { response ->
@@ -118,7 +133,7 @@ class MyPageFragment : Fragment() {
                 }
             },
             onError = { error ->
-                Log.i("겟마이프로필실패", error)
+                Log.i("get My Profile failed", error)
             }
         )
     }

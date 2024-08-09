@@ -31,6 +31,19 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
+/**
+ * 내 프로필 조회 Fragment
+ * @author 조영욱
+ * @since 2024.08.05
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.05  	조영욱        최초 생성
+ * 2024.08.06  	조영욱        프로필 수정 요청 시 로딩 창 추가
+ * </pre>
+ */
 class MyProfileFragment : Fragment() {
     private val viewModel: MemberViewModel by activityViewModels()
     private val authViewModel: AuthViewModel by activityViewModels()
@@ -84,6 +97,7 @@ class MyProfileFragment : Fragment() {
                 .into(binding.profileImage)
         }
 
+        // 툴바
         toolbar?.let {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
@@ -120,11 +134,17 @@ class MyProfileFragment : Fragment() {
         (activity as? MainActivity)?.showBottomNavigationBar()
     }
 
+    /**
+     * 프로필 이미지 선택 창 띄우기
+     */
     private fun openImagePicker() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         pickImageLauncher.launch(intent)
     }
 
+    /**
+     * 프로필 이미지 선택 시 uri 저장
+     */
     private fun handleImageUri(uri: Uri) {
         try {
             requireContext().contentResolver.openInputStream(uri)?.use { inputStream ->
@@ -146,6 +166,9 @@ class MyProfileFragment : Fragment() {
         }
     }
 
+    /**
+     * 닉네임 중복 확인 버튼 클릭 시
+     */
     private fun handleCheckNicknameButtonClick() {
         val inputNickname: String = binding.inputNickname.text.toString()
         val guideCheckNickname: TextView = binding.guideCheckNickname
@@ -183,6 +206,9 @@ class MyProfileFragment : Fragment() {
         )
     }
 
+    /**
+     * 수정 완료 버튼 클릭 시
+     */
     private fun handleFinishButtonClick() {
         if (!isRequestAvailable) {
             Toast.makeText(requireContext(), R.string.mypage_profile_duplication_check_needed, Toast.LENGTH_SHORT).show()
