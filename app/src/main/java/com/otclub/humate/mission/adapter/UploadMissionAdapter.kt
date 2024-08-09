@@ -10,11 +10,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.otclub.humate.R
 
+/**
+ * 활동 업로드 Adapter
+ * @author 손승완
+ * @since 2024.08.03
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.03 	손승완        최초 생성
+ * </pre>
+ */
 class UploadMissionAdapter(private val imageFiles: List<Uri>, val context: Context) :
     RecyclerView.Adapter<UploadMissionAdapter.ImageViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_mission_upload_image, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.mission_upload_image_item, parent, false)
         return ImageViewHolder(view)
     }
 

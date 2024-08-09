@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ * 활동 업로드 Fragment Layout
+ * @author 손승완
+ * @since 2024.08.03
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ==========  =========    =========
+ * 2024.08.03  	손승완        최초 생성
+ * 2024.08.04  	손승완        toolbar 적용
+ * 2024.08.06   손승완        디자인 수정
+ * </pre>
+ -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"

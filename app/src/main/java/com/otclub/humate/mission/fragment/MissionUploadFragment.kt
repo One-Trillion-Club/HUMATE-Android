@@ -21,7 +21,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.otclub.humate.MainActivity
 import com.otclub.humate.common.LoadingDialog
-import com.otclub.humate.databinding.FragmentMissionUploadBinding
+import com.otclub.humate.databinding.MissionUploadFragmentBinding
 import com.otclub.humate.mission.adapter.UploadMissionAdapter
 import com.otclub.humate.mission.api.MissionService
 import com.otclub.humate.mission.data.CommonResponseDTO
@@ -34,19 +34,32 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * 수행한 활동 업로드 Fragment
+ * @author 손승완
+ * @since 2024.08.03
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.03 	손승완        최초 생성
+ * 2024.08.06 	손승완        툴바 기능 추가
+ * </pre>
+ */
 class MissionUploadFragment : Fragment() {
     private lateinit var missionService: MissionService
     private lateinit var imagesAdapter: UploadMissionAdapter
     private val imageFiles = ArrayList<Uri>()
     private val missionViewModel: MissionViewModel by activityViewModels()
-    private var mBinding: FragmentMissionUploadBinding? = null
+    private var mBinding: MissionUploadFragmentBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentMissionUploadBinding.inflate(inflater, container, false)
+        val binding = MissionUploadFragmentBinding.inflate(inflater, container, false)
         mBinding = binding
         return mBinding?.root
     }
@@ -142,6 +155,9 @@ class MissionUploadFragment : Fragment() {
         imagesAdapter.notifyDataSetChanged()
     }
 
+    /**
+     * 이미지 여러 개 업로드
+     */
     private fun uploadImages() {
         val loadingDialog = LoadingDialog(requireContext())
         loadingDialog.show()

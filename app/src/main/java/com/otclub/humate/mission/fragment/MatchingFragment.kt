@@ -8,27 +8,38 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
-import com.otclub.humate.databinding.FragmentMatchingBinding
+import com.otclub.humate.databinding.MatchingFragmentBinding
 import com.otclub.humate.mission.adapter.MatchingAdapter
 import com.otclub.humate.mission.viewModel.MissionViewModel
 
+/**
+ * 동행 목록 Fragment
+ * @author 손승완
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.02 	손승완        최초 생성
+ * </pre>
+ */
 class MatchingFragment : Fragment() {
     private val matchingViewModel: MissionViewModel by activityViewModels()
-    private var mBinding: FragmentMatchingBinding? = null
+    private var mBinding: MatchingFragmentBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentMatchingBinding.inflate(inflater, container, false)
+        val binding = MatchingFragmentBinding.inflate(inflater, container, false)
         mBinding = binding
         return mBinding?.root
 

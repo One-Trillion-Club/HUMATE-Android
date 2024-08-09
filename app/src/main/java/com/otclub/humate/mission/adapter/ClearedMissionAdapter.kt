@@ -1,6 +1,5 @@
 package com.otclub.humate.mission.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.otclub.humate.R
 import com.otclub.humate.mission.data.ClearedMissionDTO
-import com.otclub.humate.mission.viewModel.MissionViewModel
 
+/**
+ * 완료된 활동 Adapter
+ * @author 손승완
+ * @since 2024.08.01
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.01 	손승완        최초 생성
+ * 2024.08.06   손승완        다국어 처리
+ * </pre>
+ */
 class ClearedMissionAdapter(
     private val clearedMissionList: List<ClearedMissionDTO>,
     private val languageCode: Int,
@@ -19,7 +30,7 @@ class ClearedMissionAdapter(
 ) : RecyclerView.Adapter<ClearedMissionAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_cleared_mission, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.mission_cleared_item, parent, false)
         return ViewHolder(view)
     }
 
