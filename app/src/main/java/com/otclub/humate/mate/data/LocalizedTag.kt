@@ -1,7 +1,17 @@
 package com.otclub.humate.mate.data
 
-import java.util.*
-
+/**
+ * 매칭 태그(한-영) Enum
+ * @author 김지현
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.07   김지현        최초 생성
+ * </pre>
+ */
 enum class LocalizedTag(val englishName: String, val koreanName: String, val id: Int)  {
     // 쇼핑 태그
     CLOTHING("clothing", "의류", 1),

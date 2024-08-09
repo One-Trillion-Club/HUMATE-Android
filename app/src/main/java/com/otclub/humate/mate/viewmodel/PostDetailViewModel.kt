@@ -11,12 +11,27 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * 매칭글 상세 정보 ViewModel
+ * @author 김지현
+ * @since 2024.08.03
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.03  	김지현        최초 생성
+ * </pre>
+ */
 class PostDetailViewModel : ViewModel() {
     private val _postDetail = MutableLiveData<PostDetailResponseDTO>()
     val postDetail: LiveData<PostDetailResponseDTO> get() = _postDetail
 
     private val postService: PostService = RetrofitConnection.getInstance().create(PostService::class.java)
 
+    /**
+     * 상세 게시글 정보 조회 내용 가져오기
+     */
     fun getPostDetail(postId: Int, onSuccess: (PostDetailResponseDTO) -> Unit, onError: (String) -> Unit) {
 
         postService.postDetail(postId).enqueue(object : Callback<PostDetailResponseDTO> {

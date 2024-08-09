@@ -2,7 +2,6 @@ package com.otclub.humate.mate.fragment
 
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -13,17 +12,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.chat.viewModel.ChatViewModel
 import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.MateFragmentPostDetailBinding
-import com.otclub.humate.mate.adapter.PostDetailAdapter
-import com.otclub.humate.mate.adapter.PostListAdapter
 import com.otclub.humate.mate.data.LocalizedBranch
 import com.otclub.humate.mate.data.LocalizedTag
 import com.otclub.humate.mate.data.PostDetailResponseDTO
@@ -31,6 +25,21 @@ import com.otclub.humate.mate.viewmodel.PostDetailViewModel
 import com.otclub.humate.member.viewmodel.MemberViewModel
 import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 
+/**
+ * 매칭글 상세 정보 Adapter
+ * @author 김지현
+ * @since 2024.08.03
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.03  	김지현        최초 생성
+ * 2024.08.05   김지현        전체적인 UI 수정
+ * 2024.08.06   김지현        영어 버전 추가
+ * 2024.08.07   조영욱        메칭글 작성자 상세 정보 팝업 창 추가
+ * </pre>
+ */
 class PostDetailFragment : Fragment() {
 
     private var mBinding : MateFragmentPostDetailBinding? = null
@@ -38,7 +47,6 @@ class PostDetailFragment : Fragment() {
     private val args: PostDetailFragmentArgs by navArgs()
 
     private lateinit var postDetailViewModel: PostDetailViewModel
-    private lateinit var postDetailAdapter: PostDetailAdapter
 
     private lateinit var sharedPreferencesManager: SharedPreferencesManager
     private val memberViewModel: MemberViewModel by activityViewModels()
@@ -110,6 +118,9 @@ class PostDetailFragment : Fragment() {
 
     }
 
+    /**
+     * 매칭 언어 한-영 변환
+     */
     private fun getEnglishLanguageName(language: String): String {
         return when (language) {
             "한국어" -> "Korean"
@@ -120,6 +131,9 @@ class PostDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * 매칭글 상세 조회한 정보 화면에 출력
+     */
     private fun updateUI(postDetail: PostDetailResponseDTO) {
         val currentLanguage = sharedPreferencesManager.getLanguage()
 
@@ -148,6 +162,8 @@ class PostDetailFragment : Fragment() {
                 }
             } ?: "-"
         } ?: "-"
+
+        // 매칭 언어 설정
         val matchLanguageText = postDetail.matchLanguage ?: "-"
 
         val selectedLanguage = matchLanguageText.split(", ") ?: emptyList()
@@ -158,6 +174,7 @@ class PostDetailFragment : Fragment() {
             "-"
         }
 
+        // 매칭 성별 출력
         val matchGenderText = when (postDetail.matchGender) {
             1 -> context?.getString(R.string.same_gender)
             2 -> context?.getString(R.string.both_gender)

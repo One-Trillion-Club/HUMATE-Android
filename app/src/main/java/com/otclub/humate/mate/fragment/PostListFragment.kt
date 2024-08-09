@@ -3,27 +3,17 @@ package com.otclub.humate.mate.fragment
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
-import android.util.TypedValue
 import android.view.*
 import android.widget.*
-import androidx.appcompat.widget.TooltipCompat
-import androidx.core.content.ContextCompat
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
-import com.otclub.humate.BuildConfig.GENDER
-import com.otclub.humate.BuildConfig.TEST_MEMBER
-import com.otclub.humate.MainActivity
 import com.otclub.humate.R
 import com.otclub.humate.databinding.MateFragmentPostListBinding
 import com.otclub.humate.mate.adapter.PostListAdapter
 import com.otclub.humate.mate.data.LocalizedTag
-import com.otclub.humate.mate.data.PostListFilterDTO
 import com.otclub.humate.mate.data.Tag
 import com.otclub.humate.mate.viewmodel.PostViewModel
 import com.otclub.humate.sharedpreferences.SharedPreferencesManager
@@ -32,7 +22,21 @@ import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.BalloonSizeSpec
 import com.skydoves.balloon.createBalloon
 
-
+/**
+ * 매칭글 전체 조회 Adapter
+ * @author 김지현
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.02  	김지현        최초 생성
+ * 2024.08.04   김지현        매칭글 작성 버튼 추가
+ * 2024.08.05   김지현        상단바 수정
+ * 2024.08.07   김지현        영어 버전 추가
+ * </pre>
+ */
 class PostListFragment : Fragment() {
 
     private var mBinding : MateFragmentPostListBinding? = null
@@ -51,8 +55,6 @@ class PostListFragment : Fragment() {
     private lateinit var searchButton: ImageButton
 
     private var filters = mutableMapOf(
-        "gender" to GENDER,
-        "memberId" to TEST_MEMBER
         "gender" to "m"
         // 초기 필터 값 설정
     )
@@ -174,6 +176,7 @@ class PostListFragment : Fragment() {
             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
         })
 
+        // 툴바 사용
         val toolbar = mBinding?.toolbar?.toolbar
 
         toolbar?.let {
@@ -303,6 +306,9 @@ class PostListFragment : Fragment() {
         }
     }
 
+    /**
+     * 이름으로 태그 ID 조회
+     */
     private fun getTagIdByName(tagName: String, currentLanguage: Int): Int? {
         return LocalizedTag.values().firstOrNull {
             when (currentLanguage) {
@@ -312,6 +318,9 @@ class PostListFragment : Fragment() {
         }?.id
     }
 
+    /**
+     * 태그 버튼 클릭 시 (필터링)
+     */
     private fun handleButtonClick(clickedButton: Button) {
         Log.i("태그 버튼 선택", "clickedButton -> ${clickedButton.text}")
 
@@ -336,6 +345,9 @@ class PostListFragment : Fragment() {
         updatePostList()
     }
 
+    /**
+     * 검색 버튼 클릭 시 (제목 검색)
+     */
     private fun performSearch() {
         val input = searchInput.text.toString().trim()
 
@@ -345,6 +357,9 @@ class PostListFragment : Fragment() {
         updatePostList()
     }
 
+    /**
+     * 매칭글 전체 조회한 정보 화면에 출력
+     */
     private fun updatePostList() {
         // 전역 필터에 tagName 추가 또는 업데이트
         val koreanNames = selectedButtonsId.mapNotNull { id ->
