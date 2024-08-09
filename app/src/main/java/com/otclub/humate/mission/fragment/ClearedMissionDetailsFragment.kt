@@ -22,7 +22,7 @@ import com.otclub.humate.mission.viewModel.MissionViewModel
  * 완료된 활동 상세 Fragment
  * @author 손승완
  * @since 2024.08.02
- * @version 1.1
+ * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
