@@ -18,6 +18,20 @@ import com.otclub.humate.mission.data.ClearedMissionDetailsDTO
 import com.otclub.humate.mission.viewModel.MissionViewModel
 
 
+/**
+ * 완료된 활동 상세 Fragment
+ * @author 손승완
+ * @since 2024.08.02
+ * @version 1.1
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.02 	손승완        최초 생성
+ * 2024.08.04 	손승완        상단 toolbar 추가
+ * 2024.08.06   손승완        다국어 처리
+ * </pre>
+ */
 class ClearedMissionDetailsFragment : Fragment() {
     private val viewModel: MissionViewModel by activityViewModels()
     private var mBinding: FragmentClearedMissionDetailsBinding? = null
@@ -56,7 +70,7 @@ class ClearedMissionDetailsFragment : Fragment() {
 
         viewModel.clearedMissionDetailsDTO.observe(viewLifecycleOwner) { details ->
             details?.let {
-                updateUI(it)
+                updateMission(it)
             }
         }
 
@@ -65,9 +79,11 @@ class ClearedMissionDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateUI(details: ClearedMissionDetailsDTO) {
+    /**
+     * 업데이트된 활동 정보 적용 및 활동 제목 다국어 처리
+     */
+    private fun updateMission(details: ClearedMissionDetailsDTO) {
         mBinding?.apply {
-            // Set the title and creation date
             if (viewModel.sharedPreferencesManager.getLanguage() == 1) {
                 clearedMissionTitle.text = details.activityTitleKo
             } else {

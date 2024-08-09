@@ -8,6 +8,18 @@ import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.otclub.humate.R
 
+/**
+ * 완료된 활동 사진 Pager Adapter
+ * @author 손승완
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.02 	손승완        최초 생성
+ * </pre>
+ */
 class ImagePagerAdapter(private val imgUrls: List<String>) : PagerAdapter() {
 
     override fun getCount(): Int = imgUrls.size

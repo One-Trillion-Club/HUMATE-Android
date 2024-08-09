@@ -1,11 +1,9 @@
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -13,11 +11,24 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.otclub.humate.MainActivity
 import com.otclub.humate.R
-import com.otclub.humate.databinding.FragmentClearedMissionDetailsBinding
 import com.otclub.humate.databinding.FragmentNewMissionDetailsBinding
 import com.otclub.humate.mission.data.NewMissionDetailsDTO
 import com.otclub.humate.mission.viewModel.MissionViewModel
 
+/**
+ * 새로운 활동 상세 Fragment
+ * @author 손승완
+ * @since 2024.08.02
+ * @version 1.2
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.02 	손승완        최초 생성
+ * 2024.08.04 	손승완        툴바 기능 추가
+ * 2024.08.06 	손승완        활동 제목 및 내용 다국어 처리
+ * </pre>
+ */
 class NewMissionDetailsFragment : Fragment() {
 
     private val viewModel: MissionViewModel by activityViewModels()
@@ -57,7 +68,7 @@ class NewMissionDetailsFragment : Fragment() {
 
         viewModel.newMissionDetailsDTO.observe(viewLifecycleOwner) { details ->
             details?.let {
-                updateUI(it)
+                updateMission(it)
             }
         }
 
@@ -72,7 +83,8 @@ class NewMissionDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateUI(details: NewMissionDetailsDTO) {
+    // 새로운 활동 상세 정보 업데이트 및 제목, 내용 다국어 처리
+    private fun updateMission(details: NewMissionDetailsDTO) {
         mBinding?.apply {
 
             if (viewModel.sharedPreferencesManager.getLanguage() == 1) {

@@ -34,6 +34,19 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * 수행한 활동 업로드 Fragment
+ * @author 손승완
+ * @since 2024.08.03
+ * @version 1.1
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.03 	손승완        최초 생성
+ * 2024.08.06 	손승완        툴바 기능 추가
+ * </pre>
+ */
 class MissionUploadFragment : Fragment() {
     private lateinit var missionService: MissionService
     private lateinit var imagesAdapter: UploadMissionAdapter
@@ -142,6 +155,9 @@ class MissionUploadFragment : Fragment() {
         imagesAdapter.notifyDataSetChanged()
     }
 
+    /**
+     * 이미지 여러 개 업로드
+     */
     private fun uploadImages() {
         val loadingDialog = LoadingDialog(requireContext())
         loadingDialog.show()
