@@ -30,7 +30,7 @@ import retrofit2.Response
  * 새로운 활동 목록 Fragment
  * @author 손승완
  * @since 2024.08.01
- * @version 1.2
+ * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
