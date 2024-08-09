@@ -1,6 +1,5 @@
 package com.otclub.humate.auth.fragment
 
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,12 +11,24 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.otclub.humate.R
 import com.otclub.humate.auth.viewmodel.AuthViewModel
-import com.otclub.humate.databinding.FragmentInputIdPasswordBinding
+import com.otclub.humate.databinding.AuthFragmentInputIdPasswordBinding
 import com.otclub.humate.sharedpreferences.SharedPreferencesManager
 
+/**
+ * 회원가입 시 로그인 아이디, 비밀번호 입력 Fragment
+ * @author 조영욱
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.02  	조영욱        최초 생성
+ * </pre>
+ */
 class InputIdPasswordFragment : Fragment() {
     private val viewModel: AuthViewModel by activityViewModels()
-    private var mBinding : FragmentInputIdPasswordBinding? = null
+    private var mBinding : AuthFragmentInputIdPasswordBinding? = null
     private val binding get() = mBinding!!
 
     override fun onCreateView(
@@ -25,7 +36,7 @@ class InputIdPasswordFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentInputIdPasswordBinding.inflate(inflater, container, false)
+        val binding = AuthFragmentInputIdPasswordBinding.inflate(inflater, container, false)
         mBinding = binding
         return mBinding?.root
     }
@@ -47,6 +58,9 @@ class InputIdPasswordFragment : Fragment() {
         super.onDestroyView()
     }
 
+    /**
+     * 로그인 아이디 중복확인 버튼 클릭 시
+     */
     private fun handleCheckIdButtonClick() {
         val inputLoginId: String = binding.inputLoginId.text.toString()
         val guideCheckId: TextView = binding.guideCheckId
@@ -73,6 +87,9 @@ class InputIdPasswordFragment : Fragment() {
         )
     }
 
+    /**
+     * 다음 버튼 클릭 시
+     */
     private fun handleNextButtonClick() {
 
         if (checkPassword()) {
@@ -98,6 +115,9 @@ class InputIdPasswordFragment : Fragment() {
         }
     }
 
+    /**
+     * 비밀번호 입력 값 유효성 검증
+     */
     private fun checkPassword(): Boolean {
         val inputPassword: String = binding.inputPassword.text.toString()
         val inputPasswordConfirm: String = binding.inputPasswordConfirm.text.toString()

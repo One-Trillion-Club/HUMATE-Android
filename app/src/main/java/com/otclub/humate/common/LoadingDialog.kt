@@ -19,6 +19,19 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
+/**
+ * 로딩 창 Dialog
+ * @author 조영욱
+ * @since 2024.08.06
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.06  	조영욱        최초 생성
+ * 2024.08.07  	조영욱        상대 회원 프로필 Dialog 창 추가
+ * </pre>
+ */
 class LoadingDialog(context: Context) : Dialog(context){
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -243,7 +243,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun showPopupMateUpdate() {
-        // 팝업 창 레이아웃 선택
+        // Dialog 창 레이아웃 선택
         val layoutResId = if (chatRoomDetailDTO?.isClicked == 1) {
             R.layout.chat_dialog_mate_cancel
         } else {

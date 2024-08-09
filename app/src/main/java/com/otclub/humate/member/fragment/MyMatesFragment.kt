@@ -21,6 +21,19 @@ import com.otclub.humate.mate.data.MateDetailResponseDTO
 import com.otclub.humate.member.adapter.MateListAdapter
 import com.otclub.humate.member.viewmodel.MemberViewModel
 
+/**
+ * 내 메이트 조회 Fragment
+ * @author 조영욱
+ * @since 2024.08.05
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.05  	조영욱        최초 생성
+ * 2024.08.07  	조영욱        메이트 클릭 시 상세 정보 Dialog 띄우기 기능 추가
+ * </pre>
+ */
 class MyMatesFragment: Fragment() {
     private val viewModel: MemberViewModel by activityViewModels()
     private var mBinding : MemberFragmentMyMatesBinding? = null
@@ -45,9 +58,11 @@ class MyMatesFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // 내비게이션 바 숨김
         (activity as? MainActivity)?.hideBottomNavigationBar()
-        val toolbar = binding.toolbar?.toolbar
 
+        // 툴바 설정
+        val toolbar = binding.toolbar?.toolbar
         toolbar?.let {
             val leftButton: ImageButton = toolbar.findViewById(R.id.left_button)
             val rightButton: Button = toolbar.findViewById(R.id.right_button)
@@ -68,6 +83,19 @@ class MyMatesFragment: Fragment() {
             }
         }
 
+        getMyMateList()
+    }
+
+    override fun onDestroyView() {
+        mBinding = null
+        super.onDestroyView()
+        (activity as? MainActivity)?.showBottomNavigationBar()
+    }
+
+    /**
+     * 내 메이트 목록 조회
+     */
+    private fun getMyMateList() {
         viewModel.fetchGetMyMateList(
             onSuccess = { mateList ->
                 this.mateList = mateList
@@ -91,11 +119,5 @@ class MyMatesFragment: Fragment() {
                 Toast.makeText(context, R.string.toast_fail_server_connection, Toast.LENGTH_SHORT).show()
             }
         )
-    }
-
-    override fun onDestroyView() {
-        mBinding = null
-        super.onDestroyView()
-        (activity as? MainActivity)?.showBottomNavigationBar()
     }
 }

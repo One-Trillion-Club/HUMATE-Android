@@ -2,7 +2,6 @@ package com.otclub.humate.auth.fragment
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,18 @@ import com.otclub.humate.R
 import com.otclub.humate.auth.viewmodel.AuthViewModel
 import com.otclub.humate.databinding.AuthFragmentInputUserInfoBinding
 
+/**
+ * 한국인 회원가입 시 회원 세부정보 입력 Fragment
+ * @author 조영욱
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.02  	조영욱        최초 생성
+ * </pre>
+ */
 class InputUserInfoFragment : Fragment() {
     private val viewModel: AuthViewModel by activityViewModels()
     private var mBinding : AuthFragmentInputUserInfoBinding? = null
@@ -66,6 +77,9 @@ class InputUserInfoFragment : Fragment() {
         super.onDestroyView()
     }
 
+    /**
+     * 다음 버튼 클릭 시
+     */
     private fun handleNextButtonClick() {
         if (selectedGenderButton == null) {
             Toast.makeText(requireContext(), "성별을 선택해주세요.", Toast.LENGTH_SHORT).show()
@@ -106,6 +120,9 @@ class InputUserInfoFragment : Fragment() {
             .commit()
     }
 
+    /**
+     * 성별 선택 버튼 클릭 시
+     */
     private fun handleGenderButtonClick(button: View) {
         if (selectedGenderButton == button) {
             resetButtonStyle(button)
@@ -117,6 +134,9 @@ class InputUserInfoFragment : Fragment() {
         }
     }
 
+    /**
+     * 언어 선택 버튼 클릭 시
+     */
     private fun handleLanguageButtonClick(button: View) {
         if (button.isSelected) {
             resetButtonStyle(button)
@@ -127,6 +147,9 @@ class InputUserInfoFragment : Fragment() {
         }
     }
 
+    /**
+     * 버튼 스타일 업데이트
+     */
     private fun updateButtonStyle(button: View) {
         button.apply {
             (this as? android.widget.Button)?.apply {
@@ -138,6 +161,9 @@ class InputUserInfoFragment : Fragment() {
         }
     }
 
+    /**
+     * 버튼 스타일 원래대로 돌림
+     */
     private fun resetButtonStyle(button: View) {
         button.apply {
             (this as? android.widget.Button)?.apply {

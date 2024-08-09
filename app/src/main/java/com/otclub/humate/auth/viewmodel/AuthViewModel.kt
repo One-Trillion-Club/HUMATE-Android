@@ -16,17 +16,35 @@ import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
 
+/**
+ * 인증/인가 View Model
+ * @author 조영욱
+ * @since 2024.08.01
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.01  	조영욱        최초 생성
+ * 2024.08.03  	조영욱        휴대전화 인증 추가
+ * 2024.08.06  	조영욱        여권번호 인증 추가
+ * </pre>
+ */
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val authService: AuthService =
         RetrofitConnection.getInstance().create(AuthService::class.java)
     private val memberService: MemberService =
         RetrofitConnection.getInstance().create(MemberService::class.java)
 
+    // 회원가입 Request 정보 저장
     val signUpRequestDTO: SignUpRequestDTO = SignUpRequestDTO()
     private val sharedPreferencesManager: SharedPreferencesManager =
         SharedPreferencesManager(application)
 
 
+    /**
+     * 회원 로그인
+     */
     fun fetchLogIn(
         dto: LoginRequestDTO,
         onSuccess: (CommonResponseDTO) -> Unit,
@@ -53,6 +71,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
+    /**
+     * 휴대전화 인증 코드 생성 요청
+     */
     fun fetchGeneratePhoneCode(
         dto: GeneratePhoneCodeRequestDTO,
         onSuccess: (CommonResponseDTO) -> Unit,
@@ -77,6 +98,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 
+    /**
+     * 휴대전화 인증 코드 검증 요청
+     */
     fun fetchVerifyPhoneCode(
         dto: VerifyPhoneCodeRequestDTO,
         onSuccess: (CommonResponseDTO) -> Unit,
@@ -101,6 +125,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
+    /**
+     * 로그인 아이디 중복 확인 요청
+     */
     fun fetchCheckLoginId(
         loginId: String,
         onSuccess: (CommonResponseDTO) -> Unit,
@@ -124,6 +151,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
+    /**
+     * 닉네임 중복 확인 요청
+     */
     fun fetchCheckNickname(
         nickname: String,
         onSuccess: (CommonResponseDTO) -> Unit,
@@ -147,6 +177,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
+    /**
+     * 회원가입 요청
+     */
     fun signUp(
         dto: SignUpRequestDTO,
         image: MultipartBody.Part?,
@@ -171,6 +204,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
+    /**
+     * 여권번호 검증 요청
+     */
     fun fetchVerifyPassport(
         dto: VerifyPassportRequestDTO,
         onSuccess: (CommonResponseDTO) -> Unit,
@@ -193,5 +229,4 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             }
         })
     }
-
 }
