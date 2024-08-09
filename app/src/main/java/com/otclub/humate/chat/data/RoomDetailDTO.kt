@@ -31,6 +31,10 @@ data class RoomDetailDTO(
     val isClicked : Int,
     // 매칭 여부
     val isMatched : Int,
+    // 마지막 메시지
+    val latestContent: String,
+    // 마지막 메시지 전송 시간
+   val latestContentTime: String,
     // 상대방 닉네임
     val targetNickname : String,
     // 상대방 회원 ID

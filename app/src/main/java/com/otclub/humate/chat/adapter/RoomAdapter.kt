@@ -11,6 +11,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.otclub.humate.R
 import com.otclub.humate.chat.data.RoomDetailDTO
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * 채팅방 Adapter
@@ -35,7 +37,7 @@ class RoomAdapter(private val roomList: List<RoomDetailDTO>,
         val nickname: TextView = itemView.findViewById(R.id.nickname)
         val title: TextView = itemView.findViewById(R.id.title)
         val latestChat: TextView = itemView.findViewById(R.id.latest_chat)
-        val latestTime: TextView = itemView.findViewById(R.id.latest_time)
+        //val latestTime: TextView = itemView.findViewById(R.id.latest_time)
         val unreadCnt: TextView = itemView.findViewById(R.id.unread_cnt)
     }
 
@@ -57,8 +59,8 @@ class RoomAdapter(private val roomList: List<RoomDetailDTO>,
         // 데이터를 각 뷰에 바인딩
         holder.nickname.text = room.targetNickname
         holder.title.text = room.postTitle
-        //holder.latestChat.text = room.latestChat.toString()
-        //holder.latestTime.text = room.latestTime?.takeIf { it.isNotBlank() } ?: "상관 없음"
+        holder.latestChat.text = room.latestContent
+        //holder.latestTime.text =  formatDate(room.latestContentTime)
         holder.unreadCnt.text = "1"
         Log.d("[onBindViewHolder] room : " , room.toString())
         Log.d("[onBindViewHolder] holder : " , holder.toString())
@@ -78,6 +80,22 @@ class RoomAdapter(private val roomList: List<RoomDetailDTO>,
         holder.itemView.setOnClickListener {
             onItemClick(room)
         }
+    }
+
+    /**
+     * 날짜 형식 변환을 위한 메서드
+     */
+    private fun formatDate(createdAt: String): String {
+        // 입력 문자열을 "yyyy-MM-dd HH:mm:ss" 형식으로 파싱
+        val sourceFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val date: Date = sourceFormat.parse(createdAt)
+
+        // Date 객체를 원하는 형식의 문자열로 변환
+        val targetFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+        val formattedDate: String = targetFormat.format(date)
+
+        // AM/PM을 소문자로 변환
+        return formattedDate.toLowerCase(Locale.getDefault())
     }
 
     override fun getItemCount(): Int = roomList.size
