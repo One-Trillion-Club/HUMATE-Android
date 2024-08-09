@@ -23,7 +23,7 @@ import com.otclub.humate.sharedpreferences.SharedPreferencesManager
  * ----------  --------    ---------------------------
  * 2024.08.01  	조영욱        최초 생성
  * 2024.08.06   조영욱        외국인 박스 클릭 이벤트 추가
- * 2024.08.09   조영욱        프레임 클릭 이벤트 메서드로 분리
+ * 2024.08.08   조영욱        프레임 클릭 이벤트 메서드로 분리
  * </pre>
  */
 class SelectSignUpTypeFragment : Fragment() {
@@ -58,6 +58,9 @@ class SelectSignUpTypeFragment : Fragment() {
         super.onDestroyView()
     }
 
+    /**
+     * 한국인으로 회원가입 프레임 선택 클릭 시
+     */
     private fun handleKoreanFrameClick() {
         viewModel.signUpRequestDTO.nationality = 1
 
@@ -72,6 +75,9 @@ class SelectSignUpTypeFragment : Fragment() {
             .commit()
     }
 
+    /**
+     * 외국인으로 회원가입 프레임 선택 클릭 시
+     */
     private fun handleForeignerClick() {
         viewModel.signUpRequestDTO.nationality = 2
 
