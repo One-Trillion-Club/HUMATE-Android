@@ -10,10 +10,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
 import com.google.android.material.snackbar.Snackbar
 import com.otclub.humate.BuildConfig.GENDER
 import com.otclub.humate.BuildConfig.TEST_MEMBER
 import com.otclub.humate.MainActivity
+
+
 import com.otclub.humate.R
 import com.otclub.humate.databinding.MateFragmentPostListBinding
 import com.otclub.humate.mate.adapter.PostListAdapter
