@@ -38,7 +38,7 @@ class MatchingAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchingViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.activity_matching_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.matching_item, parent, false)
         return MatchingViewHolder(view)
     }
 
