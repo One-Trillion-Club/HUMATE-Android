@@ -2,11 +2,13 @@ package com.otclub.humate.mate.fragment
 
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -15,6 +17,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.otclub.humate.R
+import com.otclub.humate.chat.data.RoomCreateRequestDTO
 import com.otclub.humate.chat.viewModel.ChatViewModel
 import com.otclub.humate.common.LoadingDialog
 import com.otclub.humate.databinding.MateFragmentPostDetailBinding
@@ -24,6 +27,7 @@ import com.otclub.humate.mate.data.PostDetailResponseDTO
 import com.otclub.humate.mate.viewmodel.PostDetailViewModel
 import com.otclub.humate.member.viewmodel.MemberViewModel
 import com.otclub.humate.sharedpreferences.SharedPreferencesManager
+import kotlin.properties.Delegates
 
 /**
  * 매칭글 상세 정보 Adapter
@@ -51,6 +55,8 @@ class PostDetailFragment : Fragment() {
     private lateinit var sharedPreferencesManager: SharedPreferencesManager
     private val memberViewModel: MemberViewModel by activityViewModels()
     private val chatViewModel : ChatViewModel by activityViewModels()
+
+    private var postId by Delegates.notNull<Int>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -94,8 +100,7 @@ class PostDetailFragment : Fragment() {
             }
         }
 
-
-        val postId = args.postId
+        postId = args.postId
 
         // 상세 게시글 정보 요청
         postDetailViewModel.getPostDetail(postId, onSuccess = { postDetail ->
@@ -116,6 +121,26 @@ class PostDetailFragment : Fragment() {
             Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
         })
 
+        // UI 초기화
+        view.findViewById<CardView>(R.id.mate_request_button).setOnClickListener {
+            onMateRequestButtonClick()
+        }
+
+    }
+
+    /**
+     * mate 맺기 클릭 시 채팅방 생성
+     */
+    private fun onMateRequestButtonClick() {
+        // RoomCreateRequestDTO 객체 생성 (필요한 정보를 전달)
+        val requestDTO = RoomCreateRequestDTO(
+            postId = postId
+        )
+
+        // ViewModel을 통해 채팅방 생성 요청
+        chatViewModel.createChatRoom(requestDTO)
+
+        Log.i("메이트 신청", "$requestDTO")
     }
 
     /**
