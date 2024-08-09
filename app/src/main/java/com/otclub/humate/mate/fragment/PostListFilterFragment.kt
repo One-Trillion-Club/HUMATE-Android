@@ -62,6 +62,17 @@ class PostListFilterFragment : Fragment() {
         // ViewModel 초기화
         postViewModel = ViewModelProvider(requireActivity()).get(PostViewModel::class.java)
 
+        // memberId 가져오기
+        postViewModel.fetchMemberId(
+            onSuccess = { memberId ->
+                filters["memberId"] = memberId
+                Log.i("memberId", memberId)
+            },
+            onError = { errorMessage ->
+                // 오류 메시지를 표시하거나 로그로 남길 수 있습니다.
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        )
         sharedPreferencesManager = SharedPreferencesManager(requireContext())
 
         mBinding = binding
@@ -72,6 +83,18 @@ class PostListFilterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val currentLanguage = sharedPreferencesManager.getLanguage()
+
+        // memberId 가져오기
+        postViewModel.fetchMemberId(
+            onSuccess = { memberId ->
+                filters["memberId"] = memberId
+                Log.i("memberId", memberId)
+            },
+            onError = { errorMessage ->
+                // 오류 메시지를 표시하거나 로그로 남길 수 있습니다.
+                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        )
 
         // ViewModel의 데이터 사용
         postViewModel.filterData?.let { filterData ->
