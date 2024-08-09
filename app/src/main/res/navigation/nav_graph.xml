@@ -9,7 +9,7 @@
             android:id="@+id/missionFragment"
             android:name="com.otclub.humate.mission.fragment.ClearedMissionFragment"
             android:label="fragment_mission"
-            tools:layout="@layout/fragment_cleared_mission" >
+            tools:layout="@layout/mission_cleared_fragment" >
         <action
             android:id="@+id/action_missionFragment_to_newMissionFragment"
             app:destination="@id/newMissionFragment" />
@@ -113,7 +113,7 @@
         android:id="@+id/newMissionFragment"
         android:name="com.otclub.humate.mission.fragment.NewMissionFragment"
         android:label="fragment_new_mission"
-        tools:layout="@layout/fragment_new_mission" >
+        tools:layout="@layout/mission_new_fragment" >
         <action
             android:id="@+id/action_newMissionFragment_to_missionFragment"
             app:destination="@id/missionFragment" />
@@ -143,7 +143,7 @@
         android:id="@+id/clearedMissionDetailsFragment"
         android:name="com.otclub.humate.mission.fragment.ClearedMissionDetailsFragment"
         android:label="fragment_cleared_mission_details"
-        tools:layout="@layout/fragment_cleared_mission_details">
+        tools:layout="@layout/mission_cleared_details_fragment">
         <argument
             android:name="companionActivityId"
             app:argType="integer" />
@@ -152,7 +152,7 @@
             android:id="@+id/matchingFragment"
             android:name="com.otclub.humate.mission.fragment.MatchingFragment"
             android:label="fragment_matching"
-            tools:layout="@layout/fragment_matching">
+            tools:layout="@layout/matching_fragment">
         <action
                 android:id="@+id/action_matchingFragment_to_missionFragment"
                 app:destination="@id/missionFragment"/>
@@ -161,7 +161,7 @@
             android:id="@+id/missionUploadFragment"
             android:name="com.otclub.humate.mission.fragment.MissionUploadFragment"
             android:label="fragment_mission_upload"
-            tools:layout="@layout/fragment_mission_upload">
+            tools:layout="@layout/mission_upload_fragment">
         <action
             android:id="@+id/action_missionUploadFragment_to_missionFragment"
             app:destination="@id/missionFragment" />

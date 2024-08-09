@@ -26,7 +26,7 @@ class UploadMissionAdapter(private val imageFiles: List<Uri>, val context: Conte
     RecyclerView.Adapter<UploadMissionAdapter.ImageViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_mission_upload_image, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.mission_upload_image_item, parent, false)
         return ImageViewHolder(view)
     }
 

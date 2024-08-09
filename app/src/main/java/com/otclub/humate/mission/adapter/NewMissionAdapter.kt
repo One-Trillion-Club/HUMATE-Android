@@ -28,7 +28,7 @@ class NewMissionAdapter(
 ) : RecyclerView.Adapter<NewMissionAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_new_mission, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.mission_new_item, parent, false)
         return ViewHolder(view)
     }
 
