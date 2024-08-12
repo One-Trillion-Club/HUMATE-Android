@@ -16,6 +16,20 @@ import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
 
+/**
+ * 회원 View Model
+ * @author 조영욱
+ * @since 2024.08.03
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.03  	조영욱        최초 생성
+ * 2024.08.05  	조영욱        프로필 조회/수정 추가
+ * 2024.08.05  	조영욱        상대 프로필 조회 추가
+ * </pre>
+ */
 class MemberViewModel(application: Application): AndroidViewModel(application) {
     private val authService: AuthService =
         RetrofitConnection.getInstance().create(AuthService::class.java)
